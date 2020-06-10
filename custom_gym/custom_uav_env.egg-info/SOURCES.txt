@@ -1,0 +1,6 @@
+setup.py
+custom_uav_env.egg-info/PKG-INFO
+custom_uav_env.egg-info/SOURCES.txt
+custom_uav_env.egg-info/dependency_links.txt
+custom_uav_env.egg-info/requires.txt
+custom_uav_env.egg-info/top_level.txt
