@@ -408,7 +408,11 @@ class UAVEnv(gym.Env):
 
     def render(self, agents_paths, where_to_save):
 
-        plot.plt_map_views(obs_cells=self.obs_cells, cs_cells=self.cs_cells, enb_cells=self.eNB_cells, points_status_matrix=self.points_status_matrix, cells_status_matrix=self.cells_status_matrix, users=self.users, centroids=self.cluster_centroids, clusters_radiuses=self.clusters_radiuses, area_height=AREA_HEIGHT, area_width=AREA_WIDTH, N_cells_row=CELLS_ROWS, N_cells_col=CELLS_COLS, agents_paths=agents_paths, path_animation=True, where_to_save=where_to_save)
+        plot.plt_map_views(obs_cells=self.obs_cells, cs_cells=self.cs_cells, enb_cells=self.eNB_cells, 
+            points_status_matrix=self.points_status_matrix, cells_status_matrix=self.cells_status_matrix, 
+            users=self.users, centroids=self.cluster_centroids, clusters_radiuses=self.clusters_radiuses, 
+            area_height=AREA_HEIGHT, area_width=AREA_WIDTH, N_cells_row=CELLS_ROWS, N_cells_col=CELLS_COLS, 
+            agents_paths=agents_paths, path_animation=True, where_to_save=where_to_save)
 
     def reset(self, agents):
 
@@ -425,7 +429,7 @@ class UAVEnv(gym.Env):
             agent._data_gathering =  
             agent._d_ag_cc = 
         '''
-
+    # NOT USED
     def refresh(self):
         
         # Users random walk:
