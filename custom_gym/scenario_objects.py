@@ -9,7 +9,7 @@ from decimal import Decimal
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 from numpy import linalg as LA
-from pylayers.antprop.loss import *
+# from pylayers.antprop.loss import *
 from load_and_save_data import *
 
 class Cell:

@@ -198,7 +198,10 @@ considered_case_directory += "_" + str(N_UAVS) + "UAVs" + "_" + str(len(env.clus
 cases_directory = "Cases"
 saving_directory = join(cases_directory, considered_case_directory)
 
-if not isdir(saving_directory): mkdir(saving_directory)
+if not isdir(saving_directory): 
+    print("Creating saving dir")
+    mkdir(cases_directory)
+    mkdir(saving_directory)
 
 '''
 map_width = env.static_env._area_width
@@ -621,6 +624,7 @@ with open(join(saving_directory, "q_tables.pickle"), 'wb') as f:
 plt.plot([i for i in range(len(moving_avg))], moving_avg)
 plt.ylabel(f"Reward {SHOW_EVERY}ma")
 plt.xlabel("episode #")
+plt.savefig("figures/env_wrapper.png")
 plt.show()
 
 with open(f"qtable-{int(time.time())}.pickle", "wb") as f:

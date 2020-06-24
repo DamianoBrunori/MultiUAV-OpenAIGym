@@ -2,13 +2,14 @@
 
 import numpy as np
 import random
+import matplotlib
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 import mpl_toolkits.mplot3d.art3d as art3d
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
 from matplotlib.colors import ListedColormap, BoundaryNorm
-from utils import *
+from my_utils import *
 from load_and_save_data import *
 from scenario_objects import Point, Cell, User
 import mpl_toolkits.mplot3d.axes3d as p3
@@ -324,8 +325,8 @@ class Plot:
                 ani = animation.FuncAnimation(fig, self.update_animation_2D, frames=ITERATIONS_PER_EPISODE-1, fargs=(data_path, lines, circles), interval=100, blit=True, repeat=True)
 
             #ani.save(join(where_to_save, 'animation.gif'), writer='imagemagick')
+            plt.savefig("figures/plotting.png")
             plt.show()
-
             #Writer = animation.writers['ffmpeg']
 
         else:
@@ -619,6 +620,7 @@ class Plot:
 
             #ani = animation.FuncAnimation(fig2, self.update, N, fargs=(data, line), blit=False)
 
+            plt.savefig("figures/plotting2.png")
             plt.show()
 
     def plt_daily_users_distribution(self, daily_users_traffic_per_cluster):
@@ -661,6 +663,7 @@ class Plot:
         plt.plot(hours, daily_users_traffic)
         #plt.xlim(left=1, right=26)
         #plt.xlim(left=1, right=24)
+        plt.savefig("figures/plotting3.png")
         plt.show()
 
     def QoE_plot(self, parameter_values, epochs, where_to_save, param_name):
@@ -674,9 +677,8 @@ class Plot:
         plt.plot(epochs_to_plot, parameter_values)
 
         plt.savefig(where_to_save + '.png')
-
-        #plt.show()
-
+        plt.show()
+        
     def UAVS_reward_plot(self, epochs, UAVs_rewards, directory_name):
 
         epochs_to_plot = range(1, epochs+1)
@@ -702,8 +704,7 @@ class Plot:
         
         plt.legend(legend_labels)
         plt.savefig(join(directory_name, str(UAV_ID)) + ".png")
-
-        #plt.show()
+        plt.show()
 
     def q_color_value(self, value, vals):
         # Returns color and alpha (for the opacity).
@@ -797,6 +798,7 @@ class Plot:
 
         #print("AOOOOH", directory_name + f"qtable_graph-ep{episode}.png")
         plt.savefig(directory_name + f"\qtable_graph-ep{episode}.png")
+        plt.show()
 
 if __name__ == '__main__':
     
