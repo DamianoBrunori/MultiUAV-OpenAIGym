@@ -1,21 +1,30 @@
-# MAIN CLASS AND METHODS TO VISUALIZE 2D AND 3D MAP VIEW (WITH POINTS AND CELLS) EITHER OF THE WHOLE ENVIRONMENT OR OF A PART OF IT.
+# MAIN CLASS AND METHODS TO VISUALIZE 2D AND 3D MAP VIEW (WITH POINTS AND CELLS) EITHER OF THE WHOLE ENVIRONMENT OR OF A PART OF IT; IT IS USED ALSO TO SAVE THE STATUS MATRICES.
 
+from os import mkdir
+from os.path import join, isdir
 import numpy as np
 import random
-import matplotlib
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 import mpl_toolkits.mplot3d.art3d as art3d
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
 from matplotlib.colors import ListedColormap, BoundaryNorm
-from my_utils import *
+from decimal import Decimal
+from utils import *
 from load_and_save_data import *
 from scenario_objects import Point, Cell, User
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
+#from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 
 # If EnodeB has not been created in 'scenario_objets', then if you try to plot it, it will obviously raise an Error.
+
+u = np.linspace(0, 2*np.pi, 50)
+v = np.linspace(0, np.pi, 50)
+
+env_directory = "Environment_Views"
+if not isdir(env_directory): mkdir(env_directory)
 
 class Plot:
     '''
@@ -28,13 +37,30 @@ class Plot:
     def __init__(self):
         pass
 
-    def update_animation(self, num, dataLines, lines, circles, ax):
-        for line, data, circle in zip(lines, dataLines, circles):
+    def update_animation(self, num, dataLines, lines, circles, n_circles_range, ax): #, ax
+        for line, data, circle_idx in zip(lines, dataLines, n_circles_range): #for line, data, circle in zip(lines, dataLines, circles):
             # NOTE: there is no .set_data() for 3 dim data...
-            line.set_data(data[0:2, :num])
+            line.set_xdata(data[1, :num])
+            line.set_ydata(data[0, :num])
+            #line.set_data(data[0:2, :num])
             line.set_3d_properties(data[2, :num])
             line.set_marker("4")
             line.set_markersize(16)
+            #print("CIRCLES:", circles)
+            #print("CIRCLES INDEX:", circle_idx)
+            circles[circle_idx].remove()
+            x =  data[1, num] + ACTUAL_UAV_FOOTPRINT * np.outer(np.cos(u), np.sin(v))
+            y = data[0, num] + ACTUAL_UAV_FOOTPRINT * np.outer(np.sin(u), np.sin(v))
+            z = 0 * np.outer(np.ones(np.size(u)), np.cos(v))
+            surf = ax.plot_surface(x, y, z, color=UAVS_COLORS[circle_idx], alpha=0.18, linewidth=0)
+            #print(type(surf))
+            #surf._facecolors2d=surf._facecolors3d
+            #surf._edgecolors2d=surf._edgecolors3d
+            #ax.set_facecolor(UAVS_COLORS_RGB_PERCENTAGE[circle_idx] + (0.18,))
+            #surf._edgecolors2d=surf._edgecolors3d
+            circles[circle_idx] = surf
+            #circle._segment3d[:num] = (data[0:2, :num])
+            #print("CIRCLE SEGMENT:", circle._segment3d) 
             #print("LINEEEE", line)
             #print("CIRLCEE", circle)
             #circle._offsets3d(data[0:2, :num])
@@ -43,12 +69,14 @@ class Plot:
             #print("DUEEEEEE", data[2, :num])
             #print("PINOLOOOOOOO", (data[0][num], data[1][num]))
             #print("BEFORE", circle.center)
-            circle.center = (data[0][num], data[1][num])
+            #circle.center = (data[0][:num], data[1][:num])
+            #print(circle.center)
+            #circle.center = (data[0][num], data[1][num])
             #path = circle.get_path()
             #trans = circle.get_patch_transform()
             #mpath = trans.transform_path(path)
             #circle.set_3d_properties(mpath)
-            #circle.set_3d_properties(circle.get_path())
+            #circle.set_3d_properties(data[0][:num], data[1][:num])
             #print("AFTER", circle.center)
         return tuple(lines) + tuple(circles)
 
@@ -149,7 +177,7 @@ class Plot:
 
         return colors, num_color_range
 
-    def plt_map_views(self, obs_points=None, cs_points=None, enb_point=None, obs_cells=None, cs_cells=None, enb_cells=None, points_status_matrix=None, cells_status_matrix=None, perceived_status_matrix=None, users=None, centroids=None, clusters_radiuses=None, area_height=None, area_width=None, N_cells_row=None, N_cells_col=None, agents_paths=None, path_animation=False, where_to_save=None):
+    def plt_map_views(self, obs_points=None, cs_points=None, enb_point=None, obs_cells=None, cs_cells=None, enb_cells=None, points_status_matrix=None, cells_status_matrix=None, perceived_status_matrix=None, users=None, centroids=None, clusters_radiuses=None, area_height=None, area_width=None, N_cells_row=None, N_cells_col=None, agents_paths=None, path_animation=False, where_to_save=None, episode=None):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
         # Create 3 figures which contains respectively:             #
         #   -   2D and 3D Points-Map;                               #
@@ -199,11 +227,12 @@ class Plot:
 
             # FIGURE for the animation:
             fig = plt.figure('Cells')
+            #canvas = FigureCanvas(fig)
 
             if (DIMENSION_2D == False):
                 ax = fig.add_subplot(111, projection='3d')
                 #ax = p3.Axes3D(fig)
-                ax.view_init(elev=80)
+                ax.view_init(elev=60, azim=40)
                 if (UNLIMITED_BATTERY == True):
                     cells_status_matrix_un_bat = [[FREE if cells_status_matrix[r][c]==CS_IN else cells_status_matrix[r][c] for c in range(N_cells_col)] for r in range(N_cells_row)]
                     cells_status_matrix = cells_status_matrix_un_bat
@@ -234,13 +263,17 @@ class Plot:
                     ax.add_patch(patch)
                     art3d.pathpatch_2d_to_3d(patch)
                     pass
-                ax.bar3d(y_obs_cells, x_obs_cells, bottom, width, depth, z_obs_cells, shade=True, color=(0.4, 1, 1), edgecolor="none")
+                ax.bar3d(y_obs_cells, x_obs_cells, bottom, width, depth, z_obs_cells, shade=True, color=(0.4, 1, 1, 0.3), edgecolor="none")
                 if (UNLIMITED_BATTERY == False):
-                    ax.bar3d(y_cs_cells, x_cs_cells, bottom, width, depth, z_cs_cells, shade=True, color=(0.4, 1, 0.59), edgecolor="none")
+                    ax.bar3d(y_cs_cells, x_cs_cells, bottom, width, depth, z_cs_cells, shade=True, color=(0.4, 1, 0.59, 0.3), edgecolor="none")
                 if (CREATE_ENODEB == True):
-                    ax.bar3d(y_eNB_cells, x_eNB_cells, bottom, width, depth, z_eNB_cells, shade=True, color=(0.5, 0, 0), edgecolor="none")
+                    ax.bar3d(y_eNB_cells, x_eNB_cells, bottom, width, depth, z_eNB_cells, shade=True, color=(0.5, 0, 0, 0.3), edgecolor="none")
 
+                ax.set_xlim(xmin=0, xmax=CELLS_COLS)
+                ax.set_ylim(ymin=CELLS_ROWS, ymax=0) # --> I want to set 0 in the bottom part of the 2D plane-grid.
+                ax.set_zlim(zmin=0)
                 ax.set_title('3D Animation')
+            
             else:
 
                 ax.imshow(cells_status_matrix, cmap=cmap)
@@ -258,12 +291,17 @@ class Plot:
                 for cluster_idx in num_color_range:
                     [ax.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW-0.25, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL-0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=clusters_colors[cluster_idx], fill=False)) for cluster_idx in num_color_range]
 
+                #ax.set_xlim(xmin=0-0.5, xmax=CELLS_COLS+0.5)
+                #ax.set_ylim(ymin=CELLS_ROWS+0.5, ymax=0-0.5)
                 ax.set_title('2D Animation')
+
 
             if (CREATE_ENODEB == True):
                 fig.legend(handles=[LIGHT_BLUE_square, LIGHT_GREEN_square, LIGHT_RED_square, GOLD_circle])
             else:
                 if (DIMENSION_2D == False):
+                    ax.set_xlim(xmin=0, xmax=CELLS_COLS)
+                    ax.set_ylim(ymin=0, ymax=CELLS_ROWS)
                     if (UNLIMITED_BATTERY == True):
                         fig.legend(handles=[LIGHT_BLUE_square, GOLD_circle])
                     else:
@@ -284,8 +322,8 @@ class Plot:
                     path_x, path_y = [np.array(coords[0]-0.5) for coords in path], [np.array(coords[1]-0.5) for coords in path]
                     data_path.append([path_x, path_y])
 
-            print(data_path)
-            data_path = np.array(data_path)   
+            #print(data_path)
+            data_path = np.array(data_path)  
 
             #print("AOOOOH:\n", data_path)
 
@@ -294,43 +332,54 @@ class Plot:
             uav_color_count = 0
 
             if (DIMENSION_2D == False):
-                u = np.linspace(0, 2*np.pi, 50)
-                v = np.linspace(0, np.pi, 50)
-                Radius = 5
-                x = Radius * np.outer(np.cos(u), np.sin(v))
-                y = Radius * np.outer(np.sin(u), np.sin(v))
+                x = ACTUAL_UAV_FOOTPRINT * np.outer(np.cos(u), np.sin(v))
+                y = ACTUAL_UAV_FOOTPRINT * np.outer(np.sin(u), np.sin(v))
                 z = 0 * np.outer(np.ones(np.size(u)), np.cos(v))
                 for path in data_path:
-                    lines.append(ax.plot(path[0, 0:1], path[1, 0:1], path[2, 0:1], color=UAVS_COLORS[uav_color_count])[0])
-                    circles.append(plt.Circle(xy=(path[0, 0:1], path[1, 0:1]), radius=UAV_FOOTPRINT, color=UAVS_COLORS[uav_color_count], fill=True, alpha=0.18))
+                    #print(path[0, 0:1], path[1, 0:1])
+                    lines.append(ax.plot(path[1, 0:1], path[0, 0:1], path[2, 0:1], color=UAVS_COLORS[uav_color_count])[0])
+                    circles.append(ax.plot_surface(x, y, z, color=UAVS_COLORS[uav_color_count], linewidth=0))
+                    #circles.append(plt.Circle(xy=(path[1, 0:1], path[0, 0:1]), radius=ACTUAL_UAV_FOOTPRINT, color=UAVS_COLORS[uav_color_count], fill=True, alpha=0.18))
                     #circles.append(ax.scatter(path[0, 0:1], path[1, 0:1], 0, s=2000, color=UAVS_COLORS[uav_color_count], alpha=0.18))
                     uav_color_count += 1
+                '''                
                 for patch in circles:
                     ax.add_patch(patch)
                     art3d.pathpatch_2d_to_3d(patch)
+                '''
             else:
                 for path in data_path:
                     lines.append(ax.plot(path[0, 0:1], path[1, 0:1], color=UAVS_COLORS[uav_color_count])[0])
-                    circles.append(plt.Circle(xy=(path[0, 0:1], path[1, 0:1]), radius=UAV_FOOTPRINT, color=UAVS_COLORS[uav_color_count], fill=True, alpha=0.18, animated=true))
+                    circles.append(plt.Circle(xy=(path[0, 0:1], path[1, 0:1]), radius=ACTUAL_UAV_FOOTPRINT, color=UAVS_COLORS[uav_color_count], fill=True, alpha=0.18))
                     uav_color_count += 1
                 for patch in circles:
                     ax.add_patch(patch)
 
             #line, = ax.plot(data[0, 0:1], data[1, 0:1], data[2, 0:1], color='orange')
-            print("AOHHHHH", lines)
+            #print("AOHHHHH", lines)
 
             if (DIMENSION_2D == False):
-                ani = animation.FuncAnimation(fig, self.update_animation, frames=ITERATIONS_PER_EPISODE-1, fargs=(data_path, lines, circles, ax), interval=100, blit=True, repeat=True)
+                n_circles_range = range(len(circles))
+                ani = animation.FuncAnimation(fig, self.update_animation, frames=ITERATIONS_PER_EPISODE-1, fargs=(data_path, lines, circles, n_circles_range, ax), interval=100, blit=True, repeat=True) # fargs=(data_path, lines, circles)
             else:
                 ani = animation.FuncAnimation(fig, self.update_animation_2D, frames=ITERATIONS_PER_EPISODE-1, fargs=(data_path, lines, circles), interval=100, blit=True, repeat=True)
 
-            #ani.save(join(where_to_save, 'animation.gif'), writer='imagemagick')
-            plt.savefig("figures/plotting.png")
-            plt.show()
+            #ax.set_xlim(xmin=0-0.5, xmax=CELLS_COLS+0.5)
+            #ax.set_ylim(ymin=0-0.5, ymax=CELLS_ROWS+0.5)
+            if (DIMENSION_2D==False):
+                ax.set_zlim(zmin=0)
+            ani.save(join(where_to_save, "animation_ep" + str(episode) + ".gif"), writer='imagemagick')
+
+            plt.close(fig)
+            
+            #canvas.print_figure('test')
+            #plt.show()
+
             #Writer = animation.writers['ffmpeg']
 
         else:
 
+            #print("GUARDA QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", centroids[0], clusters_radiuses[0], centroids[1], clusters_radiuses[1])
             num_clusters = len(centroids)
             clusters_colors, num_color_range = self.RGBA_01_random_colors(num_clusters)
 
@@ -460,6 +509,9 @@ class Plot:
                     ax2.bar3d(y_cs_points, x_cs_points, bottom, width, depth, z_cs_points, shade=True, color=(0, 0.4, 0), edgecolor="none")
                 if (CREATE_ENODEB == True):
                     ax2.bar3d(y_enb_point, x_enb_point, bottom, width, depth, z_enb_point, shade=True, color=(0.5, 0, 0), edgecolor="none")
+                ax2.set_xlim(xmin=0, xmax=CELLS_COLS)
+                ax2.set_ylim(ymin=0, ymax=CELLS_ROWS)
+                ax2.set_zlim(zmin=0)
                 ax2.set_title('3D Points-Map')
 
             if (CREATE_ENODEB == True):
@@ -475,6 +527,8 @@ class Plot:
                         fig1.legend(handles=[GOLD_circle])                        
                     else:
                         fig1.legend(handles=[DARK_GREEN_square, GOLD_circle])
+
+            plt.savefig(join(env_directory, "Minimum_Resolution.png"))
 
             # FIGURE 2 (Cells 'point of view'):
             fig2 = plt.figure('Cells')
@@ -533,6 +587,9 @@ class Plot:
                 if (CREATE_ENODEB == True):
                     ax4.bar3d(y_eNB_cells, x_eNB_cells, bottom, width, depth, z_eNB_cells, shade=True, color=(0.5, 0, 0), edgecolor="none")
                 
+                ax4.set_xlim(xmin=0, xmax=CELLS_COLS)
+                ax4.set_ylim(ymin=0, ymax=CELLS_ROWS)
+                ax4.set_zlim(zmin=0)
                 ax4.set_title('3D Cells-Map')
 
             if (CREATE_ENODEB == True):
@@ -548,6 +605,8 @@ class Plot:
                         fig2.legend(handles=[GOLD_circle])
                     else:
                         fig2.legend(handles=[LIGHT_GREEN_square, GOLD_circle])
+
+            plt.savefig(join(env_directory, "Desired_Resolution.png"))
 
             # FIGURE 3 (Mixed 'point of view'):
             if ( (area_height != N_cells_row) and (area_width != N_cells_col) ):
@@ -600,6 +659,9 @@ class Plot:
                         ax6.bar3d(y_cs_cells_for_2Dplot, x_cs_cells_for_2Dplot, bottom, CELL_RESOLUTION_PER_COL, CELL_RESOLUTION_PER_ROW, z_cs_cells, shade=True, color=cs_cells_colors, edgecolor="none")
                     if (CREATE_ENODEB == True):
                         ax6.bar3d(y_eNB_cells_for_2Dplot, x_eNB_cells_for_2Dplot, bottom, CELL_RESOLUTION_PER_COL, CELL_RESOLUTION_PER_ROW, z_eNB_cells, shade=True, color=(1, 0, 0, 0.3), edgecolor="none")
+                    ax6.set_xlim(xmin=0, xmax=CELLS_COLS)
+                    ax6.set_ylim(ymin=0, ymax=CELLS_ROWS)
+                    ax6.set_zlim(zmin=0)
                     ax6.set_title('3D Points/Cells-Map')
 
                 if (CREATE_ENODEB == True):
@@ -616,11 +678,12 @@ class Plot:
                         else:
                             fig3.legend(handles=[DARK_GREEN_square, LIGHT_GREEN_square, GOLD_circle])
 
+            if ( (area_height!=N_cells_row) and (area_width!=N_cells_col) ):
+                plt.savefig(join(env_directory, "Mixed_Resolution.png"))
             #fig3.legend(handles=[DARK_BLUE_square, red_square])
 
             #ani = animation.FuncAnimation(fig2, self.update, N, fargs=(data, line), blit=False)
 
-            plt.savefig("figures/plotting2.png")
             plt.show()
 
     def plt_daily_users_distribution(self, daily_users_traffic_per_cluster):
@@ -663,58 +726,86 @@ class Plot:
         plt.plot(hours, daily_users_traffic)
         #plt.xlim(left=1, right=26)
         #plt.xlim(left=1, right=24)
-        plt.savefig("figures/plotting3.png")
         plt.show()
 
-    def QoE_plot(self, parameter_values, epochs, where_to_save, param_name):
+    def QoE_plot(self, parameter_values, epochs, where_to_save, param_name, uav_idx, legend_labels):
 
         epochs_to_plot = range(1, epochs+1)
 
         fig = plt.figure(param_name)
+        ax = fig.add_subplot(111)
         plt.xlabel('Epochs')
         plt.ylabel(param_name + ' Trend')
         plt.title(param_name)
         plt.plot(epochs_to_plot, parameter_values)
-
+        #legend_labels.append('UAV' + str(uav_idx+1) )
+        ax.set_xlim(xmin=0)
+        ax.set_ylim(ymin=0)
+        plt.legend(legend_labels)
         plt.savefig(where_to_save + '.png')
-        plt.show()
-        
-    def UAVS_reward_plot(self, epochs, UAVs_rewards, directory_name):
+
+        #plt.show()
+
+    def UAVS_reward_plot(self, epochs, UAVs_rewards, directory_name, q_values=False):
 
         epochs_to_plot = range(1, epochs+1)
         UAV_ID = 0
         #print("BRIIIIIII")
         #print(UAVs_rewards)
-        fig = plt.figure('UAVs rewards')
+        if (q_values==False):
+            fig = plt.figure('UAVs rewards')
+            plt.ylabel ('UAVs Rewards')
+            plt.title('Rewards')
+        else:
+            fig = plt.figure('UAVs Q-values')
+            plt.ylabel('UAVs Q-values')
+            plt.title('Q-values')
+        plt.xlabel('Epochs')
+
+        ax = fig.add_subplot(111)
         #plt.set_xticklabels(epochs_to_plot)
         #plt.set_yticklabels(range(0, 1))
-
-        plt.xlabel('Epochs')
-        plt.ylabel('Rewards')
-        plt.title('UAVs Rewards')
 
         legend_labels = []
         for UAV in UAVs_rewards:
             #print(UAV)
             #print()
+            plt.plot(epochs_to_plot, [reward for reward in UAV], color=UAVS_COLORS[UAV_ID])
             UAV_ID += 1
-            plt.plot(epochs_to_plot, [reward for reward in UAV])
             legend_labels.append('UAV' + str(UAV_ID))
             #plt.savefig(join(directory_name, str(UAV_ID)) + ".png")
         
+        ax.set_xlim(xmin=1)
+        ax.set_ylim(ymin=0)
         plt.legend(legend_labels)
-        plt.savefig(join(directory_name, str(UAV_ID)) + ".png")
-        plt.show()
-
-    def q_color_value(self, value, vals):
-        # Returns color and alpha (for the opacity).
-
-        if value == max(vals):
-            return "green", 1.0
+        #plt.savefig(join(directory_name, "Rewards_per_epoch_UAV" + str(UAV_ID)) + ".png")
+        if (q_values==False):
+            plt.savefig(join(directory_name, "Rewards_per_epoch_UAVs.png"))
         else:
-            return "red", 0.3
+            plt.savefig(join(directory_name, "Q-values_per_epoch_UAVs.png"))
 
-    def q_tables_plot(self, q_table, directory_name, episode, which_uav):
+        #plt.show()
+
+    def epsilon(self, epsilon_history, epochs, directory_name):
+
+        epochs_to_plot = range(1, epochs+1)
+
+        fig = plt.figure()
+
+        ax = fig.add_subplot(111)
+        
+        ax.set_xlabel("Epochs")
+        ax.set_ylabel("Epsilon Value")
+
+        ax.plot(epochs_to_plot, epsilon_history)
+        
+        ax.set_xlim(xmin=1)
+        ax.set_ylim(ymin=0)
+        plt.savefig(join(directory_name, "Epsilon_per_epoch.png"))
+
+        #plt.show()
+
+    def actions_min_max_per_epoch(self, q_table, directory_name, episode, which_uav):
 
         #ax1 = fig.add_subplot(311)
         #ax2 = fig.add_subplot(312)
@@ -736,13 +827,15 @@ class Plot:
             #print("Actions Values:", actual_q_table[state])
             #print("Current Action:", actual_q_table[state][action_id])
             action_values = actual_q_table[state]
+            #print("AOOOOOOOOOOOOOOOOOOOOOOOOOOOH", action_values)
+            #print("AEEEEEEEEEEEEEEEEEEEEEEEEEEEH", len(action_values))
             #print("Current Action vaulues:", action_values)
             max_action_value = max(action_values)
             min_action_value = min(action_values)
             ax.scatter(state_count, DICT_ACTION_SPACE[action_values.index(max_action_value)], c="green", marker="o", alpha=0.4)
             ax.scatter(state_count, DICT_ACTION_SPACE[action_values.index(min_action_value)], c="red", marker="o", alpha=0.4)
             state_count += 1
-        ax.set_xlabel("Epochs")
+        ax.set_xlabel("States")
         ax.set_ylabel("Actions")
         #print("MAX Action:", actual_q_table[state][action_id])
         '''
@@ -798,7 +891,100 @@ class Plot:
 
         #print("AOOOOH", directory_name + f"qtable_graph-ep{episode}.png")
         plt.savefig(directory_name + f"\qtable_graph-ep{episode}.png")
-        plt.show()
+
+
+    def battery_when_start_to_charge(self, battery_history, directory_name):
+
+        n_recharges_per_uav = [range(1, len(battery_history[uav])+1) for uav in range(N_UAVS)]
+        print(len(battery_history[0]))
+        max_recharges_per_uav = max([len(battery_history[uav]) for uav in range(N_UAVS)])
+        #n_recharges_per_uav.append(range(1, len(battery_history[0])+1))
+        #copy = [elem+1 for elem in battery_history[0]]
+        #battery_history.append(copy)
+        UAV_ID = 0
+
+        fig = plt.figure()
+
+        ax = fig.add_subplot(111)
+        
+        ax.set_xlabel("N-th Start of Charging (every " + str(SHOW_BATTERY_LEVEL_FOR_CHARGING_INSTANT) + " charges)")
+        ax.set_ylabel("Battery Level")
+        plt.title('Battery level when start to charge')
+
+        #legend_labels = []
+        for UAV in n_recharges_per_uav:
+            #print(UAV)
+            #print()
+            #print("UAV IDDDDDDDDDDDDDDDDDDDDDDD", UAV_ID)
+            ax.bar(n_recharges_per_uav[UAV_ID], [self.battery_percentage(battery_levels) for battery_levels in battery_history[UAV_ID]], color=UAVS_COLORS[UAV_ID], align='center')
+            #plt.plot(n_recharges_per_uav[UAV_ID], [self.battery_percentage(battery_levels) for battery_levels in battery_history[UAV_ID]], color=UAVS_COLORS[UAV_ID])
+            #print(len(n_recharges_per_uav[UAV_ID]))
+            UAV_ID += 1
+            #legend_labels.append('UAV' + str(UAV_ID))
+            ax.set_xlim(xmin=0)
+            ax.set_ylim(ymin=0)
+            print(range(0, max_recharges_per_uav*SHOW_BATTERY_LEVEL_FOR_CHARGING_INSTANT, SHOW_BATTERY_LEVEL_FOR_CHARGING_INSTANT))
+            ax.set(xticks=range(0, max_recharges_per_uav+1), xticklabels=range(0, max_recharges_per_uav*SHOW_BATTERY_LEVEL_FOR_CHARGING_INSTANT+1, SHOW_BATTERY_LEVEL_FOR_CHARGING_INSTANT))
+            plt.xticks(range(0, max_recharges_per_uav+1))
+            plt.tick_params(labelbottom=False)
+            plt.yticks(range(0, self.battery_percentage(CRITICAL_BATTERY_LEVEL), 5))
+            #plt.legend(['UAV' + str(UAV_ID)])
+            plt.savefig(join(directory_name, "Battery_level_when_start_charge_UAV" + str(UAV_ID)) + ".png")
+        
+        #plt.savefig(join(directory_name, "Battery_level_when_start_charge" + str(UAV_ID)) + ".png")
+
+        #plt.show()
+
+    def UAVS_crashes(self, epochs, UAVs_crashes, directory_name):
+
+        epochs_to_plot = range(1, epochs+1)
+        #print("BRIIIIIII")
+        #print(UAVs_rewards)
+        fig = plt.figure('UAVs crashes')
+        ax = fig.add_subplot(111)
+        #plt.set_xticklabels(epochs_to_plot)
+        #plt.set_yticklabels(range(0, 1))
+
+        plt.xlabel('Epochs')
+        plt.ylabel('UAV ID')
+        plt.title('UAVs Crashes')
+
+        #print("CRASHEEEEEEEE", UAVs_crashes)
+
+        legend_labels = []
+        for episode in epochs_to_plot:
+            n_labels = len(legend_labels)
+            UAV_ID = 1
+            # Questa condizione mi serve solo nel caso in cui voglio plottare prima della fine (per vedere se tutto funziona e fare dei tests) --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            if (UAVs_crashes[episode-1]==0):
+                break
+            for UAV_crash in UAVs_crashes[episode-1]:
+                str_uav_id = str(UAV_ID)
+                #print(UAV)
+                #print()
+                #print(UAV_ID)
+                if (UAV_crash==True):
+                    ax.scatter(episode, str_uav_id, color=UAVS_COLORS[UAV_ID-1], marker="x")
+                #plt.plot(epochs_to_plot, [crash for crash in UAVS_chrashes], color=UAVS_COLORS[UAV_ID])
+                if (n_labels<N_UAVS):
+                    legend_labels.append('UAV' + str(UAV_ID))
+                UAV_ID += 1
+            #plt.savefig(join(directory_name, str(UAV_ID)) + ".png")
+        
+        #ax.set_xlim(xmin=1)
+        #ax.set_ylim(ymin=0)
+        ax.set_xlim(xmin=1, xmax=epochs+1)
+        plt.legend(legend_labels)
+        #plt.savefig(join(directory_name, "Rewards_per_epoch_UAV" + str(UAV_ID)) + ".png")
+        plt.savefig(join(directory_name, "UAVs_crashes.png"))
+
+        #plt.show()
+
+    def battery_percentage(self, battery_level):
+
+        percentage_battery_level = round((battery_level*100)/FULL_BATTERY_LEVEL)
+
+        return percentage_battery_level
 
 if __name__ == '__main__':
     
@@ -859,8 +1045,12 @@ if __name__ == '__main__':
 
     # Plotting:
     agents_paths = [[(0,0,1), (1,0,1), (1,1,2), (1,1,3), (2,1,2)], [(0,0,1), (0,1,1), (1,1,0), (1,1,2), (1,2,3)]]
-    plot.plt_map_views(obs_points, cs_points, eNB_point, obs_cells, cs_cells, eNB_cells, points_status_matrix, cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids, initial_clusters_radiuses, AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=agents_paths, path_animation=False)
+    plot.plt_map_views(obs_points, cs_points, eNB_point, obs_cells, cs_cells, eNB_cells, points_status_matrix, cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids, initial_clusters_radiuses, AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=None, path_animation=False)
+    
+    '''
+    # CONTROLLA IL CASO CON PIU' CLUSTERS DI UTENTI --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     
     daily_users_traffic = User.users_per_cluster_per_timeslot(MIN_USERS_PER_DAY, MAX_USERS_PER_DAY, FIXED_CLUSTERS_NUM) # --> Questo è qui solo per fare una prova (dovrai salvare il traffico ad ogni nuovo giorno) --> !!!!!!!!!!!!!!!!!!!!!!!!
     print("Users per timeslot:", daily_users_traffic)
     plot.plt_daily_users_distribution(daily_users_traffic)
+    '''
