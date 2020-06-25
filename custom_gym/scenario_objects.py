@@ -9,7 +9,7 @@ from decimal import Decimal
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 from numpy import linalg as LA
-# from pylayers.antprop.loss import *
+from pylayers.antprop.loss import *
 from load_and_save_data import *
 
 class Cell:
@@ -130,7 +130,6 @@ class User:
             self._info[4] = 0
         
         elif (self._info[0] == True):
-
             # Increase the time for which the service is provided (without interruptions). 
             self._info[4] += 1
             
@@ -174,15 +173,29 @@ class User:
 
         upper_bound -= 1
         # 'rvs' return random variates of a given type
+        #print("MINNNNNNNNNNN", lower_bound)
+        #print("MAXXXXXXXXXXX", upper_bound)
+        ##print("STDDDDDDDDDDD", std)
+        #print("MEAAAAAAAAAAN", mean)
+        #trunc = truncnorm((lower_bound - mean) / std, (upper_bound - mean) / std, loc=mean, scale=std)
+        #print(trunc.rvs(size=n_users))
+        #print(truncnorm((lower_bound - mean) / std, (upper_bound - mean) / std, loc=mean, scale=std).rvs(size=n_users))
         return truncnorm((lower_bound - mean) / std, (upper_bound - mean) / std, loc=mean, scale=std).rvs(size=(n_users))
 
     @staticmethod
-    def centroids_user_cluster_generation(centroid_min_x, centroid_max_x, centroid_min_y, centroid_max_y, clusters_num):
+    def centroids_user_cluster_generation(centroids_min_max_coords, clusters_num):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Compute initial users clusters by drawing samples from a uniform distribution.  #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        centroids = np.random.uniform(low=[centroid_min_x, centroid_min_y], high=[centroid_max_x, centroid_max_y], size=(clusters_num, 2))
+        centroids = []
+        for centroid_idx in range(clusters_num):
+            centroid_min_x = centroids_min_max_coords[centroid_idx][0][0]
+            centroid_min_y = centroids_min_max_coords[centroid_idx][1][0]
+            centroid_max_x = centroids_min_max_coords[centroid_idx][0][1]
+            centroid_max_y = centroids_min_max_coords[centroid_idx][1][1]
+            centroid = np.random.uniform(low=[centroid_min_x, centroid_min_y], high=[centroid_max_x, centroid_max_y], size=(1, 2))
+            centroids.append(list(centroid[0]))
         '''
         variance = pow(std, 2)
         covariance_matrix = [[variance, 0], [0, variance]]
@@ -193,7 +206,7 @@ class User:
         return centroids
 
     @staticmethod
-    def spread_users_around_clusters(centroids, mean_x, mean_y, std_x, std_y, min_users_per_cluster, max_users_per_cluster):
+    def spread_users_around_clusters(centroids, std_x, std_y, min_users_per_cluster, max_users_per_cluster):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Returns the users coordinates (and its clusters) computed along the generated centroids clusters by using a truncated (bounded) #
         # the normal distribution; in such a way it is possible to avoid to place the users outside of the area of interest.              #
@@ -207,21 +220,42 @@ class User:
         for centroid in centroids:
 
             mean = centroid
+            # Limits for 'x':
             users_for_current_cluster = randint(min_users_per_cluster, max_users_per_cluster)
-            users_x_coords = User.get_truncated_normal(mean[0], std_x, 0, AREA_WIDTH, users_for_current_cluster)
-            users_y_coords = User.get_truncated_normal(mean[1], std_y, 0, AREA_HEIGHT, users_for_current_cluster)
+            x_low_limit = mean[0]-(UAV_FOOTPRINT)
+            x_up_limit = mean[0]+(UAV_FOOTPRINT)
+            x_lower_bound = x_low_limit if x_low_limit>0 else 0
+            x_upper_bound = x_up_limit if x_up_limit<AREA_WIDTH else AREA_WIDTH   
+            # Limits for 'y':
+            users_for_current_cluster = randint(min_users_per_cluster, max_users_per_cluster)
+            y_low_limit = mean[1]-(UAV_FOOTPRINT-1)
+            y_up_limit = mean[1]+(UAV_FOOTPRINT-1)
+            y_lower_bound = y_low_limit if y_low_limit>0 else 0
+            y_upper_bound = y_up_limit if y_up_limit<AREA_WIDTH else AREA_WIDTH
+
+            users_x_coords = User.get_truncated_normal(mean[0], std_x, x_lower_bound, x_upper_bound, users_for_current_cluster)
+            users_y_coords = User.get_truncated_normal(mean[1], std_y, y_lower_bound, y_upper_bound, users_for_current_cluster)
             # Round users coordinates to the first decimal digit:
             current_cluster = [(round(Decimal(users_x_coords[idx]), 1), round(Decimal(users_y_coords[idx]), 1)) for idx in range(users_for_current_cluster)]
+            print(current_cluster)
             for i in current_cluster:
                 print((type(i[0]), type(i[1])))
             #current_cluster = np.random.multivariate_normal(mean, covariance_matrix, users_for_current_cluster)
             users_clusters.append(current_cluster)
 
+            for user in current_cluster:
+                users_xy.append(user)
+        '''
         for cluster in users_clusters:
             for user in cluster:
                 users_xy.append(user)
+        '''
         #print(len(users_xy))
         #print(users_xy)
+
+        #print("USERS CLUSTER 1", users_clusters[0])
+        #print("USERS CLUSTER 2", users_clusters[1])
+        #print("USERS", users_xy)
 
         return users_clusters, users_xy
 
@@ -274,7 +308,7 @@ class User:
             current_user_xy = users_xy[user_idx]
             current_user_z = users_z[user_idx]
             max_height_per_current_user = User.max_reachable_height_per_user(points_matrix, current_user_xy)
-            print("MAX HEIGHT PER CURRENT USER:", max_height_per_current_user)
+            #print("MAX HEIGHT PER CURRENT USER:", max_height_per_current_user)
             if (INF_REQUEST == True):
                 users_xyz.append( User(current_user_xy[0], current_user_xy[1], current_user_z, max_height_per_current_user, User.generate_user_account(), [False, None, 1, 0, 0]) )
             else:
@@ -452,7 +486,9 @@ class User:
         print("oooooooooooo")
         print(users_clusters[0])
         print(users_per_cluster)
+        #print("CENTROIDE PRIMA", centroids)
         decimal_centroids = [[Decimal(centroid[0]), Decimal(centroid[1]), Decimal(centroid[2])] for centroid in centroids]
+        #print("CENTROIDI DOPO", decimal_centroids)
         #print(centroids[0])
         #print(np.array([users_clusters[0]]))
         for cluster_idx in range(num_clusters):
@@ -460,7 +496,12 @@ class User:
             #u = LA.norm(np.array([decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]]) - np.array([users_clusters[cluster_idx][user_idx][0], users_clusters[cluster_idx][user_idx][0]]))
             current_centroid_users_distances = [LA.norm(np.array([decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]]) - np.array([users_clusters[cluster_idx][user_idx][0], users_clusters[cluster_idx][user_idx][1]])) for user_idx in range(0, users_per_cluster[cluster_idx])]
             #print(len(current_centroid_users_distances))
+            #print("CENTROIDE", (decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]))
+            #print("UTENTIIIIIII:")
+            print([(users_clusters[cluster_idx][user_idx][0], users_clusters[cluster_idx][user_idx][1]) for user_idx in range(0, users_per_cluster[cluster_idx])])
+            #print("DISTANZE UTENTIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", current_centroid_users_distances)
             clusters_radiuses[cluster_idx] = round(max(current_centroid_users_distances), 1)
+            #print("USER PIU' LONTANOOOOOOOOOOOOOOOOOOOOOOOOOO", clusters_radiuses[cluster_idx])
             #centroids_users_distances.append(current_centroid_users_distances)
             #print(len(centroids_users_distances[cluster_idx]))
         '''
@@ -506,7 +547,7 @@ class User:
         # with a specific probability distribution indicated by USERS_ACCOUNTS_DITRIBUTIONS.      #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        user_account = np.random.choice([FREE_USER, BASE_USER, FULL_USER, PREMIUM_USER], p=USERS_ACCOUNTS_DITRIBUTIONS)
+        user_account = np.random.choice(USERS_ACCOUNTS, p=USERS_ACCOUNTS_DITRIBUTIONS)
         return user_account
 
     @staticmethod
@@ -546,14 +587,14 @@ class Environment:
     def __init__(self, area_width, area_height, area_z, cell_res_row, cell_res_col):
         self._area_width = area_width
         self._area_height = area_height
-        self._area_z = MAXIMUM_AREA_HEIGHT
+        self._area_z = MAXIMUM_AREA_HEIGHT if DIMENSION_2D==False else 0
         self._N_points = area_width*area_height
         self._cell_res_row = cell_res_row
         self._cell_res_col = cell_res_col
         self._cells_rows = CELLS_ROWS
         self._cells_cols = CELLS_COLS
         self._cells_num = N_CELLS
-        self._cs_height = CS_HEIGHT
+        self._cs_height = CS_HEIGHT if DIMENSION_2D==False else 0
         self._cs_num = N_CS
         #self._cs_distance = RADIAL_DISTANCE
         self._radial_distance_x = RADIAL_DISTANCE_X
@@ -718,10 +759,11 @@ class Environment:
 
         points_matrix = [[Point(0, j, i, 0, []) for j in range(self._area_width)] for i in range(self._area_height)]
         
-        for obs_point in obs_points:
-            x_current_obs = obs_point._x_coord
-            y_current_obs = obs_point._y_coord
-            points_matrix[y_current_obs][x_current_obs] = obs_point
+        if (DIMENSION_2D == False):
+            for obs_point in obs_points:
+                x_current_obs = obs_point._x_coord
+                y_current_obs = obs_point._y_coord
+                points_matrix[y_current_obs][x_current_obs] = obs_point
 
         return points_matrix
 
@@ -736,32 +778,34 @@ class Environment:
 
         [CS_points.append( Point(self._cs_in, round(self._x_eNB + self._radial_distance_x*sin(CS_idx*rad_between_points)), round(self._y_eNB + self._radial_distance_y*cos(CS_idx*rad_between_points)), self._cs_height, []) ) for CS_idx in range(self._cs_num)]
         #print( (self._x_eNB, self._y_eNB) )
-        for CS_point in CS_points:
-            x_current_CS = CS_point._x_coord
-            y_current_CS = CS_point._y_coord
+        
+        if (UNLIMITED_BATTERY == False):
+            for CS_point in CS_points:
+                x_current_CS = CS_point._x_coord
+                y_current_CS = CS_point._y_coord
 
-            print( (x_current_CS, y_current_CS) )
+                print( (x_current_CS, y_current_CS) )
 
-            current_position_on_map_status = points_matrix[y_current_CS][x_current_CS]._status
+                current_position_on_map_status = points_matrix[y_current_CS][x_current_CS]._status
 
-            # SIDE-EFFECT on 'points_matrix':
+                # SIDE-EFFECT on 'points_matrix':
 
-            # If the selected map position is FREE, then that position will be occupied by a CS.
-            if (current_position_on_map_status == FREE):
-                #print( (current_position_on_map._x_coord, current_position_on_map._y_coord, current_position_on_map._z_coord, current_position_on_map._status) )
-                points_matrix[y_current_CS][x_current_CS] = CS_point
-                #print( (current_position_on_map._x_coord, current_position_on_map._y_coord, current_position_on_map._z_coord, current_position_on_map._status) )
-            # Otherwise, namely if an obstacle is in here, the CS will be placed on that obstacle with by keeping the height of the obstacle;
-            # In this case the obstacle will be removed from 'obs_points' list.
-            elif (current_position_on_map_status == OBS_IN):
+                # If the selected map position is FREE, then that position will be occupied by a CS.
+                if (current_position_on_map_status == FREE):
+                    #print( (current_position_on_map._x_coord, current_position_on_map._y_coord, current_position_on_map._z_coord, current_position_on_map._status) )
+                    points_matrix[y_current_CS][x_current_CS] = CS_point
+                    #print( (current_position_on_map._x_coord, current_position_on_map._y_coord, current_position_on_map._z_coord, current_position_on_map._status) )
+                # Otherwise, namely if an obstacle is in here, the CS will be placed on that obstacle with by keeping the height of the obstacle;
+                # In this case the obstacle will be removed from 'obs_points' list.
+                elif (current_position_on_map_status == OBS_IN):
 
-                points_matrix[y_current_CS][x_current_CS]._status = CS_IN
-                #print("eccolo")
+                    points_matrix[y_current_CS][x_current_CS]._status = CS_IN
+                    #print("eccolo")
 
-                for obs in obs_points:
-                    if ( (obs._x_coord == x_current_CS) and (obs._y_coord == y_current_CS) ):
-                        obs_points.remove(obs) # SIDE-EFFECT on 'obs_points'
-                        break
+                    for obs in obs_points:
+                        if ( (obs._x_coord == x_current_CS) and (obs._y_coord == y_current_CS) ):
+                            obs_points.remove(obs) # SIDE-EFFECT on 'obs_points'
+                            break
         
         return CS_points
 
@@ -769,6 +813,9 @@ class Environment:
         # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Set eNodeB on map (represented by 'points_matrix'). #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+        if (CREATE_ENODEB == False):
+            return []
 
         if (points_matrix[self._y_eNB][self._x_eNB]._status == FREE):
             z_enb = self._z_eNB
@@ -816,8 +863,23 @@ class Environment:
             for j in range(self._cells_cols):
                 current_points = cells[cell_idx]
                 
+                if (DIMENSION_2D == True):
+                    if (UNLIMITED_BATTERY == True):
+                        cells_matrix[i][j] = Cell(self._free, current_points, j, i, 0, [])
+                    else:
+                        status_points = [point._status for point in current_points]
+                        if (self._cs_in in status_points):
+                            current_cell_status = self._cs_in
+                            z_current_cell = self._cs_height
+                            cells_matrix[i][j] = Cell(current_cell_status, current_points, j, i, z_current_cell, [])
+                        else:
+                            cells_matrix[i][j] = Cell(self._free, current_points, j, i, 0, [])
+                    cell_idx += 1
+                    continue
+
                 status_points = [point._status for point in current_points]
                 
+                # It is not needed 'UNLIMITED_BATTERY == True' case in 3D, because in 'set_CS_on_map', this case is already considered and the CS have not been generate in case. 
                 if (self._cs_in in status_points):
                     # Set the height of the cell equal to the possible CS contained in the current cell:
                     current_cell_status = self._cs_in
@@ -872,9 +934,9 @@ if __name__ == '__main__':
     # points_matrix[0][0]._users = users
     # print(print(points_matrix[0][0]._users))
     us = User
-    centroids = us.centroids_user_cluster_generation(3, 3, 8, 8, FIXED_CLUSTERS_NUM) # --> CAMBIA I VALORI DI QUESTI ARGOMENTI PER OTTENERE CLUSTERS SPARSI IN MODO DIVERSO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    centroids = us.centroids_user_cluster_generation(CENTROIDS_MIN_MAX_COORDS, FIXED_CLUSTERS_NUM) # --> CAMBIA I VALORI DI QUESTI ARGOMENTI PER OTTENERE CLUSTERS SPARSI IN MODO DIVERSO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     print("CENTROIDIIIII", centroids)
-    users_clusters, users_xy = us.spread_users_around_clusters(centroids, 1.0, 1.0, 1.0, 1.0, 8, 16) # --> CAMBIA I VALORI DI QUESTI ARGOMENTI PER OTTENERE CLUSTERS SPARSI IN MODO DIVERSO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    users_clusters, users_xy = us.spread_users_around_clusters(centroids, 1, 1, 8, 16) # --> CAMBIA I VALORI DI QUESTI ARGOMENTI PER OTTENERE UTENTI SPARSI IN MODO DIVERSO NEI CLUSTERS --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     occurrences = [users_xy.count(user) for user in users_xy]
     #print(users_xy)
     #env.set_users_on_map(points_matrix, users_xy)
@@ -899,6 +961,34 @@ if __name__ == '__main__':
     users_steps = us.k_random_walk(users_xyz, 10)
     initial_clusterer = us.compute_clusterer(users_xyz)
     initial_centroids = us.actual_users_clusters_centroids(initial_clusterer)
+    
+    # Ensure to have the centroids listed in the correct order (the clusterer may classified the 'initial_centroids' in a different order w.r.t the 'centroids')
+    initial_centroids_aux = []
+    values_to_check = []
+        
+    for centroid_idx in range(FIXED_CLUSTERS_NUM):
+        for initial_centroid_idx in range(FIXED_CLUSTERS_NUM):
+            value_to_check1 = abs(centroids[centroid_idx][0]-initial_centroids[initial_centroid_idx][0])
+            value_to_check2 = abs(centroids[centroid_idx][1]-initial_centroids[initial_centroid_idx][1])
+            #print(value_to_check1, value_to_check2)
+            #print(initial_centroids[initial_centroid_idx][0])
+            #print(initial_centroids[initial_centroid_idx][1])
+            if ( (value_to_check1 < 2) and (value_to_check2 < 2) ):
+                initial_centroids_aux.append(initial_centroids[initial_centroid_idx])
+                #values_to_check.append(value_to_check)
+    initial_centroids = initial_centroids_aux
+    
+    #values_to_check = ordered_values_to_check
+    '''
+    values_to_check.sort()
+    initial_centroids_copy = initial_centroids
+    for val_idx in range(len(values_to_check)):
+        if (values_to_check[val_idx] >=2)
+            initial_centroids_copy[val_idx] = centroids[val_idx]
+    initial_centroids = initial_centroids_copy
+    '''
+    #print("AUUUUUUUUUUUUUUUUUUX", initial_centroids_aux)
+
     initial_clusters_radiuses = us.actual_clusters_radiuses(initial_centroids, users_clusters, FIXED_CLUSTERS_NUM) # --> qui ovviamente poi varierai il numero di clusters a seconda che tu li voglia identificare in modo dinamico o meno -> !!!!!!!!!!!!!!!!!!!!!!!!!!
     print("CENTROIDS")
     print(initial_centroids)
@@ -917,7 +1007,11 @@ if __name__ == '__main__':
     #print(len(users_points_heights))
     #print(len(users_xy))
 
-    cells_matrix = env.compute_cell_matrix(points_matrix, eNB_point[0]._z_coord, env._area_width, env._area_height, env._cell_res_row, env._cell_res_col)
+    if (CREATE_ENODEB == False):
+        eNB_point_z_coord = eNB_point
+    else:
+        eNB_point_z_coord = eNB_point[0]._z_coord
+    cells_matrix = env.compute_cell_matrix(points_matrix, eNB_point_z_coord, env._area_width, env._area_height, env._cell_res_row, env._cell_res_col)
     print(len(cells_matrix), len(cells_matrix[0]))
     
     '''
@@ -930,6 +1024,7 @@ if __name__ == '__main__':
     obs_cells = env.extracting_specific_cells_coordinates(cells_matrix, env._obs_in)
     # Extracting cells coordinates which charging stations:
     cs_cells = env.extracting_specific_cells_coordinates(cells_matrix, env._cs_in)
+    #print("AOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOH", cs_cells)
     # Extracting cells coordinates which contain eNodeB:
     eNB_cells = env.extracting_specific_cells_coordinates(cells_matrix, env._enb_in)
 
