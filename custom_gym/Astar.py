@@ -1,19 +1,81 @@
-#Assumiamo che nell'utilizzo di A* sia possibile effettuare movimenti anche in diagonale (lo stesso però non vale quando si applica il RL --> ???????????????????????????????????????????????????)
-
 from itertools import product
 from scenario_objects import Point, Cell
-from utils import LOWER_BOUNDS, AREA_WIDTH, AREA_HEIGHT, CELLS_ROWS, CELLS_COLS, MINIMUM_AREA_HEIGHT, MAXIMUM_AREA_HEIGHT
+from my_utils import LOWER_BOUNDS, AREA_WIDTH, AREA_HEIGHT, CELLS_ROWS, CELLS_COLS, MINIMUM_AREA_HEIGHT, MAXIMUM_AREA_HEIGHT, OBS_IN, CS_IN, DIMENSION_2D, UAV_Z_STEP
 from load_and_save_data import Loader
 
 coords_moves = [-1, 0, 1]
 
+'''
 def moves(cell):
 
-    moves = list(product(coords_moves, coords_moves, coords_moves))
-
+    all_moves = list(product(coords_moves, coords_moves, coords_moves))
     return moves
+'''
 
-def allowed_neighbours(moves, node, env_matrix, resolution='min'):
+def moves2D(cell):
+
+    all_moves = list(product(coords_moves, coords_moves))
+    manhattan_moves2D = []
+    for move in all_moves:
+        if ( (abs(move[0])!=abs(move[1])) or ((move[0]==0) and (move[1]==0)) ):
+            manhattan_moves2D.append(move)
+    return manhattan_moves2D
+
+def moves3D(cell):
+
+    all_moves = list(product(coords_moves, coords_moves, coords_moves))
+    manhattan_moves3D = []
+    for move in all_moves:
+        if ( (abs(move[0])!=abs(move[1]) and (move[2]==0)) or ((move[0]==0) and (move[1]==0)) ):
+            if (abs(move[2])==1):
+                current_move = (move[0], move[1], move[2]*UAV_Z_STEP)
+            else:
+                current_move = move
+            manhattan_moves3D.append(current_move)
+    return manhattan_moves3D
+
+def allowed_neighbours_2D(moves, node, env_matrix, resolution='min'):
+    
+    if (resolution == 'min'):
+        x_upper_bound = AREA_WIDTH
+        y_upper_bound = AREA_HEIGHT
+    elif (resolution == 'des'):
+        x_upper_bound = CELLS_ROWS
+        y_upper_bound = CELLS_COLS
+
+    neighbours_list = []
+
+    node_x = node.position[0]
+    node_y = node.position[1]
+
+    for move in moves:
+        move_x = move[0]
+        move_y = move[1]
+
+        new_node_x = node_x + move_x
+        new_node_y = node_y + move_y
+
+        try:
+            # if 'move_x' and 'move_y' are out of 'env_matrix', then keep searching for other moves (see continue inside 'except'):
+            y = int(new_node_y-0.5)
+            x = int(new_node_x-0.5)
+            if ( (x<0) or (y<0) ):
+                continue
+            else:
+                current_cell = env_matrix[y][x]
+        except:
+            continue
+        
+        if (current_cell._status != OBS_IN):
+            neighbours_list.append((new_node_x, new_node_y))
+        else:
+            continue
+        #if (env_matrix[new_node_y][new_node_x]._z_coord < new_node_z):
+        #    neighbours_list.append((new_node_x, new_node_y, new_node_z))
+
+    return neighbours_list
+
+def allowed_neighbours_3D(moves, node, env_matrix, resolution='min'):
     
     if (resolution == 'min'):
         x_upper_bound = AREA_WIDTH
@@ -31,22 +93,33 @@ def allowed_neighbours(moves, node, env_matrix, resolution='min'):
     for move in moves:
         move_x = move[0]
         move_y = move[1]
-        move_z = move[2]
+        move_z = move[2] if DIMENSION_2D==False else 0
 
         new_node_x = node_x + move_x
         new_node_y = node_y + move_y
-        new_node_z = node_z + move_z
+        new_node_z = node_z + move_z if DIMENSION_2D==False else 0
         
         # If 'new_node_z' is not inside (lower_bounds, z_upper_bound), then keep searching for other moves:
         if ( (new_node_z < MINIMUM_AREA_HEIGHT) or (new_node_z >= MAXIMUM_AREA_HEIGHT) ):
             continue
 
         try:
-            # if 'move_x' and 'move_y' are out of 'env_matrix', then keep seargching for other moves (see continue inside 'except'):
-            if (env_matrix[new_node_y][new_node_x]._z_coord < new_node_z):
-                neighbours_list.append((new_node_x, new_node_y, new_node_z))
+            # if 'move_x' and 'move_y' are out of 'env_matrix', then keep searching for other moves (see continue inside 'except'):
+            y = int(new_node_y-0.5)
+            x = int(new_node_x-0.5)
+            if ( (x<0) or (y<0) ):
+                continue
+            else:
+                current_cell = env_matrix[y][x]
         except:
             continue
+        
+        if ( (current_cell._status != OBS_IN) or ((current_cell._status == OBS_IN) and (current_cell._z_coord < new_node_z)) ):
+            neighbours_list.append((new_node_x, new_node_y, new_node_z))
+        else:
+            continue
+        #if (env_matrix[new_node_y][new_node_x]._z_coord < new_node_z):
+        #    neighbours_list.append((new_node_x, new_node_y, new_node_z))
 
     return neighbours_list
 
@@ -55,7 +128,7 @@ class Node():
 
     def __init__(self, parent=None, position=None):
         self.parent = parent
-        self.position = position
+        self.position = position if DIMENSION_2D == False else position + (0,)
 
         self.g = 0
         self.h = 0
@@ -80,6 +153,13 @@ def astar(env_matrix, start, goal):
 
     # Add the start node
     open_set.append(start_node)
+
+    if (DIMENSION_2D == True):
+        moves = moves2D
+        allowed_neighbours = allowed_neighbours_2D
+    else:
+        moves = moves3D
+        allowed_neighbours = allowed_neighbours_3D
 
     # Loop until you find the goal
     while len(open_set) > 0:
@@ -112,14 +192,17 @@ def astar(env_matrix, start, goal):
         children = []
 
         moves_for_current_node = moves(current_node)
+        #print("MOSSEEEEE", len(moves_for_current_node))
         new_allowed_positions = allowed_neighbours(moves_for_current_node, current_node, env_matrix, resolution='min')
         #print(new_allowed_positions)
 
         for new_position in new_allowed_positions:
 
             # New allowed node position:
-            new_node_position = (new_position[0], new_position[1], new_position[2])
-            
+            if (DIMENSION_2D==False):
+                new_node_position = (new_position[0], new_position[1], new_position[2])
+            else:
+                new_node_position = (new_position[0], new_position[1])
             # New node creation
             new_node = Node(current_node, new_node_position)
 
@@ -141,7 +224,10 @@ def astar(env_matrix, start, goal):
 
             # Create the f, g, and h values
             child.g = current_node.g + 1
-            child.h = ((child.position[0] - goal_node.position[0]) ** 2) + ((child.position[1] - goal_node.position[1]) ** 2) + ((child.position[2] - goal_node.position[2]) ** 2)
+            if (DIMENSION_2D == False):
+                child.h = ((child.position[0] - goal_node.position[0]) ** 2) + ((child.position[1] - goal_node.position[1]) ** 2) + ((child.position[2] - goal_node.position[2]) ** 2)
+            else:
+                child.h = ((child.position[0] - goal_node.position[0]) ** 2) + ((child.position[1] - goal_node.position[1]) ** 2)
             child.f = child.g + child.h
 
 
@@ -157,10 +243,10 @@ def astar(env_matrix, start, goal):
                 if child == open_node and child.g > open_node.g:
                     continue
             '''
-
+            
             for open_node in open_set:
                 if child == open_node and child.g < open_node.g:
-                    open_set.pop(open_node)
+                    open_set.pop(open_set.index(open_node))
 
             # Child addition to the oper set:
             open_set.append(child)
@@ -168,16 +254,25 @@ def astar(env_matrix, start, goal):
 
 def main():
 
-    start = (0, 0, 0)
-    goal = (7, 5, 2)
+    # IF YOU ARE PERFORMING SOME TESTS WITH DIFFERENT start AND goal, BE SURE TO SET start AND goal
+    # ACCORDING TO THE VALUE ASSIGNED TO 'DIMENSION_2D', OTHERWISE THE PATH FOUND BY A* WILL BE OBVIOSLY EQUAL TO None.
+    start = (3.5, 3.5)
+    goal = (5.5, 9.5)
 
     load = Loader()
     load.maps_data()
     points_matrix = load._points_matrix
     cells_matrix = load._cells_matrix
-
+    '''
+    for i in range(AREA_HEIGHT):
+        for j in range(AREA_WIDTH):
+            if points_matrix[i][j]._status == OBS_IN:
+                print("OSTACOLO")
+            elif points_matrix[i][j]._status == CS_IN:
+                print("CHARGING STATION")
+    '''
     path = astar(points_matrix, start, goal)
-    print(path)
+    print("PATH:", path)
 
 
 if __name__ == '__main__':
