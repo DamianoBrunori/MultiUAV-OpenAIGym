@@ -624,7 +624,7 @@ with open(join(saving_directory, "q_tables.pickle"), 'wb') as f:
 plt.plot([i for i in range(len(moving_avg))], moving_avg)
 plt.ylabel(f"Reward {SHOW_EVERY}ma")
 plt.xlabel("episode #")
-plt.savefig("figures/env_wrapper.png")
+# plt.savefig(CURRENT_DIR+"/figures/env_wrapper.png")
 plt.show()
 
 with open(f"qtable-{int(time.time())}.pickle", "wb") as f:

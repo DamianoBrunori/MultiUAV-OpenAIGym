@@ -1,6 +1,7 @@
 # MAIN CLASS AND METHODS TO VISUALIZE 2D AND 3D MAP VIEW (WITH POINTS AND CELLS) EITHER OF THE WHOLE ENVIRONMENT OR OF A PART OF IT.
 
 import numpy as np
+from pathlib import Path
 import random
 import matplotlib
 import matplotlib.pyplot as plt
@@ -14,6 +15,9 @@ from load_and_save_data import *
 from scenario_objects import Point, Cell, User
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
+
+
+CURRENT_DIR = str(Path(__file__).absolute()).rpartition('/')[0]+"/"
 
 # If EnodeB has not been created in 'scenario_objets', then if you try to plot it, it will obviously raise an Error.
 
@@ -325,7 +329,7 @@ class Plot:
                 ani = animation.FuncAnimation(fig, self.update_animation_2D, frames=ITERATIONS_PER_EPISODE-1, fargs=(data_path, lines, circles), interval=100, blit=True, repeat=True)
 
             #ani.save(join(where_to_save, 'animation.gif'), writer='imagemagick')
-            plt.savefig("figures/plotting.png")
+            plt.savefig(CURRENT_DIR+"/figures/plotting.png")
             plt.show()
             #Writer = animation.writers['ffmpeg']
 
@@ -620,7 +624,7 @@ class Plot:
 
             #ani = animation.FuncAnimation(fig2, self.update, N, fargs=(data, line), blit=False)
 
-            plt.savefig("figures/plotting2.png")
+            plt.savefig(CURRENT_DIR+"/figures/plotting2.png")
             plt.show()
 
     def plt_daily_users_distribution(self, daily_users_traffic_per_cluster):
@@ -663,7 +667,7 @@ class Plot:
         plt.plot(hours, daily_users_traffic)
         #plt.xlim(left=1, right=26)
         #plt.xlim(left=1, right=24)
-        plt.savefig("figures/plotting3.png")
+        plt.savefig(CURRENT_DIR+"/figures/plotting3.png")
         plt.show()
 
     def QoE_plot(self, parameter_values, epochs, where_to_save, param_name):
@@ -859,7 +863,9 @@ if __name__ == '__main__':
 
     # Plotting:
     agents_paths = [[(0,0,1), (1,0,1), (1,1,2), (1,1,3), (2,1,2)], [(0,0,1), (0,1,1), (1,1,0), (1,1,2), (1,2,3)]]
-    plot.plt_map_views(obs_points, cs_points, eNB_point, obs_cells, cs_cells, eNB_cells, points_status_matrix, cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids, initial_clusters_radiuses, AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=agents_paths, path_animation=False)
+    plot.plt_map_views(obs_points, cs_points, eNB_point, obs_cells, cs_cells, eNB_cells, points_status_matrix, 
+        cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids, initial_clusters_radiuses,
+        AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=agents_paths, path_animation=False)
     
     daily_users_traffic = User.users_per_cluster_per_timeslot(MIN_USERS_PER_DAY, MAX_USERS_PER_DAY, FIXED_CLUSTERS_NUM) # --> Questo è qui solo per fare una prova (dovrai salvare il traffico ad ogni nuovo giorno) --> !!!!!!!!!!!!!!!!!!!!!!!!
     print("Users per timeslot:", daily_users_traffic)
