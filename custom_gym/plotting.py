@@ -3,6 +3,7 @@
 from os import mkdir
 from os.path import join, isdir
 import numpy as np
+from pathlib import Path
 import random
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
@@ -17,6 +18,9 @@ from scenario_objects import Point, Cell, User
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
 #from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+
+
+CURRENT_DIR = str(Path(__file__).absolute()).rpartition('/')[0]+"/"
 
 # If EnodeB has not been created in 'scenario_objets', then if you try to plot it, it will obviously raise an Error.
 
@@ -684,6 +688,7 @@ class Plot:
 
             #ani = animation.FuncAnimation(fig2, self.update, N, fargs=(data, line), blit=False)
 
+            plt.savefig(CURRENT_DIR+"/figures/plotting2.png")
             plt.show()
 
     def plt_daily_users_distribution(self, daily_users_traffic_per_cluster):
@@ -726,6 +731,8 @@ class Plot:
         plt.plot(hours, daily_users_traffic)
         #plt.xlim(left=1, right=26)
         #plt.xlim(left=1, right=24)
+
+        plt.savefig(CURRENT_DIR+"/figures/plotting3.png")
         plt.show()
 
     def QoE_plot(self, parameter_values, epochs, where_to_save, param_name, uav_idx, legend_labels):
@@ -1045,7 +1052,9 @@ if __name__ == '__main__':
 
     # Plotting:
     agents_paths = [[(0,0,1), (1,0,1), (1,1,2), (1,1,3), (2,1,2)], [(0,0,1), (0,1,1), (1,1,0), (1,1,2), (1,2,3)]]
-    plot.plt_map_views(obs_points, cs_points, eNB_point, obs_cells, cs_cells, eNB_cells, points_status_matrix, cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids, initial_clusters_radiuses, AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=None, path_animation=False)
+    plot.plt_map_views(obs_points, cs_points, eNB_point, obs_cells, cs_cells, eNB_cells, points_status_matrix, 
+        cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids, initial_clusters_radiuses,
+        AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=agents_paths, path_animation=False)
     
     '''
     # CONTROLLA IL CASO CON PIU' CLUSTERS DI UTENTI --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
