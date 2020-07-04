@@ -12,7 +12,7 @@ import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
 from matplotlib.colors import ListedColormap, BoundaryNorm
 from decimal import Decimal
-from utils import *
+from my_utils import *
 from load_and_save_data import *
 from scenario_objects import Point, Cell, User
 import mpl_toolkits.mplot3d.axes3d as p3
@@ -189,6 +189,9 @@ class Plot:
         #   -   2D and 3D Mixed-map (i.e., with Points and Cells);  #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+        # print("Paths:",agents_paths)
+
+
         # Define colors to use for the plots:
         WHITE = "#ffffff"
         DARK_RED = "#800000" # 0.5, 0, 0
@@ -317,12 +320,13 @@ class Plot:
                         fig.legend(handles=[LIGHT_GREEN_square, GOLD_circle])
 
             data_path = []
-            #print(agents_paths)
+
             for path in agents_paths:
                 if (DIMENSION_2D == False):
                     path_x, path_y, path_z = [np.array(coords[0]) for coords in path], [np.array(coords[1]) for coords in path], [np.array(coords[2]) for coords in path]
                     data_path.append([path_x, path_y, path_z])
                 else:
+                    # [print(coords) for coords in path]
                     path_x, path_y = [np.array(coords[0]-0.5) for coords in path], [np.array(coords[1]-0.5) for coords in path]
                     data_path.append([path_x, path_y])
 
@@ -1052,6 +1056,7 @@ if __name__ == '__main__':
 
     # Plotting:
     agents_paths = [[(0,0,1), (1,0,1), (1,1,2), (1,1,3), (2,1,2)], [(0,0,1), (0,1,1), (1,1,0), (1,1,2), (1,2,3)]]
+    print("paths1:",agents_paths)
     plot.plt_map_views(obs_points, cs_points, eNB_point, obs_cells, cs_cells, eNB_cells, points_status_matrix, 
         cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids, initial_clusters_radiuses,
         AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=agents_paths, path_animation=False)

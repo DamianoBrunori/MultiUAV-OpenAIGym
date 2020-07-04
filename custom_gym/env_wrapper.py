@@ -660,7 +660,8 @@ print()
 # can look up from Q-table with: print(q_table[((-9, -2), (3, 9))]) for example
 
 uavs_episode_rewards = [[] for uav in range(N_UAVS)]
-agents_paths = [[0 for iteration in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)]
+agents_paths = [[(0,0,0) for iteration in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)]
+print("fagentPaths:",agents_paths)
 users_in_foots = [[] for uav in range(N_UAVS)]
 
 avg_QoE1_per_epoch = [0 for ep in range(EPISODES)]
@@ -780,8 +781,10 @@ for episode in range(1, EPISODES+1):
                     if (current_iteration!=(DELAYED_START_PER_UAV*(UAV))):
                         continue
 
-
-            agents_paths[UAV][i] = get_agent_pos(agents[UAV])
+            aPos = get_agent_pos(agents[UAV])
+            if(len(aPos)==1):
+                raise Exception("ERROR")
+            agents_paths[UAV][i] = aPos 
             obs = obs_fun(get_agent_pos(agents[UAV]), agents[UAV]._battery_level) #, agents[UAV]._battery_level) # --> CHANGE THE OBSERVATION WHEN SWITCH FROM 2D TO 3D ENV AND VICEVERSA !!!!!!!!!!!!!!!!!!!!!
             #print("AGENT_POS:", obs)
 

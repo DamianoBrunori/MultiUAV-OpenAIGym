@@ -10,8 +10,13 @@ import numpy as np
 from math import tan, radians, ceil
 from numpy import linalg as LA
 import copy
+import os
 
 load = Loader()
+
+print(os.path.abspath(__file__))
+print(os.path.abspath(os.getcwd()))
+
 load.maps_data()
 obs_cells = load.obs_cells
 
