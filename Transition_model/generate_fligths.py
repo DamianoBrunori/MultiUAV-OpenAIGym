@@ -27,19 +27,20 @@ class UAV():
 class FlightSimulator():
     def __init__(self,uavs=None):
         self.uavs = uavs
+        self.num_uavs = len(uavs)
         self.started = False
         
     # Start the simulation of flights
     def start(self, num_uavs,xmin,ymin,xmax,ymax,zmin,zmax):
             
-        for i in range(0,num_uavs):
+        for i in range( num_uavs ):
             start_pos = ( uniform(xmin,xmax), uniform(ymin,ymax),  uniform(zmin,zmax) )
             dest_pos = ( uniform(xmin,xmax), uniform(ymin,ymax), uniform(zmin,zmax) ) 
             uav = UAV(id = "uav"+ str(i),start_pos = start_pos,dest_pos = dest_pos )
             self.uavs.append( uav )
-        
+            
         self.started = True
-
+        self.num_uavs = num_uavs
         self.__save()
         pass
 
@@ -103,22 +104,37 @@ class FlightSimulator():
 
 
     def plot_3D(self):
-        x = range(12)
-        y1 = range(13)
-        y2 = [i**2 for i in x]
-        z1 = range(12)
-        z2 = [i/2 for i in z1]
 
-        f = plt.figure()
-        ax = f.add_subplot(111, projection='3d')
-        ax.set_xlabel('x (cm)')
-        ax.set_ylabel('y (cm)')
-        ax.set_zlabel('time(frame)')
+        cmap=plt.get_cmap('copper')
+        colors=[cmap(float(ii)/(self.num_uavs-1)) for ii in range(self.num_uavs)]
 
-        ax.plot(x,y1,z1)
-        ax.plot(x,y2,z2)
+        #plot
+        fig = plt.figure()
+        ax = fig.gca(projection='3d')
+        
+        for idx,uav in enumerate(self.uavs):
+            # segii= [ list(uav.start_pos), list(uav.dest_pos) ]
+            xs = [uav.start_pos[0], uav.dest_pos[0] ] 
+            ys = [uav.start_pos[1], uav.dest_pos[1] ]
+            zs = [uav.start_pos[2], uav.dest_pos[2] ]
+            lii,=ax.plot(xs, ys, zs, color=colors[idx],linewidth=2,linestyle="--")
+            ax.scatter(xs=uav.start_pos[0],ys=uav.start_pos[1],zs=uav.start_pos[2],
+                c='g', s=40, label="Start")
+            ax.scatter(xs=uav.dest_pos[0],ys=uav.dest_pos[1],zs=uav.dest_pos[2],
+                c='black', s=40, label="Dest")
+
+            #lii.set_dash_joinstyle('round')
+            #lii.set_solid_joinstyle('round')
+            lii.set_solid_capstyle('round')
+
+        ax.autoscale()
+        plt.title('3D-Figure')
+
         plt.show()
-            
+        #save plot
+        # plt.savefig('3D_Line.png', dpi=600, facecolor='w', edgecolor='w',
+        #             orientation='portrait')
+                
 
 if (__name__ == "__main__"):
     uavs = []   
@@ -127,6 +143,7 @@ if (__name__ == "__main__"):
     fs = FlightSimulator(uavs)
     fs.start(5,-10,10,-20,20,4,4)
     fs.plot_2D()
+    fs.plot_3D()
 
 
     '''
