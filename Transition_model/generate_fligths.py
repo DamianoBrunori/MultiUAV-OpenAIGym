@@ -9,6 +9,10 @@ from matplotlib import collections  as mc
 import numpy as np
 
 import time
+import math
+
+def function(x, A, B):
+    return math.exp(A*x) * math.sin(B*x)
 
 # sys.path.append(os.path.abspath("../custom_gym"))
 # from agent import Agent
@@ -29,9 +33,12 @@ class FlightSimulator():
         self.uavs = uavs
         self.num_uavs = len(uavs)
         self.started = False
+
+        self.mean = 0
+        self.std = 1
         
     # Start the simulation of flights
-    def start(self, num_uavs,xmin,ymin,xmax,ymax,zmin,zmax):
+    def start(self, num_uavs,xmin,ymin,xmax,ymax,zmin,zmax,mean=0,std=0.3):
             
         for i in range( num_uavs ):
             start_pos = ( uniform(xmin,xmax), uniform(ymin,ymax),  uniform(zmin,zmax) )
@@ -41,6 +48,10 @@ class FlightSimulator():
             
         self.started = True
         self.num_uavs = num_uavs
+        
+        self.mean = mean
+        self.std = std
+
         self.__save()
         pass
 
@@ -54,13 +65,26 @@ class FlightSimulator():
     def get_all_2D_paths(self):
         return [ [uav.start_pos[:-1], uav.dest_pos[:-1] ] for uav in self.uavs ]
 
-
+    def __interpolate(self,a,b,precision):
+        points=[]
+        for i in range(0,precision+1):
+            res = a + i * (b-a)/(precision+1) 
+            points.append(res)
+        points.append(b)
+        return points
+        
     def plot_2D(self):
         if (not self.started):
             raise Exception("You need to start the simulator first")
         # colors = np.array([(1,0,0,1), (0, 1, 0, 1), (0, 0, 1, 1)])
         # paths = self.get_all_2D_paths()  
         paths,starts_xs,starts_ys,dest_xs,dest_ys = ( [] for _ in range(5) )
+        num_points = 100 #Number of points in a line
+        precision = 10  # num of points per line
+        
+
+        fig, ax = plt.subplots()
+
         for uav in self.uavs:
             paths.append( [uav.start_pos[:-1],uav.dest_pos[:-1]] )
             starts_xs.append(uav.start_pos[0])
@@ -68,11 +92,21 @@ class FlightSimulator():
             dest_xs.append(uav.dest_pos[0])
             dest_ys.append(uav.dest_pos[1])
 
+            noise = np.random.normal(self.mean,self.std,precision) # NOTE
+            x = self.__interpolate(uav.start_pos[0],uav.dest_pos[0],precision)
+            x = np.array(x) + np.append(np.append(0,noise),0)
 
-        lc = mc.LineCollection(paths, colors=None, linewidths=2, linestyle="--")
-        fig, ax = plt.subplots()
+            noise = np.random.normal(self.mean,self.std,precision) # NOTE
+            y = self.__interpolate(uav.start_pos[1],uav.dest_pos[1],precision)
+            y = np.array(y) + np.append(np.append(0,noise),0)
+
+            ax.plot(x,y)
+            xx=uav.start_pos[0],uav.dest_pos[0]
+
+        lc = mc.LineCollection(paths, colors="black", linewidths=1, linestyle="--")
+        print(lc)
         ax.scatter(x=starts_xs, y=starts_ys, c='g', s=40, label="Start")
-        ax.scatter(x=dest_xs, y=dest_ys, c='b', s=40, label="Dest")
+        ax.scatter(x=dest_xs, y=dest_ys, c='black', s=40, label="Dest")
 
         ax.legend()
         ax.add_collection(lc)
@@ -82,8 +116,14 @@ class FlightSimulator():
         
         fig.canvas.set_window_title("Trajectories")
         ax.set_title("2D Trajectories")
-        plt.show()        
+        plt.show()  
 
+        # points = 100 #Number of points in a line
+        # xmin, xmax = -1, 5
+        # xlist = list(map(lambda x: float(xmax - xmin)*x/points, range(points+1)) )
+        # ylist = list ( map(lambda y: function(y, -1, 5), xlist) )
+        # plt.plot(xlist, ylist)
+        # plt.show()
 
 
 
@@ -128,8 +168,9 @@ class FlightSimulator():
             lii.set_solid_capstyle('round')
 
         ax.autoscale()
-        plt.title('3D-Figure')
-
+        ax.legend
+        fig.canvas.set_window_title("Trajectories")
+        ax.set_title("3D Trajectories")
         plt.show()
         #save plot
         # plt.savefig('3D_Line.png', dpi=600, facecolor='w', edgecolor='w',
@@ -141,6 +182,7 @@ if (__name__ == "__main__"):
 
   
     fs = FlightSimulator(uavs)
+    
     fs.start(5,-10,10,-20,20,4,4)
     fs.plot_2D()
     fs.plot_3D()
