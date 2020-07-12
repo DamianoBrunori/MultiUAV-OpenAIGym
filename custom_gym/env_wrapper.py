@@ -634,7 +634,7 @@ saving_qtable_name = q_tables_directory + f"/qtable-ep1.npy"
 np.save(saving_qtable_name, uavs_q_tables)
 for uav in range(1, N_UAVS+1):
     current_dir = join(q_tables_directory, uav_directory+str(uav))
-    print("AOOOOOOH", current_dir + f"\qtable_graph-ep1.png")
+    print("AOOOOOOH", current_dir + f"/qtable_graph-ep1.png")
     plot.actions_min_max_per_epoch(np.load(saving_qtable_name), current_dir, n_actions, 1, uav)
 '''
 
@@ -948,7 +948,7 @@ for episode in range(1, EPISODES+1):
                 np.save(saving_qtable_name, uavs_q_tables)
                 current_dir = q_tables_directories[uav-1]
                 #current_dir = join(q_tables_directory, uav_directory+str(uav))
-                #print("AOOOOOOH", current_dir + f"\qtable_graph-ep{episode}.png")
+                #print("AOOOOOOH", current_dir + f"/qtable_graph-ep{episode}.png")
                 plot.actions_min_max_per_epoch(uavs_q_tables, current_dir, episode, uav)
         print("Q-Tables saved.\n")
         '''
@@ -1062,7 +1062,7 @@ for uav in range(1, N_UAVS+1):
     #np.save(saving_qtable_name, uavs_q_tables)
     #current_dir = q_tables_directories[uav-1]
     #current_dir = join(q_tables_directory, uav_directory+str(uav))
-    #print("AOOOOOOH", current_dir + f"\qtable_graph-ep{episode}.png")
+    #print("AOOOOOOH", current_dir + f"/qtable_graph-ep{episode}.png")
 print("Min and Max values related to the Q-Tables for episode saved.\n")
 
 #saving_qtable_name = q_tables_directories[uav-1] + f"/qtable-ep{episode}.npy"
@@ -1074,7 +1074,7 @@ print("Saving Q-Tables for episode", episode, ". . .")
 for uav in range(1, N_UAVS+1):
     saving_qtable_name = q_tables_directories[uav-1] + f"/qtable-ep{episode}.npy"
     np.save(saving_qtable_name, uavs_q_tables)
-    #print("AOOOOOOH", current_dir + f"\qtable_graph-ep{episode}.png")
+    #print("AOOOOOOH", current_dir + f"/qtable_graph-ep{episode}.png")
 print("Q-Tables saved.\n")
 
 '''
