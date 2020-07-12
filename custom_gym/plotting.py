@@ -901,7 +901,7 @@ class Plot:
                     #ax3.set_ylabel("Action 2")
 
         #print("AOOOOH", directory_name + f"qtable_graph-ep{episode}.png")
-        plt.savefig(directory_name + f"\qtable_graph-ep{episode}.png")
+        plt.savefig(directory_name + f"/qtable_graph-ep{episode}.png")
 
 
     def battery_when_start_to_charge(self, battery_history, directory_name):
