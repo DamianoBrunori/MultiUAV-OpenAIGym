@@ -692,7 +692,7 @@ class Plot:
 
             #ani = animation.FuncAnimation(fig2, self.update, N, fargs=(data, line), blit=False)
 
-            plt.savefig(CURRENT_DIR+"/figures/plotting2.png")
+            plt.savefig("/figures/plotting2.png")
             plt.show()
 
     def plt_daily_users_distribution(self, daily_users_traffic_per_cluster):
