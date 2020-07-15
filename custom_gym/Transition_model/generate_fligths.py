@@ -19,11 +19,12 @@ def function(x, A, B):
 # from agent import Agent
 
 
-PRECISION = 10 # TODO move it in constructor
-
+PRECISION = 10 # TODO move em in constructor
+TIMESAMPLE = 0.5 # expressed in seconds
+VELOCITY = 2 # expressed in m/s
 class UAV():
     def __init__(self,id, start_pos = (0,0,0),dest_pos=(0,0,0),battery_level=100):
-        self._uav_ID = id
+        self.id = id
         self.start_pos = start_pos
         self.dest_pos = dest_pos
         self.trajectory = dict( x = [start_pos[0],dest_pos[0] ],
@@ -33,6 +34,12 @@ class UAV():
         self._battery_level = battery_level
         self._coming_home = False
         self._crashed = False
+
+    def print_trajectory(self):
+        coo=["x","y","z"]
+        for i,k in enumerate(self.trajectory):
+            print("A.",coo[i], ":",self.start_pos[i],",B.",coo[i],": ",self.dest_pos[i])
+            print(coo[i]+"s:",self.trajectory[k])
 
 class FlightSimulator():
     def __init__(self,uavs=None):
@@ -44,26 +51,54 @@ class FlightSimulator():
         self.std = 1
         
     # Start the simulation of flights
-    def start(self, num_uavs,xmin,ymin,xmax,ymax,zmin,zmax,mean=0,std=0.3):
+    def start(self, num_uavs,xmin,xmax,ymin,ymax,zmin,zmax,mean=0,std=0.3):
             
         for i in range( num_uavs ):
+            # Choose casual start and dest pos in specified bounds
             start_pos = ( uniform(xmin,xmax), uniform(ymin,ymax),  uniform(zmin,zmax) )
             dest_pos = ( uniform(xmin,xmax), uniform(ymin,ymax), uniform(zmin,zmax) ) 
+            
+            # Create uav object
             uav = UAV(id = "uav"+ str(i),start_pos = start_pos,dest_pos = dest_pos )
             self.uavs.append( uav )
 
-            uav.trajectory["x"] = np.array( self.__interpolate(uav.start_pos[0],uav.dest_pos[0],PRECISION) )
-            noise = np.random.normal(self.mean,self.std,PRECISION) # NOTE
-            uav.trajectory["x"] += np.append(np.append(0,noise),0)
+            # uav.trajectory["x"] = np.array( self.__interpolate(uav.start_pos[0],uav.dest_pos[0],PRECISION) )
+            # if(xmin != xmax):
+            #     noise = np.random.normal(self.mean,self.std,PRECISION) # NOTE
+            #     uav.trajectory["x"] += np.append(np.append(0,noise),0)
 
-            uav.trajectory["y"] = np.array( self.__interpolate(uav.start_pos[1],uav.dest_pos[1],PRECISION) )
-            noise = np.random.normal(self.mean,self.std,PRECISION) # NOTE
-            uav.trajectory["y"] +=  np.append(np.append(0,noise),0)
+            # uav.trajectory["y"] = np.array( self.__interpolate(uav.start_pos[1],uav.dest_pos[1],PRECISION) )
+            #     noise = np.random.normal(self.mean,self.std,PRECISION) # NOTE
+            #     uav.trajectory["y"] +=  np.append(np.append(0,noise),0)
 
-            uav.trajectory["z"] = np.array( self.__interpolate(uav.start_pos[2],uav.dest_pos[2],PRECISION) )
-            if(zmin != zmax):
-                noise = np.random.normal(self.mean,self.std,PRECISION) # NOTE
-                uav.trajectory["z"] +=  np.append(np.append(0,noise),0)
+            # uav.trajectory["z"] = np.array( self.__interpolate(uav.start_pos[2],uav.dest_pos[2],PRECISION) )
+            # if(zmin != zmax):
+            #     noise = np.random.normal(self.mean,self.std,PRECISION) # NOTE
+            #     uav.trajectory["z"] +=  np.append(np.append(0,noise),0)
+
+
+            # uav.trajectory["x"],len_x =  self.__create_points_single_axis(uav.start_pos[0],uav.dest_pos[0],TIMESAMPLE,VELOCITY) 
+            # # if(xmin != xmax  ):
+            # #     noise = np.random.normal(self.mean,self.std,len_x-2)   # NOTE
+            # #     uav.trajectory["x"] +=  np.append(np.append(0,noise),0)
+            
+            # uav.trajectory["y"],len_y =  self.__create_points_single_axis(uav.start_pos[1],uav.dest_pos[1],TIMESAMPLE,VELOCITY) 
+            # # if(ymin != ymax  ):
+            # #     noise = np.random.normal(self.mean,self.std,len_y-2) # NOTE
+            # #     uav.trajectory["y"] +=  np.append(np.append(0,noise),0)
+
+            # uav.trajectory["z"],len_z =  self.__create_points_single_axis(uav.start_pos[2],uav.dest_pos[2],TIMESAMPLE,VELOCITY) 
+            # # if(zmin != zmax ):
+            # #     noise = np.random.normal(self.mean,self.std,len_z-2) # NOTE
+            # #     uav.trajectory["z"] +=  np.append(np.append(0,noise),0)
+
+            uav.trajectory["x"],uav.trajectory["y"],uav.trajectory["z"]= self.__create_sample_points(start_pos,dest_pos,TIMESAMPLE,VELOCITY)
+
+            uav.print_trajectory()
+
+
+            
+            
 
         self.started = True
         self.num_uavs = num_uavs
@@ -92,6 +127,61 @@ class FlightSimulator():
         points.append(b)
         return points
         
+    def __create_points_single_axis(self,a,b,step):
+        # print("**",a,b)
+        if(step==0):
+            return [a],1
+        points = np.arange( min(a,b), max(a,b),step) 
+        points = np.append(points,max(a,b))
+        # swap if necessary
+        if(a != min(a,b)):
+            points=points[::-1]
+        return  points , len(points)
+    
+
+
+    # Return sampled array of points with Gaussian Noise
+    def __create_sample_points(self,a,b,timesample,velocity):
+        # TODO 3 velocities x y z
+        
+        xi, xf = a[0], b[0]
+        yi, yf = a[1], b[1]
+        zi, zf = a[2], b[2]
+        
+        dx= abs(xf-xi) 
+        dy= abs(yf-yi)        
+        dz= abs(zf-zi)        
+        
+        d = math.sqrt( dx*dx + dy*dy + dz*dz)
+        vx = dx/d * velocity
+        vy = dy/d * velocity
+        vz = dz/d * velocity
+
+        step_x = vx * timesample
+        step_y = vy * timesample
+        step_z = vz * timesample
+        
+        traj_x, len_x = self.__create_points_single_axis(xi,xf,step_x)
+        traj_y, len_y = self.__create_points_single_axis(yi,yf,step_y)
+        traj_z, len_z = self.__create_points_single_axis(zi,zf,step_z)
+        res = [ traj_x, traj_y, traj_z ]
+        lens = [ len_x,len_y,len_z ]
+        num_points=max(lens)
+        
+        # Extend singleton point arrays
+        for i,ll in enumerate(lens) :
+            if ll==1:
+                res[i] = np.array( list(res[i]) * num_points )
+            else:
+                # print(ll)
+                noise = np.random.normal(self.mean,self.std, ll-2 )  
+                res[i] +=  np.append(np.append(0,noise),0)
+   
+        # print("res",res)
+        return res 
+
+        
+
     def plot_2D(self):
         if (not self.started):
             raise Exception("You need to start the simulator first")
@@ -144,7 +234,7 @@ class FlightSimulator():
     def plot_3D(self):
 
         cmap=plt.get_cmap('copper')
-        colors=[cmap(float(ii)/(self.num_uavs-1)) for ii in range(self.num_uavs)]
+        colors=[cmap(float(ii)/(max(self.num_uavs-1,1))) for ii in range(self.num_uavs)]
 
         #plot
         fig = plt.figure()
@@ -182,10 +272,9 @@ if (__name__ == "__main__"):
 
   
     fs = FlightSimulator(uavs)
-    
-    fs.start(num_uavs=5,xmin=-10,ymin=10,xmax=-20,ymax=20,zmin=4,zmax=4,mean=0,std=0.3)
+    fs.start(num_uavs=1,xmin=-10,xmax=10,ymin=-10,ymax=10,zmin=4,zmax=4,mean=0,std=0.3)
     fs.plot_2D()
     fs.plot_3D()
-
+    [u.print_trajectory() for u in fs.uavs]
 
     
