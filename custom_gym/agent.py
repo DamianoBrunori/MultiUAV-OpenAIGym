@@ -261,6 +261,11 @@ class Agent:
         #print("DECREMENTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         self.residual_battery1(move_action)
 
+        if (MULTI_SERVICE==True):
+            # Reduction battery level due to service provided by the agent:
+            #self.residual_battery_after_service()
+            pass
+
         self._x_coord = new_agent_pos[0]
         self._y_coord = new_agent_pos[1]
         self._z_coord = new_agent_pos[2]
@@ -501,7 +506,7 @@ class Agent:
         # # # # # # # # # # # # # # # # # # # # # # # #
 
         # 'x' and 'y' are derived from the integer part division used with the derired resolution cell (because we only know where the drone is according to the selected resolution): 
-        agents = [Agent((pos[0]+0.5, pos[1]+0.5, pos[2]+0.5), 1, 0, 1, 4, FULL_BATTERY_LEVEL, ACTUAL_UAV_FOOTPRINT, max_uav_height, action_set, False, False, False, 2) for pos in agents_pos]
+        agents = [Agent((pos[0]+0.5, pos[1]+0.5, pos[2]+0.5), 1, 0, 1, UAV_BANDWIDTH, FULL_BATTERY_LEVEL, ACTUAL_UAV_FOOTPRINT, max_uav_height, action_set, False, False, False, 2) for pos in agents_pos]
         
         return agents
 
@@ -581,8 +586,11 @@ class Agent:
                 if (user not in discovered_users):
                     discovered_users.append(user) # --> SIDE-EFFECT on 'discovered_users'
                 # Check if the current user inside the UAV footprint is not served OR if it is served yet; in both cases the current agent will serve this user.
-                if ( (not user._info[0]) or (not user in users_in_footprint) ): 
+                if ( (user._info[0]) and (user in self._users_in_footprint)): #and (not user in users_in_footprint) ): # --> E' corretto l'AND, ma usandolo ottengo che uno dei due droni (se ne uso due) ottiene un reward massimo di 0.50 anche se sta facendo tutto correttamente come si puo' vedere dall'animazione --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
                     users_in_footprint.append(user)
+                elif ( (not user._info[0]) ):
+                    users_in_footprint.append(user)
+                    #user._info[0] = True
             '''
             # Check if the X coord of the considered user is inside the current UAV footprint:
             if ( (user_x >= space_to_check[0][0]) and (user_x <= space_to_check[0][1]) ):
@@ -593,6 +601,74 @@ class Agent:
             '''
 
         return users_in_footprint
+
+    def users_in_uav_footprint_lim_band(self, users, uav_footprint, discovered_users):
+        # Only not served users are considered inside each UAV footprint.
+
+        uav_x = self._x_coord
+        uav_y = self._y_coord
+        #space_to_check = [(uav_x-uav_footprint, uav_x+uav_footprint), (uav_y-uav_footprint, uav_y+uav_footprint)] # (x_min, x_max), (y_min, y_max) are the extremes coordinates inside the current agent can find a user
+
+        users_in_footprint = []
+        self._bandwidth = UAV_BANDWIDTH
+        bandwidth_request_in_current_footprint = 0
+        for user in users:
+            user_x = user._x_coord
+            user_y = user._y_coord
+            #user_z = user._z_coord
+
+            # Update the info related to the current user
+            #user.user_info_update()
+
+            # Check who are the users inside the uav footprint (the radius of the footprint has been used):
+            #print(self._vector, "-", np.array([user_x, user_y])) #, user_z
+            #print("DISTANCE USER-UAV:", LA.norm(np.array([uav_x, uav_y]) - np.array([float(user_x), float(user_y)])))
+            #print(self._footprint)
+            #print("UAV:", (uav_x, uav_y), "USER", (float(user_x), float(user_y)))
+            # (Virtually) set to 0 all the service for this current footprint in such a way to know which service is not provide when all users will be scrolled:
+            self._throughput_request = False
+            self._edge_computing = False
+            self._data_gathering = False
+            if ( LA.norm(np.array([uav_x, uav_y]) - np.array([float(user_x), float(user_y)])) < self._footprint ): #, user_z
+                if (user not in discovered_users):
+                    discovered_users.append(user) # --> SIDE-EFFECT on 'discovered_users'
+                # Check if the current user inside the UAV footprint is not served OR if it is served yet; in both cases the current agent will serve this user.
+                if ( ((user._info[0]) and (user in self._users_in_footprint) and (self._bandwidth>=user._info[5])) or ((not user._info[0]) and (self._bandwidth>=user._info[5])) ): #and (not user in users_in_footprint) ): # --> E' corretto l'AND, ma usandolo ottengo che uno dei due droni (se ne uso due) ottiene un reward massimo di 0.50 anche se sta facendo tutto correttamente come si puo' vedere dall'animazione --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+                    # The users inside the current UAV footprint are also the ones which are not requesting for a service:
+                    users_in_footprint.append(user)
+                    self._bandwidth -= user._info[5]
+                    bandwidth_request_in_current_footprint += user._info[5]
+                    if (user._info[1]==THROUGHPUT_REQUEST):
+                        self._throughput_request = True
+                    elif (user._info[1]==EDGE_COMPUTING):
+                        self._edge_computing = True
+                    elif (user._info[1]==DATA_GATHERING):
+                        self._data_gathering = True
+                    #user._info[0] = True
+                
+                '''
+                elif ( (not user._info[0]) and (self._bandwidth>=user._info[5])):
+                    users_in_footprint.append(user)
+                    self._bandwidth -= user._info[5]
+                    if (user._info[1]==THROUGHPUT_REQUEST):
+                        self._throughput_request = True
+                    elif (user._info[1]==EDGE_COMPUTING):
+                        self._edge_computing = True
+                    elif (user._info[1]==DATA_GATHERING):
+                        self._data_gathering = True
+                '''
+            '''
+            # Check if the X coord of the considered user is inside the current UAV footprint:
+            if ( (user_x >= space_to_check[0][0]) and (user_x <= space_to_check[0][1]) ):
+                # Check if the Y coord of the considered user is inside the current UAV footprint:
+                if ( (user_y >= space_to_check[1][0]) and (user_y <= space_to_check[1][1]) ):
+                    if not user._info[0]:
+                        users_in_footprint.append(user)
+            '''
+
+            #print("\nRIMANENTE", self._bandwidth, "\n")
+
+        return users_in_footprint, bandwidth_request_in_current_footprint
 
     def check_if_on_CS(self):
 
@@ -651,31 +727,34 @@ class Agent:
         return served_users
 
     @staticmethod
-    def set_not_served_users(users, all_users_in_all_foots, users_served_time, user_request_service_elapsed_time):
+    def set_not_served_users(users, all_users_in_all_foots, current_provided_services, serving_uav_id, QoEs_store, current_iteration): #users_served_time, user_request_service_elapsed_time
         # 'all_users_in_all_foots' is a list containing all the users inside all the footprints of each UAVs. 
 
-        # Set the users not served:
+        # Set the users not served (during a single iteration of each UAV):
         for user in users:
-            if not (user in all_users_in_all_foots):
+            if (not user in all_users_in_all_foots):
 
                 user._info[0] = False
 
-            # Update the info related to the current user
-            users_served_time, user_request_service_elapsed_time = user.user_info_update(users_served_time, user_request_service_elapsed_time)
+            # Update the info related to the current user (only when all the UAVs have performed their actions):
+            if (serving_uav_id==N_UAVS):
+                user.user_info_update(QoEs_store, current_provided_services, current_iteration)
+                #user.user_info_update(users_served_time, current_provided_services, current_iteration) # users_served_time, user_request_service_elapsed_time = user.user_info_ . . .
 
     @staticmethod
-    def set_not_served_users_inf_request(users, all_users_in_all_foots):
+    def set_not_served_users_inf_request(users, all_users_in_all_foots, serving_uav_id, QoEs_store, current_iteration):
         # 'all_users_in_all_foots' is a list containing all the users inside all the footprints of each UAVs.
 
         # Set the users not served:
         for user in users:
-            if not (user in all_users_in_all_foots):
+            if (not user in all_users_in_all_foots):
 
                 user._info[0] = False
 
             # Update the info related to the current user
-            user.user_info_update_inf_request()
-            
+            if (serving_uav_id==N_UAVS):
+                user.user_info_update_inf_request(QoEs_store, current_iteration)
+                #user.user_info_update(QoEs_store)
         #return users_served_time, user_request_service_elapsed_time
 
 
@@ -717,23 +796,16 @@ class Agent:
         
         battery_consumption = 0
 
-        if (self._throughput_request == True):
-            battery_consumption += TR_BATTERY_CONSUMPTION
         if (self._edge_computing == True):
-            battery_consumption += EC_BATTERY_CONSUMPTION
-
-        self._battery_level -= battery_consumption
-
+            self._battery_level -= battery_consumption
     
     def residual_battery_after_propulsion(self, action):
         
-        if ( (action == LEFT) or (action == RIGHT) or (action == DROP) or (action == RISE) ):
-            battery_consumption = 2
-        # Case in which the agent perform an action among HOVERING, RISE and DROP:
+        if ( (action == LEFT) or (action == RIGHT) or (action == UP) or (action==DOWN) or (action == DROP) or (action == RISE) ):
+            self._battery_level -= PERC_CONSUMPTION_PER_ITERATION
+        # Case in which the agent perform an action among HOVERING:
         else:
-            battery_consumption = 1
-
-        self._battery_level -= battery_consumption
+            self._battery_level -= PERC_CONSUMPTION_IF_HOVERING
 
 # _______________________________________________________________________________________________________________________________________________________________
 
