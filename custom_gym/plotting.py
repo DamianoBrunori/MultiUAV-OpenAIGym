@@ -3,7 +3,6 @@
 from os import mkdir
 from os.path import join, isdir
 import numpy as np
-from pathlib import Path
 import random
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
@@ -17,10 +16,8 @@ from load_and_save_data import *
 from scenario_objects import Point, Cell, User
 import mpl_toolkits.mplot3d.axes3d as p3
 from matplotlib import animation
+from statistics import stdev
 #from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-
-
-CURRENT_DIR = str(Path(__file__).absolute()).rpartition('/')[0]+"/"
 
 # If EnodeB has not been created in 'scenario_objets', then if you try to plot it, it will obviously raise an Error.
 
@@ -29,6 +26,14 @@ v = np.linspace(0, np.pi, 50)
 
 env_directory = "Environment_Views"
 if not isdir(env_directory): mkdir(env_directory)
+
+MAX_CLUSTERS_COLORS = 20 # --> It is used to generate 20 different colors for 20 different clusters.
+PLOT_EACH_N_EPOCH = 100
+CONSTANT_FOR_LABELS = 2
+LABELS_EACH_N_EPOCH = PLOT_EACH_N_EPOCH*CONSTANT_FOR_LABELS
+RANGE_EPOCHS_TO_PLOT = range(0, EPISODES+1, PLOT_EACH_N_EPOCH)
+RANGE_EPOCHS_TO_VISUALIZE = range(0, EPISODES+1, LABELS_EACH_N_EPOCH)
+RANGE_X_TICKS = range(0, EPISODES+1, LABELS_EACH_N_EPOCH)
 
 class Plot:
     '''
@@ -39,6 +44,9 @@ class Plot:
     '''
 
     def __init__(self):
+        clusters_colors, num_color_range = self.RGBA_01_random_colors(MAX_CLUSTERS_COLORS)
+        self.clusters_colors = clusters_colors
+        self.num_color_range = num_color_range
         pass
 
     def update_animation(self, num, dataLines, lines, circles, n_circles_range, ax): #, ax
@@ -187,7 +195,9 @@ class Plot:
         #   -   2D and 3D Points-Map;                               #
         #   -   2D and 3D Cells-Map;                                #
         #   -   2D and 3D Mixed-map (i.e., with Points and Cells);  #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+
+        self.num_color_range = range(len(centroids))
 
         # Define colors to use for the plots:
         WHITE = "#ffffff"
@@ -253,7 +263,7 @@ class Plot:
             users_x_for_2DplotCells, users_y_for_2DplotCells = [float(x)-0.5 for x in users_x], [float(y)-0.5 for y in users_y]
             users_x_for_3DplotCells, users_y_for_3DplotCells, users_z_for_3DplotCells = [x for x in users_x], [y for y in users_y], users_z
             num_clusters = len(centroids)
-            clusters_colors, num_color_range = self.RGBA_01_random_colors(num_clusters)
+            #self.clusters_colors, self.num_color_range = self.RGBA_01_random_colors(num_clusters)
             x_obs_cells, y_obs_cells, z_obs_cells = self.extract_coord_from_xyz(obs_cells)
             x_cs_cells, y_cs_cells, z_cs_cells = self.extract_coord_from_xyz(cs_cells)
             if (CREATE_ENODEB == True):
@@ -261,9 +271,9 @@ class Plot:
 
             if (DIMENSION_2D == False):
                 ax.scatter(users_y_for_3DplotCells, users_x_for_3DplotCells, users_z_for_3DplotCells, s=10, c=GOLD)
-                for cluster_idx in num_color_range:
-                    #patch = plt.Circle([centroids[cluster_idx][1]+0.5, centroids[cluster_idx][0]+0.5, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=clusters_colors[cluster_idx], fill=False)
-                    patch = plt.Circle([centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL+0.25, centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW+0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=clusters_colors[cluster_idx], fill=False)
+                for cluster_idx in self.num_color_range:
+                    #patch = plt.Circle([centroids[cluster_idx][1]+0.5, centroids[cluster_idx][0]+0.5, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)
+                    patch = plt.Circle([centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL+0.25, centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW+0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)
                     ax.add_patch(patch)
                     art3d.pathpatch_2d_to_3d(patch)
                     pass
@@ -292,11 +302,11 @@ class Plot:
                 ax.grid(which='major')
                 ax.scatter(users_x_for_2DplotCells, users_y_for_2DplotCells, s=10, c=GOLD)
                 # A Graphical approximation is needed in order to get a cluster in 'cells view' which is as closest as possible to the one in 'points view' (The approximation is only graphical):
-                for cluster_idx in num_color_range:
-                    [ax.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW-0.25, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL-0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=clusters_colors[cluster_idx], fill=False)) for cluster_idx in num_color_range]
+                for cluster_idx in self.num_color_range:
+                    [ax.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW-0.25, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL-0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
 
-                #ax.set_xlim(xmin=0-0.5, xmax=CELLS_COLS+0.5)
-                #ax.set_ylim(ymin=CELLS_ROWS+0.5, ymax=0-0.5)
+                ax.set_xlim(xmin=0-0.5, xmax=CELLS_COLS+0.5)
+                ax.set_ylim(ymin=CELLS_ROWS+0.5, ymax=0-0.5)
                 ax.set_title('2D Animation')
 
 
@@ -385,7 +395,7 @@ class Plot:
 
             #print("GUARDA QUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", centroids[0], clusters_radiuses[0], centroids[1], clusters_radiuses[1])
             num_clusters = len(centroids)
-            clusters_colors, num_color_range = self.RGBA_01_random_colors(num_clusters)
+            #self.clusters_colors, self.num_color_range = self.RGBA_01_random_colors(num_clusters)
 
             x_obs_points, y_obs_points, z_obs_points = self.extract_coord_from_xyz(obs_points)
             '''
@@ -491,8 +501,8 @@ class Plot:
             #ax1.scatter([1.3, 2.5, 3.1, 4.8], [1.3, 2.5, 3.1, 4.8], s=10, c=GOLD)
             ax1.grid(which='both')
             ax1.scatter(users_x_for_2Dplot, users_y_for_2Dplot, s=10, c=GOLD)
-            for cluster_idx in num_color_range:
-                [ax1.add_artist(plt.Circle([centroids[cluster_idx][0], centroids[cluster_idx][1]], float(clusters_radiuses[cluster_idx]), color=clusters_colors[cluster_idx], fill=False)) for cluster_idx in num_color_range]
+            for cluster_idx in self.num_color_range:
+                [ax1.add_artist(plt.Circle([centroids[cluster_idx][0], centroids[cluster_idx][1]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
             ax1.set_title('2D Points-Map')
 
             #ax2.scatter([1.3, 2.5, 3.1, 4.8], [1.3, 2.5, 3.1, 4.8], [1, 2, 3, 4], s=10, c=GOLD)
@@ -503,11 +513,11 @@ class Plot:
                 ax2.add_patch(p)
                 art3d.pathpatch_2d_to_3d(p)
                 '''
-                for cluster_idx in num_color_range:
-                    patch = plt.Circle([centroids[cluster_idx][1]+0.5, centroids[cluster_idx][0]+0.5, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=clusters_colors[cluster_idx], fill=False)
+                for cluster_idx in self.num_color_range:
+                    patch = plt.Circle([centroids[cluster_idx][1]+0.5, centroids[cluster_idx][0]+0.5, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)
                     ax2.add_patch(patch)
                     art3d.pathpatch_2d_to_3d(patch)        
-                #[ax2.add_artist(plt.Circle(centroids[cluster_idx], float(clusters_radiuses[cluster_idx]), color=clusters_colors[cluster_idx], fill=False)) for cluster_idx in num_color_range]
+                #[ax2.add_artist(plt.Circle(centroids[cluster_idx], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
                 ax2.bar3d(y_obs_points, x_obs_points, bottom, width, depth, z_obs_points, shade=True, color=(0, 0, 0.6), edgecolor="none")
                 if (UNLIMITED_BATTERY == False):
                     ax2.bar3d(y_cs_points, x_cs_points, bottom, width, depth, z_cs_points, shade=True, color=(0, 0.4, 0), edgecolor="none")
@@ -572,16 +582,16 @@ class Plot:
             ax3.grid(which='major')
             ax3.scatter(users_x_for_2DplotCells, users_y_for_2DplotCells, s=10, c=GOLD)
             # A Graphical approximation is needed in order to get a cluster in 'cells view' which is as closest as possible to the one in 'points view' (The approximation is only graphical):
-            for cluster_idx in num_color_range:
-                #[ax3.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=clusters_colors[cluster_idx], fill=False)) for cluster_idx in num_color_range]
-                [ax3.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW-0.25, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL-0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=clusters_colors[cluster_idx], fill=False)) for cluster_idx in num_color_range]
+            for cluster_idx in self.num_color_range:
+                #[ax3.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
+                [ax3.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW-0.25, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL-0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
             ax3.set_title('2D Cells-Map')
 
             if (DIMENSION_2D == False):
                 ax4.scatter(users_y_for_3DplotCells, users_x_for_3DplotCells, users_z_for_3DplotCells, s=10, c=GOLD)
-                for cluster_idx in num_color_range:
-                    #patch = plt.Circle([centroids[cluster_idx][1]+0.5, centroids[cluster_idx][0]+0.5, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=clusters_colors[cluster_idx], fill=False)
-                    patch = plt.Circle([centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL+0.25, centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW+0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=clusters_colors[cluster_idx], fill=False)
+                for cluster_idx in self.num_color_range:
+                    #patch = plt.Circle([centroids[cluster_idx][1]+0.5, centroids[cluster_idx][0]+0.5, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)
+                    patch = plt.Circle([centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL+0.25, centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW+0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)
                     ax4.add_patch(patch)
                     art3d.pathpatch_2d_to_3d(patch)
                     pass
@@ -640,8 +650,8 @@ class Plot:
                 ax5.grid(which='minor', alpha=0.2)
                 ax5.grid(which='major', alpha=0.5)
                 ax5.scatter(users_x_for_2Dplot, users_y_for_2Dplot, s=10, c=GOLD)
-                for cluster_idx in num_color_range:
-                    [ax5.add_artist(plt.Circle([centroids[cluster_idx][0], centroids[cluster_idx][1]], float(clusters_radiuses[cluster_idx]), color=clusters_colors[cluster_idx], fill=False)) for cluster_idx in num_color_range]
+                for cluster_idx in self.num_color_range:
+                    [ax5.add_artist(plt.Circle([centroids[cluster_idx][0], centroids[cluster_idx][1]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
                 ax5.set_title('2D Points/Cells-Map')
 
                 cs_cells_colors = [(0.4, 1, 0.59, 0.3) for i in range(N_CS)]
@@ -649,8 +659,8 @@ class Plot:
 
                 if (DIMENSION_2D == False):
                     ax6.scatter(users_y_for_3Dplot, users_x_for_3Dplot, users_z_for_3Dplot, s=10, c=GOLD)
-                    for cluster_idx in num_color_range:
-                        patch = plt.Circle([centroids[cluster_idx][1]+0.5, centroids[cluster_idx][0]+0.5, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=clusters_colors[cluster_idx], fill=False)
+                    for cluster_idx in self.num_color_range:
+                        patch = plt.Circle([centroids[cluster_idx][1]+0.5, centroids[cluster_idx][0]+0.5, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)
                         ax6.add_patch(patch)
                         art3d.pathpatch_2d_to_3d(patch)
                     ax6.bar3d(y_obs_points, x_obs_points, bottom, width, depth, z_obs_points, shade=True, color=(0, 0, 0.6), edgecolor="none")
@@ -688,7 +698,6 @@ class Plot:
 
             #ani = animation.FuncAnimation(fig2, self.update, N, fargs=(data, line), blit=False)
 
-            plt.savefig(CURRENT_DIR+"/figures/plotting2.png")
             plt.show()
 
     def plt_daily_users_distribution(self, daily_users_traffic_per_cluster):
@@ -731,23 +740,85 @@ class Plot:
         plt.plot(hours, daily_users_traffic)
         #plt.xlim(left=1, right=26)
         #plt.xlim(left=1, right=24)
-
-        plt.savefig(CURRENT_DIR+"/figures/plotting3.png")
         plt.show()
 
-    def QoE_plot(self, parameter_values, epochs, where_to_save, param_name, uav_idx, legend_labels):
+    def QoE_plot(self, parameter_values, epochs, where_to_save, param_name):
 
-        epochs_to_plot = range(1, epochs+1)
+        #epochs_to_plot = range(1, epochs+1)
+        #epochs_to_plot = RANGE_EPOCHS_TO_PLOT
+        #print("AOOOOOOOOOOOOOOOOH:", epochs_to_plot)
 
         fig = plt.figure(param_name)
         ax = fig.add_subplot(111)
         plt.xlabel('Epochs')
         plt.ylabel(param_name + ' Trend')
         plt.title(param_name)
-        plt.plot(epochs_to_plot, parameter_values)
+        legend_labels = []
+
+        parameter_samples = []
+        end = PLOT_EACH_N_EPOCH
+        for start in range(0, EPISODES, PLOT_EACH_N_EPOCH):
+            current_sample = parameter_values[start:end]
+            parameter_samples.append(current_sample)
+            start = end
+            end = start+PLOT_EACH_N_EPOCH
+
+        #print("SAMPLES", parameter_samples)
+        #print("STDS", stds)
+        stds = [stdev(params) for params in parameter_samples]
+        stds.insert(0, 0.0)
+
+        last_value = parameter_values[-1]
+        parameter_values = parameter_values[::PLOT_EACH_N_EPOCH]
+        parameter_values.append(last_value)
+        #print("AEEEEEEEEEEEEEH:", parameter_values)
+        #plt.plot(RANGE_EPOCHS_TO_PLOT, parameter_values) #, label='QoE Parameter')
+        plt.errorbar(RANGE_EPOCHS_TO_PLOT, parameter_values, yerr=stds)
+        legend_labels.append('Starting Epoch for Users moving')
+        for user_epoch_move in range(MOVE_USERS_EACH_N_EPOCHS, epochs+1, MOVE_USERS_EACH_N_EPOCHS):
+            if (STATIC_REQUEST==False):
+                plt.axvline(x=user_epoch_move, color='green') #, label='Starting Epoch for Users moving')
         #legend_labels.append('UAV' + str(uav_idx+1) )
+        legend_labels.append('QoE Parameter and related std')
         ax.set_xlim(xmin=0)
         ax.set_ylim(ymin=0)
+        ax.set_xticks(RANGE_X_TICKS)
+        ax.set_xticklabels(RANGE_EPOCHS_TO_VISUALIZE)
+        plt.legend(legend_labels)
+        plt.savefig(where_to_save + '.png')
+
+        #plt.show()
+
+    def users_covered_percentage_per_service(self, services_values, epochs, where_to_save):
+
+        #epochs_to_plot = range(1, epochs+1)
+
+        fig = plt.figure("Services")
+        ax = fig.add_subplot(111)
+        plt.xlabel('Epochs')
+        plt.ylabel('Users Served Percentage')
+        plt.title("Services Provision")
+
+        legend_labels = []
+        for service_idx in range(N_SERVICES):
+            if (service_idx==0):
+                service_label = "Throughput Service"
+            elif (service_idx==1):
+                service_label = "Edge Computing"
+            elif (service_idx==2):
+                service_label = "Data Gathering"
+
+            last_value = services_values[-1][service_idx]
+            values_to_plot = services_values[::PLOT_EACH_N_EPOCH][service_idx]
+            values_to_plot.append(last_value)
+
+            plt.plot(RANGE_EPOCHS_TO_PLOT, values_to_plot)
+            legend_labels.append(service_label)
+
+        ax.set_xlim(xmin=0)
+        ax.set_ylim(ymin=0)
+        ax.set_xticks(RANGE_X_TICKS)
+        ax.set_xticklabels(RANGE_EPOCHS_TO_VISUALIZE)
         plt.legend(legend_labels)
         plt.savefig(where_to_save + '.png')
 
@@ -755,7 +826,7 @@ class Plot:
 
     def UAVS_reward_plot(self, epochs, UAVs_rewards, directory_name, q_values=False):
 
-        epochs_to_plot = range(1, epochs+1)
+        #epochs_to_plot = range(1, epochs+1)
         UAV_ID = 0
         #print("BRIIIIIII")
         #print(UAVs_rewards)
@@ -777,13 +848,19 @@ class Plot:
         for UAV in UAVs_rewards:
             #print(UAV)
             #print()
-            plt.plot(epochs_to_plot, [reward for reward in UAV], color=UAVS_COLORS[UAV_ID])
+            rewards = [reward for reward in UAV]
+            last_value = rewards[-1]
+            rewards_to_plot = rewards[::PLOT_EACH_N_EPOCH]
+            rewards_to_plot.append(last_value)
+            plt.plot(RANGE_EPOCHS_TO_PLOT, rewards_to_plot, color=UAVS_COLORS[UAV_ID])
             UAV_ID += 1
             legend_labels.append('UAV' + str(UAV_ID))
             #plt.savefig(join(directory_name, str(UAV_ID)) + ".png")
         
         ax.set_xlim(xmin=1)
         ax.set_ylim(ymin=0)
+        ax.set_xticks(RANGE_X_TICKS)
+        ax.set_xticklabels(RANGE_EPOCHS_TO_VISUALIZE)
         plt.legend(legend_labels)
         #plt.savefig(join(directory_name, "Rewards_per_epoch_UAV" + str(UAV_ID)) + ".png")
         if (q_values==False):
@@ -899,6 +976,41 @@ class Plot:
         #print("AOOOOH", directory_name + f"qtable_graph-ep{episode}.png")
         plt.savefig(directory_name + f"\qtable_graph-ep{episode}.png")
 
+    def bandwidth_for_each_epoch(self, epochs, directory_name, UAVs_used_bandwidth, users_bandwidth_request_per_UAVfootprint):
+
+        #epochs_to_plot = range(1, epochs+1)
+
+        fig = plt.figure()
+
+        ax = fig.add_subplot(111)
+        
+        ax.set_xlabel("Epochs")
+        ax.set_ylabel("Bandwidth Usage")
+
+        range_n_uavs = range(N_UAVS)
+        legend_labels = []
+        for uav_idx in range_n_uavs:
+            bandwidths = UAVs_used_bandwidth[uav_idx][::PLOT_EACH_N_EPOCH]
+            last_value = UAVs_used_bandwidth[uav_idx][-1]
+            bandwidths.append(last_value)
+            ax.plot(RANGE_EPOCHS_TO_PLOT, bandwidths)
+            last_value = users_bandwidth_request_per_UAVfootprint[uav_idx][-1]
+            bandwidth_requests = users_bandwidth_request_per_UAVfootprint[uav_idx][::PLOT_EACH_N_EPOCH]
+            bandwidth_requests.append(last_value)
+            ax.scatter(RANGE_EPOCHS_TO_PLOT, bandwidth_requests)
+            legend_labels.append('UAV' + str(uav_idx+1))
+        
+        for uav_idx in range_n_uavs:
+            legend_labels.append('Actual request for UAV' + str(uav_idx+1))
+
+        ax.set_xlim(xmin=1)
+        ax.set_ylim(ymin=0)
+        ax.set_xticks(RANGE_X_TICKS)
+        ax.set_xticklabels(RANGE_EPOCHS_TO_VISUALIZE)
+        plt.legend(legend_labels)
+        plt.savefig(join(directory_name, "UAVsBandiwidth_per_epoch.png"))
+
+        #plt.show()
 
     def battery_when_start_to_charge(self, battery_history, directory_name):
 
@@ -936,7 +1048,7 @@ class Plot:
             plt.tick_params(labelbottom=False)
             plt.yticks(range(0, self.battery_percentage(CRITICAL_BATTERY_LEVEL), 5))
             #plt.legend(['UAV' + str(UAV_ID)])
-            plt.savefig(join(directory_name, "Battery_level_when_start_charge_UAV" + str(UAV_ID)) + ".png")
+            plt.savefig(join(directory_name[UAV_ID-1], "Battery_level_when_start_charge_UAV" + str(UAV_ID)) + ".png")
         
         #plt.savefig(join(directory_name, "Battery_level_when_start_charge" + str(UAV_ID)) + ".png")
 
@@ -959,28 +1071,37 @@ class Plot:
         #print("CRASHEEEEEEEE", UAVs_crashes)
 
         legend_labels = []
-        for episode in epochs_to_plot:
-            n_labels = len(legend_labels)
-            UAV_ID = 1
-            # Questa condizione mi serve solo nel caso in cui voglio plottare prima della fine (per vedere se tutto funziona e fare dei tests) --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            if (UAVs_crashes[episode-1]==0):
-                break
-            for UAV_crash in UAVs_crashes[episode-1]:
-                str_uav_id = str(UAV_ID)
-                #print(UAV)
-                #print()
-                #print(UAV_ID)
-                if (UAV_crash==True):
-                    ax.scatter(episode, str_uav_id, color=UAVS_COLORS[UAV_ID-1], marker="x")
-                #plt.plot(epochs_to_plot, [crash for crash in UAVS_chrashes], color=UAVS_COLORS[UAV_ID])
-                if (n_labels<N_UAVS):
-                    legend_labels.append('UAV' + str(UAV_ID))
-                UAV_ID += 1
-            #plt.savefig(join(directory_name, str(UAV_ID)) + ".png")
-        
+        n_labels = len(legend_labels)
+        UAV_ID = 0
+        # Questa condizione mi serve solo nel caso in cui voglio plottare prima della fine (per vedere se tutto funziona e fare dei tests) --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        #if (UAVs_crashes[episode-1]==0):
+            #break
+        for uav_idx in range(N_UAVS):
+            current_uav_crashes = [ep_idx for ep_idx in epochs_to_plot if UAVs_crashes[ep_idx-1][uav_idx]==True]
+            UAV_ID = uav_idx+1
+            ax.scatter(current_uav_crashes, [UAV_ID for elem in range(len(current_uav_crashes))], color=UAVS_COLORS[uav_idx], marker="x")
+            legend_labels.append('UAV' + str(UAV_ID))
+        '''
+        for UAV_crash in UAVs_crashes[episode-1]:
+            str_uav_id = str(UAV_ID+1)
+            #print(UAV)
+            #print()
+            #print(UAV_ID)
+            if (UAV_crash==True):
+                ax.scatter(epochs_to_plot, str_uav_id, color=UAVS_COLORS[UAV_ID], marker="x")
+            #plt.plot(epochs_to_plot, [crash for crash in UAVS_chrashes], color=UAVS_COLORS[UAV_ID])
+            #if (n_labels<N_UAVS):
+                #legend_labels.append('UAV' + str_uav_id)
+            UAV_ID += 1
+        #plt.savefig(join(directory_name, str(UAV_ID)) + ".png")
+        for uav_idx in range(N_UAVS):
+            legend_labels.append('UAV' + str(uav_idx+1))
+        '''
         #ax.set_xlim(xmin=1)
         #ax.set_ylim(ymin=0)
         ax.set_xlim(xmin=1, xmax=epochs+1)
+        ax.set_yticks(np.arange(1, N_UAVS+1))
+        ax.set_yticklabels(np.arange(1, N_UAVS+1))
         plt.legend(legend_labels)
         #plt.savefig(join(directory_name, "Rewards_per_epoch_UAV" + str(UAV_ID)) + ".png")
         plt.savefig(join(directory_name, "UAVs_crashes.png"))
@@ -1052,9 +1173,7 @@ if __name__ == '__main__':
 
     # Plotting:
     agents_paths = [[(0,0,1), (1,0,1), (1,1,2), (1,1,3), (2,1,2)], [(0,0,1), (0,1,1), (1,1,0), (1,1,2), (1,2,3)]]
-    plot.plt_map_views(obs_points, cs_points, eNB_point, obs_cells, cs_cells, eNB_cells, points_status_matrix, 
-        cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids, initial_clusters_radiuses,
-        AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=agents_paths, path_animation=False)
+    plot.plt_map_views(obs_points, cs_points, eNB_point, obs_cells, cs_cells, eNB_cells, points_status_matrix, cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids, initial_clusters_radiuses, AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=None, path_animation=False)
     
     '''
     # CONTROLLA IL CASO CON PIU' CLUSTERS DI UTENTI --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
