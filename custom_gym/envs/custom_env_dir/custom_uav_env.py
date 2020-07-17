@@ -98,7 +98,8 @@ class UAVEnv(gym.Env):
         self.points_status_matrix = load.points_status_matrix
         self.cells_status_matrix = load.cells_status_matrix
         self.clusterer = load.initial_clusterer
-        self.cluster_centroids = load.initial_centroids 
+        self.cluster_centroids = load.initial_centroids
+        self.users_clusters = load.initial_usr_clusters
         self.clusters_radiuses = load.initial_clusters_radiuses
         initial_users = load.initial_users
         for user in initial_users:
@@ -106,9 +107,12 @@ class UAVEnv(gym.Env):
             user._x_coord /= CELL_RESOLUTION_PER_COL 
             user._y_coord /= CELL_RESOLUTION_PER_ROW
         self.users = initial_users
+        self.users_walk_steps = []
+        self.k_steps_to_walk = 0
         self.uav_footprint = ACTUAL_UAV_FOOTPRINT 
         self.n_users = len(self.users)
         self.discovered_users = []
+        self.current_requested_bandwidth = 0 # --> bandwidth requested from all the users belonging to the current (considered) UAV footprint.
         #self.n_features = 2
 
     def step_2D_limited_battery(self, agent, action, all_users_inside_foots, users, setting_not_served_users, crashes_current_episode, cells_matrix=None):
@@ -128,8 +132,9 @@ class UAVEnv(gym.Env):
 
         agent_pos_ = agent.move_2D_limited_battery(agent_pos, current_action) # --> 'move_2D_limited_battery' method includes also 'off_map_move_2D' check.
 
-        if ( (action==GO_TO_CS_INDEX) or (action==GO_TO_CS_INDEX) ):
+        if ( (action==CHARGE_2D_INDEX) or (action==CHARGE_2D_INDEX) ):
             agent._users_in_footprint = []
+            current_users_in_footprint = []
         else:
             current_users_in_footprint = agent.users_in_uav_footprint(users, self.uav_footprint, self.discovered_users)
             agent._users_in_footprint = current_users_in_footprint
@@ -145,7 +150,7 @@ class UAVEnv(gym.Env):
         agent._y_coord = agent_pos_[1]
 
         #reward = self.reward_function_1(agent._users_in_footprint)
-        reward = self.reward_function_2(agent._users_in_footprint, agent._battery_level, agent._required_battery_to_CS, agent)
+        reward = self.reward_function_2(agent._users_in_footprint, agent._battery_level, agent._required_battery_to_CS)
 
         done, info = self.is_terminal_state(agent, crashes_current_episode)
 
@@ -231,8 +236,9 @@ class UAVEnv(gym.Env):
 
         #print("BATTERY:", agent._battery_level)
 
-        if ( (action==GO_TO_CS_INDEX) or (action==GO_TO_CS_INDEX) ):
+        if ( (action==GO_TO_CS_3D_INDEX) or (action==CHARGE_3D_INDEX) ):
             agent._users_in_footprint = []
+            current_users_in_footprint = []
         else:
             current_users_in_footprint = agent.users_in_uav_footprint(users, self.uav_footprint, self.discovered_users)
             agent._users_in_footprint = current_users_in_footprint
@@ -249,7 +255,7 @@ class UAVEnv(gym.Env):
         agent._z_coord = agent_pos_[2]
         
         #reward = self.reward_function_1(agent._users_in_footprint)
-        reward = self.reward_function_2(agent._users_in_footprint, agent._battery_level, agent._required_battery_to_CS, agent)
+        reward = self.reward_function_2(agent._users_in_footprint, agent._battery_level, agent._required_battery_to_CS)
 
         done, info = self.is_terminal_state(agent, crashes_current_episode)
 
@@ -321,7 +327,75 @@ class UAVEnv(gym.Env):
 
         return s_, reward, done, info
 
-    def step(self, agent, action, timeslot):
+    def step_3D_limited_battery_multi_service_limited_bandwidth(self, agent, action, all_users_inside_foots, users, setting_not_served_users, crashes_current_episode, cells_matrix, n_tr_active, n_ec_active, n_dg_active):
+            # - 3D case;
+            # - LIMITED battery;
+            # - Constat battery consumption wich includes both services and motions of the UAVs;
+            # - All the users have the same priority (each of the is served) and and ask for the same service; 
+            # - Infinite UAV bandwidth;
+
+            assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
+            
+            if (DIMENSION_2D==False):
+                agent_pos = self.get_3Dagent_pos(agent)
+            else:
+                agent_pos = self.get_2Dagent_pos(agent)
+            info = "" # --> lo utilizzo per capire chi effettivamente ha vinto, così al termine dell' episodio posto stampare il massimo punteggio raggiungibile (10) per il vincitore (altrimenti avrei stampato sempre 9 per il vincitore)
+            #current_action = self.action_set_min[action]
+            current_action = self.q_table_action_set[action]
+
+            if (DIMENSION_2D==False):
+                agent_pos_ = agent.move_3D_limited_battery(agent_pos, current_action, cells_matrix) # --> 'move_3D_unlimited_battery' method includes also 'off_map_move_3D' check.
+            else:
+                agent_pos_ = agent.move_2D_limited_battery(agent_pos, current_action)
+            
+            #print("BATTERY:", agent._battery_level)
+
+            if ( (action==GO_TO_CS_3D_INDEX) or (action==CHARGE_3D_INDEX) ):
+                agent._users_in_footprint = []
+                current_users_in_footprint = []
+            else:
+                self.current_requested_bandwidth = 0
+                current_users_in_footprint, bandwidth_request_in_current_footprint = agent.users_in_uav_footprint_lim_band(users, self.uav_footprint, self.discovered_users)
+                self.current_requested_bandwidth = bandwidth_request_in_current_footprint
+                bandwidth_request_in_current_footprint
+                agent._users_in_footprint = current_users_in_footprint
+            # Compute the number of users which are served by the current UAV agent:
+            n_served_users = agent.n_served_users_in_foot(agent._users_in_footprint) # --> This mainly performs a SIDE-EFFECT on the info 'served or not served' related to the users.
+            # Set all the users which could be no more served after the current UAV action:
+            #setting_not_served_users(users, all_users_inside_foots) # --> This make a SIDE_EFFECT on users by updating their info.
+            # For the current iteration, add the users inside the footprint of the current UAV agent:  
+            for user_per_agent_foot in current_users_in_footprint:
+                all_users_inside_foots.append(user_per_agent_foot) # --> SIDE-EFFECT on 'all_users_inside_foots'
+
+            agent._x_coord = agent_pos_[0]
+            agent._y_coord = agent_pos_[1]
+            if DIMENSION_2D==False: agent._z_coord = agent_pos_[2]
+            
+            #reward = self.reward_function_1(agent._users_in_footprint)
+            reward = self.reward_function_3(agent._users_in_footprint, agent._battery_level, agent._required_battery_to_CS, n_tr_active, n_ec_active, n_dg_active)
+            #print("\nDOPOOOOOOOOO", self.current_requested_bandwidth, "\n")
+
+            done, info = self.is_terminal_state(agent, crashes_current_episode)
+
+            s_ = (agent_pos_, agent._battery_level)
+
+            #print("BATTERY LEVEL:", agent._battery_level)
+
+            if (done):
+                
+                if (info=="IS CRASHED"):
+                    reward = 0.0
+                else:
+                    reward = 0.0 # --> UAV is charging
+
+                #reward = 0.0 # --> da decidere --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                #done = True
+                #info = "IS CRASHED" 
+
+            return s_, reward, done, info
+
+    def step(self, agent, action, timeslot, current_iteration):
 
         assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
         #s = self.state
@@ -360,7 +434,7 @@ class UAVEnv(gym.Env):
         users_in_footprint = agent.users_in_uav_footprint(self.users, self.uav_footprint, self.discovered_users) # --> IMPORTA GLI USERS --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         agent._users_in_footprint = users_in_footprint
         n_served_users = agent.n_served_users_in_foot_and_type_of_service(users_in_footprint)
-        agent.set_not_served_users(self.users)
+        agent.set_not_served_users(self.users, current_iteration)
         
         # # Reduction battery level due to service provided by the agent:
         agent.residual_battery_after_service()
@@ -425,11 +499,43 @@ class UAVEnv(gym.Env):
 
         return s_, reward, done, info
 
+    def cost_reward(self, battery_level, needed_battery):
+
+        alpha_s = 0
+        alpha_c = 0
+
+        if (battery_level > CRITICAL_BATTERY_LEVEL):
+            alpha_s = 1
+            alpha_c = 0
+        elif ( (battery_level >= CRITICAL_BATTERY_LEVEL_2) and (battery_level > needed_battery) ):
+            alpha_s = 0.8
+            alpha_c = 0.2
+        elif ( (battery_level >= CRITICAL_BATTERY_LEVEL_3) and (battery_level > needed_battery) ):
+            alpha_s = 0.5
+            alpha_c = 0.5
+        elif ( (battery_level >= CRITICAL_BATTERY_LEVEL_4) and (battery_level > needed_battery) ):
+            alpha_s = 0.2
+            alpha_c = 0.8
+        elif (battery_level <= needed_battery):
+            alpha_s = 0
+            alpha_c = 1
+            
+        reward_for_cost = needed_battery/battery_level if battery_level != 0 else 1
+
+        return reward_for_cost, alpha_s, alpha_c
+
     # Reward function which takes into account only the percentage of covered users:
     def reward_function_1(self, users_in_footprint):
 
         n_users_in_footprint = len(users_in_footprint)
         reward = n_users_in_footprint/(self.n_users/N_UAVS)
+        # Case in which a UAV is covering a number of user greater than the one (hypothetically) assigned to each UAV: 
+        if (reward>1):
+            reward = 1.0
+        #print("\n")
+        #print(n_users_in_footprint, self.n_users/N_UAVS, reward)
+        #print("\n")
+        #print("N Users:", n_users_in_footprint, "Reward:", reward)
 
         return reward
 
@@ -440,39 +546,67 @@ class UAVEnv(gym.Env):
 
         reward_for_users = self.reward_function_1(users_in_footprint)
 
-        alpha_u = 1
+        alpha_s = 1
         alpha_c = 0
 
         if (needed_battery==None):
             
-            reward = alpha_u*reward_for_users
+            reward = alpha_s*reward_for_users
 
         else:
 
-            if (battery_level > CRITICAL_BATTERY_LEVEL):
-                alpha_u = 1
-                alpha_c = 0
-            elif ( (battery_level >= CRITICAL_BATTERY_LEVEL_2) and (battery_level > needed_battery) ):
-                alpha_u = 0.8
-                alpha_c = 0.2
-            elif ( (battery_level >= CRITICAL_BATTERY_LEVEL_3) and (battery_level > needed_battery) ):
-                alpha_u = 0.5
-                alpha_c = 0.5
-            elif ( (battery_level >= CRITICAL_BATTERY_LEVEL_4) and (battery_level > needed_battery) ):
-                alpha_u = 0.2
-                alpha_c = 0.8
-            elif (battery_level <= needed_battery):
-                alpha_u = 0
-                alpha_c = 1
-                
-            reward_for_cost  = needed_battery/battery_level if battery_level != 0 else 1
-
-            reward = alpha_u*reward_for_users + alpha_c*reward_for_cost
+            reward_for_cost, alpha_s, alpha_c = self.cost_reward(battery_level, needed_battery)
+            reward = alpha_s*reward_for_users + alpha_c*reward_for_cost
 
         return reward
 
         # TO DO . . . --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+    def reward_function_3(self, users_in_footprint, battery_level, needed_battery, n_tr_active_users, n_ec_active_users, n_dg_active_users):
+
+        reward_for_users = self.reward_function_1(users_in_footprint)
+
+        served_users_asking_for_service = 0
+        n_served_tr_users = 0
+        n_served_ec_users = 0
+        n_served_dg_users = 0
+        #self.current_requested_bandwidth = 0
+        for user in users_in_footprint:
+            
+            if (user._info[1]!=NO_SERVICE):
+                
+                if (user._info[1]==THROUGHPUT_REQUEST):
+                    n_served_tr_users += 1
+                elif (user._info[1]==EDGE_COMPUTING):
+                    n_served_ec_users += 1
+                elif (user._info[1]==DATA_GATHERING):
+                    n_served_dg_users += 1
+                
+                served_users_asking_for_service += 1
+                #self.current_requested_bandwidth += user._info[5]
+                #print("\nPRIMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", self.current_requested_bandwidth, "\n")
+                #print("\nRICHIESTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", self.current_requested_bandwidth, "\n")
+
+        n_tr_served_perc = n_served_tr_users/n_tr_active_users if n_tr_active_users!=0 else 0
+        n_ec_served_perc = n_served_ec_users/n_ec_active_users if n_ec_active_users!=0 else 0
+        n_dg_served_perc = n_served_dg_users/n_dg_active_users if n_dg_active_users!=0 else 0
+
+        alpha_u = 0.1
+        alpha_tr = 0.3
+        alpha_ec = 0.3
+        alpha_dg = 0.3
+
+        reward_for_services_and_users = alpha_u*reward_for_users + alpha_tr*n_tr_served_perc + alpha_ec*n_ec_served_perc + alpha_dg*n_dg_served_perc
+        reward = reward_for_services_and_users
+
+        if (needed_battery!=None):
+
+            reward_for_cost, alpha_s, alpha_c = self.cost_reward(battery_level, needed_battery)
+            reward = alpha_s*reward_for_services_and_users + alpha_c*reward_for_cost
+
+        #print(reward_for_users, n_tr_served_perc, n_ec_served_perc, n_dg_served_perc)
+
+        return reward
 
     # _____________________________________________________________________________________________________________________________________________
     # Reward function provvisoria con grandezze non scalate/normalizzate: 
@@ -483,6 +617,37 @@ class UAVEnv(gym.Env):
         return reward
     # _____________________________________________________________________________________________________________________________________________
 
+    def get_active_users(self):
+
+        n_active_users = 0
+        n_inactive_users = 0 
+        tr_users = 0
+        ec_users = 0
+        dg_users = 0
+
+        n_tr_served = 0
+        n_ec_served = 0
+        n_dg_served = 0        
+
+        for user in self.users:
+            if (user._info[1]==NO_SERVICE):
+                n_inactive_users += 1
+            elif (user._info[1]==THROUGHPUT_REQUEST):
+                tr_users += 1
+                if (user._info[0]==True):
+                    n_tr_served += 1
+            elif (user._info[1]==EDGE_COMPUTING):
+                ec_users += 1
+                if (user._info[0]==True):
+                    n_ec_served += 1
+            elif (user._info[1]==DATA_GATHERING):
+                dg_users += 1
+                if (user._info[0]==True):
+                    n_dg_served += 1
+
+        n_active_users = tr_users + ec_users + dg_users
+
+        return n_active_users, tr_users, ec_users, dg_users, n_tr_served, n_ec_served, n_dg_served
 
     def set_action_set2D(self, agent):
 
@@ -635,20 +800,57 @@ class UAVEnv(gym.Env):
             agent._charging = False
             agent._coming_home = False
 
-    def refresh(self):
-        
-        # Users random walk:
-        users_walks = scenario_objects.User.k_random_walk(users, k)
+    def update_users_requests(self, users):
 
-        for user_id in range(self.n_users):
-            self.users[user_id]._x_coord = users_walks[user_id[0]]
-            self.users[user_id]._y_coord = users_walks[user_id[1]]
-            self.users[user_id]._z_coord = users_walks[user_id[2]]
+        for user in users:
+            # Update current user request only if the current user is not already requesting a service:
+            if (user._info[1]==NO_SERVICE):
+                
+                type_of_service = scenario_objects.User.which_service()
+
+                if (type_of_service == THROUGHPUT_REQUEST):
+                    service_quantity = scenario_objects.User.bitrate_request()
+                elif (type_of_service == EDGE_COMPUTING):
+                    service_quantity = scenario_objects.User.edge_computing_request()
+                elif (type_of_service == DATA_GATHERING):
+                    service_quantity = scenario_objects.User.data_gathering()
+                else:
+                    service_quantity = 0
+
+                requested_service_life = scenario_objects.User.needed_service_life(type_of_service) if type_of_service!=NO_SERVICE else 0
+
+                user._info[1] = type_of_service
+                user._info[2] = requested_service_life
+                user._info[5] = service_quantity
+
+    def move_users(self, current_iteration):
+
+        for user_idx in range(self.n_users):
+            # Move all the users at each iteration step only if the current iteration step is lower than the number of steps to move the users:
+            if (current_iteration<self.k_steps_to_walk):
+                self.users[user_idx]._x_coord = self.users_walk_steps[user_idx][current_iteration][0]/CELL_RESOLUTION_PER_COL
+                self.users[user_idx]._y_coord = self.users_walk_steps[user_idx][current_iteration][1]/CELL_RESOLUTION_PER_ROW
+                self.users[user_idx]._z_coord = self.users_walk_steps[user_idx][current_iteration][2]
+
+    def compute_users_walk_steps(self):
+        
+        min_steps = 4
+        max_steps = 8
+        k_steps = np.random.random_integers(min_steps, max_steps)
+        self.k_steps_to_walk = k_steps
+        # Users random walk:
+        users_walks = scenario_objects.User.k_random_walk(self.users, k_steps)
+        #print(users_walks)
+        self.users_walk_steps = users_walks
 
         # New clusters detection:
-        self.clusterer = scenario_objects.User.compute_clusterer(self.users) # --> SE USI UN NUMERO FISSO DI CLUSTER, ALLORA VARIA QUEL NUMERO FISSO; SE USI UN NUMERO VARIABILE, ALLORA RITORERAI PIU' VALORI DA QUESTO METODO --> !!!!!!!!!!!!!!!!
+        if (FIXED_CLUSTERS_NUM>0):
+            self.clusterer, self.users_clusters = scenario_objects.User.compute_clusterer(self.users) # --> SE USI UN NUMERO FISSO DI CLUSTER, ALLORA VARIA QUEL NUMERO FISSO; SE USI UN NUMERO VARIABILE, ALLORA RITORERAI PIU' VALORI DA QUESTO METODO --> !!!!!!!!!!!!!!!!
+        else:
+            optimal_clusterer, users_clusters, optimal_clusters_num, current_best_silhoutte_score = scenario_objects.User.compute_clusterer(self.users, fixed_clusters=False)
+            self.clusterer = optimal_clusterer
+        
         self.cluster_centroids = scenario_objects.User.actual_users_clusters_centroids(self.clusterer)
+        self.clusters_radiuses = scenario_objects.User.actual_clusters_radiuses(self.cluster_centroids, self.users_clusters, FIXED_CLUSTERS_NUM) # --> Volendo potresti anche usare un numero di cluster variabile in modo da fittare meglio in clusters gli utenti che si sono mossi sulla mappa (a quel punto però metti 'fixed_cluster=False' in 'compute_clusterer(..)') --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
         # TO DO . . . --> ????????????????????????????????????
-
-        pass
