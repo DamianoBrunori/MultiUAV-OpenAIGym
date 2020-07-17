@@ -72,32 +72,83 @@ class User:
         self._z_coord = z_coord
         self._max_in_building = max_in_building # --> Maximum reachable height for the user which is inside a building (if the user is not inside a building, then this attribute will be obviously equal to 0). 
         self._user_account = user_account
-        self._info = info # --> is a list made up by (Bool 'served_or_not', Int 'type_of_service', needed_service_time, elapsed_time_between_request_and_service, served_time).
+        self._info = info # --> is a list made up by [Bool 'served_or_not', Int 'type_of_service', needed_service_time, elapsed_time_between_request_and_service, served_time, service_quantity].
 
-    def user_info_update(self, users_served_time, user_request_service_elapsed_time):
+    @property
+    def _service_interrupted(self):
+        # Case in which the current user is not served AND the time for which the user has been served is greater than 0 (i.e., it has been served previously) AND the time for which the user has been served is lower than the needed time of the service:
+        if ( (self._info[0]!=NO_SERVICE) and (self._info[0]==False) and (self._info[4]>0) and (self._info[4]<self._info[2]) ):
+            return True
+        else: 
+            return False
+
+    @property
+    def _service_completed(self):
+        if ( (self._info[0]!=NO_SERVICE) and (self._info[4]==self._info[2]) ): # --> A check on the user request (NO_SERVICE or SERVICE requet) is needed in order to set a service as completed or not.
+            return True
+        else:
+            return False
+
+    def user_info_update(self, QoEs_store, current_provided_services, current_iteration):
+
+        # Save the the values at the end of the epoch (when the current iteration step is the last one for the current epoch):
+        if (current_iteration==ITERATIONS_PER_EPISODE):
+            QoEs_store[0].append(self._info[4]/self._info[2]) if self._info[2]!=0 else 0
+            QoEs_store[1].append(self._info[3])
+
+            return
 
         if ( (self._info[1] != NO_SERVICE) and (self._info[0] == False) ):
             
             # Increase the elapsed time between the request and the provision of the service. 
             self._info[3] += 1
+            #user_request_service_elapsed_time = self._info[3]
+            if (self._service_interrupted):
+                QoEs_store[0].append(self._info[4]/self._info[2])
+
+                # Once a request is interrupted, then it will be considered as a new request (to serve according to the remaining needed service time) in the next time_step:
+                self._info[2] -= self._info[4]
+                self._info[3] = 0
+                self._info[4] = 0
             # Set to zero the time for which the service is provided.            
             self._info[4] = 0 # --> DA RIVEDERE MEGLIO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        
+            #users_served_time = self._info[4]
+
         elif ( (self._info[1] != NO_SERVICE) and (self._info[0] == True) ):
+
+            if (self._info[1]==THROUGHPUT_REQUEST):
+                current_provided_services[0] += 1
+            elif (self._info[1]==EDGE_COMPUTING):
+                current_provided_services[1] += 1
+            elif (self._info[1]==DATA_GATHERING):
+                current_provided_services[2] += 1
 
             # Increase the time for which the service is provided. 
             self._info[4] += 1
+            #users_served_time = self._info[4]
+            if (self._info[3]!=0):
+                QoEs_store[1].append(self._info[3])
             # Set to zero the elapsed time between the (next) request and the (next) provision of the service.
             self._info[3] = 0 # --> DA RIVEDERE MEGLIO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            #user_request_service_elapsed_time = self._info[3]
 
-        elif (self._info[2] == self._info[4]):
+        if (self._service_completed):
 
-            # if the requested service time is equal to the provision time of the service, then the user will stop to ask for a service. 
+            #users_served_time = self._info[4]
+            #user_request_service_elapsed_time = self._info[3]
+            QoEs_store[0].append(1.0)
+
+            # if the requested service time is equal to the provision time of the service, then the user will stop to ask for a service.
+            self._info[0] = False 
             self._info[1] = NO_SERVICE
+            self._info[2] = 0
+            self._info[3] = 0
+            self._info[4] = 0 
+            self._info[5] = 0
 
-        return users_served_time, user_request_service_elapsed_time
+        #return users_served_time, user_request_service_elapsed_time
 
-    def user_info_update_inf_request(self):
+    def user_info_update_inf_request(self, QoEs_store, current_iteration):
         # For a negligible time instant could happen that a user is not served because the service provision is switching from a UAV to another one, and in this case
         # the info related to the considered user is reset. In any case, the 'QoE' method allows you to track the actual info related to each user by negleting these 'switching service time').
 
@@ -114,6 +165,11 @@ class User:
 
             #return users_served_time, user_request_service_elapsed_time
 
+        # Save the the values at the end of the epoch (when the current iteration step is the last one for the current epoch):
+        if (current_iteration==ITERATIONS_PER_EPISODE):
+            QoEs_store[0].append(self._info[4]/self._info[2]) if self._info[2]!=0 else 0
+            QoEs_store[1].append(self._info[3])
+
         if (self._info[0] == False):
             
             # Increase the elapsed time between the request and the provision of the service. 
@@ -126,6 +182,17 @@ class User:
                 #users_served_time += self._info[4]
                 #print("ALLLLAAAAAAAAAAAAAAAAAAAAAAaaaa", users_served_time)
             
+            #print(self._info[0], self._info[4], self._info[2])
+            if ( (self._info[4]>0) and (self._info[4]<self._info[2]) ):
+                #print("CI SONOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+                #print(self._info[4]/self._info[2])
+                QoEs_store[0].append(self._info[4]/self._info[2])
+
+                # Once a request is interrupted, then it will be considered as a new request (to serve according to the remaining needed service time) in the next time_step:
+                self._info[2] -= self._info[4]
+                self._info[3] = 0
+                self._info[4] = 0
+
             # Set to zero the time for which the service is provided.
             self._info[4] = 0
         
@@ -133,6 +200,8 @@ class User:
             # Increase the time for which the service is provided (without interruptions). 
             self._info[4] += 1
             
+            if (self._info[3]!=0):
+                QoEs_store[1].append(self._info[3])
             # Case in which the user where not served at the previous instant: 
             #if (self._info[3] != 0):
                 #print("PEGOLO2222222222222")
@@ -142,26 +211,46 @@ class User:
             # Set to zero the elapsed time between the (next) request and the (next) provision of the service.
             self._info[3] = 0
 
+        #print(self._info[0]==False, self._info[4]>0, self._info[4]<self._info[2])
+
+        #print(self._info[4], self._info[2])
+        if (self._info[4]==self._info[2]):
+            #print(self._info[4], self._info[2])
+            QoEs_store[0].append(1.0)
+
+            # if the requested service time is equal to the provision time of the service, then the user will stop to ask for a service. 
+            self._info[0] = False
+            self._info[1] = None
+            self._info[2] = ITERATIONS_PER_EPISODE
+            self._info[3] = 0
+            self._info[4] = 0 
+            self._info[5] = 0
+
         #return users_served_time, user_request_service_elapsed_time
 
     @staticmethod
     def QoE(users):
 
+        # NOT USED --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         QoE1 = 0
         QoE2 = 0
+        n_active_users = 0
         for user in users:
             if user._info[3] > 0:
                 QoE2 += 1
             if user._info[4] > 0:
                 QoE1 += 1
+            if (user._info[0]!=NO_SERVICE):
+                n_active_users += 1
 
-        return QoE1, QoE2
+        return QoE1, QoE2, n_active_users
 
     @staticmethod
-    def avg_QoE(current_epoch, users_served_per_epoch, service_request_per_epoch, users_request_service_elapsed_time, avg_QoE1_per_epoch_list, avg_QoE2_per_epoch_list):
+    def avg_QoE(current_epoch, users_served_per_epoch, users_request_service_elapsed_time, covered_users_per_epoch, avg_QoE1_per_epoch_list, avg_QoE2_per_epoch_list, avg_QoE3_per_epoch):
 
-        avg_QoE1_per_epoch_list[current_epoch-1] = users_served_per_epoch/service_request_per_epoch # --> Start from the first epoch, without considering the obviously 0 values for the instant immediately before the first epoch.
+        avg_QoE1_per_epoch_list[current_epoch-1] = users_served_per_epoch #/service_request_per_epoch # --> Start from the first epoch, without considering the obviously 0 values for the instant immediately before the first epoch.
         avg_QoE2_per_epoch_list[current_epoch-1] = users_request_service_elapsed_time # --> Start from the first epoch, without considering the obviously 0 values for the instant immediately before the first epoch.
+        avg_QoE3_per_epoch[current_epoch-1] = covered_users_per_epoch
 
         #return avg_QoE1_per_epoch, avg_QoE2_per_epoch
 
@@ -303,16 +392,24 @@ class User:
 
         users_xyz = []
         for user_idx in range(n_users):
-            type_of_service = User.which_service()
-            requested_service_life = User.needed_service_life(type_of_service)
             current_user_xy = users_xy[user_idx]
             current_user_z = users_z[user_idx]
             max_height_per_current_user = User.max_reachable_height_per_user(points_matrix, current_user_xy)
             #print("MAX HEIGHT PER CURRENT USER:", max_height_per_current_user)
             if (INF_REQUEST == True):
-                users_xyz.append( User(current_user_xy[0], current_user_xy[1], current_user_z, max_height_per_current_user, User.generate_user_account(), [False, None, 1, 0, 0]) )
+                users_xyz.append( User(current_user_xy[0], current_user_xy[1], current_user_z, max_height_per_current_user, User.generate_user_account(), [False, None, ITERATIONS_PER_EPISODE, 0, 0, 0]) )
             else:
-                users_xyz.append( User(current_user_xy[0], current_user_xy[1], current_user_z, max_height_per_current_user, User.generate_user_account(), [False, type_of_service, requested_service_life, 0, 0]) )            
+                type_of_service = User.which_service()
+                requested_service_life = User.needed_service_life(type_of_service)
+                if (type_of_service == THROUGHPUT_REQUEST):
+                    service_quantity = User.bitrate_request()
+                elif (type_of_service == EDGE_COMPUTING):
+                    service_quantity = User.edge_computing_request()
+                elif (type_of_service == DATA_GATHERING):
+                    service_quantity = User.data_gathering()
+                else:
+                    service_quantity = 0
+                users_xyz.append( User(current_user_xy[0], current_user_xy[1], current_user_z, max_height_per_current_user, User.generate_user_account(), [False, type_of_service, requested_service_life, 0, 0, service_quantity]) )            
 
         #users_xyz = [User(users_xy[idx][0], users_xy[idx][1], users_z[idx], users_z[idx], User.generate_user_account(), (None, User.which_service(), np.random.choice(NEEDED_SERVICE_TIMES_PER_USER), None)) for idx in range(n_users)]
 
@@ -332,8 +429,8 @@ class User:
         go_ahead = +1
 
         # Upper bounds index of our area of interest:
-        upper_x = AREA_WIDTH-1
-        upper_y = AREA_HEIGHT-1
+        upper_x = AREA_WIDTH-1 #CELLS_COLS
+        upper_y = AREA_HEIGHT-1 #CELLS_ROWS
 
         users_steps = []
         for user in origins:
@@ -349,14 +446,14 @@ class User:
                 x_val = np.random.random_integers(go_back, go_ahead)
                 y_val = np.random.random_integers(go_back, go_ahead)
                    
-                # Case in which the user is on a floor of a building which is between the first and the top floor (the latter excluded): 
+                # Case in which the user is on a floor of a building which is between the first and the top floor (the latter excluded) OR the user is at his/her maximum reachable height: 
                 if ( (current_user_z > 0) and (current_user_z < user_max_in_building) ):
                     z_val = np.random.random_integers(go_back, go_ahead)
                     x_val = stop
                     y_val = stop
 
-                # Case in which the user is on the top floor of a building:
-                elif (current_user_z == user_max_in_building):
+                # Case in which the user is on the top floor of a building (or at his/her maximum height):
+                elif ( (DIMENSION_2D==False) and (current_user_z == user_max_in_building) ): # --> If there is a 2D env, this condition will be always True due to the fact that users are all at z=0, which is also their maximum reachable height.
                     z_val = np.random.random_integers(go_back, stop)
                     x_val = stop
                     y_val = stop
@@ -434,7 +531,7 @@ class User:
 
         # Use 'np.array' for User objects:
         users_array = np.array([[user._x_coord, user._y_coord, user._z_coord] for user in users])
-
+        #print("DIMENSIONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE:", np.size(users_array[0]))
         # Case in which we have set a priori the number of cluster that we want to use to group the users:
         if fixed_clusters == True:
             clusterer = KMeans(FIXED_CLUSTERS_NUM)
@@ -461,7 +558,7 @@ class User:
 
             return optimal_clusterer, users_clusters, optimal_clusters_num, current_best_silhoutte_score
 
-        return clusterer
+        return clusterer, users_clusters
 
     @staticmethod
     def actual_users_clusters_centroids(clusterer):
@@ -483,9 +580,9 @@ class User:
         #centroids_users_distances = []
         #num_clusters = len(clusters) 
         #num_clusters_range = range(num_clusters)
-        print("oooooooooooo")
-        print(users_clusters[0])
-        print(users_per_cluster)
+        #print("oooooooooooo")
+        #print(users_clusters[0])
+        #print(users_per_cluster)
         #print("CENTROIDE PRIMA", centroids)
         decimal_centroids = [[Decimal(centroid[0]), Decimal(centroid[1]), Decimal(centroid[2])] for centroid in centroids]
         #print("CENTROIDI DOPO", decimal_centroids)
@@ -498,7 +595,7 @@ class User:
             #print(len(current_centroid_users_distances))
             #print("CENTROIDE", (decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]))
             #print("UTENTIIIIIII:")
-            print([(users_clusters[cluster_idx][user_idx][0], users_clusters[cluster_idx][user_idx][1]) for user_idx in range(0, users_per_cluster[cluster_idx])])
+            #print([(users_clusters[cluster_idx][user_idx][0], users_clusters[cluster_idx][user_idx][1]) for user_idx in range(0, users_per_cluster[cluster_idx])])
             #print("DISTANZE UTENTIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", current_centroid_users_distances)
             clusters_radiuses[cluster_idx] = round(max(current_centroid_users_distances), 1)
             #print("USER PIU' LONTANOOOOOOOOOOOOOOOOOOOOOOOOOO", clusters_radiuses[cluster_idx])
@@ -516,15 +613,17 @@ class User:
         #print(len(centroids_users_distances[0]),len(centroids_users_distances[1]),len(centroids_users_distances[2]))
         #print("CLUSTERS LENS")
         #print(users_per_cluster[0], users_per_cluster[1], users_per_cluster[2])
-        print("Radiuses")
-        print(clusters_radiuses)
+        
+
+        #print("Radiuses")
+        #print(clusters_radiuses)
 
         return clusters_radiuses
 
     @staticmethod
     def which_service():
 
-        service = np.random.choice(UAVS_SERVICES)
+        service = np.random.choice(UAVS_SERVICES, p=SERVICE_PROBABILITIES)
         return service
 
     @staticmethod
@@ -536,8 +635,10 @@ class User:
             requested_service_life = EC_SERVICE_TIME
         elif (service_to_provide == DATA_GATHERING):
             requested_service_life = DG_SERVICE_TIME
+        else:
+            requested_service_life = 0
 
-        requested_service_life = np.random.choice(TR_SERVICE_TIMES)
+        #requested_service_life = np.random.choice(TR_SERVICE_TIMES)
         return requested_service_life
 
     @staticmethod
@@ -959,7 +1060,7 @@ if __name__ == '__main__':
     print("XY USERS COORDS")
     [print((user._x_coord, user._y_coord)) for user in users_xyz]
     users_steps = us.k_random_walk(users_xyz, 10)
-    initial_clusterer = us.compute_clusterer(users_xyz)
+    initial_clusterer, initial_usr_clusters = us.compute_clusterer(users_xyz)
     initial_centroids = us.actual_users_clusters_centroids(initial_clusterer)
     
     # Ensure to have the centroids listed in the correct order (the clusterer may classified the 'initial_centroids' in a different order w.r.t the 'centroids')
@@ -992,7 +1093,8 @@ if __name__ == '__main__':
     initial_clusters_radiuses = us.actual_clusters_radiuses(initial_centroids, users_clusters, FIXED_CLUSTERS_NUM) # --> qui ovviamente poi varierai il numero di clusters a seconda che tu li voglia identificare in modo dinamico o meno -> !!!!!!!!!!!!!!!!!!!!!!!!!!
     print("CENTROIDS")
     print(initial_centroids)
-    #print(users_steps)
+    print("STEPS")
+    print(users_steps)
     #print(users_steps)
     #print()
     #print(len(users_steps))
@@ -1037,4 +1139,4 @@ if __name__ == '__main__':
     # Saving:
     saver = Saver()
     saver.maps_data(obs_points, points_matrix, cells_matrix, obs_cells, cs_cells, eNB_cells, CS_points, eNB_point)
-    saver.users_clusters(users_xyz, initial_centroids, initial_clusters_radiuses, initial_clusterer)
+    saver.users_clusters(users_xyz, initial_centroids, initial_clusters_radiuses, initial_clusterer, initial_usr_clusters)
