@@ -129,10 +129,13 @@ def show_and_save_info(q_table_init, q_table, dimension_space, battery_type, use
     else:
         uavs_coords = ["UAV " + str(uav_idx+1) + ": " + str((env.agents[uav_idx]._x_coord, env.agents[uav_idx]._y_coord, env.agents[uav_idx]._z_coord)) for uav_idx in range(N_UAVS)]
         info16 = "\nUAVs INITIAL COORDINATES: " + str(uavs_coords)
+    info40 = "\n UAVs FOOTPRINT DIMENSION: " + str(ACTUAL_UAV_FOOTPRINT)
+    info.append(info40) 
     info.append(info16)
     info17 = "\nUSERS CLUSTERS NUMBER: " + str(len(env.cluster_centroids))
     info30 = "\nUSERS INITIAL NUMBER: " + str(env.n_users)
     info.append(info17)
+    info.append(info30)
     centroids_coords = ["CENTROIDS: " +  str(centroid_idx+1) + ": " + str((env.cluster_centroids[centroid_idx][0], env.cluster_centroids[centroid_idx][1])) for centroid_idx in range(len(env.cluster_centroids))]
     info18 = "\nUSERS CLUSTERS PLANE-COORDINATES: " + str(centroids_coords)
     info37 = "\nCLUSTERS RADIUSES: " + str(env.clusters_radiuses)
@@ -332,7 +335,7 @@ def choose_action(uavs_q_tables, which_uav, obs, agent, battery_in_CS_history):
             '''
 
     rand = np.random.random() 
-    if (rand > EPSILON):
+    if (rand > EPSILON): # or (episode%101) # --> Aggiungendo questa condizione, la possibilità del passo randomico si ha alternatamente ogni 100 epochs --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         #print("SELEZIONAAAAAAAAAAAAAAAAAAAAAAAAA")
         # Select the best action so far:
         # SULLA BASE DELL ACTION_SET DELL'AGENT, ASSEGNA I VALORI DELLE ACTION AD UN SET DI AZIONI RIDOTTO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -398,7 +401,7 @@ def obs_fun(obs1=None, obs2=None, obs3=None):
 
 ANALYZED_CASE = 0
 
-if (STATIC_REQUEST == True) and (USERS_PRIORITY == False) and (CREATE_ENODEB == False):
+if ( (USERS_PRIORITY == False) and (CREATE_ENODEB == False) ):
     # 2D case with UNLIMITED UAVs battery autonomy:
     if ( (DIMENSION_2D == True) and (UNLIMITED_BATTERY == True) ):
         ANALYZED_CASE = 1
@@ -445,7 +448,7 @@ if (STATIC_REQUEST == True) and (USERS_PRIORITY == False) and (CREATE_ENODEB == 
 
     if (INF_REQUEST == True):
         setting_not_served_users = agent.Agent.set_not_served_users_inf_request
-        service_request_per_epoch = env.users*ITERATIONS_PER_EPISODE
+        service_request_per_epoch = env.n_users*ITERATIONS_PER_EPISODE
         considered_case_directory += "_inf_req"
         users_request = "Continue"
     else:
@@ -453,15 +456,19 @@ if (STATIC_REQUEST == True) and (USERS_PRIORITY == False) and (CREATE_ENODEB == 
         service_request_per_epoch = 0 # --> TO SET --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         considered_case_directory += "_lim_req"
         users_request = "Discrete"
+        if (MULTI_SERVICE==True):
+            considered_case_directory += "_multi_service_limited_bandwidth"
+            step = env.step_3D_limited_battery_multi_service_limited_bandwidth
+            reward_func = "Reward function 3"
 
 else:
 
-    CREATE_ENODEB = False
-    DIMENSION_2D = False
-    UNLIMITED_BATTERY = True
-    INF_REQUEST = True
-    STATIC_REQUEST = True
-    USERS_PRIORITY = False
+    #CREATE_ENODEB = False
+    #DIMENSION_2D = False
+    #UNLIMITED_BATTERY = True
+    #INF_REQUEST = True
+    #STATIC_REQUEST = True
+    #USERS_PRIORITY = False
     assert False, "Environment parameters combination not implemented yet: STATIC_REQUEST: %s, DIMENSION_2D: %s, UNLIMITED_BATTERY: %s, INF_REQUEST: %s, USERS_PRIORITY: %s, CREATE_ENODEB: %s"%(STATIC_REQUEST, DIMENSION_2D, UNLIMITED_BATTERY, INF_REQUEST, USERS_PRIORITY, CREATE_ENODEB)
     pass # TO DO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -605,7 +612,7 @@ uav_ID = "UAV"
 uavs_directories = [0 for uav in range(N_UAVS)]
 q_tables_directories = [0 for uav in range(N_UAVS)]
 for uav in range(1, N_UAVS+1):
-    current_uav_dir = join(saving_directory, uav_ID + str(uav)) 
+    current_uav_dir = join(saving_directory, uav_ID + str(uav))
     if not isdir(current_uav_dir): mkdir(current_uav_dir)
     uavs_directories[uav-1] = current_uav_dir
     current_q_table_dir = join(current_uav_dir, q_tables_dir)
@@ -665,6 +672,7 @@ users_in_foots = [[] for uav in range(N_UAVS)]
 
 avg_QoE1_per_epoch = [0 for ep in range(EPISODES)]
 avg_QoE2_per_epoch = [0 for ep in range(EPISODES)]
+avg_QoE3_per_epoch = [0 for ep in range(EPISODES)]
 
 q_values = [[] for episode in range(N_UAVS)]
 
@@ -687,16 +695,51 @@ else:
 epsilon_history = [0 for ep in range(EPISODES)]
 crashes_history = [0 for ep in range(EPISODES)] 
 battery_in_CS_history = [[] for uav in range(N_UAVS)]
+n_active_users_per_epoch = [0 for ep in range(EPISODES)]
+provided_services_per_epoch = [[0, 0, 0] for ep in range(EPISODES)]
+n_active_users_per_episode = [0 for ep in range(EPISODES)]
+UAVs_used_bandwidth = [[0 for ep in range(EPISODES)] for uav in range(N_UAVS)]
+users_bandwidth_request_per_UAVfootprint = [[0 for ep in range(EPISODES)] for uav in range(N_UAVS)]
+
+MOVE_USERS = False
 
 print("\nSTART TRAINING . . .\n")
 for episode in range(1, EPISODES+1):
 
+    if (STATIC_REQUEST==False):
+        if (episode%MOVE_USERS_EACH_N_EPOCHS==0):
+            env.compute_users_walk_steps()
+            MOVE_USERS = True
+        else:
+            MOVE_USERS = False
+
+    if (INF_REQUEST==False):
+        if (episode%UPDATE_USERS_REQUESTS_EACH_N_ITERATIONS==0):
+            env.update_users_requests(env.users)
+            '''
+            print("PRIMAAAAAAAAAAAA")
+            for user in env.users:
+                print(user._info[1])
+            env.update_users_requests(env.users)
+            print("DOPOOOOOOOOOOOOO")
+            for user in env.users:
+                print(user._info[1])
+            '''
+    '''
+    for user in env.users:
+        print(user._info[0], user._info[1], user._info[2], user._info[3], user._info[4], user._info[5])
+    '''
     epsilon_history[episode-1] = EPSILON
 
     print("| EPISODE: {ep:3d} | Epsilon: {eps:6f}".format(ep=episode, eps=EPSILON))
 
+    QoEs_store = [[], []] # --> Store QoE1 and QoE2
+    current_QoE3 = 0
     users_served_time = 0
     users_request_service_elapsed_time = 0
+    current_provided_services = [0, 0, 0]
+    current_UAV_bandwidth = [0 for uav in range(N_UAVS)]
+    current_requested_bandwidth = [0 for uav in range(N_UAVS)]
     #USERS_SERVED_TIME = 0
     #USERS_REQUEST_SERVICE_ELAPSED_TIME = 0
     
@@ -735,8 +778,29 @@ for episode in range(1, EPISODES+1):
     '''
     
     prova = uavs_q_tables[0]
+    n_active_users_current_it = 0 
+    tr_active_users_current_it = 0
+    ec_active_users_current_it = 0
+    dg_active_users_current_it = 0
     # Each 30 minutes: 
     for i in range(ITERATIONS_PER_EPISODE):
+
+        if (INF_REQUEST==True):
+            #current_QoE1, current_QoE2, _ = User.QoE(env.users)
+            n_active_users, _, _, _ = env.n_users
+        else:
+            n_active_users, tr_active_users, ec_active_users, dg_active_users, n_tr_served, n_ec_served, n_dg_served = env.get_active_users()
+            #sum(QoEs_store[0])/env.n_users
+            #sum(QoEs_store[1])/env.n_users if QoEs_store[1]!=[] else 0
+            #current_QoE1, current_QoE2, n_active_users = User.QoE(env.users)
+
+        if (MOVE_USERS==True):
+            env.move_users(i+1)
+
+        n_active_users_current_it += n_active_users
+        tr_active_users_current_it += tr_active_users
+        ec_active_users_current_it += ec_active_users
+        dg_active_users_current_it += dg_active_users
 
         '''
         print()
@@ -778,7 +842,8 @@ for episode in range(1, EPISODES+1):
                 # Case in which are considered the UAVs from the 2-th to the n-th:
                 if (UAV>0):
                     if (current_iteration!=(DELAYED_START_PER_UAV*(UAV))):
-                        continue
+                        pass
+                        #continue
 
 
             agents_paths[UAV][i] = get_agent_pos(agents[UAV])
@@ -815,7 +880,15 @@ for episode in range(1, EPISODES+1):
             '''
             #obs_, reward, done, info = env.step(agents[UAV], action, i)
             # Add argument 'env.cells_matrix' in 'step', when choose 3D environment:
-            obs_, reward, done, info = step(agents[UAV], action, all_users_in_all_foots, env.users, setting_not_served_users, crashes_current_episode, cells_matrix)
+            #obs_, reward, done, info = step(agents[UAV], action, all_users_in_all_foots, env.users, setting_not_served_users, crashes_current_episode, cells_matrix)
+            
+
+            #obs_, reward, done, info = step(agents[UAV], action, all_users_in_all_foots, env.users, setting_not_served_users, crashes_current_episode)
+            obs_, reward, done, info = step(agents[UAV], action, all_users_in_all_foots, env.users, setting_not_served_users, crashes_current_episode, cells_matrix, tr_active_users, ec_active_users, dg_active_users)
+            
+
+            #print("\nAOOOOOOOOOOOOOOOH", env.current_requested_bandwidth, "\n")
+            #print("UAV", UAV+1, ":", len(agents[UAV]._users_in_footprint), "reward:", reward)
             #print("OOOOOBSSSSS", obs_)
             #print(done[1], reward)
             crashes_current_episode[UAV] = agents[UAV]._crashed
@@ -825,6 +898,7 @@ for episode in range(1, EPISODES+1):
             #print("DOPOOOOOOO", obs_)
             print(" - Iteration: {it:1d} - Reward per UAV {uav:1d}: {uav_rew:6f}".format(it=i+1, uav=UAV+1, uav_rew=reward), end="\r", flush=True)
 
+            #print("KEYYYYY", obs_)
             if not explored_states_q_tables[UAV][obs_][action]:
                 explored_states_q_tables[UAV][obs_][action] = True
 
@@ -840,10 +914,13 @@ for episode in range(1, EPISODES+1):
             #users_in_foots[UAV] = agents[UAV]._users_in_footprint
             #for user_per_agent_foot in users_in_foots:
                 #all_users_in_all_foots += user_per_agent_foot
-        
+            
             # Set all the users which could be no more served after the current UAV action:
-            setting_not_served_users(env.users, all_users_in_all_foots) # --> This make a SIDE_EFFECT on users by updating their info.
+            setting_not_served_users(env.users, all_users_in_all_foots, current_provided_services, UAV+1, QoEs_store, i+1)
+            #setting_not_served_users(env.users, all_users_in_all_foots, UAV+1, QoEs_store, i+1) # --> This make a SIDE_EFFECT on users by updating their info.
             #USERS_SERVED_TIME, USERS_REQUEST_SERVICE_ELAPSED_TIME = setting_not_served_users(env.users, all_users_in_all_foots) # --> This make also a SIDE_EFFECT on users by updating their info.
+
+            #print("VARIA?????", current_provided_services)
 
             # Take the QoE parameters only after a complete iteration performed by all the UAVs:
             #if (UAV < N_UAVS-1):
@@ -880,6 +957,9 @@ for episode in range(1, EPISODES+1):
 
             uavs_episode_reward[UAV] += reward
 
+            current_UAV_bandwidth[UAV] += UAV_BANDWIDTH - agents[UAV]._bandwidth
+            current_requested_bandwidth[UAV] += env.current_requested_bandwidth
+            #print(UAVs_used_bandwidth[episode-1])
             reset_uavs(agents[UAV])
 
             # Agents paths for current episode:
@@ -888,23 +968,48 @@ for episode in range(1, EPISODES+1):
             #print("AGENT POS:", env.get_agent_pos(agents[UAV]))
             #agents_paths[UAV][i] = get_agent_pos(agents[UAV])
 
+        #print("\n")
         #print("reward:", reward)
 
-        current_QoE1, current_QoE2 = User.QoE(env.users)
+        current_QoE3 += len(all_users_in_all_foots)/len(env.users) if len(env.users)!=0 else 0 # --> Percentage of covered users (including also the users which are not requesting a service but which are considered to have the communication with UAVs on) 
+        #print("\nAAAAAAA", len(all_users_in_all_foots), n_active_users)
+        n_active_users_per_episode[episode-1] = n_active_users
         #print("QOE:", current_QoE1, current_QoE2)
         #print("QoE1:", current_QoE1)
-
-        users_served_time += current_QoE1
-        users_request_service_elapsed_time += current_QoE2
+        #users_served_time += current_QoE1/n_active_users
+        #users_request_service_elapsed_time += current_QoE2/n_active_users
         #users_served_time += USERS_SERVED_TIME
         #users_request_service_elapsed_time += USERS_REQUEST_SERVICE_ELAPSED_TIME
         #if uavs_q_tables[UAV] != prova:
             #print("CHANGE QUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", i)
 
+    #print(sum(QoEs_store[0])/(len(QoEs_store[0])))
+    #print(QoEs_store[0])
+    #print(QoEs_store[0])
+
+    n_active_users_current_ep = n_active_users_current_it/ITERATIONS_PER_EPISODE 
+    tr_active_users_current_ep = tr_active_users_current_it/ITERATIONS_PER_EPISODE
+    ec_active_users_current_ep = ec_active_users_current_it/ITERATIONS_PER_EPISODE
+    dg_active_users_current_ep = dg_active_users_current_it/ITERATIONS_PER_EPISODE
+    for service_idx in range(N_SERVICES):
+        n_users_provided_for_current_service = current_provided_services[service_idx]/ITERATIONS_PER_EPISODE
+        if (service_idx==0):
+            n_active_users_per_current_service = tr_active_users_current_ep #tr_active_users
+        elif (service_idx==1):
+            n_active_users_per_current_service = ec_active_users_current_ep #ec_active_users
+        elif (service_idx==2):
+            n_active_users_per_current_service = dg_active_users_current_ep #dg_active_users
+        perc_users_provided_for_current_service = n_users_provided_for_current_service/n_active_users_per_current_service if n_active_users_per_current_service!=0 else 0  
+        provided_services_per_epoch[episode-1][service_idx] = perc_users_provided_for_current_service
+    QoE3_for_current_epoch = current_QoE3/ITERATIONS_PER_EPISODE
+    users_served_time = sum(QoEs_store[0])/(len(QoEs_store[0])) if len(QoEs_store[0])!=0 else 0 # --> It is divided by its lenght, because here it is measured the percenteage according to which a service is completed (once it starts).
+    users_request_service_elapsed_time = sum(QoEs_store[1])/n_active_users_current_ep if n_active_users_current_ep!=0 else 0 # --> It is divided by the # of active users, beacuse here it is measured the avg elapsed time (among the active users) between a service request and its provision.
     crashes_history[episode-1] = crashes_current_episode
     #battery_in_CS_history[episode-1] = battery_in_CS_current_episode
     #print("SERVED_TIME", USERS_SERVED_TIME)
-    User.avg_QoE(episode, users_served_time, env.n_users*ITERATIONS_PER_EPISODE, users_request_service_elapsed_time, avg_QoE1_per_epoch, avg_QoE2_per_epoch)
+    #users_served_time /= ITERATIONS_PER_EPISODE 
+    #users_request_service_elapsed_time /= ITERATIONS_PER_EPISODE
+    User.avg_QoE(episode, users_served_time, users_request_service_elapsed_time, QoE3_for_current_epoch, avg_QoE1_per_epoch, avg_QoE2_per_epoch, avg_QoE3_per_epoch) # --> users_request_service_elapsed_time DEVE ESSERE DIVISO PER IL NUMERO DI ITERAZIONI SE NO NON HAI IL VALORE MEDIO OVVIAMENTE --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     #print("QoE1:", avg_QoE1_per_epoch)
     #avg_QoE1_per_epoch[episode-1] = (users_served_time)/(env.n_users*ITERATIONS_PER_EPISODE) # --> Start from the first epoch, without considering the obviously 0 values for the instant immediately before the first epoch.
     #avg_QoE2_per_epoch[episode-1] = users_request_service_elapsed_time/ITERATIONS_PER_EPISODE # --> Start from the first epoch, without considering the obviously 0 values for the instant immediately before the first epoch.
@@ -914,6 +1019,8 @@ for episode in range(1, EPISODES+1):
     print(" - Iteration: {it:1d} - Reward per UAV {uav:1d}: {uav_rew:6f}".format(it=i+1, uav=UAV+1, uav_rew=reward))
     #print("____________________________________________ EPISODE:", episode , "____________________________________________")
     for UAV in range(N_UAVS):
+        UAVs_used_bandwidth[UAV][episode-1] = current_UAV_bandwidth[UAV]/ITERATIONS_PER_EPISODE
+        users_bandwidth_request_per_UAVfootprint[UAV][episode-1] = current_requested_bandwidth[UAV]/ITERATIONS_PER_EPISODE
         current_mean_reward = uavs_episode_reward[UAV]/ITERATIONS_PER_EPISODE
         uavs_episode_rewards[UAV].append(current_mean_reward)
         current_q_mean = q_values_current_episode[UAV]/ITERATIONS_PER_EPISODE
@@ -926,7 +1033,7 @@ for episode in range(1, EPISODES+1):
         #print(f"{SHOW_EVERY} ep mean: {np.mean(uavs_episode_rewards[UAV][-SHOW_EVERY:])}")
     print() 
 
-    if ((episode%1)==0): #(episode%250)==0 # --> poi cambierai la CONDIZIONE che mostra o meno lo scenario per l'episodio corrente --> !!!!!!!!!!!!!!!!!!!
+    if ((episode%500)==0): #(episode%250)==0 # --> poi cambierai la CONDIZIONE che mostra o meno lo scenario per l'episodio corrente --> !!!!!!!!!!!!!!!!!!!
         #print("AGENTS_PATHS", agents_paths)
         #plot.UAVS_crashes(EPISODES, crashes_history, saving_directory)
         print("\nSaving animation for episode:", episode)
@@ -1018,7 +1125,7 @@ file = open(join(saving_directory, "env_and_train_info.txt"), "a")
 print("\nTRAINING COMPLETED.\n")
 for uav_idx in range(N_UAVS):
     print("\nSaving battery levels when start to charge . . .")
-    plot.battery_when_start_to_charge(battery_in_CS_history, uavs_directories[UAV])
+    plot.battery_when_start_to_charge(battery_in_CS_history, uavs_directories)
     print("Battery levels when start to charge saved.")
     print("Saving UAVs crashes . . .")
     plot.UAVS_crashes(EPISODES, crashes_history, saving_directory)
@@ -1040,9 +1147,12 @@ file.close()
 #print("GINOOOOOOO", avg_QoE1_per_epoch)
 print("\nSaving QoE charts, UAVs rewards and Q-values . . .")
 legend_labels = []
+plot.QoE_plot(avg_QoE1_per_epoch, EPISODES, join(saving_directory, "QoE1"), "QoE1")
+plot.QoE_plot(avg_QoE2_per_epoch, EPISODES, join(saving_directory, "QoE2"), "QoE2")
+plot.QoE_plot(avg_QoE3_per_epoch, EPISODES, join(saving_directory, "QoE3"), "QoE3")
+plot.bandwidth_for_each_epoch(EPISODES, saving_directory, UAVs_used_bandwidth, users_bandwidth_request_per_UAVfootprint)
+plot.users_covered_percentage_per_service(provided_services_per_epoch, EPISODES, join(saving_directory, "Services Provision"))
 for uav in range(N_UAVS):
-    plot.QoE_plot(avg_QoE1_per_epoch, EPISODES, join(saving_directory, "QoE1"), "QoE1", uav, legend_labels)
-    plot.QoE_plot(avg_QoE2_per_epoch, EPISODES, join(saving_directory, "QoE2"), "QoE2", uav, legend_labels)
     plot.UAVS_reward_plot(EPISODES, uavs_episode_rewards, saving_directory)
     plot.UAVS_reward_plot(EPISODES, q_values, saving_directory, q_values=True)
 print("Qoe charts, UAVs rewards and Q-values saved.")
@@ -1088,7 +1198,6 @@ with open(join(saving_directory, "q_tables.pickle"), 'wb') as f:
 plt.plot([i for i in range(len(moving_avg))], moving_avg)
 plt.ylabel(f"Reward {SHOW_EVERY}ma")
 plt.xlabel("episode #")
-
 plt.show()
 
 with open(f"qtable-{int(time.time())}.pickle", "wb") as f:
