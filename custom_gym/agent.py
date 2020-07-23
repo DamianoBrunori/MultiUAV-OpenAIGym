@@ -12,6 +12,8 @@ from numpy import linalg as LA
 import copy
 import os
 
+#from custom_gym.my_utils import *
+
 load = Loader()
 
 print(os.path.abspath(__file__))
@@ -122,6 +124,22 @@ class Agent:
             elif (move_action == DOWN):
                 next_cell_y -= UAV_XY_STEP
 
+            elif (move_action == UPRIGHT):
+                next_cell_x += UAV_XY_STEP
+                next_cell_y += UAV_XY_STEP
+
+            elif (move_action == UPLEFT):
+                next_cell_x -= UAV_XY_STEP
+                next_cell_y += UAV_XY_STEP
+
+            elif (move_action == DOWNRIGHT):
+                next_cell_x += UAV_XY_STEP
+                next_cell_y -= UAV_XY_STEP
+
+            elif (move_action == DOWNLEFT):
+                next_cell_x -= UAV_XY_STEP
+                next_cell_y -= UAV_XY_STEP
+
             self._charging = False
             self._coming_home = False
             self._cs_goal = (None, None)
@@ -173,6 +191,26 @@ class Agent:
         elif (move_action == DOWN):
             #print("DOWN")
             next_cell_y -= UAV_XY_STEP
+
+        elif (move_action == UPRIGHT):
+            next_cell_x += UAV_XY_STEP
+            next_cell_y += UAV_XY_STEP
+            # print("UPRIGHT")
+
+        elif (move_action == UPLEFT):
+            next_cell_x -= UAV_XY_STEP
+            next_cell_y += UAV_XY_STEP
+            # print("UPLEFT")
+
+        elif (move_action == DOWNRIGHT):
+            next_cell_x += UAV_XY_STEP
+            next_cell_y -= UAV_XY_STEP
+            # print("DOWNRIGHT")
+
+        elif (move_action == DOWNLEFT):
+            next_cell_x -= UAV_XY_STEP
+            next_cell_y -= UAV_XY_STEP
+            # print("DOWNLEFT")
 
         new_agent_pos = (next_cell_x, next_cell_y)
 
@@ -241,6 +279,26 @@ class Agent:
                 #print("DOWN")
                 next_cell_y -= UAV_XY_STEP
 
+            elif (move_action == UPRIGHT):
+                next_cell_x += UAV_XY_STEP
+                next_cell_y += UAV_XY_STEP
+                # print("UPRIGHT")
+
+            elif (move_action == UPLEFT):
+                next_cell_x -= UAV_XY_STEP
+                next_cell_y += UAV_XY_STEP
+                # print("UPLEFT")
+
+            elif (move_action == DOWNRIGHT):
+                next_cell_x += UAV_XY_STEP
+                next_cell_y -= UAV_XY_STEP
+                # print("DOWNRIGHT")
+
+            elif (move_action == DOWNLEFT):
+                next_cell_x -= UAV_XY_STEP
+                next_cell_y -= UAV_XY_STEP
+                # print("DOWNLEFT")
+
             elif (move_action == DROP):
                 #print("DROP")
                 next_cell_z -= UAV_Z_STEP
@@ -297,6 +355,26 @@ class Agent:
         elif (move_action == DOWN):
             next_cell_y -= UAV_XY_STEP
 
+        elif (move_action == UPRIGHT):
+            next_cell_x += UAV_XY_STEP
+            next_cell_y += UAV_XY_STEP
+            # print("UPRIGHT")
+
+        elif (move_action == UPLEFT):
+            next_cell_x -= UAV_XY_STEP
+            next_cell_y += UAV_XY_STEP
+            # print("UPLEFT")
+
+        elif (move_action == DOWNRIGHT):
+            next_cell_x += UAV_XY_STEP
+            next_cell_y -= UAV_XY_STEP
+            # print("DOWNRIGHT")
+
+        elif (move_action == DOWNLEFT):
+            next_cell_x -= UAV_XY_STEP
+            next_cell_y -= UAV_XY_STEP
+            # print("DOWNLEFT")
+
         elif (move_action == DROP):
             next_cell_z -= UAV_Z_STEP
 
@@ -343,6 +421,26 @@ class Agent:
 
         elif (move_action == DOWN):
             next_cell_y -= UAV_XY_STEP
+
+        elif (move_action == UPRIGHT):
+            next_cell_x += UAV_XY_STEP
+            next_cell_y += UAV_XY_STEP
+            # print("UPRIGHT")
+
+        elif (move_action == UPLEFT):
+            next_cell_x -= UAV_XY_STEP
+            next_cell_y += UAV_XY_STEP
+            # print("UPLEFT")
+
+        elif (move_action == DOWNRIGHT):
+            next_cell_x += UAV_XY_STEP
+            next_cell_y -= UAV_XY_STEP
+            # print("DOWNRIGHT")
+
+        elif (move_action == DOWNLEFT):
+            next_cell_x -= UAV_XY_STEP
+            next_cell_y -= UAV_XY_STEP
+            # print("DOWNLEFT")
 
         elif (move_action == DROP):
             next_cell_z -= UAV_Z_STEP
@@ -732,7 +830,7 @@ class Agent:
     
     def residual_battery_after_propulsion(self, action):
         
-        if ( (action == LEFT) or (action == RIGHT) or (action == DROP) or (action == RISE) ):
+        if ( (action == LEFT) or (action == RIGHT) or (action == DROP) or (action == RISE) or (action == UPLEFT) or (action == UPRIGHT) or (action == DOWNLEFT) or (action == DOWNRIGHT)):
             battery_consumption = 2
         # Case in which the agent perform an action among HOVERING, RISE and DROP:
         else:

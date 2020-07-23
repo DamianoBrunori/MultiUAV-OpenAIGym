@@ -2,6 +2,7 @@ from itertools import product
 from scenario_objects import Point, Cell
 from my_utils import LOWER_BOUNDS, AREA_WIDTH, AREA_HEIGHT, CELLS_ROWS, CELLS_COLS, MINIMUM_AREA_HEIGHT, MAXIMUM_AREA_HEIGHT, OBS_IN, CS_IN, DIMENSION_2D, UAV_Z_STEP
 from load_and_save_data import Loader
+import math
 
 coords_moves = [-1, 0, 1]
 
@@ -15,24 +16,16 @@ def moves(cell):
 def moves2D(cell):
 
     all_moves = list(product(coords_moves, coords_moves))
-    manhattan_moves2D = []
-    for move in all_moves:
-        if ( (abs(move[0])!=abs(move[1])) or ((move[0]==0) and (move[1]==0)) ):
-            manhattan_moves2D.append(move)
-    return manhattan_moves2D
+    moves2D=all_moves
+    print ('Moves 2D')
+    return moves2D
 
 def moves3D(cell):
 
     all_moves = list(product(coords_moves, coords_moves, coords_moves))
-    manhattan_moves3D = []
-    for move in all_moves:
-        if ( (abs(move[0])!=abs(move[1]) and (move[2]==0)) or ((move[0]==0) and (move[1]==0)) ):
-            if (abs(move[2])==1):
-                current_move = (move[0], move[1], move[2]*UAV_Z_STEP)
-            else:
-                current_move = move
-            manhattan_moves3D.append(current_move)
-    return manhattan_moves3D
+    moves3D=all_moves
+    print('Moves 3D')
+    return moves3D
 
 def allowed_neighbours_2D(moves, node, env_matrix, resolution='min'):
     
@@ -222,12 +215,34 @@ def astar(env_matrix, start, goal):
                     continue
             '''
 
+            ''' #Formula per calcolare la Diztanza Euclidea, quadrata (Euclidean distance, squared)
+            # This definitely runs into the scale problem. The scale of g and h need to match, because you’re adding them together to form f
+            # Sconsigliata
             # Create the f, g, and h values
             child.g = current_node.g + 1
             if (DIMENSION_2D == False):
                 child.h = ((child.position[0] - goal_node.position[0]) ** 2) + ((child.position[1] - goal_node.position[1]) ** 2) + ((child.position[2] - goal_node.position[2]) ** 2)
             else:
                 child.h = ((child.position[0] - goal_node.position[0]) ** 2) + ((child.position[1] - goal_node.position[1]) ** 2)
+            child.f = child.g + child.h
+            '''
+
+            child.g = current_node.g + 1
+            nodeX = child.position[0]
+            goalX = goal_node.position[0]
+            nodeY= child.position[1]
+            goalY = goal_node.position[1]
+            nodeZ = child.position[2]
+            goalZ = goal_node.position[2]
+            if (DIMENSION_2D == False):
+                dx = abs(nodeX - goalX)
+                dy = abs(nodeY - goalY)
+                child.h = math.sqrt(dx * dx + dy * dy)
+            else:
+                dx = abs(nodeX - goalX)
+                dy = abs(nodeY - goalY)
+                dz = abs(nodeZ - goalZ)
+                child.h = math.sqrt(dx * dx + dy * dy + dz * dz)
             child.f = child.g + child.h
 
 

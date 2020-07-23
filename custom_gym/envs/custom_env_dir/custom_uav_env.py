@@ -2,7 +2,7 @@ import gym
 import sys
 import numpy as np
 from decimal import Decimal
-#sys.path.append('C:/Users/damia/Desktop/MAGISTRALE/TESI/Scripts/custom_gym/envs/custom_env_dir')
+#sys.path.append('C:\Users\ASUS\Desktop\Tesi-UAV\UAV_RL_Thesis\custom_gym\envs\custom_env_dir')
 from my_utils import *
 from load_and_save_data import *
 import scenario_objects

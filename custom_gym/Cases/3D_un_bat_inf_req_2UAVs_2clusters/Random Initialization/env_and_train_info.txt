@@ -4,7 +4,7 @@ _______________________________________ENVIRONMENT AND TRAINING INFO: __________
 
 Training:
 
-EPISODES: 5000
+EPISODES: 10
 ITERATIONS PER EPISODE: 30
 INITIAL EPSILON: 1.0
 MINIMUM EPSILON: 0.01
@@ -31,8 +31,8 @@ UAV MOTION STEP ALONG Z-AXIS: 3
 UAVs NUMBER: 2
 UAVs INITIAL COORDINATES: ['UAV 1: (5.5, 9.5, 4.5)', 'UAV 2: (5.5, 1.5, 4.5)']
 USERS CLUSTERS NUMBER: 2
-CLUSTERS RADIUSES: [Decimal('1.7'), Decimal('1.8')]
-USERS CLUSTERS PLANE-COORDINATES: ['CENTROIDS: 1: (1.8900000000000001, 4.61)', 'CENTROIDS: 2: (6.822222222222222, 6.288888888888889)']
+CLUSTERS RADIUSES: [Decimal('1.0'), Decimal('1.4')]
+USERS CLUSTERS PLANE-COORDINATES: ['CENTROIDS: 1: (2.0444444444444443, 4.788888888888889)', 'CENTROIDS: 2: (7.075, 6.675)']
 DIMENION SPACE: 3D
 BATTERY: Unlimited
 USERS SERVICE TIME REQUEST: Continue
@@ -43,3 +43,8 @@ CHARGING STATIONS NUMBER: N.D.
 ENODEB: No
 __________________________________________________________________________________________________________________
 
+
+Exploration percentage of the Q-Table for UAV:
+1: 0.07363636363636364
+Exploration percentage of the Q-Table for UAV:
+2: 0.055757575757575756
