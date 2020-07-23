@@ -168,6 +168,7 @@ class Agent:
         # 2D motion;              #
         # UNLIMITED UAV battery;  #                          
         # # # # # # # # # # # # # #
+        #The drone can now move in 8 directions
 
         next_cell_x = self._x_coord
         next_cell_y = self._y_coord
@@ -257,7 +258,8 @@ class Agent:
             return new_agent_pos
 
         else:
-            
+
+            # The drone can now move in 8 directions
             if (move_action == HOVERING):
                 #print("HOVERING")
                 self.residual_battery1(move_action)
@@ -335,10 +337,12 @@ class Agent:
         # 3D motion;              #
         # UNLIMITED UAV battery;  #
         # # # # # # # # # # # # # #
+        # The drone can now move in 8 directions
 
         next_cell_x = self._x_coord
         next_cell_y = self._y_coord
         next_cell_z = self._z_coord
+
 
         if (move_action == HOVERING):
             return (next_cell_x, next_cell_y, next_cell_z)
@@ -398,6 +402,7 @@ class Agent:
         # Move the agent according to 'move_action' and return the 'next_cell'  #
         # on which the considered agent (i.e, UAV) will be placed.              #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        # The drone can now move in 8 directions
 
         #next_cell_x = self._cell._x_coord
         #next_cell_y = self._cell._y_coord
@@ -829,7 +834,7 @@ class Agent:
 
     
     def residual_battery_after_propulsion(self, action):
-        
+        # The drone can now move in 8 directions
         if ( (action == LEFT) or (action == RIGHT) or (action == DROP) or (action == RISE) or (action == UPLEFT) or (action == UPRIGHT) or (action == DOWNLEFT) or (action == DOWNRIGHT)):
             battery_consumption = 2
         # Case in which the agent perform an action among HOVERING, RISE and DROP:
