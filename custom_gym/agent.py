@@ -5,14 +5,14 @@
 from my_utils import *
 from scenario_objects import Cell, Point, Environment, User
 from load_and_save_data import Loader
-#import operator
+# import operator
 import numpy as np
 from math import tan, radians, ceil
 from numpy import linalg as LA
 import copy
 import os
 
-#from custom_gym.my_utils import *
+# from custom_gym.my_utils import *
 
 load = Loader()
 
@@ -22,8 +22,9 @@ print(os.path.abspath(os.getcwd()))
 load.maps_data()
 obs_cells = load.obs_cells
 
-MAX_OBS_CELLS = max(obs._z_coord for obs in obs_cells) if DIMENSION_2D==False else 0
+MAX_OBS_CELLS = max(obs._z_coord for obs in obs_cells) if DIMENSION_2D == False else 0
 MAX_UAV_HEIGHT = int(MAX_OBS_CELLS)
+
 
 class Agent:
     '''
@@ -33,21 +34,22 @@ class Agent:
     |--------------------------------------------------------------------------------------|
     '''
 
-    def __init__(self, pos, ID, toward, action, bandwidth, battery_level, footprint, max_uav_height, action_set, TR, EC, DG, d_ag_cc):
-        #self._cell = cell # DA VEDERE SE INSERIRLO OPPURE NO (POTREBBE ESSERE DEDOTTO DALLE COORDINATE DEL DRONE) --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    def __init__(self, pos, ID, toward, action, bandwidth, battery_level, footprint, max_uav_height, action_set, TR, EC,
+                 DG, d_ag_cc):
+        # self._cell = cell # DA VEDERE SE INSERIRLO OPPURE NO (POTREBBE ESSERE DEDOTTO DALLE COORDINATE DEL DRONE) --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self._uav_ID = ID
-        self._x_coord = pos[0] # cell._x_coord
-        self._y_coord = pos[1] # cell._y_coord
-        self._z_coord = pos[2] # cell._z_coord
-        self._toward = toward # DA VEDERE SE INSERIRLO OPPURE NO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        self._x_coord = pos[0]  # cell._x_coord
+        self._y_coord = pos[1]  # cell._y_coord
+        self._z_coord = pos[2]  # cell._z_coord
+        self._toward = toward  # DA VEDERE SE INSERIRLO OPPURE NO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!
         self._action = action
         self._bandwidth = bandwidth
         self._battery_level = battery_level
         self._footprint = footprint
         self._max_uav_height = max_uav_height
-        self._action_set = action_set 
+        self._action_set = action_set
         self._coming_home = False
-        self._cs_goal = (None, None, None) if DIMENSION_2D==False else (None, None)
+        self._cs_goal = (None, None, None) if DIMENSION_2D == False else (None, None)
         self._path_to_the_closest_CS = []
         self._current_pos_in_path_to_CS = -1
         self._required_battery_to_CS = None
@@ -55,10 +57,10 @@ class Agent:
         self._charging = False
         self._n_recharges = 0
         self._crashed = False
-        self._current_consumption_to_go_cs = 1 # --> It is reset to 1 every time it reaches a value equal to PERC_CONSUMPTION_PER_ITERATION.
+        self._current_consumption_to_go_cs = 1  # --> It is reset to 1 every time it reaches a value equal to PERC_CONSUMPTION_PER_ITERATION.
         self._throughput_request = TR
         self._edge_computing = EC
-        self._data_gathering = DG 
+        self._data_gathering = DG
         self._d_ag_cc = d_ag_cc
 
     @property
@@ -88,26 +90,26 @@ class Agent:
             self._charging = True
             self.charging_battery1()
             new_agent_pos = (next_cell_x, next_cell_y)
-            #print("CI SONOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+            # print("CI SONOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
 
             return new_agent_pos
 
         elif (move_action == GO_TO_CS):
             self._coming_home = True
             self.residual_battery_when_come_home()
-            
-            #print("_current_pos_in_path_to_CS", self._current_pos_in_path_to_CS)
-            #print(self._path_to_the_closest_CS)
+
+            # print("_current_pos_in_path_to_CS", self._current_pos_in_path_to_CS)
+            # print(self._path_to_the_closest_CS)
             new_agent_pos = self._path_to_the_closest_CS[self._current_pos_in_path_to_CS]
-            new_agent_pos = (new_agent_pos[0], new_agent_pos[1]) 
+            new_agent_pos = (new_agent_pos[0], new_agent_pos[1])
             self._x_coord = new_agent_pos[0]
             self._y_coord = new_agent_pos[1]
 
-            #print(new_agent_pos)
+            # print(new_agent_pos)
             return new_agent_pos
 
         else:
-            
+
             if (move_action == HOVERING):
                 self.residual_battery1(move_action)
                 return (next_cell_x, next_cell_y)
@@ -144,16 +146,15 @@ class Agent:
             self._coming_home = False
             self._cs_goal = (None, None)
 
-
         new_agent_pos = (next_cell_x, next_cell_y)
 
         # SOLO PER VEDERE SE FUNZIONA IL PLOT DELLA MAPPA PER L'ANIMAZIONE: --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        #if self._battery_level <= 0:
-            #self._battery_level = 100
+        # if self._battery_level <= 0:
+        # self._battery_level = 100
 
         if (self.off_map_move_2D(new_agent_pos)):
             new_agent_pos = old_agent_pos
-            # Reduction battery level due to the agent motion: 
+            # Reduction battery level due to the agent motion:
 
         # Constant reduction battery level due to UAV motion and the provided service:
         self.residual_battery1(move_action)
@@ -164,33 +165,33 @@ class Agent:
         return new_agent_pos
 
     def move_2D_unlimited_battery(self, old_agent_pos, move_action):
-        # # # # # # # # # # # # # # 
-        # 2D motion;              #
-        # UNLIMITED UAV battery;  #                          
         # # # # # # # # # # # # # #
-        #The drone can now move in 8 directions
+        # 2D motion;              #
+        # UNLIMITED UAV battery;  #
+        # # # # # # # # # # # # # #
+        # The drone can now move in 8 directions
 
         next_cell_x = self._x_coord
         next_cell_y = self._y_coord
 
         if (move_action == HOVERING):
-            #print("HOVERING")
+            # print("HOVERING")
             return (next_cell_x, next_cell_y)
 
         elif (move_action == LEFT):
-            #print("LEFT")
+            # print("LEFT")
             next_cell_x -= UAV_XY_STEP
 
         elif (move_action == RIGHT):
-            #print("RIGHT")
+            # print("RIGHT")
             next_cell_x += UAV_XY_STEP
 
         elif (move_action == UP):
-            #print("UP")
+            # print("UP")
             next_cell_y += UAV_XY_STEP
 
         elif (move_action == DOWN):
-            #print("DOWN")
+            # print("DOWN")
             next_cell_y -= UAV_XY_STEP
 
         elif (move_action == UPRIGHT):
@@ -223,8 +224,8 @@ class Agent:
 
         return new_agent_pos
 
-    def move_3D_limited_battery(self, old_agent_pos, move_action, cells_matrix): 
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    def move_3D_limited_battery(self, old_agent_pos, move_action, cells_matrix):
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # 3D motion;                                                            #
         # LIMITED UAV battery                                                   #
         # constant battery consumption for both UAV motion and services;        #
@@ -235,21 +236,21 @@ class Agent:
         next_cell_z = self._z_coord
 
         if (move_action == CHARGE):
-            #print("CHARGE")
+            # print("CHARGE")
             self._charging = True
             self.charging_battery1()
             new_agent_pos = (next_cell_x, next_cell_y, next_cell_z)
 
             return new_agent_pos
-        
+
         elif (move_action == GO_TO_CS):
-            #print("GO TO CS")
+            # print("GO TO CS")
             self._coming_home = True
             self.residual_battery_when_come_home()
-            
-            #print(self._x_coord, self._y_coord, self._z_coord)
-            #print(self._path_to_the_closest_CS)
-            #print("QUIIIIIIIIIIIIII", self._current_pos_in_path_to_CS)
+
+            # print(self._x_coord, self._y_coord, self._z_coord)
+            # print(self._path_to_the_closest_CS)
+            # print("QUIIIIIIIIIIIIII", self._current_pos_in_path_to_CS)
             new_agent_pos = self._path_to_the_closest_CS[self._current_pos_in_path_to_CS]
             self._x_coord = new_agent_pos[0]
             self._y_coord = new_agent_pos[1]
@@ -261,24 +262,24 @@ class Agent:
 
             # The drone can now move in 8 directions
             if (move_action == HOVERING):
-                #print("HOVERING")
+                # print("HOVERING")
                 self.residual_battery1(move_action)
                 return (next_cell_x, next_cell_y, next_cell_z)
 
             elif (move_action == LEFT):
-                #print("LEFT")
+                # print("LEFT")
                 next_cell_x -= UAV_XY_STEP
 
             elif (move_action == RIGHT):
-                #print("RIGHT")
+                # print("RIGHT")
                 next_cell_x += UAV_XY_STEP
 
             elif (move_action == UP):
-                #print("UP")
+                # print("UP")
                 next_cell_y += UAV_XY_STEP
 
             elif (move_action == DOWN):
-                #print("DOWN")
+                # print("DOWN")
                 next_cell_y -= UAV_XY_STEP
 
             elif (move_action == UPRIGHT):
@@ -302,11 +303,11 @@ class Agent:
                 # print("DOWNLEFT")
 
             elif (move_action == DROP):
-                #print("DROP")
+                # print("DROP")
                 next_cell_z -= UAV_Z_STEP
 
             elif (move_action == RISE):
-                #print("RISE")
+                # print("RISE")
                 next_cell_z += UAV_Z_STEP
 
             self._charging = False
@@ -316,14 +317,14 @@ class Agent:
         new_agent_pos = (next_cell_x, next_cell_y, next_cell_z)
 
         # SOLO PER VEDERE SE FUNZIONA IL PLOT DELLA MAPPA PER L'ANIMAZIONE: --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        #if self._battery_level <= 0:
-            #self._battery_level = 100
+        # if self._battery_level <= 0:
+        # self._battery_level = 100
 
         if (self.off_map_move_3D(new_agent_pos, cells_matrix)):
             new_agent_pos = old_agent_pos
-        
+
         # Constant reduction battery level due to UAV motion and the provided service:
-        #print("DECREMENTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        # print("DECREMENTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         self.residual_battery1(move_action)
 
         self._x_coord = new_agent_pos[0]
@@ -332,8 +333,8 @@ class Agent:
 
         return new_agent_pos
 
-    def move_3D_unlimited_battery(self, old_agent_pos, move_action, cells_matrix): 
-        # # # # # # # # # # # # # # 
+    def move_3D_unlimited_battery(self, old_agent_pos, move_action, cells_matrix):
+        # # # # # # # # # # # # # #
         # 3D motion;              #
         # UNLIMITED UAV battery;  #
         # # # # # # # # # # # # # #
@@ -343,7 +344,6 @@ class Agent:
         next_cell_y = self._y_coord
         next_cell_z = self._z_coord
 
-
         if (move_action == HOVERING):
             return (next_cell_x, next_cell_y, next_cell_z)
 
@@ -388,7 +388,7 @@ class Agent:
         new_agent_pos = (next_cell_x, next_cell_y, next_cell_z)
 
         if (self.off_map_move_3D(new_agent_pos, cells_matrix)):
-            #print("CI SONOOOOOOOOOOOOOOOOOOOOO")
+            # print("CI SONOOOOOOOOOOOOOOOOOOOOO")
             new_agent_pos = old_agent_pos
 
         self._x_coord = new_agent_pos[0]
@@ -397,16 +397,16 @@ class Agent:
 
         return new_agent_pos
 
-    def move(self, old_agent_pos, move_action, cells_matrix): 
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+    def move(self, old_agent_pos, move_action, cells_matrix):
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Move the agent according to 'move_action' and return the 'next_cell'  #
         # on which the considered agent (i.e, UAV) will be placed.              #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # The drone can now move in 8 directions
 
-        #next_cell_x = self._cell._x_coord
-        #next_cell_y = self._cell._y_coord
-        #next_cell_z = self._cell._z_coord
+        # next_cell_x = self._cell._x_coord
+        # next_cell_y = self._cell._y_coord
+        # next_cell_z = self._cell._z_coord
 
         next_cell_x = self._x_coord
         next_cell_y = self._y_coord
@@ -457,7 +457,7 @@ class Agent:
 
         if (self.off_map_move_3D(new_agent_pos, cells_matrix)):
             new_agent_pos = old_agent_pos
-            # Reduction battery level due to the agent motion: 
+            # Reduction battery level due to the agent motion:
             self.residual_battery_after_propulsion(HOVERING)
         else:
             self.residual_battery_after_propulsion(move_action)
@@ -466,16 +466,16 @@ class Agent:
             self._battery_level = 100
 
         # DEVI DEFINIRE 'users' --> !!!!!!!!!!!!!!!!!!!!
-        #users_in_footprint = self.users_in_uav_footprint(users) # --> IMPORTA GLI USERS --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        #n_served_users = self.n_served_users_in_foot_and_type_of_service(users_in_footprint)
-        
+        # users_in_footprint = self.users_in_uav_footprint(users) # --> IMPORTA GLI USERS --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # n_served_users = self.n_served_users_in_foot_and_type_of_service(users_in_footprint)
+
         # # Reduction battery level due to service provided by the agent:
         self.residual_battery_after_service()
 
         # DEVI DEFINIRE 'centroids' --> !!!!!!!!!!!!!!!!!!!!!!!!
-        #cc_reference_ = self.centroid_cluster_reference(centroids) # Selected centroid cluster as reference for the current agent --> IMPORTA I CENTROIDS --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        #d_ag_cc_ = LA.norm(np.array(agent_pos_) - np.array(cc_reference_)) # Distance betwen the agent position and the centroid cluster selected as reference
-        #self._d_ag_cc = d_ag_cc_
+        # cc_reference_ = self.centroid_cluster_reference(centroids) # Selected centroid cluster as reference for the current agent --> IMPORTA I CENTROIDS --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # d_ag_cc_ = LA.norm(np.array(agent_pos_) - np.array(cc_reference_)) # Distance betwen the agent position and the centroid cluster selected as reference
+        # self._d_ag_cc = d_ag_cc_
 
         self._x_coord = new_agent_pos[0]
         self._y_coord = new_agent_pos[1]
@@ -490,10 +490,10 @@ class Agent:
         agent_y = new_agent_pos[1]
 
         if \
-        ( (agent_x < LOWER_BOUNDS) or \
-        (agent_y < LOWER_BOUNDS) or \
-        (agent_x >= CELLS_COLS) or \
-        (agent_y >= CELLS_ROWS) ):
+                ((agent_x < LOWER_BOUNDS) or \
+                        (agent_y < LOWER_BOUNDS) or \
+                        (agent_x >= CELLS_COLS) or \
+                        (agent_y >= CELLS_ROWS)):
 
             return True
 
@@ -508,24 +508,24 @@ class Agent:
         agent_y = new_agent_pos[1]
         agent_z = new_agent_pos[2]
 
-        cell_x = int(agent_x-0.5)
-        cell_y = int(agent_y-0.5)
-        
+        cell_x = int(agent_x - 0.5)
+        cell_y = int(agent_y - 0.5)
+
         if \
-        ( (agent_x < LOWER_BOUNDS) or \
-        (agent_y < LOWER_BOUNDS) or \
-        (agent_z < MIN_UAV_HEIGHT) or \
-        (agent_x >= CELLS_COLS) or \
-        (agent_y >= CELLS_ROWS) or \
-        (agent_z >= MAX_UAV_HEIGHT) or \
-        (cells_matrix[cell_y][cell_x]==OBS_IN) ):
-            
+                ((agent_x < LOWER_BOUNDS) or \
+                        (agent_y < LOWER_BOUNDS) or \
+                        (agent_z < MIN_UAV_HEIGHT) or \
+                        (agent_x >= CELLS_COLS) or \
+                        (agent_y >= CELLS_ROWS) or \
+                        (agent_z >= MAX_UAV_HEIGHT) or \
+                        (cells_matrix[cell_y][cell_x] == OBS_IN)):
+
             return True
-        
+
         else:
-            
+
             return False
-        
+
         '''
         (cells_matrix[cell_y][cell_x]==OBS_IN) ):
             #print("CI SONOOOOOOOOOOOOOOOOOOOOO")
@@ -541,7 +541,7 @@ class Agent:
         # z coordinate of the UAV and its 'angle of view' 'theta'.
 
         theta_radians = radians(theta)
-        radius = z_coord*tan(theta_radians)
+        radius = z_coord * tan(theta_radians)
 
         return radius
 
@@ -553,24 +553,26 @@ class Agent:
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
         distances_from_current_position = [(cell, LA.norm(cell._vector - self._vector)) for cell in desired_cells]
-        # Order the list of tuples according to their second item (i.e. the distance from the current agent position): 
+        # Order the list of tuples according to their second item (i.e. the distance from the current agent position):
         distances_from_current_position.sort(key=lambda x: x[1])
 
         # Set the closest CS (for the current UAV) equal to the first elem of the first tuple of the previous computed ordered list:
         closest_cs_cell = distances_from_current_position[0][0]
         if (DIMENSION_2D == False):
-            z_cs = closest_cs_cell._z_coord+0.5
-            self._cs_goal = (closest_cs_cell._x_coord+0.5, closest_cs_cell._y_coord+0.5, z_cs) # --> SIDE-EFFECT on attribute 'cs_goal'
+            z_cs = closest_cs_cell._z_coord
+            self._cs_goal = (closest_cs_cell._x_coord , closest_cs_cell._y_coord ,
+                             z_cs)  # --> SIDE-EFFECT on attribute 'cs_goal'
         else:
-            self._cs_goal = (closest_cs_cell._x_coord+0.5, closest_cs_cell._y_coord+0.5) # --> SIDE-EFFECT on attribute 'cs_goal'
+            self._cs_goal = (
+            closest_cs_cell._x_coord , closest_cs_cell._y_coord )  # --> SIDE-EFFECT on attribute 'cs_goal'
 
         return distances_from_current_position
 
     @staticmethod
     def setting_agents_pos(cs_points_or_cells):
 
-        UAVS_ON_EACH_CS = N_UAVS//N_CS
-        REMAINING_UAVS_ON_LAST_CS = N_UAVS%N_CS
+        UAVS_ON_EACH_CS = N_UAVS // N_CS
+        REMAINING_UAVS_ON_LAST_CS = N_UAVS % N_CS
         last_CS_index = N_CS - 1
         start_uav_idx = 0
         end_uav_idx = UAVS_ON_EACH_CS
@@ -590,54 +592,58 @@ class Agent:
 
             if (CS_i == last_CS_index):
                 end_uav_idx += REMAINING_UAVS_ON_LAST_CS
-            
-            for UAV_i in range(start_uav_idx, end_uav_idx):
-                uavs_initial_pos.append((cs_points_or_cells[CS_i]._x_coord, cs_points_or_cells[CS_i]._y_coord, cs_points_or_cells[CS_i]._z_coord)) # The value 0.5 indicates that the UAV is assumed to be in the middle of a point or a cell.
 
-            #print((start_uav_idx, end_uav_idx))
+            for UAV_i in range(start_uav_idx, end_uav_idx):
+                uavs_initial_pos.append((cs_points_or_cells[CS_i]._x_coord, cs_points_or_cells[CS_i]._y_coord,
+                                         cs_points_or_cells[
+                                             CS_i]._z_coord))  # The value 0.5 indicates that the UAV is assumed to be in the middle of a point or a cell.
+
+            # print((start_uav_idx, end_uav_idx))
             start_uav_idx = end_uav_idx
 
-            end_uav_idx += UAVS_ON_EACH_CS 
+            end_uav_idx += UAVS_ON_EACH_CS
 
         return uavs_initial_pos
 
     @staticmethod
     def initialize_agents(agents_pos, max_uav_height, action_set):
-        # # # # # # # # # # # # # # # # # # # # # # # # 
+        # # # # # # # # # # # # # # # # # # # # # # # #
         # Initialize the agents on their first start; #
         # 'agents_pos' is a list of tuple (x,y,z).    #
         # # # # # # # # # # # # # # # # # # # # # # # #
 
-        # 'x' and 'y' are derived from the integer part division used with the derired resolution cell (because we only know where the drone is according to the selected resolution): 
-        agents = [Agent((pos[0]+0.5, pos[1]+0.5, pos[2]+0.5), 1, 0, 1, 4, FULL_BATTERY_LEVEL, ACTUAL_UAV_FOOTPRINT, max_uav_height, action_set, False, False, False, 2) for pos in agents_pos]
-        
+        # 'x' and 'y' are derived from the integer part division used with the derired resolution cell (because we only know where the drone is according to the selected resolution):
+        agents = [
+            Agent((pos[0] , pos[1] , pos[2] ), 1, 0, 1, 4, FULL_BATTERY_LEVEL, ACTUAL_UAV_FOOTPRINT,
+                  max_uav_height, action_set, False, False, False, 2) for pos in agents_pos]
+
         return agents
 
     @staticmethod
     def moving_time(a, b, a_max, v_max):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Compute the moving time of the each UAV by assuming that the UAV timing law has #
         # has a conventional trapezoidal speed profile and a bang-coast-bang acceleration #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        N = LA.norm(a - b)*a_max - pow(v_max, 2)
-        D = a_max*v_max
-        Tm = N/D
+        N = LA.norm(a - b) * a_max - pow(v_max, 2)
+        D = a_max * v_max
+        Tm = N / D
 
         return Tm
 
     @staticmethod
     def residual_battery_after_charging(current_residual_battery):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Compute residual battery autonomy after charging; every charge has a minimum  #
         # time of X minutes and thus every time a charge is performed, the UAV has to   #
         # charge for at least X minutes.                                                #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        percentage_of_gained_battery = MINIMUM_CHARGING_TIME/BATTERY_AUTONOMY_TIME
-        gained_battery = percentage_of_gained_battery*100
+        percentage_of_gained_battery = MINIMUM_CHARGING_TIME / BATTERY_AUTONOMY_TIME
+        gained_battery = percentage_of_gained_battery * 100
         new_residual_battery = current_residual_battery + int(round(gained_battery))
-        
+
         return new_residual_battery
 
     def charging_battery1(self):
@@ -648,12 +654,12 @@ class Agent:
 
     @staticmethod
     def residual_battery_after_moving(elapsed_time, current_residual_battery):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Compute residual battery autonomy after moving. #
         # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        percentage_of_battery_loss = elapsed_time/BATTERY_AUTONOMY_TIME
-        battery_loss = percentage_of_battery_loss*100
+        percentage_of_battery_loss = elapsed_time / BATTERY_AUTONOMY_TIME
+        battery_loss = percentage_of_battery_loss * 100
         new_residual_battery = battery_loss - int(round(battery_loss))
 
         return new_residual_battery
@@ -669,27 +675,28 @@ class Agent:
 
         uav_x = self._x_coord
         uav_y = self._y_coord
-        #space_to_check = [(uav_x-uav_footprint, uav_x+uav_footprint), (uav_y-uav_footprint, uav_y+uav_footprint)] # (x_min, x_max), (y_min, y_max) are the extremes coordinates inside the current agent can find a user
+        # space_to_check = [(uav_x-uav_footprint, uav_x+uav_footprint), (uav_y-uav_footprint, uav_y+uav_footprint)] # (x_min, x_max), (y_min, y_max) are the extremes coordinates inside the current agent can find a user
 
         users_in_footprint = []
         for user in users:
             user_x = user._x_coord
             user_y = user._y_coord
-            #user_z = user._z_coord
+            # user_z = user._z_coord
 
             # Update the info related to the current user
-            #user.user_info_update()
+            # user.user_info_update()
 
             # Check who are the users inside the uav footprint (the radius of the footprint has been used):
-            #print(self._vector, "-", np.array([user_x, user_y])) #, user_z
-            #print("DISTANCE USER-UAV:", LA.norm(np.array([uav_x, uav_y]) - np.array([float(user_x), float(user_y)])))
-            #print(self._footprint)
-            #print("UAV:", (uav_x, uav_y), "USER", (float(user_x), float(user_y)))
-            if ( LA.norm(np.array([uav_x, uav_y]) - np.array([float(user_x), float(user_y)])) < self._footprint ): #, user_z
+            # print(self._vector, "-", np.array([user_x, user_y])) #, user_z
+            # print("DISTANCE USER-UAV:", LA.norm(np.array([uav_x, uav_y]) - np.array([float(user_x), float(user_y)])))
+            # print(self._footprint)
+            # print("UAV:", (uav_x, uav_y), "USER", (float(user_x), float(user_y)))
+            if (LA.norm(
+                    np.array([uav_x, uav_y]) - np.array([float(user_x), float(user_y)])) < self._footprint):  # , user_z
                 if (user not in discovered_users):
-                    discovered_users.append(user) # --> SIDE-EFFECT on 'discovered_users'
+                    discovered_users.append(user)  # --> SIDE-EFFECT on 'discovered_users'
                 # Check if the current user inside the UAV footprint is not served OR if it is served yet; in both cases the current agent will serve this user.
-                if ( (not user._info[0]) or (not user in users_in_footprint) ): 
+                if ((not user._info[0]) or (not user in users_in_footprint)):
                     users_in_footprint.append(user)
             '''
             # Check if the X coord of the considered user is inside the current UAV footprint:
@@ -704,14 +711,15 @@ class Agent:
 
     def check_if_on_CS(self):
 
-        if (DIMENSION_2D==False):
-            if ( (self._cs_goal[0]==self._x_coord) and (self._cs_goal[1]==self._y_coord) and (self._cs_goal[2]==self._z_coord) ):
+        if (DIMENSION_2D == False):
+            if ((self._cs_goal[0] == self._x_coord) and (self._cs_goal[1] == self._y_coord) and (
+                    self._cs_goal[2] == self._z_coord)):
                 return True
             else:
                 return False
 
         else:
-            if ( (self._cs_goal[0]==self._x_coord) and (self._cs_goal[1]==self._y_coord)):
+            if ((self._cs_goal[0] == self._x_coord) and (self._cs_goal[1] == self._y_coord)):
                 return True
             else:
                 return False
@@ -742,34 +750,38 @@ class Agent:
         # Set the provided services and served users:
         for user in users_in_foot:
             if (True):
-                user._info[0] = True # TO DO . . . --> Stabilisci una logica/euristica secondo la quale servire un utente oppure no, tenendo conto dei tipi di servizi che andrai ad erogare --> !!!!!!!!!!!!!!!!!!!
-                if (user._info[1] == THROUGHPUT_REQUEST): TS_service += 1
-                elif (user._info[1] == EDGE_COMPUTING): CS_service += 1
-                elif (user._info[1] == DATA_GATHERING): DG_service += 1
+                user._info[
+                    0] = True  # TO DO . . . --> Stabilisci una logica/euristica secondo la quale servire un utente oppure no, tenendo conto dei tipi di servizi che andrai ad erogare --> !!!!!!!!!!!!!!!!!!!
+                if (user._info[1] == THROUGHPUT_REQUEST):
+                    TS_service += 1
+                elif (user._info[1] == EDGE_COMPUTING):
+                    CS_service += 1
+                elif (user._info[1] == DATA_GATHERING):
+                    DG_service += 1
 
             else:
                 user._info[0] = False
 
         # PER IL MOMENTO ASSUMO CHE VENGANO SERVITI TUTTI GLI UTENTI ALL'INTERNO DEL FOOTPRINT DELL'AGENT E CHE VENGANO EROGATI TUTTI I SERVIZI DISPONIBILI: --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         served_users = len(users_in_foot)
-        #self._throughput_request = True
-        #self._edge_computing = True
-        #self._data_gathering = True
+        # self._throughput_request = True
+        # self._edge_computing = True
+        # self._data_gathering = True
 
         return served_users
 
     @staticmethod
     def set_not_served_users(users, all_users_in_all_foots, users_served_time, user_request_service_elapsed_time):
-        # 'all_users_in_all_foots' is a list containing all the users inside all the footprints of each UAVs. 
+        # 'all_users_in_all_foots' is a list containing all the users inside all the footprints of each UAVs.
 
         # Set the users not served:
         for user in users:
             if not (user in all_users_in_all_foots):
-
                 user._info[0] = False
 
             # Update the info related to the current user
-            users_served_time, user_request_service_elapsed_time = user.user_info_update(users_served_time, user_request_service_elapsed_time)
+            users_served_time, user_request_service_elapsed_time = user.user_info_update(users_served_time,
+                                                                                         user_request_service_elapsed_time)
 
     @staticmethod
     def set_not_served_users_inf_request(users, all_users_in_all_foots):
@@ -778,51 +790,49 @@ class Agent:
         # Set the users not served:
         for user in users:
             if not (user in all_users_in_all_foots):
-
                 user._info[0] = False
 
             # Update the info related to the current user
             user.user_info_update_inf_request()
-            
-        #return users_served_time, user_request_service_elapsed_time
 
+        # return users_served_time, user_request_service_elapsed_time
 
-# ______________________________________________________________________________________________________________________________________________________________
-# I) BATTERY CONSUMPTION: only if propulsion and UAVs services are considered together in the same and unique (average) consumption.
+    # ______________________________________________________________________________________________________________________________________________________________
+    # I) BATTERY CONSUMPTION: only if propulsion and UAVs services are considered together in the same and unique (average) consumption.
 
     def residual_battery1(self, move_action):
 
         self._battery_level -= PERC_CONSUMPTION_PER_ITERATION
-        #battery_not_rounded = self._battery_level - PERC_CONSUMPTION_PER_ITERATION
-        #self._battery_level = round(battery_not_rounded)
+        # battery_not_rounded = self._battery_level - PERC_CONSUMPTION_PER_ITERATION
+        # self._battery_level = round(battery_not_rounded)
 
     def needed_battery_to_come_home(self):
 
-        needed_battery_to_cs = self._n_step_to_the_closest_cs*PERC_BATTERY_TO_GO_TO_CS
-        #n_step_with_ususal_consumption = ceil(self._n_step_to_the_closest_cs/STEP_REDUCTION_TO_GO_TO_CS)
-        #needed_battery_to_cs = round(PERC_CONSUMPTION_PER_ITERATION*n_step_with_ususal_consumption, 2)
+        needed_battery_to_cs = self._n_step_to_the_closest_cs * PERC_BATTERY_TO_GO_TO_CS
+        # n_step_with_ususal_consumption = ceil(self._n_step_to_the_closest_cs/STEP_REDUCTION_TO_GO_TO_CS)
+        # needed_battery_to_cs = round(PERC_CONSUMPTION_PER_ITERATION*n_step_with_ususal_consumption, 2)
 
         return needed_battery_to_cs
 
     def residual_battery_when_come_home(self):
 
-        #print("CONSUMPTION TO CS:", self._current_consumption_to_go_cs)
+        # print("CONSUMPTION TO CS:", self._current_consumption_to_go_cs)
         if (self._current_consumption_to_go_cs == PERC_CONSUMPTION_PER_ITERATION):
-            #print("CI SONOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+            # print("CI SONOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             self._battery_level -= PERC_CONSUMPTION_PER_ITERATION
             self._current_consumption_to_go_cs = 1
         else:
             self._current_consumption_to_go_cs += PERC_BATTERY_TO_GO_TO_CS
-        #if ( (self._current_pos_in_path_to_CS+1)%STEP_REDUCTION_TO_GO_TO_CS ):
-            #self._battery_level -= PERC_CONSUMPTION_PER_ITERATION
-# ______________________________________________________________________________________________________________________________________________________________
+        # if ( (self._current_pos_in_path_to_CS+1)%STEP_REDUCTION_TO_GO_TO_CS ):
+        # self._battery_level -= PERC_CONSUMPTION_PER_ITERATION
 
+    # ______________________________________________________________________________________________________________________________________________________________
 
-# ______________________________________________________________________________________________________________________________________________________________
-# II) BATTERY CONSUMPTION: only if propulsion and UAVs services have different battery consumption and a time variable is explicitly used during the training.
+    # ______________________________________________________________________________________________________________________________________________________________
+    # II) BATTERY CONSUMPTION: only if propulsion and UAVs services have different battery consumption and a time variable is explicitly used during the training.
 
     def residual_battery_after_service(self):
-        
+
         battery_consumption = 0
 
         if (self._throughput_request == True):
@@ -832,10 +842,10 @@ class Agent:
 
         self._battery_level -= battery_consumption
 
-    
     def residual_battery_after_propulsion(self, action):
         # The drone can now move in 8 directions
-        if ( (action == LEFT) or (action == RIGHT) or (action == DROP) or (action == RISE) or (action == UPLEFT) or (action == UPRIGHT) or (action == DOWNLEFT) or (action == DOWNRIGHT)):
+        if ((action == LEFT) or (action == RIGHT) or (action == DROP) or (action == RISE) or (action == UPLEFT) or (
+                action == UPRIGHT) or (action == DOWNLEFT) or (action == DOWNRIGHT)):
             battery_consumption = 2
         # Case in which the agent perform an action among HOVERING, RISE and DROP:
         else:
@@ -843,12 +853,8 @@ class Agent:
 
         self._battery_level -= battery_consumption
 
+
 # _______________________________________________________________________________________________________________________________________________________________
-
-
-
-
-
 
 
 # PROVA:
@@ -861,29 +867,30 @@ cs_points = load.cs_points
 cs_cells = load.cs_cells
 enb_cells = load.enb_cells
 cells_matrix = load.cells_matrix
-#print([(cs_cell._x_coord, cs_cell._y_coord, cs_cell._z_coord) for cs_cell in cs_cells])
+# print([(cs_cell._x_coord, cs_cell._y_coord, cs_cell._z_coord) for cs_cell in cs_cells])
 
-uavs_pos = Agent.setting_agents_pos(cs_cells) if UNLIMITED_BATTERY==False else UAVS_POS
-#print("UAVS POS:", uavs_pos)
+uavs_pos = Agent.setting_agents_pos(cs_cells) if UNLIMITED_BATTERY == False else UAVS_POS
+# print("UAVS POS:", uavs_pos)
 max_uav_height_test = 12
 action_set_test = []
 uavs_pos = Agent.initialize_agents(uavs_pos, max_uav_height_test, action_set_test)
-#for uav in uavs_pos:
-    #print((uav._x_coord, uav._y_coord, uav._z_coord))
+# for uav in uavs_pos:
+# print((uav._x_coord, uav._y_coord, uav._z_coord))
 
 cell = Cell(0, 0, 1, 0, 0, 2)
-agent = Agent((1,0,0), 1, 0, 1, 4, 100, None, max_uav_height_test, action_set_test, False, False, False, 2)
-#print("SERVICE BATTERY CONSUMPTION", agent.residual_battery_after_service())
-#print(cell._vector)
-next_cell_coords = agent.move((0,0,0), LEFT, cells_matrix)
-CS_distances = agent.compute_distances(cs_cells) if UNLIMITED_BATTERY==False else print("Unlimited battery case --> No need to compute distance between agent and CS.")
+agent = Agent((1, 0, 0), 1, 0, 1, 4, 100, None, max_uav_height_test, action_set_test, False, False, False, 2)
+# print("SERVICE BATTERY CONSUMPTION", agent.residual_battery_after_service())
+# print(cell._vector)
+next_cell_coords = agent.move((0, 0, 0), LEFT, cells_matrix)
+CS_distances = agent.compute_distances(cs_cells) if UNLIMITED_BATTERY == False else print(
+    "Unlimited battery case --> No need to compute distance between agent and CS.")
 if (CREATE_ENODEB == True):
     eNodeB_distance = agent.compute_distances(enb_cells)
-#print("Disances between agent and charging stations:", CS_distances)
-#print("Disances between agent and eNodeB:", eNodeB_distance)
+# print("Disances between agent and charging stations:", CS_distances)
+# print("Disances between agent and eNodeB:", eNodeB_distance)
 
-#if next_cell_coords == -1:
-    #print("Motion not allowed")
-#else:
-    #print("Actual cell coordinates", (cell._x_coord, cell._y_coord, cell._z_coord))
-    #print("Next cell coordinates:", (next_cell_coords[0], next_cell_coords[1], next_cell_coords[2]))
+# if next_cell_coords == -1:
+# print("Motion not allowed")
+# else:
+# print("Actual cell coordinates", (cell._x_coord, cell._y_coord, cell._z_coord))
+# print("Next cell coordinates:", (next_cell_coords[0], next_cell_coords[1], next_cell_coords[2]))

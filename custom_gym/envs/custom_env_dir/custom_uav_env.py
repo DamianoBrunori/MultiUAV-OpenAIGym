@@ -517,7 +517,7 @@ class UAVEnv(gym.Env):
         
         if noise_prob > 0.9:
             gaussian_noise = np.random.normal(loc=0, scale=1)
-            warped_value = round(walue_to_warp + gaussian_noise + 0.5)
+            warped_value = round(walue_to_warp + gaussian_noise)
         else:
             warped_value = value_to_warp
         
@@ -628,9 +628,9 @@ class UAVEnv(gym.Env):
             agent._battery_level = FULL_BATTERY_LEVEL
             arise_pos_idx = np.random.choice(range(N_UAVS))
             arise_pos = self.initial_uavs_pos[arise_pos_idx]
-            agent._x_coord = arise_pos[0]+0.5
-            agent._y_coord = arise_pos[1]+0.5
-            agent._z_coord = arise_pos[2]+0.5
+            agent._x_coord = arise_pos[0]
+            agent._y_coord = arise_pos[1]
+            agent._z_coord = arise_pos[2]
 
             agent._charging = False
             agent._coming_home = False
