@@ -12,29 +12,30 @@ import time
 import math
 from my_utils import *
 
+
 def function(x, A, B):
     return math.exp(A*x) * math.sin(B*x)
 
 # sys.path.append(os.path.abspath("../custom_gym"))
 # from agent import Agent
 
-
-PRECISION = 10 # TODO move em in constructor
-TIMESAMPLE = 0.5 # expressed in seconds
-VELOCITY = 2 # expressed in m/s
+# TODO: create a config for global variables 
+STD_UAV_VELOCITY = 27 #standard uav velocity (m/s)
+## Class representing UAV drones
 class UAV():
-    def __init__(self,id, start_pos = (0,0,0),dest_pos=(0,0,0),battery_level=100):
-        self.id = id
+    def __init__(self,id, start_pos = (0,0,0),dest_pos=(0,0,0),battery_level=100,velocity=STD_UAV_VELOCITY):
+        self.id = id # Unique (should be) identifier of drones
         self.start_pos = start_pos
         self.dest_pos = dest_pos
         self.trajectory = dict( x = [start_pos[0],dest_pos[0] ],
                                 y = [start_pos[1],dest_pos[1] ],
-                                z = [start_pos[2],dest_pos[2] ] )
-        self.velocity = 1        
+                                z = [start_pos[2],dest_pos[2] ] ) # Dictionary of coord-points of trajectory (initially just [start,dest]) 
+        self.velocity = velocity   # Cruise speed of the drone TODO change it for speed name
         self._battery_level = battery_level
         self._coming_home = False
         self._crashed = False
 
+    ## Preatty print trajectory of current drone
     def print_trajectory(self):
         coo=["x","y","z"]
         for i,k in enumerate(self.trajectory):
@@ -43,57 +44,36 @@ class UAV():
 
 class FlightSimulator():
     def __init__(self,uavs=None):
-        self.uavs = uavs
+        self.uavs = uavs # List of uavs in the simulator
         self.num_uavs = len(uavs)
         self.started = False
-
+        self.timesample = 0.5 # NOTE: it's the sampling interval time for a trajectory
+        ## Parameters of gaussian
         self.mean = 0
         self.std = 1
-        
+
+    ## Generate 3D point (x,y,z) inside bounded uniform distribution
+    def __gen_uniform_position(self,xmin,xmax,ymin,ymax,zmin,zmax):
+        return ( uniform(xmin,xmax), uniform(ymin,ymax), uniform(zmin,zmax) )
+
     # Start the simulation of flights
     def start(self, num_uavs,xmin,xmax,ymin,ymax,zmin,zmax,mean=0,std=0.3):
             
         for i in range( num_uavs ):
             # Choose casual start and dest pos in specified bounds
-            start_pos = ( uniform(xmin,xmax), uniform(ymin,ymax),  uniform(zmin,zmax) )
-            dest_pos = ( uniform(xmin,xmax), uniform(ymin,ymax), uniform(zmin,zmax) ) 
+            
+            start_pos = self.__gen_uniform_position(xmin,xmax,ymin,ymax,zmin,zmax)
+
+            dest_pos =  self.__gen_uniform_position(xmin,xmax,ymin,ymax,zmin,zmax)
             
             # Create uav object
             uav = UAV(id = "uav"+ str(i),start_pos = start_pos,dest_pos = dest_pos )
             self.uavs.append( uav )
 
-            # uav.trajectory["x"] = np.array( self.__interpolate(uav.start_pos[0],uav.dest_pos[0],PRECISION) )
-            # if(xmin != xmax):
-            #     noise = np.random.normal(self.mean,self.std,PRECISION) # NOTE
-            #     uav.trajectory["x"] += np.append(np.append(0,noise),0)
-
-            # uav.trajectory["y"] = np.array( self.__interpolate(uav.start_pos[1],uav.dest_pos[1],PRECISION) )
-            #     noise = np.random.normal(self.mean,self.std,PRECISION) # NOTE
-            #     uav.trajectory["y"] +=  np.append(np.append(0,noise),0)
-
-            # uav.trajectory["z"] = np.array( self.__interpolate(uav.start_pos[2],uav.dest_pos[2],PRECISION) )
-            # if(zmin != zmax):
-            #     noise = np.random.normal(self.mean,self.std,PRECISION) # NOTE
-            #     uav.trajectory["z"] +=  np.append(np.append(0,noise),0)
-
-
-            # uav.trajectory["x"],len_x =  self.__create_points_single_axis(uav.start_pos[0],uav.dest_pos[0],TIMESAMPLE,VELOCITY) 
-            # # if(xmin != xmax  ):
-            # #     noise = np.random.normal(self.mean,self.std,len_x-2)   # NOTE
-            # #     uav.trajectory["x"] +=  np.append(np.append(0,noise),0)
-            
-            # uav.trajectory["y"],len_y =  self.__create_points_single_axis(uav.start_pos[1],uav.dest_pos[1],TIMESAMPLE,VELOCITY) 
-            # # if(ymin != ymax  ):
-            # #     noise = np.random.normal(self.mean,self.std,len_y-2) # NOTE
-            # #     uav.trajectory["y"] +=  np.append(np.append(0,noise),0)
-
-            # uav.trajectory["z"],len_z =  self.__create_points_single_axis(uav.start_pos[2],uav.dest_pos[2],TIMESAMPLE,VELOCITY) 
-            # # if(zmin != zmax ):
-            # #     noise = np.random.normal(self.mean,self.std,len_z-2) # NOTE
-            # #     uav.trajectory["z"] +=  np.append(np.append(0,noise),0)
-
-            uav.trajectory["x"],uav.trajectory["y"],uav.trajectory["z"]= self.__create_sample_points(start_pos,dest_pos,TIMESAMPLE,VELOCITY)
-
+            # Simulate Trajectory for this uav
+            uav.trajectory["x"],uav.trajectory["y"],uav.trajectory["z"]= self.__create_sample_points(start_pos,dest_pos,
+                                                                            self.timesample,uav.velocity)
+            # Print computed trajectory
             uav.print_trajectory()
 
 
@@ -109,8 +89,9 @@ class FlightSimulator():
         self.__save()
         pass
 
-    # Save result of simulation
-    def __save(self): #TODO
+
+    # TODO Save result (trajectories, other infos...) of simulation in a file or other
+    def __save(self): 
         pass
 
     def get_all_paths(self):
@@ -119,6 +100,8 @@ class FlightSimulator():
     def get_all_2D_paths(self):
         return [ [uav.start_pos[:-1], uav.dest_pos[:-1] ] for uav in self.uavs ]
 
+    # From a,b points generate [a,...,c,....,b] points where c are points inside interval on segment connecting a-b
+    # TODO remove it (DEPRECATED)  
     def __interpolate(self,a,b,precision):
         points=[]
         for i in range(0,precision+1):
@@ -126,7 +109,8 @@ class FlightSimulator():
             points.append(res)
         points.append(b)
         return points
-        
+    
+    # Generate points inside a-b segment [a,...,b] using step as a time based sampler
     def __create_points_single_axis(self,a,b,step):
         # print("**",a,b)
         if(step==0):
@@ -140,7 +124,7 @@ class FlightSimulator():
     
 
 
-    # Return sampled array of points with Gaussian Noise
+    # Return sampled array of points with Gaussian Noise based on velocity and timestamp
     def __create_sample_points(self,a,b,timesample,velocity):
         # TODO 3 velocities x y z
         
@@ -188,8 +172,6 @@ class FlightSimulator():
         # colors = np.array([(1,0,0,1), (0, 1, 0, 1), (0, 0, 1, 1)])
         # paths = self.get_all_2D_paths()  
         paths,starts_xs,starts_ys,dest_xs,dest_ys = ( [] for _ in range(5) )
-        num_points = 100 #Number of points in a line
-        precision = 10  # num of points per line
         
 
         fig, ax = plt.subplots()
@@ -270,9 +252,9 @@ class FlightSimulator():
 if (__name__ == "__main__"):
     uavs = []   
 
-  
+    
     fs = FlightSimulator(uavs)
-    fs.start(num_uavs=1,xmin=-10,xmax=10,ymin=-10,ymax=10,zmin=4,zmax=4,mean=0,std=0.3)
+    fs.start(num_uavs=5,xmin=-10,xmax=10,ymin=-10,ymax=10,zmin=4,zmax=4,mean=0.2,std=10)
     fs.plot_2D()
     fs.plot_3D()
     [u.print_trajectory() for u in fs.uavs]
