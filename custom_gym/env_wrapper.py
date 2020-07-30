@@ -15,6 +15,7 @@ from my_utils import *
 import agent
 from Astar import *
 
+
 # ---------------------------------------------------------------------------------------------------------------------------------------
 
 WIDTH = 400
@@ -260,14 +261,14 @@ def compute_prior_rewards(agent_pos_xy, best_prior_knowledge_points):
 
     return prior_rewards
 
-    current_uav_q_table[(x_agent+0.5, y_agent+0.5)] = [(1 - normalized_ref_dist) for action in range(n_actions)]
+    current_uav_q_table[(x_agent, y_agent)] = [(1 - normalized_ref_dist) for action in range(n_actions)]
 
 if (PRIOR_KNOWLEDGE == True):
     subareas_limits, subareas_middle_points = compute_subareas(CELLS_COLS, CELLS_ROWS, X_SPLIT, Y_SPLIT)
     #print("SUBAREASSSSSSSSSSSS", subareas_limits)
     #print("MIDDLEEEEEEEEEEEEEE", subareas_middle_points)
     best_prior_knowledge_points = []
-    diagonal_area_value = sqrt(pow(CELLS_ROWS, 2) + pow(CELLS_COLS, 2))-0.5 # --> The diagonal is the maximum possibile distance between two points, and then it will be used to normalize the distance when the table is initialized under the assumption of 'prior knowledge'. 0.5 is used because the UAV is assumed to move from the middle of a cell to the middle of another one.
+    diagonal_area_value = sqrt(pow(CELLS_ROWS, 2) + pow(CELLS_COLS, 2)) # --> The diagonal is the maximum possibile distance between two points, and then it will be used to normalize the distance when the table is initialized under the assumption of 'prior knowledge'. 0.5 is used because the UAV is assumed to move from the middle of a cell to the middle of another one.
 
     for centroid in env_centroids:
         centroid_x = centroid[0]
@@ -286,7 +287,16 @@ if (PRIOR_KNOWLEDGE == True):
 DEFAULT_CLOSEST_CS = (None, None, None) if DIMENSION_2D==False else (None, None)
 
 def choose_action(uavs_q_tables, which_uav, obs, agent, battery_in_CS_history):
-
+    #print(which_uav,"which_uaaaaav")
+    #print(obs, "Obs No Approximate")
+    #print(type(obs[0]))
+    #print(type(obs[1]))
+    #print(type(obs[2])) # caso 3D
+    if (ANALYZED_CASE == 1 and 2):
+        obs = (round(obs[0], APPROXIMATE), round(obs[1], APPROXIMATE))
+    elif (ANALYZED_CASE == 3 and 4):
+        obs = (round(obs[0], APPROXIMATE), round(obs[1], APPROXIMATE), round(obs[2], APPROXIMATE))
+    #print(obs, "Approximate")
     all_actions_values = [values for values in uavs_q_tables[which_uav][obs]]
     current_actions_set = agent._action_set
     
@@ -510,21 +520,35 @@ if uavs_q_tables is None:
     uavs_q_tables = [None for uav in  range(N_UAVS)]
     explored_states_q_tables = [None for uav in range(N_UAVS)]
     uav_counter = 0
-    
+
     for uav in range(N_UAVS):
         current_uav_q_table = {}
         current_uav_explored_table = {}
-        
-        for x_agent in range(map_width):
-            x_agent += 0.5
 
-            for y_agent in range(map_length):
-                y_agent += 0.5
+
+        for x_agent in np.arange(0,map_width, 0.1): #x cordinates in q_table (0.1, 0.2, 0.3 ..)
+            #x_agent = round(x_agent,2)
+
+            #print (x_agent,"Eccccccooo:")
+
+                #current_uav_q_table.update({x_agent})
+            for y_agent in np.arange(0,map_width, 0.1): #y cordinates in q_table (0.1, 0.2, 0.3 ..)
+                #y_agent = round(y_agent, 2)
+
+                #y_agent = round(x_agent, 2)
+                #if not y_agent in current_uav_q_table:
+                    #print( 'Valore Y',x_agent, y_agent)
+                    #current_uav_q_table.update({9})
 
                 # 2D case with UNLIMITED UAVs battery autonomy:
                 if (ANALYZED_CASE == 1):
-                    
-                    #print((x_agent+0.5, y_agent+0.5))
+                    x_agent = round(x_agent, APPROXIMATE)
+                    y_agent = round(y_agent, APPROXIMATE)
+                    #print(x_agent, y_agent)
+                    #print("approssimato", x_agent, y_agent)
+
+                    #if not y_agent in current_uav_q_table:
+
                     if (PRIOR_KNOWLEDGE == True):
                         prior_rewards = compute_prior_rewards((x_agent, y_agent), best_prior_knowledge_points)
                         current_uav_q_table[(x_agent, y_agent)] = [prior_rewards[action] for action in range(n_actions)]
@@ -534,11 +558,12 @@ if uavs_q_tables is None:
                         current_uav_q_table[(x_agent, y_agent)] = [np.random.uniform(0, 1) for action in range(n_actions)]
 
                     current_uav_explored_table[(x_agent, y_agent)] = [False for action in range(n_actions)]
+                    #print(current_uav_q_table)
 
                 # 2D case with LIMITED UAVs battery autonomy:
                 elif (ANALYZED_CASE == 2):
-                    #for battery_level in range(N_BATTERY_LEVELS+1):
-                    for battery_level in np.arange(0, FULL_BATTERY_LEVEL+1, PERC_CONSUMPTION_PER_ITERATION):
+                    for battery_level in range(N_BATTERY_LEVELS+1):
+                    #for battery_level in np.arange(0, FULL_BATTERY_LEVEL+1, PERC_CONSUMPTION_PER_ITERATION):
 
                         if (PRIOR_KNOWLEDGE == True):
                             prior_rewards = compute_prior_rewards((x_agent, y_agent), best_prior_knowledge_points)
@@ -552,8 +577,11 @@ if uavs_q_tables is None:
                 
                 # 3D case with UNLIMITED UAVs battery autonomy:
                 elif (ANALYZED_CASE == 3):
-                    for z_agent in range(MIN_UAV_HEIGHT, MAX_UAV_HEIGHT, UAV_Z_STEP):
-                        z_agent += 0.5
+                    #for z_agent in range(MIN_UAV_HEIGHT, MAX_UAV_HEIGHT, UAV_Z_STEP):
+                    for z_agent in np.arange(MIN_UAV_HEIGHT, MAX_UAV_HEIGHT, UAV_Z_STEP):
+                        z_agent = round(z_agent, APPROXIMATE)
+                        x_agent = round(x_agent, APPROXIMATE)
+                        y_agent = round(y_agent, APPROXIMATE)
 
                         if (PRIOR_KNOWLEDGE == True):
                             prior_rewards = compute_prior_rewards((x_agent, y_agent), best_prior_knowledge_points)
@@ -568,8 +596,12 @@ if uavs_q_tables is None:
 
                 # 3D case with LIMITED UAVs battery autonomy:
                 elif (ANALYZED_CASE == 4):
-                    for z_agent in range(MIN_UAV_HEIGHT, MAX_UAV_HEIGHT, UAV_Z_STEP):
-                        z_agent += 0.5
+                    #for z_agent in range(MIN_UAV_HEIGHT, MAX_UAV_HEIGHT, UAV_Z_STEP):
+                    for z_agent in np.arange(MIN_UAV_HEIGHT, MAX_UAV_HEIGHT, UAV_Z_STEP):
+                        z_agent = round(z_agent, APPROXIMATE)
+                        x_agent = round(x_agent, APPROXIMATE)
+                        y_agent = round(y_agent, APPROXIMATE)
+
                         #for battery_level in range(N_BATTERY_LEVELS+1):
                         for battery_level in np.arange(0, FULL_BATTERY_LEVEL+1, PERC_CONSUMPTION_PER_ITERATION):
                             
@@ -828,8 +860,27 @@ for episode in range(1, EPISODES+1):
             #print("DOPOOOOOOO", obs_)
             print(" - Iteration: {it:1d} - Reward per UAV {uav:1d}: {uav_rew:6f}".format(it=i+1, uav=UAV+1, uav_rew=reward), end="\r", flush=True)
 
+            #print (UAV, "uaaaav")
+            print("- Obs_ No approximate: ", obs_)
+            #print(action, "actioon")
+            ##print(type(obs_[0]))
+            if (ANALYZED_CASE == 1 and 2):
+                obs_ = (round(obs_[0], APPROXIMATE), round(obs_[1], APPROXIMATE))
+            elif (ANALYZED_CASE == 3 and 4):
+                obs_ = (round(obs_[0], APPROXIMATE), round(obs_[1], APPROXIMATE), round(obs_[2], APPROXIMATE))
+
+            print("- Approximate: ", obs_)
+            #obs_[1] = round(obs_[1], 2)
             if not explored_states_q_tables[UAV][obs_][action]:
+                #print (UAV, "uaaaav")
+                #print(obs_, "obssssssss")
+                #print(action, "actiooooonnnn")
+                #print(explored_states_q_tables[UAV][obs_][action])
+                #print(explored_states_q_tables[UAV], "UAV\n")
+                #print(explored_states_q_tables[UAV][obs_][action], "OBS\n\n")
                 explored_states_q_tables[UAV][obs_][action] = True
+
+
 
             if (info=="IS CHARGING"):
                 continue
@@ -863,6 +914,11 @@ for episode in range(1, EPISODES+1):
                 print("MA COMEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
                 print("MAX FUTURE Q:", max_future_q, "VALUES:", uavs_q_tables[UAV][obs_])
             '''
+            #print(type(obs_[0]))
+            if (ANALYZED_CASE == 1 and 2):
+                obs = (round(obs[0], APPROXIMATE), round(obs[1], APPROXIMATE))
+            elif (ANALYZED_CASE == 3 and 4):
+                obs = (round(obs[0], APPROXIMATE), round(obs[1], APPROXIMATE), round(obs[2], APPROXIMATE))
             current_q = uavs_q_tables[UAV][obs][action]
             '''
             if current_q > 1:
@@ -1053,7 +1109,7 @@ print("\nSaving Epsilon chart trend . . .")
 plot.epsilon(epsilon_history, EPISODES, saving_directory)
 print("Epsilon chart trend saved.")
 
-print("Saving Min and Max values related to the Q-Tables for episode", episode, ". . .")
+'''print("Saving Min and Max values related to the Q-Tables for episode", episode, ". . .")
 for uav in range(1, N_UAVS+1):
     #current_dir = q_tables_directories[uav-1]
     #current_dir = join(uav_directory+str(uav), q_tables_directory)
@@ -1064,6 +1120,7 @@ for uav in range(1, N_UAVS+1):
     #current_dir = join(q_tables_directory, uav_directory+str(uav))
     #print("AOOOOOOH", current_dir + f"/qtable_graph-ep{episode}.png")
 print("Min and Max values related to the Q-Tables for episode saved.\n")
+'''
 
 #saving_qtable_name = q_tables_directories[uav-1] + f"/qtable-ep{episode}.npy"
 #np.save(saving_qtable_name, uavs_q_tables)
