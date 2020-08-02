@@ -393,3 +393,12 @@ INITIAL_CLUSTERS_RADIUSES = "initial_clusters_radiuses.npy"
 INITIAL_CLUSTERER = "initial_clusterer.npy"
 
 AGENTS = "agents.npy"
+
+
+#------------------------Transition_Model------------------------#
+PLOTRANGE_X_POS = 8
+PLOTRANGE_X_NEG = -8
+PLOTRANGE_Y_POS = 8
+PLOTRANGE_Y_NEG = -8
+PLOTRANGE_Z_POS = 10
+PLOTRANGE_Z_NEG = 0

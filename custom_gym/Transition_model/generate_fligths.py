@@ -10,7 +10,28 @@ import numpy as np
 
 import time
 import math
+from custom_gym.my_utils import *
 from my_utils import *
+# Simulation parameters
+g = 9.81
+m = 0.2
+Ixx = 1
+Iyy = 1
+Izz = 1
+T = 5
+
+# Proportional coefficients
+Kp_x = 1
+Kp_y = 1
+Kp_z = 1
+Kp_roll = 25
+Kp_pitch = 25
+Kp_yaw = 25
+
+# Derivative coefficients
+Kd_x = 10
+Kd_y = 10
+Kd_z = 1
 
 
 def function(x, A, B):
@@ -23,14 +44,22 @@ def function(x, A, B):
 STD_UAV_VELOCITY = 27 #standard uav velocity (m/s)
 ## Class representing UAV drones
 class UAV():
-    def __init__(self,id, start_pos = (0,0,0),dest_pos=(0,0,0),battery_level=100,velocity=STD_UAV_VELOCITY):
+    def __init__(self,id, start_pos = (0,0,0),dest_pos=(0,0,0),battery_level=100,velocity=STD_UAV_VELOCITY, start_acc=[0,0,0], des_acc=[0,0,0]):
         self.id = id # Unique (should be) identifier of drones
         self.start_pos = start_pos
         self.dest_pos = dest_pos
         self.trajectory = dict( x = [start_pos[0],dest_pos[0] ],
                                 y = [start_pos[1],dest_pos[1] ],
                                 z = [start_pos[2],dest_pos[2] ] ) # Dictionary of coord-points of trajectory (initially just [start,dest]) 
-        self.velocity = velocity   # Cruise speed of the drone TODO change it for speed name
+        #Accelerazione------------------
+        self.start_x_acc = start_acc[0]
+        self.start_y_acc = start_acc[1]
+        self.start_z_acc = start_acc[2]
+        self.des_x_acc = des_acc[0]
+        self.des_y_acc = des_acc[1]
+        self.des_z_acc = des_acc[2]
+        #-------------------------------
+        self.velocity = velocity   #
         self._battery_level = battery_level
         self._coming_home = False
         self._crashed = False
