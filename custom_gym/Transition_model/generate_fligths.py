@@ -165,6 +165,7 @@ class FlightSimulator():
         dy= abs(yf-yi)        
         dz= abs(zf-zi)        
         
+        # Velocieties on axis
         d = math.sqrt( dx*dx + dy*dy + dz*dz)
         vx = dx/d * velocity
         vy = dy/d * velocity
@@ -194,7 +195,7 @@ class FlightSimulator():
         return res 
 
         
-
+    # Plot all uavs trajectories in 2D
     def plot_2D(self):
         if (not self.started):
             raise Exception("You need to start the simulator first")
@@ -241,7 +242,7 @@ class FlightSimulator():
 
 
 
-
+    # Plot all uavs trajectories in 3D
     def plot_3D(self):
 
         cmap=plt.get_cmap('copper')
@@ -280,8 +281,6 @@ class FlightSimulator():
 
 if (__name__ == "__main__"):
     uavs = []   
-
-    
     fs = FlightSimulator(uavs)
     fs.start(num_uavs=5,xmin=-10,xmax=10,ymin=-10,ymax=10,zmin=4,zmax=4,mean=0.2,std=10)
     fs.plot_2D()
