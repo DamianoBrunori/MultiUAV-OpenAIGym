@@ -8,10 +8,14 @@ from mpl_toolkits.mplot3d import Axes3D
 
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.cbook import get_sample_data
+<<<<<<< Updated upstream
 from matplotlib._png import read_png
 import os
 from my_utils import *
 #from pylab import *
+=======
+import os 
+>>>>>>> Stashed changes
 
 class Quadrotor():
     def __init__(self, id, x=0, y=0, z=0, roll=0, pitch=0, yaw=0, size=0.25, battery_level=100, show_animation=True):
@@ -42,12 +46,19 @@ class Quadrotor():
         self.x = x
         self.y = y
         self.z = z
-
+<<<<<<< Updated upstream
         self.roll = roll      #Rollio fa spostare il drone verso destra o sinistra
         self.pitch = pitch    #Beccheggio fa avanzare il drone in avanti o indietro
-        self.yaw = yaw        #Ruota il drone sul proprio asse o in senso orario o antiorario      
-        
+        self.yaw = yaw        #Ruota il drone sul proprio asse o in senso orario o antiorario
         self.x_data.append(x) #Lista di punti da cui si ottiene la traiettoria
+=======
+
+        self.roll = roll    #Rollio fa spostare il drone verso destra o sinistra
+        self.pitch = pitch  #Beccheggio fa avanzare il drone in avanti o indietro
+        self.yaw = yaw      #Ruota il drone sul proprio asse o in senso orario o antiorario
+        
+        self.x_data.append(x)
+>>>>>>> Stashed changes
         self.y_data.append(y)
         self.z_data.append(z)
 

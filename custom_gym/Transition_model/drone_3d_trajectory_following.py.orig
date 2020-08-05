@@ -92,7 +92,11 @@ def quad_sim(x_c, y_c, z_c):
                   pitch=pitch, yaw=yaw, size=1, show_animation=show_animation)
 
     i = 0
+<<<<<<< Updated upstream
     n_run = 4 #Numero di Round (quanti waypoints vuoi vedere)
+=======
+    n_run = 4 # Numero di Round (quanti waypoints vuoi vedere)
+>>>>>>> Stashed changes
     irun = 0
 
     while True:
@@ -235,6 +239,7 @@ def rotation_matrix(roll, pitch, yaw):
         Roll: Angular position about the x-axis in radians.
         Pitch: Angular position about the y-axis in radians.
         Yaw: Angular position about the z-axis in radians.
+
     Returns
         3x3 rotation matrix as NumPy array
     """
