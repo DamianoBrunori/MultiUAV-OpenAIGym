@@ -2,7 +2,9 @@ from math import cos, sin
 from numpy.random import seed
 from numpy.random import randint
 
+
 import numpy as np
+import math
 
 from Quadrotor import Quadrotor
 from TrajectoryGenerator import TrajectoryGenerator
@@ -87,7 +89,7 @@ def quad_sim(x_c, y_c, z_c):
                   pitch=pitch, yaw=yaw, size=1, show_animation=show_animation)
 
     i = 0
-    n_run = 8 #Numero di Round (quanti waypoints vuoi vedere)
+    n_run = 4 #Numero di Round (quanti waypoints vuoi vedere)
     irun = 0
 
     while True:
@@ -124,27 +126,48 @@ def quad_sim(x_c, y_c, z_c):
             R = rotation_matrix(roll, pitch, yaw)
             acc = (np.matmul(R, np.array(
                 [0, 0, thrust.item()]).T) - np.array([0, 0, m * g]).T) / m
-            
+
+
+
             x_acc = acc[0]
             y_acc = acc[1]
             z_acc = acc[2]
 
-            x_vel += x_acc * dt #Accelerazione * Tempo
+            vel_ms = math.sqrt(x_vel**2 + y_vel**2 + z_vel**2)
+            acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2 + z_acc ** 2)
+            vel_kmh =  vel_ms*(60**2)/1000
+            acc_kmh =  acc_ms*(60**2)/1000
+
+            #des_vel_ms = math.sqrt(des_x_vel ** 2 + des_y_vel ** 2 + des_z_vel ** 2)
+            #print("Des_vel_ms: ", des_vel_ms)
+
+
+            x_vel += x_acc * dt  # Accelerazione * Tempo
             y_vel += y_acc * dt
             z_vel += z_acc * dt
 
-            x_pos += x_vel * dt #Velocità * Tempo
+            x_pos += x_vel * dt  # Velocità * Tempo
             y_pos += y_vel * dt
             z_pos += z_vel * dt
+
+            #pos_ms = math.sqrt(x_pos ** 2 + y_pos ** 2 + z_pos ** 2)
+            #vel2 = pos_ms * dt
+            #print(vel2,"oooooooooooooooooooooo")
+
 
             UAV.update_pose(x_pos, y_pos, z_pos, roll, pitch, yaw)
 
             t += dt
-            print("Velocità x,y,z: ", x_vel, y_vel, z_vel, )
-            print("Acceleration: ", acc)
+            #print("Velocità x,y,z: ", x_vel, y_vel, z_vel, )
+            #("Acceleration: ", acc)
             print("Spinta-thrust: ", thrust)
-            print("roll, pitch, yaw: ", roll, pitch, yaw )
-            #print("des_vel", des_x_acc, des_y_acc, des_x_vel, des_y_vel, des_z_vel)
+            #print("roll, pitch, yaw: ", roll, pitch, yaw )
+            print("Velocity m/s: ", vel_ms)
+            print("Velocity Km/h: ", vel_kmh)
+            print("Acceleration m/s: ", acc_ms)
+            print("Acceleration km/h: ", acc_kmh)
+            #print(des_y_vel, "sacsdcsdvsdvds")
+            #print("des_vel", des_x_vel, des_y_vel, des_z_vel)
        
         t = 0
         i = (i + 1) % 4
@@ -232,8 +255,10 @@ def main():
     z_coeffs = [[], [], [], []]
 
     if SEED!=None: seed(SEED)
-    values = randint(0, 8, 3)
-    waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
+    #values = randint(0, 8, 3)
+    values = 5
+    #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
+    waypoints = [[-values, -values, values], [values, -values, values], [values, values, values], [-values, values, values]]
     print("Waypoints: ", waypoints)
 
     for i in range(4):

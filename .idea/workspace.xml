@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:upstream" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="11023ed5-b641-4a36-af99-f9cca342b20a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/UAV_RL_Thesis.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/UAV_RL_Thesis.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/Q-values_per_epoch_UAVs.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/Q-values_per_epoch_UAVs.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/QoE1.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/QoE1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/QoE2.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/QoE2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/Rewards_per_epoch_UAVs.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/Rewards_per_epoch_UAVs.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/UAV1/QTables/qtable-ep5.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/UAV1/QTables/qtable-ep5.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/UAV2/QTables/qtable-ep5.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/UAV2/QTables/qtable-ep5.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep1.gif" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep1.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep2.gif" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep2.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep3.gif" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep3.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep4.gif" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep4.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep5.gif" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep5.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/env_and_train_info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/env_and_train_info.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/q_tables.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/q_tables.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Environment_Views/Desired_Resolution.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Environment_Views/Desired_Resolution.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Environment_Views/Minimum_Resolution.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Environment_Views/Minimum_Resolution.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/Quadrotor.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Quadrotor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/generate_fligths.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/generate_fligths.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model_2/Quadrotor.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model_2/TrajectoryGenerator.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model_2/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model_2/drone_3d_trajectory_following.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model_2/my_utils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/env_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/env_wrapper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/figures/plotting2.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/figures/plotting2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/initial_users/initial_centroids.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/initial_users/initial_centroids.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/initial_users/initial_clusterer.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/initial_users/initial_clusterer.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/initial_users/initial_clusters_radiuses.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/initial_users/initial_clusters_radiuses.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/initial_users/initial_users.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/initial_users/initial_users.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/map_data/obs_points.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/map_data/obs_points.npy" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/my_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/my_utils.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1egNDIBydwxH8Ob7LSvT1b5UhKc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/custom_gym/Transition_model_v2/Quadrotor.py" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/custom_gym/Transition_model_v2/Quadrotor.py" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ASUS\Desktop\Tesi-UAV\UAV_RL_Thesis\custom_gym\Transition_model_v2" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ASUS\Desktop\Tesi-UAV\UAV_RL_Thesis\custom_gym\Transition_model_2" />
+      <recent name="C:\Users\ASUS\Desktop\Tesi-UAV\UAV_RL_Thesis\custom_gym" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.my_utils">
+    <configuration name="Quadrotor" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="UAV_RL_Thesis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/custom_gym/Transition_model" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/custom_gym/Transition_model/Quadrotor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TrajectoryGenerator" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="UAV_RL_Thesis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/custom_gym/Transition_model_2" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\ASUS\Desktop\Tesi-UAV\UAV_RL_Thesis\custom_gym\Transition_model_v2\TrajectoryGenerator.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="__init__ (1)" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="UAV_RL_Thesis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/custom_gym/Transition_model_2" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/custom_gym/Transition_model_2/__init__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="UAV_RL_Thesis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/custom_gym" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/custom_gym/__init__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="drone_3d_trajectory_following" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="UAV_RL_Thesis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/custom_gym/Transition_model" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="my_utils (1)" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="UAV_RL_Thesis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/custom_gym/Transition_model" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/custom_gym/Transition_model/my_utils2.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="my_utils" type="PythonConfigurationType" factoryName="Python">
+      <module name="UAV_RL_Thesis" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/custom_gym/Transition_model" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.TrajectoryGenerator" />
+        <item itemvalue="Python.my_utils" />
+        <item itemvalue="Python.__init__" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="11023ed5-b641-4a36-af99-f9cca342b20a" name="Default Changelist" comment="" />
+      <created>1594739154690</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1594739154690</updated>
+      <workItem from="1594739156152" duration="14000" />
+      <workItem from="1594801554721" duration="784000" />
+      <workItem from="1595260615163" duration="34070000" />
+      <workItem from="1595442627434" duration="1107000" />
+      <workItem from="1595443735389" duration="9246000" />
+      <workItem from="1595492319200" duration="8643000" />
+      <workItem from="1595513477790" duration="5944000" />
+      <workItem from="1595539507924" duration="2119000" />
+      <workItem from="1595579669415" duration="4527000" />
+      <workItem from="1595602754560" duration="2843000" />
+      <workItem from="1595775912582" duration="22059000" />
+      <workItem from="1595972646004" duration="5609000" />
+      <workItem from="1595978524653" duration="4428000" />
+      <workItem from="1596021560416" duration="2789000" />
+      <workItem from="1596038187647" duration="1766000" />
+      <workItem from="1596183844245" duration="3266000" />
+      <workItem from="1596206324230" duration="2945000" />
+      <workItem from="1596273555339" duration="1676000" />
+      <workItem from="1596277381768" duration="3641000" />
+      <workItem from="1596291233804" duration="5411000" />
+      <workItem from="1596367276771" duration="3467000" />
+      <workItem from="1596405715824" duration="1087000" />
+      <workItem from="1596406812996" duration="624000" />
+      <workItem from="1596407445399" duration="1496000" />
+      <workItem from="1596443501750" duration="187000" />
+      <workItem from="1596443695425" duration="456000" />
+      <workItem from="1596444159096" duration="7636000" />
+      <workItem from="1596621583793" duration="2500000" />
+      <workItem from="1596624094303" duration="295000" />
+      <workItem from="1596624395720" duration="182000" />
+      <workItem from="1596624596098" duration="13000" />
+      <workItem from="1596624616536" duration="992000" />
+      <workItem from="1596625615823" duration="15225000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="484" y="8" key="#Quadrotor" timestamp="1596622629809">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="484" y="8" key="#Quadrotor/0.0.1536.824@0.0.1536.824" timestamp="1596622629809" />
+    <state x="484" y="8" key="#__init___(1)" timestamp="1596406410427">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="484" y="8" key="#__init___(1)/0.0.1536.824@0.0.1536.824" timestamp="1596406410427" />
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1596407877152">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.824@0.0.1536.824" timestamp="1596407877152" />
+    <state x="484" y="8" key="#drone_3d_trajectory_following" timestamp="1596624538840">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="484" y="8" key="#drone_3d_trajectory_following/0.0.1536.824@0.0.1536.824" timestamp="1596624538840" />
+    <state x="101" y="11" key="#my_utils_(1)" timestamp="1596624924235">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="101" y="11" key="#my_utils_(1)/0.0.1536.824@0.0.1536.824" timestamp="1596624924235" />
+    <state x="101" y="11" key="#my_utils_(2)" timestamp="1596624938895">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="101" y="11" key="#my_utils_(2)/0.0.1536.824@0.0.1536.824" timestamp="1596624938895" />
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1596623569891">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1596623569891" />
+    <state x="637" y="168" key="EnvironmentVariablesDialog" timestamp="1596624502110">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="637" y="168" key="EnvironmentVariablesDialog/0.0.1536.824@0.0.1536.824" timestamp="1596624502110" />
+    <state x="250" y="167" key="FileChooserDialogImpl" timestamp="1596623410939">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="250" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1596623410939" />
+    <state width="1493" height="103" key="GridCell.Tab.0.bottom" timestamp="1596405691075">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="103" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1596405691075" />
+    <state width="1493" height="103" key="GridCell.Tab.0.center" timestamp="1596405691075">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="103" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1596405691075" />
+    <state width="1493" height="103" key="GridCell.Tab.0.left" timestamp="1596405691075">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="103" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1596405691075" />
+    <state width="1493" height="103" key="GridCell.Tab.0.right" timestamp="1596405691075">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="103" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1596405691075" />
+    <state x="478" y="11" width="579" height="801" key="find.popup" timestamp="1596406964587">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="478" y="11" width="579" height="801" key="find.popup/0.0.1536.824@0.0.1536.824" timestamp="1596406964587" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$APPLICATION_CONFIG_DIR$/scratches/scratch_1.py</url>
+          <line>2</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/UAV_RL_Thesis$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1595444082209" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/custom_gym" />
+    <SUITE FILE_PATH="coverage/UAV_RL_Thesis$TrajectoryGenerator.coverage" NAME="TrajectoryGenerator Coverage Results" MODIFIED="1596405616763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/custom_gym/Transition_model_2" />
+    <SUITE FILE_PATH="coverage/UAV_RL_Thesis$my_utils.coverage" NAME="my_utils Coverage Results" MODIFIED="1596207485868" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/custom_gym" />
+  </component>
+</project>

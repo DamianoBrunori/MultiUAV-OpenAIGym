@@ -526,13 +526,13 @@ if uavs_q_tables is None:
         current_uav_explored_table = {}
 
 
-        for x_agent in np.arange(0,map_width, 0.1): #x cordinates in q_table (0.1, 0.2, 0.3 ..)
+        for x_agent in np.arange(0,map_width+1, 0.1): #x cordinates in q_table (0.1, 0.2, 0.3 ..)
             #x_agent = round(x_agent,2)
 
             #print (x_agent,"Eccccccooo:")
 
                 #current_uav_q_table.update({x_agent})
-            for y_agent in np.arange(0,map_width, 0.1): #y cordinates in q_table (0.1, 0.2, 0.3 ..)
+            for y_agent in np.arange(0,map_width+1, 0.1): #y cordinates in q_table (0.1, 0.2, 0.3 ..)
                 #y_agent = round(y_agent, 2)
 
                 #y_agent = round(x_agent, 2)

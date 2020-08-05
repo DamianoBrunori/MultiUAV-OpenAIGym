@@ -10,7 +10,7 @@ import numpy as np
 
 import time
 import math
-from custom_gym.my_utils import *
+#from custom_gym.my_utils import *
 from my_utils import *
 # Simulation parameters
 g = 9.81
