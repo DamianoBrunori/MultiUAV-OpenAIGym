@@ -10,7 +10,10 @@ import numpy as np
 
 import time
 import math
+<<<<<<< Updated upstream
 #from custom_gym.my_utils import *
+=======
+>>>>>>> Stashed changes
 from my_utils import *
 # Simulation parameters
 g = 9.81
