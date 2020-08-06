@@ -1,42 +1,84 @@
 from math import cos, sin
 from numpy.random import seed
 from numpy.random import randint
-
-
+from os import mkdir
+from os.path import join, isdir
 import numpy as np
 import math
-
 from Quadrotor import Quadrotor
 from TrajectoryGenerator import TrajectoryGenerator
 # sys.path.append(os.path.abspath("../custom_gym"))
-
 from my_utils import *
-import argparse
-from configparser import ConfigParser
+#----------------------------------------------------------------------------------------------------------------------------------#
+info = []
 
-def parse_args():
-    parser = argparse.ArgumentParser(description="UAVs flight generator")
-    parser.add_argument("-c","--config", default="configs.yml", type=str,metavar="Path",
-    help="path to the flight generator config file")
-    return parser.parse_args()
+info1 = "\n\n_______________________________________ENVIRONMENT AND DRONE INFO: _______________________________________\n"
+info.append(info1)
+info2 = "\nID: " + str(id)
+info.append(info2)
+info3 = "\nVOL: " + str(vol)
+info.append(info3)
+info4 = "\nAIR RISK: " + str(AirRisk)
+info.append(info4)
+info5 = "\nGROUND RISK: " + str(GroundRisk)
+info.append(info5)
+info6 = "\nOP TYPE: " + str(Op_Type)
+info.append(info6)
+info7 = "\nTYPE OF DRONE: " + str(model)
+info.append(info7)
+info8 = "\nDIMENSION: " + str(Dimension) + " m"
+info.append(info8)
+info9 = "\nMASS: " + str(m) + " Kg"
+info.append(info9)
+info10 = "\nVDR: " + str(VRD) + " m/s"
+info.append(info10)
+info11 = "\nVRC: " + str(VRC) + " m/s"
+info.append(info11)
+info12 = "\nStationary Max: " + str(stationary) + " min"
+info.append(info12)
+info13 = "\nMAX WIND: " + str(Maxwind) + " m/s"
+info.append(info13)
+info14 = "\nPAYLOAD RISK: " + str(PayloadRisk)
+info.append(info14)
+info15 = "\nT. TYPE: " + str(T_Type)
+info.append(info15)
+info16 = "\nFLIGHT MODE: " + str(FlightMode)
+info.append(info16)
+info17 = "\nMONITORING: " + str(Monitoring)
+info.append(info17)
+info18 = "\nTRACKING SERVICE: " + str(TrackingService)
+info.append(info18)
+info19 = "\nTACTICAL SEPARATION: " + str(TacticalSeparation)
+info.append(info19)
+info20 = "\nDISTANCE TO REACH THE GOAL: " + str(space_m) + " m"
+info.append(info20)
+info21 = "\nTIME TO REACH THE GOAL: " + str(T) + " s"
+info.append(info21)
+info22 = "\n__________________________________________________________________________________________________________________\n\n"
+info.append(info22)
 
-args = parse_args()
+cases_directory = "Salvo"
+if not isdir(cases_directory): mkdir(cases_directory)
+file = open(join(cases_directory, "env_and_train_info.txt"), "w")
 
-file = "configs.ini"
-config = ConfigParser()
-config.read(file)
-# To access : config[<section>][<element>]
-
+for i in info:
+    print(i)
+    file.write(i)
+file.close()
+#----------------------------------------------------------------------------------------------------------------------------------#
 
 show_animation = True
 
 # Simulation parameters
-g = 9.81    #Gravity (m/s^-2)
-m = 0.2     #Massa (Kg)
+g = 9.81                                #Gravity (m/s^-2)
+#m = 0.2                                #Massa (Kg)
 Ixx = 1
 Iyy = 1
 Izz = 1
-T = 5   #Time (seconds for waypoint - waypoint movement)
+T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
+#T = 5                                  #Time (seconds for waypoint - waypoint movement)
+cruise_speed_ms = cruise_speed_kmh/3.6  #Cruise speed m/s
+
 
 # Proportional coefficients
 Kp_x = 1
@@ -98,7 +140,7 @@ def quad_sim(x_c, y_c, z_c):
             # des_y_pos = calculate_position(y_c[i], t)
             des_z_pos = calculate_position(z_c[i], t)
 
-            des_x_vel = calculate_velocity(x_c[i], t)
+            des_x_vel = calculate_velocity(x_c[i], t)       #destinazione
             des_y_vel = calculate_velocity(y_c[i], t)
             des_z_vel = calculate_velocity(z_c[i], t)
 
@@ -129,10 +171,6 @@ def quad_sim(x_c, y_c, z_c):
 
 
 
-            x_acc = acc[0]
-            y_acc = acc[1]
-            z_acc = acc[2]
-
             vel_ms = math.sqrt(x_vel**2 + y_vel**2 + z_vel**2)
             acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2 + z_acc ** 2)
             vel_kmh =  vel_ms*(60**2)/1000
@@ -140,6 +178,14 @@ def quad_sim(x_c, y_c, z_c):
 
             #des_vel_ms = math.sqrt(des_x_vel ** 2 + des_y_vel ** 2 + des_z_vel ** 2)
             #print("Des_vel_ms: ", des_vel_ms)
+
+            if vel_ms >= cruise_speed_ms:
+                x_acc = 0
+                y_acc = 0
+            else:
+                x_acc = acc[0]
+                y_acc = acc[1]
+            z_acc = acc[2]
 
 
             x_vel += x_acc * dt  # Accelerazione * Tempo
@@ -207,7 +253,7 @@ def calculate_velocity(c, t):
     Returns
         Velocity
     """
-    return 50 * c[0] * t**4 + 4 * c[1] * t**3 + 3 * c[2] * t**2 + 2 * c[3] * t + c[4]
+    return 5 * c[0] * t**4 + 4 * c[1] * t**3 + 3 * c[2] * t**2 + 2 * c[3] * t + c[4]
 
 
 def calculate_acceleration(c, t):
@@ -256,9 +302,9 @@ def main():
 
     if SEED!=None: seed(SEED)
     #values = randint(0, 8, 3)
-    values = 5
+    values = 3000
     #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
-    waypoints = [[-values, -values, values], [values, -values, values], [values, values, values], [-values, values, values]]
+    waypoints = [[-values, -values, 5], [values, -values, 5], [values, values, 5], [-values, values, 5]]
     print("Waypoints: ", waypoints)
 
     for i in range(4):

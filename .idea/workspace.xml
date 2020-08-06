@@ -25,39 +25,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11023ed5-b641-4a36-af99-f9cca342b20a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/UAV_RL_Thesis.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/UAV_RL_Thesis.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/Q-values_per_epoch_UAVs.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/Q-values_per_epoch_UAVs.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/QoE1.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/QoE1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/QoE2.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/QoE2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/Rewards_per_epoch_UAVs.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/Rewards_per_epoch_UAVs.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/UAV1/QTables/qtable-ep5.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/UAV1/QTables/qtable-ep5.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/UAV2/QTables/qtable-ep5.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/UAV2/QTables/qtable-ep5.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep1.gif" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep1.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep2.gif" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep2.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep3.gif" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep3.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep4.gif" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep4.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep5.gif" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/animation_ep5.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/env_and_train_info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/env_and_train_info.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/q_tables.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Cases/2D_un_bat_inf_req_2UAVs_2clusters/Random Initialization/q_tables.pickle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Environment_Views/Desired_Resolution.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Environment_Views/Desired_Resolution.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Environment_Views/Minimum_Resolution.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Environment_Views/Minimum_Resolution.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/Quadrotor.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Quadrotor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/configs.ini" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/configs.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/generate_fligths.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/generate_fligths.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model_2/Quadrotor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model_2/TrajectoryGenerator.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model_2/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model_2/drone_3d_trajectory_following.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model_2/my_utils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/env_wrapper.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/env_wrapper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/figures/plotting2.png" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/figures/plotting2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/initial_users/initial_centroids.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/initial_users/initial_centroids.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/initial_users/initial_clusterer.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/initial_users/initial_clusterer.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/initial_users/initial_clusters_radiuses.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/initial_users/initial_clusters_radiuses.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/initial_users/initial_users.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/initial_users/initial_users.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/map_data/obs_points.npy" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/map_data/obs_points.npy" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/my_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/my_utils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -302,7 +273,8 @@
       <workItem from="1596624395720" duration="182000" />
       <workItem from="1596624596098" duration="13000" />
       <workItem from="1596624616536" duration="992000" />
-      <workItem from="1596625615823" duration="15225000" />
+      <workItem from="1596625615823" duration="25459000" />
+      <workItem from="1596723157825" duration="6551000" />
     </task>
     <servers />
   </component>
