@@ -30,6 +30,8 @@ info8 = "\nDIMENSION: " + str(Dimension) + " m"
 info.append(info8)
 info9 = "\nMASS: " + str(m) + " Kg"
 info.append(info9)
+info22 = "\nCRUISE SPEED: " + str(cruise_speed_kmh) + " Km/h"
+info.append(info22)
 info10 = "\nVDR: " + str(VRD) + " m/s"
 info.append(info10)
 info11 = "\nVRC: " + str(VRC) + " m/s"
@@ -54,8 +56,8 @@ info20 = "\nDISTANCE TO REACH THE GOAL: " + str(space_m) + " m"
 info.append(info20)
 info21 = "\nTIME TO REACH THE GOAL: " + str(T) + " s"
 info.append(info21)
-info22 = "\n__________________________________________________________________________________________________________________\n\n"
-info.append(info22)
+info23 = "\n__________________________________________________________________________________________________________________\n\n"
+info.append(info23)
 
 cases_directory = "Salvo"
 if not isdir(cases_directory): mkdir(cases_directory)
@@ -79,18 +81,6 @@ Izz = 1
 T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
 #T = 5                                  #Time (seconds for waypoint - waypoint movement)
 cruise_speed_ms = cruise_speed_kmh/3.6  #Cruise speed m/s
-
-
-g = 9.81    #Gravity (m/s^-2)
-m = 0.2     #Massa (Kg)
-# Inertial coefficients (related to center of gravity and ability to move)
-Ixx = 1     
-Iyy = 1
-Izz = 1
-
-# TODO cruise speed dependent
-T = 5   #Time (seconds for waypoint - waypoint movement)
-
 
 # Proportional coefficients
 Kp_x = 1

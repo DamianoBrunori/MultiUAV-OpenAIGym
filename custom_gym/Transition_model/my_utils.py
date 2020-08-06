@@ -62,5 +62,5 @@ TrackingService = config['UAV']['TrackingService']
 TacticalSeparation = config['UAV']['TacticalSeparation']
 #Distance
 space_m = float(config['UAV']['space'])
-
+T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
 #---------------------------------------------------------------------------------------------------
