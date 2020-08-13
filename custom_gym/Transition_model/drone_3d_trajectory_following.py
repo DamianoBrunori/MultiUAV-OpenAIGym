@@ -79,7 +79,7 @@ Ixx = 1
 Iyy = 1
 Izz = 1
 #T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
-T = 5                             #Time (seconds for waypoint - waypoint movement)
+T = 15                             #Time (seconds for waypoint - waypoint movement)
 cruise_speed_ms = cruise_speed_kmh/3.6  #Cruise speed m/s
 
 # Proportional coefficients
@@ -95,6 +95,15 @@ Kd_x = 10
 Kd_y = 10
 Kd_z = 1
 
+labels = ["start_x","des_x","start_x_vel",
+             "des_x_vel",
+             "start_x_acc",
+             "des_x_acc"]
+
+INITAL_X_POS = -5
+INITAL_Y_POS = -5
+INITAL_Z_POS = 5
+INITIAL_POS = [INITAL_X_POS,INITAL_Y_POS,INITAL_Z_POS]
 
 def quad_sim(x_c, y_c, z_c):
     
@@ -104,10 +113,10 @@ def quad_sim(x_c, y_c, z_c):
     x_c, y_c, and z_c. ##Spinta e Coppia
     """
 
-    x_pos = -5
-    y_pos = -5
-    z_pos = 5
-
+    x_pos = INITAL_X_POS
+    y_pos = INITAL_Y_POS
+    z_pos = INITAL_Z_POS
+   
     x_vel = 0
     y_vel = 0
     z_vel = 0
@@ -150,13 +159,18 @@ def quad_sim(x_c, y_c, z_c):
 
 
 
-            des_x_acc = calculate_acceleration(x_c[i], t)
-            des_y_acc = calculate_acceleration(y_c[i], t)
+            if(t<5 or t >10):
+                des_x_acc = calculate_acceleration(x_c[i], t)
+                des_y_acc = calculate_acceleration(y_c[i], t)
+            else:
+                des_x_acc = 0
+                des_y_acc = 0
             des_z_acc = calculate_acceleration(z_c[i], t)
             #print(des_x_acc," des_x_acc")
             #print(des_z_vel, "des_z_vel") sempre 0
             #print("time: ", t, i)
-            print(x_c[i],t)
+            # print([v for v in zip((x_c[i]),labels) ],t)
+            # print(x_c[i], t)
             #print(y_c[i], t)
 
             acc_des_xyz = math.sqrt(des_x_acc ** 2 + des_y_acc ** 2 + des_z_acc ** 2)
@@ -204,7 +218,12 @@ def quad_sim(x_c, y_c, z_c):
             #print("Des_vel_ms: ", des_vel_ms)
 
 
-            x_acc = acc[0]
+            if(t<5 or t >10):
+            
+                x_acc = acc[0]
+            else:
+                x_acc = 0
+            
             y_acc = acc[1]
             z_acc = acc[2]
 
@@ -231,7 +250,7 @@ def quad_sim(x_c, y_c, z_c):
             #print("roll, pitch, yaw: ", roll, pitch, yaw )
             #print("Velocity m/s: ", vel_ms)
             #print("Velocity Km/h: ", vel_kmh)
-            print("Acceleration m/s: ", acc_ms)
+            print("Acceleration m/s: ", "{:.2f}".format(acc_ms),"{:.2f}".format(x_acc), "{:.2f}".format(t))
             #print("Acceleration km/h: ", acc_kmh)
             #print(des_y_vel, "sacsdcsdvsdvds")
             #print("des_vel", des_x_vel, des_y_vel, des_z_vel)
@@ -241,7 +260,8 @@ def quad_sim(x_c, y_c, z_c):
             #print(roll_vel, "roll_vel")
             #print(pitch_vel, "pitch_vel")
             #print(yaw_vel, "yaw_vel")
-       
+
+        print("[WAYPOINT REACHED]")
         t = 0
         i = (i + 1) % 4
         irun += 1
@@ -328,9 +348,9 @@ def main():
 
     if SEED!=None: seed(SEED)
     #values = randint(0, 8, 3)
-    values = 5
+    values = 20
     #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
-    waypoints = [[-values, -values, 5], [values, -values, 5], [values, values, 5], [-values, values, 5]]
+    waypoints = [[-values, -values, 5], [values, -values, 5], [values, values, 5], INITIAL_POS]
     print("Waypoints: ", waypoints)
 
     for i in range(4):
