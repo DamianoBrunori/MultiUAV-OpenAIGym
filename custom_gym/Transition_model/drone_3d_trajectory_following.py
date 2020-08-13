@@ -78,8 +78,8 @@ g = 9.81                                #Gravity (m/s^-2)
 Ixx = 1
 Iyy = 1
 Izz = 1
-T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
-#T = 5                                  #Time (seconds for waypoint - waypoint movement)
+#T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
+T = 5                             #Time (seconds for waypoint - waypoint movement)
 cruise_speed_ms = cruise_speed_kmh/3.6  #Cruise speed m/s
 
 # Proportional coefficients
@@ -124,7 +124,7 @@ def quad_sim(x_c, y_c, z_c):
     pitch_vel = 0
     yaw_vel = 0
 
-    des_yaw = 0
+    des_yaw = 0 #mantenere orientazione 0 quindi rimane fisso il  drone non gira su se stesso
 
     dt = 0.1
     t = 0
@@ -138,18 +138,39 @@ def quad_sim(x_c, y_c, z_c):
 
     while True:
         while t <= T:
+            #DIVIDO LA TRAIETTORIA IN PEZZETTI si fissano degli obiettivi molto vicini (interpolazione)
             # des_x_pos = calculate_position(x_c[i], t)
             # des_y_pos = calculate_position(y_c[i], t)
             des_z_pos = calculate_position(z_c[i], t)
+
 
             des_x_vel = calculate_velocity(x_c[i], t)       #destinazione
             des_y_vel = calculate_velocity(y_c[i], t)
             des_z_vel = calculate_velocity(z_c[i], t)
 
+
+
             des_x_acc = calculate_acceleration(x_c[i], t)
             des_y_acc = calculate_acceleration(y_c[i], t)
             des_z_acc = calculate_acceleration(z_c[i], t)
+            #print(des_x_acc," des_x_acc")
+            #print(des_z_vel, "des_z_vel") sempre 0
+            #print("time: ", t, i)
+            print(x_c[i],t)
+            #print(y_c[i], t)
 
+            acc_des_xyz = math.sqrt(des_x_acc ** 2 + des_y_acc ** 2 + des_z_acc ** 2)
+            #print("Accelerazione desiderata: ", acc_des_xyz)
+            
+
+
+
+            vel_ms = math.sqrt(x_vel**2 + y_vel**2 + z_vel**2)
+            acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2 + z_acc ** 2)
+            vel_kmh =  vel_ms*(60**2)/1000
+            acc_kmh =  acc_ms*(60**2)/1000
+
+            #CONTROLLORI
             thrust = m * (g + des_z_acc + Kp_z * (des_z_pos -
                                                   z_pos) + Kd_z * (des_z_vel - z_vel))
 
@@ -159,34 +180,32 @@ def quad_sim(x_c, y_c, z_c):
                 (((des_x_acc * cos(des_yaw) - des_y_acc * sin(des_yaw)) / g) - pitch)
             yaw_torque = Kp_yaw * (des_yaw - yaw)
 
+            #bang- coast- bang ACCELERAZIONE - VELOCITà COSTANTE - DECELLERAZIONE
+            #Interpolation using splines per usare i polinomi e spezzetta la traiettoria
+
+
             roll_vel += roll_torque * dt / Ixx
             pitch_vel += pitch_torque * dt / Iyy
             yaw_vel += yaw_torque * dt / Izz
 
-            roll += roll_vel * dt       #Spostamento verso destra o sinistra
-            pitch += pitch_vel * dt     #Spostamento verso avanti o dietro
-            yaw += yaw_vel * dt         #Rotazione sul proprio asse
+            #ANGOLI CHE DEFINISCONO L'ORIENTAZIONE DEL DRONE
+            roll += roll_vel * dt       #Spostamento verso destra o sinistra PIEGARLO IN AVANTI O ALL'INSù
+            pitch += pitch_vel * dt     #Spostamento verso avanti o dietro   RUOTARLO DI LATO
+            yaw += yaw_vel * dt         #Rotazione sul proprio asse          RUOTARLO SU SE STESSO
 
-            R = rotation_matrix(roll, pitch, yaw)
+            R = rotation_matrix(roll, pitch, yaw) #CAMBIA IL MODO PERO' UGUALE
             acc = (np.matmul(R, np.array(
                 [0, 0, thrust.item()]).T) - np.array([0, 0, m * g]).T) / m
+            #CON LA NUOVA ORIENTAZIONE R E LA TRUST, IN BASE A COME TI SEI ORIENTATO SPINGI(TRUST) E ARRIVI
 
 
-
-            vel_ms = math.sqrt(x_vel**2 + y_vel**2 + z_vel**2)
-            acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2 + z_acc ** 2)
-            vel_kmh =  vel_ms*(60**2)/1000
-            acc_kmh =  acc_ms*(60**2)/1000
 
             #des_vel_ms = math.sqrt(des_x_vel ** 2 + des_y_vel ** 2 + des_z_vel ** 2)
             #print("Des_vel_ms: ", des_vel_ms)
 
-            if vel_ms >= cruise_speed_ms:
-                x_acc = 0
-                y_acc = 0
-            else:
-                x_acc = acc[0]
-                y_acc = acc[1]
+
+            x_acc = acc[0]
+            y_acc = acc[1]
             z_acc = acc[2]
 
 
@@ -207,15 +226,21 @@ def quad_sim(x_c, y_c, z_c):
 
             t += dt
             #print("Velocità x,y,z: ", x_vel, y_vel, z_vel, )
-            #("Acceleration: ", acc)
-            print("Spinta-thrust: ", thrust)
+            #print("Acceleration: ", acc)
+            #print("Spinta-thrust: ", thrust)
             #print("roll, pitch, yaw: ", roll, pitch, yaw )
-            print("Velocity m/s: ", vel_ms)
-            print("Velocity Km/h: ", vel_kmh)
+            #print("Velocity m/s: ", vel_ms)
+            #print("Velocity Km/h: ", vel_kmh)
             print("Acceleration m/s: ", acc_ms)
-            print("Acceleration km/h: ", acc_kmh)
+            #print("Acceleration km/h: ", acc_kmh)
             #print(des_y_vel, "sacsdcsdvsdvds")
             #print("des_vel", des_x_vel, des_y_vel, des_z_vel)
+            #print(roll_torque, "roll_torque")
+            #print(pitch_torque, "pitch_torque")
+            #print(yaw_torque, "yaw_torque")
+            #print(roll_vel, "roll_vel")
+            #print(pitch_vel, "pitch_vel")
+            #print(yaw_vel, "yaw_vel")
        
         t = 0
         i = (i + 1) % 4
@@ -238,7 +263,7 @@ def calculate_position(c, t):
     Returns
         Position
     """
-
+#divido il perscorso in tanti piccoli punti
 
     return c[0] * t**5 + c[1] * t**4 + c[2] * t**3 + c[3] * t**2 + c[4] * t + c[5]
 
@@ -303,7 +328,7 @@ def main():
 
     if SEED!=None: seed(SEED)
     #values = randint(0, 8, 3)
-    values = 3000
+    values = 5
     #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
     waypoints = [[-values, -values, 5], [values, -values, 5], [values, values, 5], [-values, values, 5]]
     print("Waypoints: ", waypoints)
