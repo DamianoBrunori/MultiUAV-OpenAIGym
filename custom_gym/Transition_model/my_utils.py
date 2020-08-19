@@ -6,13 +6,6 @@
  * GLOBAL VARIABLES *
  ********************/
 '''
-PLOTRANGE_X_POS = 8
-PLOTRANGE_X_NEG = -5
-PLOTRANGE_Y_POS = 8
-PLOTRANGE_Y_NEG = -5
-PLOTRANGE_Z_POS = 8
-PLOTRANGE_Z_NEG = 0
-
 # Random generator seed
 SEED = None
 
@@ -64,3 +57,10 @@ TacticalSeparation = config['UAV']['TacticalSeparation']
 space_m = float(config['UAV']['space'])
 T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
 #---------------------------------------------------------------------------------------------------
+PLOTRANGE_X_POS = 8
+PLOTRANGE_X_NEG = -5
+PLOTRANGE_Y_POS = 8
+PLOTRANGE_Y_NEG = -5
+PLOTRANGE_Z_POS = 8
+PLOTRANGE_Z_NEG = 0
+

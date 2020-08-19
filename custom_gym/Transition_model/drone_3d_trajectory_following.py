@@ -79,9 +79,10 @@ Ixx = 1
 Iyy = 1
 Izz = 1
 #T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
-T = 15                             #Time (seconds for waypoint - waypoint movement)
-cruise_speed_ms = cruise_speed_kmh/3.6  #Cruise speed m/s
-
+T = 60                                   #Time (seconds for waypoint - waypoint movement)
+cruise_speed_ms = cruise_speed_kmh/3.6   #Cruise speed m/s
+T_s = T/5                                #Tempo fino a quando avviene un' accelerazione
+T_s2= T - T_s                            #Tempo dopo il quale avviene un' decellerazione
 # Proportional coefficients
 Kp_x = 1
 Kp_y = 1
@@ -95,15 +96,11 @@ Kd_x = 10
 Kd_y = 10
 Kd_z = 1
 
-labels = ["start_x","des_x","start_x_vel",
-             "des_x_vel",
-             "start_x_acc",
-             "des_x_acc"]
-
-INITAL_X_POS = -5
-INITAL_Y_POS = -5
-INITAL_Z_POS = 5
-INITIAL_POS = [INITAL_X_POS,INITAL_Y_POS,INITAL_Z_POS]
+waypoint1= [15, 0, 5]
+'''INITIAL_X_POS = 0
+INITIAL_Y_POS = 0
+INITIAL_Z_POS = 5
+INITIAL_POS = [INITIAL_X_POS,INITIAL_Y_POS,INITIAL_Z_POS]'''
 
 def quad_sim(x_c, y_c, z_c):
     
@@ -113,9 +110,9 @@ def quad_sim(x_c, y_c, z_c):
     x_c, y_c, and z_c. ##Spinta e Coppia
     """
 
-    x_pos = INITAL_X_POS
-    y_pos = INITAL_Y_POS
-    z_pos = INITAL_Z_POS
+    x_pos = 0
+    y_pos = 0
+    z_pos = 5
    
     x_vel = 0
     y_vel = 0
@@ -137,6 +134,7 @@ def quad_sim(x_c, y_c, z_c):
 
     dt = 0.1
     t = 0
+    t1 = 0
 
     UAV = Quadrotor(id = "uav", x=x_pos, y=y_pos, z=z_pos, roll=roll,
                   pitch=pitch, yaw=yaw, size=1, show_animation=show_animation)
@@ -158,14 +156,25 @@ def quad_sim(x_c, y_c, z_c):
             des_z_vel = calculate_velocity(z_c[i], t)
 
 
+            des_x_acc = calculate_acceleration(x_c[i], t)
+            des_y_acc = calculate_acceleration(y_c[i], t)
+            des_z_acc = calculate_acceleration(z_c[i], t)
 
-            if(t<5 or t >10):
+
+            PosizioneAttuale = np.array([x_pos, y_pos, z_pos])
+            goal = np.array(waypoint1)
+            dimension3D=np.array([300.0,400.0,500.0])
+            distanceAB = distance(PosizioneAttuale, goal, dimension3D) #Distanza drone goal
+            print(x_pos, y_pos, z_pos)
+
+            '''if(t<5 or t >10):
                 des_x_acc = calculate_acceleration(x_c[i], t)
                 des_y_acc = calculate_acceleration(y_c[i], t)
             else:
                 des_x_acc = 0
                 des_y_acc = 0
-            des_z_acc = calculate_acceleration(z_c[i], t)
+            des_z_acc = calculate_acceleration(z_c[i], t)'''
+
             #print(des_x_acc," des_x_acc")
             #print(des_z_vel, "des_z_vel") sempre 0
             #print("time: ", t, i)
@@ -216,19 +225,97 @@ def quad_sim(x_c, y_c, z_c):
 
             #des_vel_ms = math.sqrt(des_x_vel ** 2 + des_y_vel ** 2 + des_z_vel ** 2)
             #print("Des_vel_ms: ", des_vel_ms)
+            Accc = t
+            '''if (x_vel > +0.5):
+                x_acc = 0
+            else:'''
+            #x_acc = acc[0]
+            y_acc = acc[1]
+            print("x:vel", "{:.2f}".format(x_vel))
+            print("y:vel", "{:.2f}".format(y_vel))
+            print("Acc[0]", "{:.2f}".format(acc[0]))
+            #print("des_y_acc", "{:.2f}".format(des_y_acc))
+            x_vel1 = x_vel
+            x_acc1 = acc[0]
 
+            dist_dec = waypoint1[2]-5
+            dist_acc = 4
 
-            if(t<5 or t >10):
-            
+            '''if (dist_acc < distanceAB < 10 ):
+                x_acc = 0
+                y_acc = 0
+            else:
                 x_acc = acc[0]
+                y_acc = acc[1]
+
+            if distanceAB > 4:
+                t = 14
+            else:
+                t = 29'''
+
+            '''V_max= 5.5
+            A_max = 2
+            T_s= V_max/A_max
+            #Time = 15
+            L = 2 / 3 * T * V_max  # 2/3*time total * velocità massima->L = distanza tot
+            Tot= (L*A_max + V_max**2)/(A_max*V_max)
+            T_s2 = Tot - T_s
+            print(T_s, "T_s")   #2.75
+            print(Tot, "Tot")   #12.75
+            print(T_s2, "T_s2") #10
+            print(L, "L")       #55'''
+
+            '''if (x_vel < 0.2):
+                t1 = t1+0.1
+                print(t1, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
+
+            if (x_vel > 0.2 and distanceAB > 5):
+                x_acc = 0
+                y_acc = 0
+            else:
+                x_acc = acc[0]
+                y_acc = acc[1]'''
+
+            x_acc = acc[0]
+            y_acc = acc[1]
+
+            '''if (5 < t <25):
+                x_acc = 0
+                y_acc = 0
+                if distanceAB > 2:
+                    t=t-0.1
+            else:
+                x_acc = acc[0]
+                y_acc = acc[1]'''
+
+
+            '''if (t < 5 or t > 25):
+                x_acc = acc[0]
+                y_acc = acc[1]
             else:
                 x_acc = 0
+                y_acc = 0'''
             
-            y_acc = acc[1]
             z_acc = acc[2]
 
+            #a_max = 3.0
+            #accc= cruise_speed_ms/a_max
+            #dec = (x_acc-0)/(T-t)
+            #print(dec)
+            #t_a = x_vel/x_acc #tempo di arresto
 
-            x_vel += x_acc * dt  # Accelerazione * Tempo
+            if (t > 50 and distanceAB > 2):
+                t=t-dt
+
+            if (x_vel < 0.1):
+                t1 = t1 + 0.1
+                print(t1, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
+            if (x_vel > 0.1 and distanceAB > 2):
+                x_acc = 0
+            else:
+                x_vel += x_acc * dt  # Accelerazione * Tempo
             y_vel += y_acc * dt
             z_vel += z_acc * dt
 
@@ -248,9 +335,10 @@ def quad_sim(x_c, y_c, z_c):
             #print("Acceleration: ", acc)
             #print("Spinta-thrust: ", thrust)
             #print("roll, pitch, yaw: ", roll, pitch, yaw )
-            #print("Velocity m/s: ", vel_ms)
+            print("Velocity m/s: ", vel_ms, "Vel X: ", x_vel)
             #print("Velocity Km/h: ", vel_kmh)
-            print("Acceleration m/s: ", "{:.2f}".format(acc_ms),"{:.2f}".format(x_acc), "{:.2f}".format(t))
+            print("Acceleration m/s:", "{:.2f}".format(acc_ms), "des_x_acc: ", des_x_acc, "Time: ", "{:.2f}".format(t))
+            print("X_acc:", "{:.2f}".format(x_acc), "Y_acc:", "{:.2f}".format(y_acc))
             #print("Acceleration km/h: ", acc_kmh)
             #print(des_y_vel, "sacsdcsdvsdvds")
             #print("des_vel", des_x_vel, des_y_vel, des_z_vel)
@@ -260,6 +348,8 @@ def quad_sim(x_c, y_c, z_c):
             #print(roll_vel, "roll_vel")
             #print(pitch_vel, "pitch_vel")
             #print(yaw_vel, "yaw_vel")
+            print("Time:", T, "Space:", space_m, "T_s:", T_s, "T_s2:", T_s2)
+            print("goal distance: ", distanceAB)
 
         print("[WAYPOINT REACHED]")
         t = 0
@@ -270,6 +360,12 @@ def quad_sim(x_c, y_c, z_c):
 
     print("Done")
 
+
+
+def distance(x0, x1, dimensions):
+  delta = np.abs(x0 - x1)
+  delta = np.where(delta > 0.5 * dimensions, delta - dimensions, delta)
+  return np.sqrt((delta ** 2).sum(axis=-1))
 
 def calculate_position(c, t):
     """
@@ -348,9 +444,10 @@ def main():
 
     if SEED!=None: seed(SEED)
     #values = randint(0, 8, 3)
-    values = 20
+    #values = space_m
+    values = 15
     #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
-    waypoints = [[-values, -values, 5], [values, -values, 5], [values, values, 5], INITIAL_POS]
+    waypoints = [[0, 0, 5], waypoint1, [0, 15, 5], [-values, values, values]]
     print("Waypoints: ", waypoints)
 
     for i in range(4):

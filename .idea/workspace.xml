@@ -26,6 +26,8 @@
   <component name="ChangeListManager">
     <list default="true" id="11023ed5-b641-4a36-af99-f9cca342b20a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/Salvo/env_and_train_info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Salvo/env_and_train_info.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/configs.ini" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/configs.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" afterDir="false" />
     </list>
@@ -277,7 +279,13 @@
       <workItem from="1596802685496" duration="13625000" />
       <workItem from="1596992697310" duration="3564000" />
       <workItem from="1597245981943" duration="4898000" />
-      <workItem from="1597254371869" duration="14568000" />
+      <workItem from="1597254371869" duration="18901000" />
+      <workItem from="1597405772899" duration="5030000" />
+      <workItem from="1597481261443" duration="12565000" />
+      <workItem from="1597523394114" duration="5835000" />
+      <workItem from="1597764178412" duration="19594000" />
+      <workItem from="1597800223757" duration="415000" />
+      <workItem from="1597829413709" duration="12344000" />
     </task>
     <servers />
   </component>

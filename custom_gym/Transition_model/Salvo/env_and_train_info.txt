@@ -21,7 +21,7 @@ FLIGHT MODE: Auto
 MONITORING: YES
 TRACKING SERVICE: YES
 TACTICAL SEPARATION: YES
-DISTANCE TO REACH THE GOAL: 100.0 m
-TIME TO REACH THE GOAL: 5.555555555555555 s
+DISTANCE TO REACH THE GOAL: 5.0 m
+TIME TO REACH THE GOAL: 0.2777777777777778 s
 __________________________________________________________________________________________________________________
 
