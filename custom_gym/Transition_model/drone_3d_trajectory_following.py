@@ -96,7 +96,7 @@ Kd_x = 10
 Kd_y = 10
 Kd_z = 1
 
-waypoint1= [15, 0, 5]
+waypoint1= [25, 0, 5]
 '''INITIAL_X_POS = 0
 INITIAL_Y_POS = 0
 INITIAL_Z_POS = 5
@@ -296,7 +296,7 @@ def quad_sim(x_c, y_c, z_c):
             else:
                 x_acc = 0
                 y_acc = 0'''
-            
+
             z_acc = acc[2]
 
             #a_max = 3.0
@@ -305,18 +305,31 @@ def quad_sim(x_c, y_c, z_c):
             #print(dec)
             #t_a = x_vel/x_acc #tempo di arresto
 
-            if (t > 50 and distanceAB > 2):
-                t=t-dt
+            if (t > 30):
+                t=t-1
 
-            if (x_vel < 0.1):
-                t1 = t1 + 0.1
-                print(t1, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+            if (distanceAB <= 0.9 and x_vel > 0.01):
+                t=30
+                x_acc = -0.01
+            elif(distanceAB <= 0.9 and x_vel < 0.1):
+                x_acc = 0
 
-            if (x_vel > 0.1 and distanceAB > 2):
+            if (distanceAB < 0.1):
+                t=60
+
+            if (x_vel > 0.1 and distanceAB >= 0.9):
                 x_acc = 0
             else:
                 x_vel += x_acc * dt  # Accelerazione * Tempo
-            y_vel += y_acc * dt
+
+
+
+
+            if (y_vel > 0.1 and distanceAB >= 0.9):
+                y_acc = 0
+            else:
+                x_vel += x_acc * dt  # Accelerazione * Tempo
+
             z_vel += z_acc * dt
 
             x_pos += x_vel * dt  # Velocità * Tempo

@@ -26,10 +26,7 @@
   <component name="ChangeListManager">
     <list default="true" id="11023ed5-b641-4a36-af99-f9cca342b20a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/Salvo/env_and_train_info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Salvo/env_and_train_info.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/configs.ini" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/configs.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -285,7 +282,7 @@
       <workItem from="1597523394114" duration="5835000" />
       <workItem from="1597764178412" duration="19594000" />
       <workItem from="1597800223757" duration="415000" />
-      <workItem from="1597829413709" duration="12344000" />
+      <workItem from="1597829413709" duration="25646000" />
     </task>
     <servers />
   </component>
@@ -313,6 +310,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="484" y="8" key="#__init___(1)/0.0.1536.824@0.0.1536.824" timestamp="1596406410427" />
+    <state x="545" y="214" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1597851490374">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="545" y="214" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1597851490374" />
     <state x="499" y="159" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1596407877152">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
