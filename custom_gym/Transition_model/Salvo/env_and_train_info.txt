@@ -10,7 +10,7 @@ OP TYPE: BVLOS
 TYPE OF DRONE: Multirotor
 DIMENSION: 1.7 m
 MASS: 9.0 Kg
-CRUISE SPEED: 18.0 Km/h
+CRUISE SPEED: 64.8 Km/h
 VDR: 3.0 m/s
 VRC: 4.0 m/s
 Stationary Max: 15.0 min
@@ -22,6 +22,6 @@ MONITORING: YES
 TRACKING SERVICE: YES
 TACTICAL SEPARATION: YES
 DISTANCE TO REACH THE GOAL: 5.0 m
-TIME TO REACH THE GOAL: 0.2777777777777778 s
+TIME TO REACH THE GOAL: 0.0771604938271605 s
 __________________________________________________________________________________________________________________
 

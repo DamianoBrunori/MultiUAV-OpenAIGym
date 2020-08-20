@@ -9,6 +9,28 @@ from Quadrotor import Quadrotor
 from TrajectoryGenerator import TrajectoryGenerator
 # sys.path.append(os.path.abspath("../custom_gym"))
 from my_utils import *
+
+import sys
+from os import getenv
+import datetime
+# Class to redirect stdout to file logfile.log
+class Logger(object):
+    def __init__(self):
+        self.terminal = sys.stdout
+        self.log = open("logfile.log", "a")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)  
+
+    def flush(self):
+        #this flush method is needed for python 3 compatibility.
+        #this handles the flush command by doing nothing.
+        #you might want to specify some extra behavior here.
+        pass    
+
+
+
 #----------------------------------------------------------------------------------------------------------------------------------#
 info = []
 
@@ -82,7 +104,8 @@ Izz = 1
 T = 60                                   #Time (seconds for waypoint - waypoint movement)
 cruise_speed_ms = cruise_speed_kmh/3.6   #Cruise speed m/s
 T_s = T/5                                #Tempo fino a quando avviene un' accelerazione
-T_s2= T - T_s                            #Tempo dopo il quale avviene un' decellerazione
+T_s2 = T - T_s                            #Tempo dopo il quale avviene una decellerazione
+
 # Proportional coefficients
 Kp_x = 1
 Kp_y = 1
@@ -92,8 +115,8 @@ Kp_pitch = 25
 Kp_yaw = 25
 
 # Derivative coefficients
-Kd_x = 10
-Kd_y = 10
+# Kd_x = 10
+# Kd_y = 10
 Kd_z = 1
 
 waypoint1= [25, 0, 5]
@@ -190,8 +213,9 @@ def quad_sim(x_c, y_c, z_c):
 
             vel_ms = math.sqrt(x_vel**2 + y_vel**2 + z_vel**2)
             acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2 + z_acc ** 2)
-            vel_kmh =  vel_ms*(60**2)/1000
-            acc_kmh =  acc_ms*(60**2)/1000
+            
+            vel_kmh =  vel_ms * 3.6
+            acc_kmh =  acc_ms * 3.6
 
             #CONTROLLORI
             thrust = m * (g + des_z_acc + Kp_z * (des_z_pos -
@@ -231,9 +255,9 @@ def quad_sim(x_c, y_c, z_c):
             else:'''
             #x_acc = acc[0]
             y_acc = acc[1]
-            print("x:vel", "{:.2f}".format(x_vel))
-            print("y:vel", "{:.2f}".format(y_vel))
-            print("Acc[0]", "{:.2f}".format(acc[0]))
+            print("x:vel", "{:.2f}".format(x_vel),"(m/s)")
+            print("y:vel", "{:.2f}".format(y_vel),"(m/s)")
+            print("Acc[0]", "{:.2f}".format(acc[0]),"(m/s^2")
             #print("des_y_acc", "{:.2f}".format(des_y_acc))
             x_vel1 = x_vel
             x_acc1 = acc[0]
@@ -315,11 +339,12 @@ def quad_sim(x_c, y_c, z_c):
                 x_acc = 0
 
             if (distanceAB < 0.1):
-                t=60
+                t=60    
+            # NOTE: for each t in in [0.1,0] set to 60
 
             if (x_vel > 0.1 and distanceAB >= 0.9):
                 x_acc = 0
-            else:
+            else:   # x_vel <= 0.1 or distanceAB < 0.9
                 x_vel += x_acc * dt  # Accelerazione * Tempo
 
 
@@ -348,10 +373,10 @@ def quad_sim(x_c, y_c, z_c):
             #print("Acceleration: ", acc)
             #print("Spinta-thrust: ", thrust)
             #print("roll, pitch, yaw: ", roll, pitch, yaw )
-            print("Velocity m/s: ", vel_ms, "Vel X: ", x_vel)
+            print("Velocity:", vel_ms, "m/s, Vel X: ", x_vel, "m/s")
             #print("Velocity Km/h: ", vel_kmh)
-            print("Acceleration m/s:", "{:.2f}".format(acc_ms), "des_x_acc: ", des_x_acc, "Time: ", "{:.2f}".format(t))
-            print("X_acc:", "{:.2f}".format(x_acc), "Y_acc:", "{:.2f}".format(y_acc))
+            print("Acceleration:", "{:.2f}".format(acc_ms), " m/s^2, des_x_acc: ", des_x_acc, " m/s^2, Time: ", "{:.2f}".format(t),"s")
+            print("X_acc:", "{:.2f}".format(x_acc), "m/s^2,Y_acc:", "{:.2f}".format(y_acc),"m/s^2")
             #print("Acceleration km/h: ", acc_kmh)
             #print(des_y_vel, "sacsdcsdvsdvds")
             #print("des_vel", des_x_vel, des_y_vel, des_z_vel)
@@ -361,10 +386,12 @@ def quad_sim(x_c, y_c, z_c):
             #print(roll_vel, "roll_vel")
             #print(pitch_vel, "pitch_vel")
             #print(yaw_vel, "yaw_vel")
-            print("Time:", T, "Space:", space_m, "T_s:", T_s, "T_s2:", T_s2)
+            print("Time:", T, "s, Space:", space_m, "m, T_s:", T_s, "s, T_s2:", T_s2,"s")
             print("goal distance: ", distanceAB)
 
-        print("[WAYPOINT REACHED]")
+        print("[WAYPOINT TIME LIMIT REACHED]")
+        if(distanceAB != 0 ):
+            print("[GOAL MISSED:","{:.2f}".format(distanceAB), "m missing]")
         t = 0
         i = (i + 1) % 4
         irun += 1
@@ -447,6 +474,12 @@ def rotation_matrix(roll, pitch, yaw):
 
 
 def main():
+
+    sys.stdout = Logger()
+    print("\n\n\n"+"".join( ["#"]*50) )
+    print("User:",format(getenv("USER")))
+    print("Date:",format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M")))
+    print("\n\n\n"+ "".join( ["#"]*50))
     """
     Calculates the x, y, z coefficients for the four segments 
     of the trajectory

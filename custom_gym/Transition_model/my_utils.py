@@ -14,7 +14,7 @@ from configparser import ConfigParser
 #-----------------------------------------FILE CONFIGS-----------------------------------------
 def parse_args():
     parser = argparse.ArgumentParser(description="UAVs flight generator")
-    parser.add_argument("-c","--config", default="configs.yml", type=str,metavar="Path",
+    parser.add_argument("-c","--config", default="configs.ini", type=str,metavar="Path",
     help="path to the flight generator config file")
     return parser.parse_args()
 

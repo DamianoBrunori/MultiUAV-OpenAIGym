@@ -1,0 +1,4792 @@
+
+
+_______________________________________ENVIRONMENT AND DRONE INFO: _______________________________________
+
+
+ID: 1.0
+
+VOL: Zu
+
+AIR RISK: UC
+
+GROUND RISK: Intermediate
+
+OP TYPE: BVLOS
+
+TYPE OF DRONE: Multirotor
+
+DIMENSION: 1.7 m
+
+MASS: 9.0 Kg
+
+CRUISE SPEED: 64.8 Km/h
+
+VDR: 3.0 m/s
+
+VRC: 4.0 m/s
+
+Stationary Max: 15.0 min
+
+MAX WIND: 8.0 m/s
+
+PAYLOAD RISK: HighRisk
+
+T. TYPE: LinealFreeFlight
+
+FLIGHT MODE: Auto
+
+MONITORING: YES
+
+TRACKING SERVICE: YES
+
+TACTICAL SEPARATION: YES
+
+DISTANCE TO REACH THE GOAL: 5.0 m
+
+TIME TO REACH THE GOAL: 0.0771604938271605 s
+
+__________________________________________________________________________________________________________________
+
+
+Waypoints:  [[0, 0, 5], [25, 0, 5], [0, 15, 5], [-15, 15, 15]]
+0 0 5
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0 Vel X:  0.0
+Acceleration m/s: 0.00 des_x_acc:  [0.] Time:  0.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  25.0
+0.0 0.0 5.0
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0 Vel X:  3.454880401056032e-05
+Acceleration m/s: 0.00 des_x_acc:  [0.00069098] Time:  0.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  25.0
+3.454880401056032e-06 0.0 4.999999999984791
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  3.4548804010895095e-05 Vel X:  0.00016376075415084325
+Acceleration m/s: 0.00 des_x_acc:  [0.00137503] Time:  0.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.9999965451196
+1.9830955816140355e-05 0.0 4.999999999758516
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0001637607541664759 Vel X:  0.00045794223701639547
+Acceleration m/s: 0.00 des_x_acc:  [0.00205219] Time:  0.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999980169044186
+6.562517951777991e-05 0.0 4.999999998454547
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0004579422372020449 Vel X:  0.0009796713350142964
+Acceleration m/s: 0.00 des_x_acc:  [0.00272247] Time:  0.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999934374820484
+0.00016359231301920957 0.0 4.999999993828014
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0009796713361067448 Vel X:  0.0017678107110249124
+Acceleration m/s: 0.00 des_x_acc:  [0.0033859] Time:  0.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.99983640768698
+0.00034037338412170085 0.0 4.999999981810925
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.0017678107151093555 Vel X:  0.0028274505088246816
+Acceleration m/s: 0.00 des_x_acc:  [0.0040425] Time:  0.70
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999659626615877
+0.000623118435004169 0.0 4.999999956870139
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.0028274505198247466 Vel X:  0.004128295545694434
+Acceleration m/s: 0.01 des_x_acc:  [0.0046923] Time:  0.80
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999376881564995
+0.0010359479895736125 0.0 4.999999913292576
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.004128295568694289 Vel X:  0.005611899994481005
+Acceleration m/s: 0.01 des_x_acc:  [0.00533531] Time:  0.90
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.998964052010425
+0.001597137989021713 0.0 4.999999846893431
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.005611900033762233 Vel X:  0.007205940878020528
+Acceleration m/s: 0.01 des_x_acc:  [0.00597156] Time:  1.00
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.998402862010977
+0.002317732076823766 0.0 4.999999756288017
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.0072059409349828395 Vel X:  0.008841962002104978
+Acceleration m/s: 0.01 des_x_acc:  [0.00660108] Time:  1.10
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.997682267923178
+0.0032019282770342637 0.0 4.999999643075202
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.008841962074584035 Vel X:  0.010472152350760974
+Acceleration m/s: 0.01 des_x_acc:  [0.00722389] Time:  1.20
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.99679807172297
+0.004249143512110361 0.0 4.9999995108905235
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.01047215243418599 Vel X:  0.012080964350904461
+Acceleration m/s: 0.01 des_x_acc:  [0.00784] Time:  1.30
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.995750856487895
+0.005457239947200807 0.0 4.999999363835336
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.012080964440405711 Vel X:  0.013688667438607902
+Acceleration m/s: 0.01 des_x_acc:  [0.00844945] Time:  1.40
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.99454276005281
+0.006826106691061598 0.0 4.999999204912692
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.01368866753086088 Vel X:  0.015345948529344202
+Acceleration m/s: 0.01 des_x_acc:  [0.00905225] Time:  1.50
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.993173893308953
+0.008360701543996018 0.0 4.999999034835984
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.015345948623590858 Vel X:  0.01712090927100157
+Acceleration m/s: 0.01 des_x_acc:  [0.00964844] Time:  1.60
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.991639298456022
+0.010072792471096175 0.0 4.999998851274786
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.0171209093694038 Vel X:  0.01908171076812955
+Acceleration m/s: 0.01 des_x_acc:  [0.01023802] Time:  1.70
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.989927207528932
+0.01198096354790913 0.0 4.99999864856687
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.019081710875799403 Vel X:  0.021279204601805015
+Acceleration m/s: 0.01 des_x_acc:  [0.01082104] Time:  1.80
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.988019036452126
+0.014108884008089632 0.0 4.999998418112744
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.021279204726596106 Vel X:  0.023733892395421913
+Acceleration m/s: 0.01 des_x_acc:  [0.0113975] Time:  1.90
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.98589111599196
+0.016482273247631823 0.0 4.999998149745481
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.023733892547147948 Vel X:  0.026430474034777083
+Acceleration m/s: 0.01 des_x_acc:  [0.01196743] Time:  2.00
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.983517726752435
+0.019125320651109532 0.0 4.999997834062639
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.02643047422330124 Vel X:  0.029321347479217958
+Acceleration m/s: 0.01 des_x_acc:  [0.01253086] Time:  2.10
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.980874679348982
+0.02205745539903133 0.0 4.999997465119824
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.029321347711333483 Vel X:  0.0323381852008735
+Acceleration m/s: 0.01 des_x_acc:  [0.01308781] Time:  2.20
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.9779425446011
+0.02529127391911868 0.0 4.999997042450298
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.0323381854770942 Vel X:  0.03540869314123619
+Acceleration m/s: 0.02 des_x_acc:  [0.0136383] Time:  2.30
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.974708726081055
+0.028832143233242298 0.0 4.999996571490476
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.03540869345444056 Vel X:  0.038474362457218754
+Acceleration m/s: 0.02 des_x_acc:  [0.01418236] Time:  2.40
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.971167856766993
+0.032679579478964174 0.0 4.999996062157319
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.038474362794352686 Vel X:  0.04150477613247582
+Acceleration m/s: 0.02 des_x_acc:  [0.01472] Time:  2.50
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.967320420521347
+0.03683005709221176 0.0 4.999995526120053
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.04150477647862388 Vel X:  0.04450489380163263
+Acceleration m/s: 0.02 des_x_acc:  [0.01525125] Time:  2.60
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.96316994290819
+0.04128054647237502 0.0 4.999994973737465
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.044504894144433725 Vel X:  0.04751349357037447
+Acceleration m/s: 0.02 des_x_acc:  [0.01577614] Time:  2.70
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.95871945352813
+0.04603189582941247 0.0 4.999994411518501
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.04751349390300646 Vel X:  0.050593160365805384
+Acceleration m/s: 0.02 des_x_acc:  [0.01629469] Time:  2.80
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.953968104171214
+0.05109121186599301 0.0 4.999993840555808
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.05059316068798173 Vel X:  0.05381432372895188
+Acceleration m/s: 0.02 des_x_acc:  [0.01680691] Time:  2.90
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.948908788134766
+0.0564726442388882 0.0 4.9999932560732265
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.05381432404635798 Vel X:  0.05723733561023972
+Acceleration m/s: 0.02 des_x_acc:  [0.01731284] Time:  3.00
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.943527355762022
+0.062196377799912175 0.0 4.999992648178933
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.057237335933049534 Vel X:  0.06089706872961238
+Acceleration m/s: 0.02 des_x_acc:  [0.0178125] Time:  3.10
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.937803622201173
+0.06828608467287342 0.0 4.999992003929183
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.060897069070398685 Vel X:  0.06479388591410734
+Acceleration m/s: 0.02 des_x_acc:  [0.01830591] Time:  3.20
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.93171391532841
+0.07476547326428415 0.0 4.999991310574076
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.06479388628508471 Vel X:  0.06889323806920025
+Acceleration m/s: 0.02 des_x_acc:  [0.01879309] Time:  3.30
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.925234526737228
+0.08165479707120417 0.0 4.999990559321833
+x:vel 0.07
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.06889323847880499 Vel X:  0.07313399127596609
+Acceleration m/s: 0.02 des_x_acc:  [0.01927406] Time:  3.40
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.91834520293058
+0.08896819619880078 0.0 4.9999897484479545
+x:vel 0.07
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.07313399172549472 Vel X:  0.0774434012335719
+Acceleration m/s: 0.02 des_x_acc:  [0.01974886] Time:  3.50
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.911031803803308
+0.09671253632215797 0.0 4.999988884543424
+x:vel 0.08
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.0774434017154277 Vel X:  0.0817549914476321
+Acceleration m/s: 0.02 des_x_acc:  [0.0202175] Time:  3.60
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.90328746368032
+0.10488803546692117 0.0 4.999987981310886
+x:vel 0.08
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.08175499194657962 Vel X:  0.08602486563611797
+Acceleration m/s: 0.02 des_x_acc:  [0.02068] Time:  3.70
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.89511196453598
+0.11349052203053298 0.0 4.999987056276972
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.08602486613346703 Vel X:  0.09024237625874831
+Acceleration m/s: 0.02 des_x_acc:  [0.02113639] Time:  3.80
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.886509477972837
+0.1225147596564078 0.0 4.999986126535156
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.09024237673769173 Vel X:  0.09443248202640542
+Acceleration m/s: 0.02 des_x_acc:  [0.0215867] Time:  3.90
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.87748524034746
+0.13195800785904835 0.0 4.99998520478957
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.09443248247625853 Vel X:  0.09864920499559937
+Acceleration m/s: 0.02 des_x_acc:  [0.02203094] Time:  4.00
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.86804199214535
+0.1418229283586083 0.0 4.999984296606813
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.09864920541364426 Vel X:  0.10296182296719306
+Acceleration m/s: 0.02 des_x_acc:  [0.02246914] Time:  4.10
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.858177071646352
+0.1521191106553276 0.0 4.999983399290418
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.10296182335820046 Vel X:  0.10296182296719306
+Acceleration m/s: 0.02 des_x_acc:  [0.02290132] Time:  4.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.84788088935022
+0.1624152929520469 0.0 4.999982502495978
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.10296182335774572 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0233275] Time:  4.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.837584707054116
+0.1727114752487662 0.0 4.999981590587042
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.10296182337102133 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02374771] Time:  4.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.827288524758057
+0.1830076575454855 0.0 4.9999806465213315
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.102961823400004 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02416198] Time:  4.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.816992342462065
+0.1933038398422048 0.0 4.999979656579233
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618234430905 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02457031] Time:  4.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.806696160166137
+0.2036000221389241 0.0 4.999978614685077
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182349435128 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02497275] Time:  4.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.796399977870298
+0.21389620443564342 0.0 4.999977524868375
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182354396045 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0253693] Time:  4.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.786103795574547
+0.22419238673236272 0.0 4.999976400881245
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182358069572 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02576] Time:  4.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.77580761327888
+0.23448856902908202 0.0 4.999975262996131
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182359596132 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02614486] Time:  5.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.76551143098327
+0.24478475132580133 0.0 4.999974133025
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182358724558 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02652392] Time:  5.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.755215248687712
+0.25508093362252066 0.0 4.999973029093674
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182355899705 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02689719] Time:  5.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.74491906639218
+0.26537711591923996 0.0 4.999971961527011
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182352064993 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02726469] Time:  5.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.73462288409665
+0.27567329821595926 0.0 4.999970930646397
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182348326534 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02762645] Time:  5.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.72432670180113
+0.28596948051267856 0.0 4.999969926770466
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182345658168 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0279825] Time:  5.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.714030519505616
+0.29626566280939787 0.0 4.999968932415071
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182344734318 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02833285] Time:  5.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.70373433721014
+0.30656184510611717 0.0 4.999967926445088
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618234586255 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02867753] Time:  5.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.693438154914716
+0.3168580274028365 0.0 4.999966889502778
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618234893523 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02901656] Time:  5.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.68314197261937
+0.3271542096995558 0.0 4.999965809457016
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182353366459 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02934997] Time:  5.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.672845790324136
+0.3374503919962751 0.0 4.999964685252089
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618235809335 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02967777] Time:  6.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.66254960802901
+0.3477465742929944 0.0 4.999963527792257
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182361778043 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03] Time:  6.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.652253425733985
+0.3580427565897137 0.0 4.999962357433953
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182363236123 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03031667] Time:  6.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.641957243439037
+0.368338938886433 0.0 4.9999611988511194
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182361904349 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03062781] Time:  6.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.63166106114413
+0.3786351211831523 0.0 4.999960074875228
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182358068345 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03093344] Time:  6.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.621364878849217
+0.3889313034798716 0.0 4.9999590010285155
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618235271806 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03123358] Time:  6.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.611068696554277
+0.3992274857765909 0.0 4.999957981988647
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182347147816 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03152826] Time:  6.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.600772514259294
+0.4095236680733102 0.0 4.9999570105729605
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182342544467 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0318175] Time:  6.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.59047633196427
+0.4198198503700295 0.0 4.9999560693443055
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182339740659 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03210132] Time:  6.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.58018014966923
+0.4301160326667488 0.0 4.999955134610586
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182339148971 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03237975] Time:  6.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.569883967374214
+0.4404122149634681 0.0 4.999954182189482
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182340769902 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03265281] Time:  7.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.55958778507927
+0.4507083972601874 0.0 4.999953193740538
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182344165597 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03292052] Time:  7.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.549291602784436
+0.4610045795569067 0.0 4.999952161973496
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182348415323 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03318291] Time:  7.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.538995420489726
+0.471300761853626 0.0 4.999951093059226
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618235220481 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03344] Time:  7.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.52869923819513
+0.4815969441503453 0.0 4.9999500053264745
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182354175677 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03369181] Time:  7.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.518403055900624
+0.4918931264470646 0.0 4.999948924574257
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618235344059 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03393836] Time:  7.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.508106873606156
+0.502189308743784 0.0 4.99994787745832
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182349964855 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03417969] Time:  7.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.497810691311667
+0.5124854910405033 0.0 4.999946884883773
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182344562486 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0344158] Time:  7.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.487514509017103
+0.5227816733372227 0.0 4.9999459570586735
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182338524093 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03464673] Time:  7.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.477218326722436
+0.533077855633942 0.0 4.999945091179144
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182333128304 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0348725] Time:  7.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.466922144427674
+0.5433740379306614 0.0 4.99994427206194
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182329301916 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03509313] Time:  8.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.45662596213283
+0.5536702202273808 0.0 4.999943475583067
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182327525802 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03530864] Time:  8.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.446329779837967
+0.5639664025241001 0.0 4.999942674372798
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182327892894 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03551906] Time:  8.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.43603359754314
+0.5742625848208195 0.0 4.999941844677753
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182330148874 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03572441] Time:  8.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.425737415248413
+0.5845587671175388 0.0 4.999940972728904
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182333640505 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03592472] Time:  8.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.415441232953818
+0.5948549494142582 0.0 4.999940058741695
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182337286411 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03612] Time:  8.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.405145050659353
+0.6051511317109776 0.0 4.999939117177007
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+['#', '#', '#', '#', '#', '#', '#', '#', '#', '#']
+User: {} giuppo
+Date: {} 2020-08-20 10:58
+['#', '#', '#', '#', '#', '#', '#', '#', '#', '#']
+Waypoints:  [[0, 0, 5], [25, 0, 5], [0, 15, 5], [-15, 15, 15]]
+0 0 5
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0 Vel X:  0.0
+Acceleration m/s: 0.00 des_x_acc:  [0.] Time:  0.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  25.0
+0.0 0.0 5.0
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0 Vel X:  3.454880401056032e-05
+Acceleration m/s: 0.00 des_x_acc:  [0.00069098] Time:  0.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  25.0
+3.454880401056032e-06 0.0 4.999999999984791
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  3.4548804010895095e-05 Vel X:  0.00016376075415084325
+Acceleration m/s: 0.00 des_x_acc:  [0.00137503] Time:  0.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.9999965451196
+1.9830955816140355e-05 0.0 4.999999999758516
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0001637607541664759 Vel X:  0.00045794223701639547
+Acceleration m/s: 0.00 des_x_acc:  [0.00205219] Time:  0.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999980169044186
+6.562517951777991e-05 0.0 4.999999998454547
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0004579422372020449 Vel X:  0.0009796713350142964
+Acceleration m/s: 0.00 des_x_acc:  [0.00272247] Time:  0.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999934374820484
+0.00016359231301920957 0.0 4.999999993828014
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0009796713361067448 Vel X:  0.0017678107110249124
+Acceleration m/s: 0.00 des_x_acc:  [0.0033859] Time:  0.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.99983640768698
+0.00034037338412170085 0.0 4.999999981810925
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.0017678107151093555 Vel X:  0.0028274505088246816
+Acceleration m/s: 0.00 des_x_acc:  [0.0040425] Time:  0.70
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999659626615877
+0.000623118435004169 0.0 4.999999956870139
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.0028274505198247466 Vel X:  0.004128295545694434
+Acceleration m/s: 0.01 des_x_acc:  [0.0046923] Time:  0.80
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999376881564995
+0.0010359479895736125 0.0 4.999999913292576
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.004128295568694289 Vel X:  0.005611899994481005
+Acceleration m/s: 0.01 des_x_acc:  [0.00533531] Time:  0.90
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.998964052010425
+0.001597137989021713 0.0 4.999999846893431
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.005611900033762233 Vel X:  0.007205940878020528
+Acceleration m/s: 0.01 des_x_acc:  [0.00597156] Time:  1.00
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.998402862010977
+0.002317732076823766 0.0 4.999999756288017
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.0072059409349828395 Vel X:  0.008841962002104978
+Acceleration m/s: 0.01 des_x_acc:  [0.00660108] Time:  1.10
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.997682267923178
+0.0032019282770342637 0.0 4.999999643075202
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.008841962074584035 Vel X:  0.010472152350760974
+Acceleration m/s: 0.01 des_x_acc:  [0.00722389] Time:  1.20
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.99679807172297
+0.004249143512110361 0.0 4.9999995108905235
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.01047215243418599 Vel X:  0.012080964350904461
+Acceleration m/s: 0.01 des_x_acc:  [0.00784] Time:  1.30
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.995750856487895
+0.005457239947200807 0.0 4.999999363835336
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.012080964440405711 Vel X:  0.013688667438607902
+Acceleration m/s: 0.01 des_x_acc:  [0.00844945] Time:  1.40
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.99454276005281
+0.006826106691061598 0.0 4.999999204912692
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.01368866753086088 Vel X:  0.015345948529344202
+Acceleration m/s: 0.01 des_x_acc:  [0.00905225] Time:  1.50
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.993173893308953
+0.008360701543996018 0.0 4.999999034835984
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.015345948623590858 Vel X:  0.01712090927100157
+Acceleration m/s: 0.01 des_x_acc:  [0.00964844] Time:  1.60
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.991639298456022
+0.010072792471096175 0.0 4.999998851274786
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.0171209093694038 Vel X:  0.01908171076812955
+Acceleration m/s: 0.01 des_x_acc:  [0.01023802] Time:  1.70
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.989927207528932
+0.01198096354790913 0.0 4.99999864856687
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.019081710875799403 Vel X:  0.021279204601805015
+Acceleration m/s: 0.01 des_x_acc:  [0.01082104] Time:  1.80
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.988019036452126
+0.014108884008089632 0.0 4.999998418112744
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.021279204726596106 Vel X:  0.023733892395421913
+Acceleration m/s: 0.01 des_x_acc:  [0.0113975] Time:  1.90
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.98589111599196
+0.016482273247631823 0.0 4.999998149745481
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.023733892547147948 Vel X:  0.026430474034777083
+Acceleration m/s: 0.01 des_x_acc:  [0.01196743] Time:  2.00
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.983517726752435
+0.019125320651109532 0.0 4.999997834062639
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.02643047422330124 Vel X:  0.029321347479217958
+Acceleration m/s: 0.01 des_x_acc:  [0.01253086] Time:  2.10
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.980874679348982
+0.02205745539903133 0.0 4.999997465119824
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.029321347711333483 Vel X:  0.0323381852008735
+Acceleration m/s: 0.01 des_x_acc:  [0.01308781] Time:  2.20
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.9779425446011
+0.02529127391911868 0.0 4.999997042450298
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.0323381854770942 Vel X:  0.03540869314123619
+Acceleration m/s: 0.02 des_x_acc:  [0.0136383] Time:  2.30
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.974708726081055
+0.028832143233242298 0.0 4.999996571490476
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.03540869345444056 Vel X:  0.038474362457218754
+Acceleration m/s: 0.02 des_x_acc:  [0.01418236] Time:  2.40
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.971167856766993
+0.032679579478964174 0.0 4.999996062157319
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.038474362794352686 Vel X:  0.04150477613247582
+Acceleration m/s: 0.02 des_x_acc:  [0.01472] Time:  2.50
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.967320420521347
+0.03683005709221176 0.0 4.999995526120053
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.04150477647862388 Vel X:  0.04450489380163263
+Acceleration m/s: 0.02 des_x_acc:  [0.01525125] Time:  2.60
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.96316994290819
+0.04128054647237502 0.0 4.999994973737465
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.044504894144433725 Vel X:  0.04751349357037447
+Acceleration m/s: 0.02 des_x_acc:  [0.01577614] Time:  2.70
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.95871945352813
+0.04603189582941247 0.0 4.999994411518501
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.04751349390300646 Vel X:  0.050593160365805384
+Acceleration m/s: 0.02 des_x_acc:  [0.01629469] Time:  2.80
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.953968104171214
+0.05109121186599301 0.0 4.999993840555808
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.05059316068798173 Vel X:  0.05381432372895188
+Acceleration m/s: 0.02 des_x_acc:  [0.01680691] Time:  2.90
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.948908788134766
+0.0564726442388882 0.0 4.9999932560732265
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.05381432404635798 Vel X:  0.05723733561023972
+Acceleration m/s: 0.02 des_x_acc:  [0.01731284] Time:  3.00
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.943527355762022
+0.062196377799912175 0.0 4.999992648178933
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.057237335933049534 Vel X:  0.06089706872961238
+Acceleration m/s: 0.02 des_x_acc:  [0.0178125] Time:  3.10
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.937803622201173
+0.06828608467287342 0.0 4.999992003929183
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.060897069070398685 Vel X:  0.06479388591410734
+Acceleration m/s: 0.02 des_x_acc:  [0.01830591] Time:  3.20
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.93171391532841
+0.07476547326428415 0.0 4.999991310574076
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.06479388628508471 Vel X:  0.06889323806920025
+Acceleration m/s: 0.02 des_x_acc:  [0.01879309] Time:  3.30
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.925234526737228
+0.08165479707120417 0.0 4.999990559321833
+x:vel 0.07
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.06889323847880499 Vel X:  0.07313399127596609
+Acceleration m/s: 0.02 des_x_acc:  [0.01927406] Time:  3.40
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.91834520293058
+0.08896819619880078 0.0 4.9999897484479545
+x:vel 0.07
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.07313399172549472 Vel X:  0.0774434012335719
+Acceleration m/s: 0.02 des_x_acc:  [0.01974886] Time:  3.50
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.911031803803308
+0.09671253632215797 0.0 4.999988884543424
+x:vel 0.08
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.0774434017154277 Vel X:  0.0817549914476321
+Acceleration m/s: 0.02 des_x_acc:  [0.0202175] Time:  3.60
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.90328746368032
+0.10488803546692117 0.0 4.999987981310886
+x:vel 0.08
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.08175499194657962 Vel X:  0.08602486563611797
+Acceleration m/s: 0.02 des_x_acc:  [0.02068] Time:  3.70
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.89511196453598
+0.11349052203053298 0.0 4.999987056276972
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.08602486613346703 Vel X:  0.09024237625874831
+Acceleration m/s: 0.02 des_x_acc:  [0.02113639] Time:  3.80
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.886509477972837
+0.1225147596564078 0.0 4.999986126535156
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.09024237673769173 Vel X:  0.09443248202640542
+Acceleration m/s: 0.02 des_x_acc:  [0.0215867] Time:  3.90
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.87748524034746
+0.13195800785904835 0.0 4.99998520478957
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.09443248247625853 Vel X:  0.09864920499559937
+Acceleration m/s: 0.02 des_x_acc:  [0.02203094] Time:  4.00
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.86804199214535
+0.1418229283586083 0.0 4.999984296606813
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.09864920541364426 Vel X:  0.10296182296719306
+Acceleration m/s: 0.02 des_x_acc:  [0.02246914] Time:  4.10
+X_acc: 0.02 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.858177071646352
+0.1521191106553276 0.0 4.999983399290418
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.10296182335820046 Vel X:  0.10296182296719306
+Acceleration m/s: 0.02 des_x_acc:  [0.02290132] Time:  4.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.84788088935022
+0.1624152929520469 0.0 4.999982502495978
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.10296182335774572 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0233275] Time:  4.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.837584707054116
+0.1727114752487662 0.0 4.999981590587042
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity m/s:  0.10296182337102133 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02374771] Time:  4.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.827288524758057
+0.1830076575454855 0.0 4.9999806465213315
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.102961823400004 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02416198] Time:  4.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.816992342462065
+0.1933038398422048 0.0 4.999979656579233
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618234430905 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02457031] Time:  4.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.806696160166137
+0.2036000221389241 0.0 4.999978614685077
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182349435128 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02497275] Time:  4.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.796399977870298
+0.21389620443564342 0.0 4.999977524868375
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182354396045 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0253693] Time:  4.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.786103795574547
+0.22419238673236272 0.0 4.999976400881245
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182358069572 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02576] Time:  4.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.77580761327888
+0.23448856902908202 0.0 4.999975262996131
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182359596132 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02614486] Time:  5.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.76551143098327
+0.24478475132580133 0.0 4.999974133025
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182358724558 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02652392] Time:  5.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.755215248687712
+0.25508093362252066 0.0 4.999973029093674
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182355899705 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02689719] Time:  5.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.74491906639218
+0.26537711591923996 0.0 4.999971961527011
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182352064993 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02726469] Time:  5.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.73462288409665
+0.27567329821595926 0.0 4.999970930646397
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182348326534 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02762645] Time:  5.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.72432670180113
+0.28596948051267856 0.0 4.999969926770466
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182345658168 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0279825] Time:  5.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.714030519505616
+0.29626566280939787 0.0 4.999968932415071
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182344734318 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02833285] Time:  5.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.70373433721014
+0.30656184510611717 0.0 4.999967926445088
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618234586255 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02867753] Time:  5.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.693438154914716
+0.3168580274028365 0.0 4.999966889502778
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618234893523 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02901656] Time:  5.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.68314197261937
+0.3271542096995558 0.0 4.999965809457016
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182353366459 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02934997] Time:  5.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.672845790324136
+0.3374503919962751 0.0 4.999964685252089
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618235809335 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.02967777] Time:  6.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.66254960802901
+0.3477465742929944 0.0 4.999963527792257
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182361778043 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03] Time:  6.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.652253425733985
+0.3580427565897137 0.0 4.999962357433953
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182363236123 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03031667] Time:  6.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.641957243439037
+0.368338938886433 0.0 4.9999611988511194
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182361904349 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03062781] Time:  6.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.63166106114413
+0.3786351211831523 0.0 4.999960074875228
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182358068345 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03093344] Time:  6.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.621364878849217
+0.3889313034798716 0.0 4.9999590010285155
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618235271806 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03123358] Time:  6.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.611068696554277
+0.3992274857765909 0.0 4.999957981988647
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182347147816 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03152826] Time:  6.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.600772514259294
+0.4095236680733102 0.0 4.9999570105729605
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182342544467 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0318175] Time:  6.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.59047633196427
+0.4198198503700295 0.0 4.9999560693443055
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182339740659 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03210132] Time:  6.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.58018014966923
+0.4301160326667488 0.0 4.999955134610586
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182339148971 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03237975] Time:  6.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.569883967374214
+0.4404122149634681 0.0 4.999954182189482
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182340769902 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03265281] Time:  7.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.55958778507927
+0.4507083972601874 0.0 4.999953193740538
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182344165597 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03292052] Time:  7.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.549291602784436
+0.4610045795569067 0.0 4.999952161973496
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182348415323 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03318291] Time:  7.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.538995420489726
+0.471300761853626 0.0 4.999951093059226
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618235220481 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03344] Time:  7.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.52869923819513
+0.4815969441503453 0.0 4.9999500053264745
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182354175677 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03369181] Time:  7.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.518403055900624
+0.4918931264470646 0.0 4.999948924574257
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.1029618235344059 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03393836] Time:  7.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.508106873606156
+0.502189308743784 0.0 4.99994787745832
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182349964855 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03417969] Time:  7.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.497810691311667
+0.5124854910405033 0.0 4.999946884883773
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182344562486 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0344158] Time:  7.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.487514509017103
+0.5227816733372227 0.0 4.9999459570586735
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182338524093 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03464673] Time:  7.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.477218326722436
+0.533077855633942 0.0 4.999945091179144
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182333128304 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0348725] Time:  7.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.466922144427674
+0.5433740379306614 0.0 4.99994427206194
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity m/s:  0.10296182329301916 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03509313] Time:  8.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.45662596213283
+0.5536702202273808 0.0 4.999943475583067
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182327525802 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03530864] Time:  8.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.446329779837967
+0.5639664025241001 0.0 4.999942674372798
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182327892894 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03551906] Time:  8.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.43603359754314
+0.5742625848208195 0.0 4.999941844677753
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182330148874 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03572441] Time:  8.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.425737415248413
+0.5845587671175388 0.0 4.999940972728904
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182333640505 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03592472] Time:  8.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.415441232953818
+0.5948549494142582 0.0 4.999940058741695
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182337286411 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03612] Time:  8.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.405145050659353
+0.6051511317109776 0.0 4.999939117177007
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182339771383 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03631028] Time:  8.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.394848868364996
+0.6154473140076969 0.0 4.999938173060287
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182340005076 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03649559] Time:  8.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.384552686070688
+0.6257434963044163 0.0 4.999937255478699
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182337606109 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03667594] Time:  8.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.37425650377634
+0.6360396786011356 0.0 4.999936390211595
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182333076818 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03685136] Time:  8.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.3639603214819
+0.646335860897855 0.0 4.9999355934775735
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182327545543 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03702187] Time:  9.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.35366413918731
+0.6566320431945744 0.0 4.999934868184002
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.1029618232226522 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0371875] Time:  9.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.343367956892557
+0.6669282254912937 0.0 4.999934203300867
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182318186951 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03734827] Time:  9.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.333071774597663
+0.6772244077880131 0.0 4.9999335763779165
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182315805623 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0375042] Time:  9.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.322775592302683
+0.6875205900847324 0.0 4.999932958767615
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182315242797 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03765531] Time:  9.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.312479410007697
+0.6978167723814518 0.0 4.999932322607813
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182316372186 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03780164] Time:  9.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.302183227712785
+0.7081129546781711 0.0 4.999931648018694
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182318818296 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03794319] Time:  9.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.291887045417994
+0.7184091369748905 0.0 4.999930928567681
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.1029618232185531 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03808] Time:  9.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.28159086312335
+0.7287053192716099 0.0 4.999930173269713
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182324422536 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03821209] Time:  9.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.27129468082883
+0.7390015015683292 0.0 4.999929404364294
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182325429731 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03833948] Time:  9.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.26099849853438
+0.7492976838650486 0.0 4.99992865149831
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.1029618232424442 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03846219] Time:  10.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.250702316239906
+0.7595938661617679 0.0 4.999927944089474
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.102961823210209 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03858025] Time:  10.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.240406133945324
+0.7698900484584873 0.0 4.999927304037495
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182316613404 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03869368] Time:  10.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.23010995165056
+0.7801862307552067 0.0 4.999926740557608
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182312138107 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0388025] Time:  10.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.219813769355593
+0.790482413051926 0.0 4.9999262481264495
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182308494954 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03890674] Time:  10.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.20951758706041
+0.8007785953486454 0.0 4.99992580779352
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182306135082 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03900642] Time:  10.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.199221404765087
+0.8110747776453647 0.0 4.999925391570133
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182305132226 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03910156] Time:  10.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.188925222469695
+0.8213709599420841 0.0 4.999924969114145
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182305386065 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03919219] Time:  10.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.178629040174336
+0.8316671422388034 0.0 4.999924515342956
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.1029618230671856 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03927833] Time:  10.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.168332857879076
+0.8419633245355228 0.0 4.999924017080209
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.1029618230877551 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03936] Time:  10.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.15803667558397
+0.8522595068322422 0.0 4.999923476775425
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182310895884 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03943723] Time:  11.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.147740493289003
+0.8625556891289615 0.0 4.999922912030703
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182312207405 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03951003] Time:  11.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.137444310994137
+0.8728518714256809 0.0 4.999922350983805
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182312005245 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03957844] Time:  11.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.127148128699268
+0.8831480537224002 0.0 4.999921824954348
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182310156665 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03964247] Time:  11.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.116851946404303
+0.8934442360191196 0.0 4.999921360522399
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182307193918 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03970215] Time:  11.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.106555764109146
+0.903740418315839 0.0 4.999920973117283
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182304007577 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0397575] Time:  11.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.09625958181375
+0.9140366006125583 0.0 4.999920663495306
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.1029618230137471 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03980855] Time:  11.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.085963399518104
+0.9243327829092777 0.0 4.999920417658036
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182299654179 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03985531] Time:  11.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.075667217222254
+0.934628965205997 0.0 4.999920210114107
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182298811075 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03989781] Time:  11.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.065371034926276
+0.9449251475027164 0.0 4.99992000988019
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.1029618229866632 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03993608] Time:  11.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.05507485263028
+0.9552213297994357 0.0 4.999919788066893
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182299108597 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03997014] Time:  12.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.044778670334356
+0.9655175120961551 0.0 4.999919525310451
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182300072051 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.04] Time:  12.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.03448248803857
+0.9758136943928745 0.0 4.99991921701097
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182301335025 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0400257] Time:  12.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.024186305742944
+0.9861098766895938 0.0 4.9999188747131305
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182302409172 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.04004725] Time:  12.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.01389012344744
+0.9964060589863132 0.0 4.999918523083795
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182302723628 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.04006469] Time:  12.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.00359394115197
+1.0067022412830324 0.0 4.999918193379811
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.1029618230199819 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.04007802] Time:  12.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.99329775885643
+1.0169984235797518 0.0 4.999917915383929
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182300472236 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.04008729] Time:  12.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.983001576560724
+1.0272946058764711 0.0 4.9999177100541745
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182298766682 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0400925] Time:  12.70
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.972705394264768
+1.0375907881731905 0.0 4.999917584625488
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182297483296 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.04009368] Time:  12.80
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.962409211968538
+1.0478869704699099 0.0 4.999917531056998
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182296858658 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.04009086] Time:  12.90
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.952113029672063
+1.0581831527666292 0.0 4.999917527962573
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.1029618229671977 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.04008406] Time:  13.00
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.941816847375414
+1.0684793350633486 0.0 4.999917545608121
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182296734427 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0400733] Time:  13.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.931520665078697
+1.078775517360068 0.0 4.999917553046203
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182296721992 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.04005861] Time:  13.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.921224482782012
+1.0890716996567873 0.0 4.999917525875786
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182296755156 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.04004] Time:  13.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.91092830048545
+1.0993678819535067 0.0 4.999917452652804
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182296979674 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.0400175] Time:  13.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.900632118189044
+1.109664064250226 0.0 4.999917338038614
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity m/s:  0.10296182297357233 Vel X:  0.10296182296719306
+Acceleration m/s: 0.00 des_x_acc:  [0.03999114] Time:  13.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  23.890335935892782
+1.1199602465469454 0.0 4.9999172016034334
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+##########
+User: giuppo
+Date: 2020-08-20 11:12
+##########
+Waypoints:  [[0, 0, 5], [25, 0, 5], [0, 15, 5], [-15, 15, 15]]
+0 0 5
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0 Vel X:  0.0
+Acceleration m/s: 0.00 des_x_acc:  [0.] Time:  0.10
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  25.0
+0.0 0.0 5.0
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0 Vel X:  3.454880401056032e-05
+Acceleration m/s: 0.00 des_x_acc:  [0.00069098] Time:  0.20
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  25.0
+3.454880401056032e-06 0.0 4.999999999984791
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  3.4548804010895095e-05 Vel X:  0.00016376075415084325
+Acceleration m/s: 0.00 des_x_acc:  [0.00137503] Time:  0.30
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.9999965451196
+1.9830955816140355e-05 0.0 4.999999999758516
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0001637607541664759 Vel X:  0.00045794223701639547
+Acceleration m/s: 0.00 des_x_acc:  [0.00205219] Time:  0.40
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999980169044186
+6.562517951777991e-05 0.0 4.999999998454547
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0004579422372020449 Vel X:  0.0009796713350142964
+Acceleration m/s: 0.00 des_x_acc:  [0.00272247] Time:  0.50
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999934374820484
+0.00016359231301920957 0.0 4.999999993828014
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity m/s:  0.0009796713361067448 Vel X:  0.0017678107110249124
+Acceleration m/s: 0.00 des_x_acc:  [0.0033859] Time:  0.60
+X_acc: 0.00 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.99983640768698
+0.00034037338412170085 0.0 4.999999981810925
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.0017678107151093555 Vel X:  0.0028274505088246816
+Acceleration m/s: 0.00 des_x_acc:  [0.0040425] Time:  0.70
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999659626615877
+0.000623118435004169 0.0 4.999999956870139
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity m/s:  0.0028274505198247466 Vel X:  0.004128295545694434
+Acceleration m/s: 0.01 des_x_acc:  [0.0046923] Time:  0.80
+X_acc: 0.01 Y_acc: 0.00
+Time: 60 Space: 5.0 T_s: 12.0 T_s2: 48.0
+goal distance:  24.999376881564995
+0.0010359479895736125 0.0 4.999999913292576
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+
+
+
+##################################################
+User: giuppo
+Date: 2020-08-20 15:45
+
+
+
+##################################################
+Waypoints:  [[0, 0, 5], [25, 0, 5], [0, 15, 5], [-15, 15, 15]]
+0 0 5
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 0.0 m/s, Vel X:  0.0 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  0.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  25.0
+0.0 0.0 5.0
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 0.0 m/s, Vel X:  3.454880401056032e-05 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.00069098]  m/s^2, Time:  0.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  25.0
+3.454880401056032e-06 0.0 4.999999999984791
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 3.4548804010895095e-05 m/s, Vel X:  0.00016376075415084325 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.00137503]  m/s^2, Time:  0.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.9999965451196
+1.9830955816140355e-05 0.0 4.999999999758516
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 0.0001637607541664759 m/s, Vel X:  0.00045794223701639547 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.00205219]  m/s^2, Time:  0.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.999980169044186
+6.562517951777991e-05 0.0 4.999999998454547
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 0.0004579422372020449 m/s, Vel X:  0.0009796713350142964 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.00272247]  m/s^2, Time:  0.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.999934374820484
+0.00016359231301920957 0.0 4.999999993828014
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 0.0009796713361067448 m/s, Vel X:  0.0017678107110249124 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0033859]  m/s^2, Time:  0.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.99983640768698
+0.00034037338412170085 0.0 4.999999981810925
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.0017678107151093555 m/s, Vel X:  0.0028274505088246816 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0040425]  m/s^2, Time:  0.70 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.999659626615877
+0.000623118435004169 0.0 4.999999956870139
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.0028274505198247466 m/s, Vel X:  0.004128295545694434 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.0046923]  m/s^2, Time:  0.80 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.999376881564995
+0.0010359479895736125 0.0 4.999999913292576
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.004128295568694289 m/s, Vel X:  0.005611899994481005 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00533531]  m/s^2, Time:  0.90 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.998964052010425
+0.001597137989021713 0.0 4.999999846893431
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.005611900033762233 m/s, Vel X:  0.007205940878020528 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00597156]  m/s^2, Time:  1.00 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.998402862010977
+0.002317732076823766 0.0 4.999999756288017
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.0072059409349828395 m/s, Vel X:  0.008841962002104978 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00660108]  m/s^2, Time:  1.10 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.997682267923178
+0.0032019282770342637 0.0 4.999999643075202
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.008841962074584035 m/s, Vel X:  0.010472152350760974 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00722389]  m/s^2, Time:  1.20 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.99679807172297
+0.004249143512110361 0.0 4.9999995108905235
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.01047215243418599 m/s, Vel X:  0.012080964350904461 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00784]  m/s^2, Time:  1.30 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.995750856487895
+0.005457239947200807 0.0 4.999999363835336
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.012080964440405711 m/s, Vel X:  0.013688667438607902 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00844945]  m/s^2, Time:  1.40 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.99454276005281
+0.006826106691061598 0.0 4.999999204912692
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.01368866753086088 m/s, Vel X:  0.015345948529344202 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00905225]  m/s^2, Time:  1.50 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.993173893308953
+0.008360701543996018 0.0 4.999999034835984
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.015345948623590858 m/s, Vel X:  0.01712090927100157 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00964844]  m/s^2, Time:  1.60 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.991639298456022
+0.010072792471096175 0.0 4.999998851274786
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.0171209093694038 m/s, Vel X:  0.01908171076812955 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.01023802]  m/s^2, Time:  1.70 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.989927207528932
+0.01198096354790913 0.0 4.99999864856687
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.019081710875799403 m/s, Vel X:  0.021279204601805015 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.01082104]  m/s^2, Time:  1.80 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.988019036452126
+0.014108884008089632 0.0 4.999998418112744
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.021279204726596106 m/s, Vel X:  0.023733892395421913 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.0113975]  m/s^2, Time:  1.90 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.98589111599196
+0.016482273247631823 0.0 4.999998149745481
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.023733892547147948 m/s, Vel X:  0.026430474034777083 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.01196743]  m/s^2, Time:  2.00 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.983517726752435
+0.019125320651109532 0.0 4.999997834062639
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.02643047422330124 m/s, Vel X:  0.029321347479217958 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.01253086]  m/s^2, Time:  2.10 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.980874679348982
+0.02205745539903133 0.0 4.999997465119824
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.029321347711333483 m/s, Vel X:  0.0323381852008735 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.01308781]  m/s^2, Time:  2.20 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.9779425446011
+0.02529127391911868 0.0 4.999997042450298
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.0323381854770942 m/s, Vel X:  0.03540869314123619 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.0136383]  m/s^2, Time:  2.30 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.974708726081055
+0.028832143233242298 0.0 4.999996571490476
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.03540869345444056 m/s, Vel X:  0.038474362457218754 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01418236]  m/s^2, Time:  2.40 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.971167856766993
+0.032679579478964174 0.0 4.999996062157319
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.038474362794352686 m/s, Vel X:  0.04150477613247582 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01472]  m/s^2, Time:  2.50 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.967320420521347
+0.03683005709221176 0.0 4.999995526120053
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.04150477647862388 m/s, Vel X:  0.04450489380163263 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01525125]  m/s^2, Time:  2.60 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.96316994290819
+0.04128054647237502 0.0 4.999994973737465
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.044504894144433725 m/s, Vel X:  0.04751349357037447 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01577614]  m/s^2, Time:  2.70 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.95871945352813
+0.04603189582941247 0.0 4.999994411518501
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.04751349390300646 m/s, Vel X:  0.050593160365805384 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01629469]  m/s^2, Time:  2.80 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.953968104171214
+0.05109121186599301 0.0 4.999993840555808
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.05059316068798173 m/s, Vel X:  0.05381432372895188 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01680691]  m/s^2, Time:  2.90 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.948908788134766
+0.0564726442388882 0.0 4.9999932560732265
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.05381432404635798 m/s, Vel X:  0.05723733561023972 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01731284]  m/s^2, Time:  3.00 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.943527355762022
+0.062196377799912175 0.0 4.999992648178933
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.057237335933049534 m/s, Vel X:  0.06089706872961238 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.0178125]  m/s^2, Time:  3.10 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.937803622201173
+0.06828608467287342 0.0 4.999992003929183
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.060897069070398685 m/s, Vel X:  0.06479388591410734 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01830591]  m/s^2, Time:  3.20 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.93171391532841
+0.07476547326428415 0.0 4.999991310574076
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.06479388628508471 m/s, Vel X:  0.06889323806920025 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01879309]  m/s^2, Time:  3.30 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.925234526737228
+0.08165479707120417 0.0 4.999990559321833
+x:vel 0.07
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.06889323847880499 m/s, Vel X:  0.07313399127596609 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01927406]  m/s^2, Time:  3.40 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.91834520293058
+0.08896819619880078 0.0 4.9999897484479545
+x:vel 0.07
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.07313399172549472 m/s, Vel X:  0.0774434012335719 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01974886]  m/s^2, Time:  3.50 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.911031803803308
+0.09671253632215797 0.0 4.999988884543424
+x:vel 0.08
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.0774434017154277 m/s, Vel X:  0.0817549914476321 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.0202175]  m/s^2, Time:  3.60 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.90328746368032
+0.10488803546692117 0.0 4.999987981310886
+x:vel 0.08
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.08175499194657962 m/s, Vel X:  0.08602486563611797 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.02068]  m/s^2, Time:  3.70 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.89511196453598
+0.11349052203053298 0.0 4.999987056276972
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.08602486613346703 m/s, Vel X:  0.09024237625874831 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.02113639]  m/s^2, Time:  3.80 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.886509477972837
+0.1225147596564078 0.0 4.999986126535156
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.09024237673769173 m/s, Vel X:  0.09443248202640542 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.0215867]  m/s^2, Time:  3.90 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.87748524034746
+0.13195800785904835 0.0 4.99998520478957
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.09443248247625853 m/s, Vel X:  0.09864920499559937 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.02203094]  m/s^2, Time:  4.00 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.86804199214535
+0.1418229283586083 0.0 4.999984296606813
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.09864920541364426 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.02246914]  m/s^2, Time:  4.10 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.858177071646352
+0.1521191106553276 0.0 4.999983399290418
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182335820046 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.02290132]  m/s^2, Time:  4.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.84788088935022
+0.1624152929520469 0.0 4.999982502495978
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182335774572 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0233275]  m/s^2, Time:  4.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.837584707054116
+0.1727114752487662 0.0 4.999981590587042
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182337102133 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02374771]  m/s^2, Time:  4.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.827288524758057
+0.1830076575454855 0.0 4.9999806465213315
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.102961823400004 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02416198]  m/s^2, Time:  4.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.816992342462065
+0.1933038398422048 0.0 4.999979656579233
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618234430905 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02457031]  m/s^2, Time:  4.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.806696160166137
+0.2036000221389241 0.0 4.999978614685077
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182349435128 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02497275]  m/s^2, Time:  4.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.796399977870298
+0.21389620443564342 0.0 4.999977524868375
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182354396045 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0253693]  m/s^2, Time:  4.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.786103795574547
+0.22419238673236272 0.0 4.999976400881245
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182358069572 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02576]  m/s^2, Time:  4.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.77580761327888
+0.23448856902908202 0.0 4.999975262996131
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182359596132 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02614486]  m/s^2, Time:  5.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.76551143098327
+0.24478475132580133 0.0 4.999974133025
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182358724558 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02652392]  m/s^2, Time:  5.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.755215248687712
+0.25508093362252066 0.0 4.999973029093674
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182355899705 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02689719]  m/s^2, Time:  5.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.74491906639218
+0.26537711591923996 0.0 4.999971961527011
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182352064993 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02726469]  m/s^2, Time:  5.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.73462288409665
+0.27567329821595926 0.0 4.999970930646397
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182348326534 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02762645]  m/s^2, Time:  5.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.72432670180113
+0.28596948051267856 0.0 4.999969926770466
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182345658168 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0279825]  m/s^2, Time:  5.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.714030519505616
+0.29626566280939787 0.0 4.999968932415071
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182344734318 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02833285]  m/s^2, Time:  5.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.70373433721014
+0.30656184510611717 0.0 4.999967926445088
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618234586255 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02867753]  m/s^2, Time:  5.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.693438154914716
+0.3168580274028365 0.0 4.999966889502778
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618234893523 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02901656]  m/s^2, Time:  5.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.68314197261937
+0.3271542096995558 0.0 4.999965809457016
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182353366459 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02934997]  m/s^2, Time:  5.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.672845790324136
+0.3374503919962751 0.0 4.999964685252089
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618235809335 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02967777]  m/s^2, Time:  6.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.66254960802901
+0.3477465742929944 0.0 4.999963527792257
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182361778043 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03]  m/s^2, Time:  6.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.652253425733985
+0.3580427565897137 0.0 4.999962357433953
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182363236123 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03031667]  m/s^2, Time:  6.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.641957243439037
+0.368338938886433 0.0 4.9999611988511194
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182361904349 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03062781]  m/s^2, Time:  6.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.63166106114413
+0.3786351211831523 0.0 4.999960074875228
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182358068345 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03093344]  m/s^2, Time:  6.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.621364878849217
+0.3889313034798716 0.0 4.9999590010285155
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618235271806 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03123358]  m/s^2, Time:  6.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.611068696554277
+0.3992274857765909 0.0 4.999957981988647
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182347147816 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03152826]  m/s^2, Time:  6.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.600772514259294
+0.4095236680733102 0.0 4.9999570105729605
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182342544467 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0318175]  m/s^2, Time:  6.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.59047633196427
+0.4198198503700295 0.0 4.9999560693443055
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182339740659 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03210132]  m/s^2, Time:  6.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.58018014966923
+0.4301160326667488 0.0 4.999955134610586
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182339148971 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03237975]  m/s^2, Time:  6.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.569883967374214
+0.4404122149634681 0.0 4.999954182189482
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182340769902 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03265281]  m/s^2, Time:  7.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.55958778507927
+0.4507083972601874 0.0 4.999953193740538
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182344165597 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03292052]  m/s^2, Time:  7.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.549291602784436
+0.4610045795569067 0.0 4.999952161973496
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182348415323 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03318291]  m/s^2, Time:  7.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.538995420489726
+0.471300761853626 0.0 4.999951093059226
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618235220481 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03344]  m/s^2, Time:  7.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.52869923819513
+0.4815969441503453 0.0 4.9999500053264745
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182354175677 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03369181]  m/s^2, Time:  7.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.518403055900624
+0.4918931264470646 0.0 4.999948924574257
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618235344059 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03393836]  m/s^2, Time:  7.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.508106873606156
+0.502189308743784 0.0 4.99994787745832
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182349964855 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03417969]  m/s^2, Time:  7.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.497810691311667
+0.5124854910405033 0.0 4.999946884883773
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182344562486 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0344158]  m/s^2, Time:  7.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.487514509017103
+0.5227816733372227 0.0 4.9999459570586735
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182338524093 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03464673]  m/s^2, Time:  7.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.477218326722436
+0.533077855633942 0.0 4.999945091179144
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182333128304 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0348725]  m/s^2, Time:  7.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.466922144427674
+0.5433740379306614 0.0 4.99994427206194
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182329301916 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03509313]  m/s^2, Time:  8.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.45662596213283
+0.5536702202273808 0.0 4.999943475583067
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182327525802 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03530864]  m/s^2, Time:  8.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.446329779837967
+0.5639664025241001 0.0 4.999942674372798
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182327892894 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03551906]  m/s^2, Time:  8.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.43603359754314
+0.5742625848208195 0.0 4.999941844677753
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182330148874 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03572441]  m/s^2, Time:  8.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.425737415248413
+0.5845587671175388 0.0 4.999940972728904
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182333640505 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03592472]  m/s^2, Time:  8.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.415441232953818
+0.5948549494142582 0.0 4.999940058741695
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182337286411 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03612]  m/s^2, Time:  8.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.405145050659353
+0.6051511317109776 0.0 4.999939117177007
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182339771383 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03631028]  m/s^2, Time:  8.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.394848868364996
+0.6154473140076969 0.0 4.999938173060287
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182340005076 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03649559]  m/s^2, Time:  8.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.384552686070688
+0.6257434963044163 0.0 4.999937255478699
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182337606109 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03667594]  m/s^2, Time:  8.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.37425650377634
+0.6360396786011356 0.0 4.999936390211595
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182333076818 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03685136]  m/s^2, Time:  8.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.3639603214819
+0.646335860897855 0.0 4.9999355934775735
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182327545543 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03702187]  m/s^2, Time:  9.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.35366413918731
+0.6566320431945744 0.0 4.999934868184002
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618232226522 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0371875]  m/s^2, Time:  9.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.343367956892557
+0.6669282254912937 0.0 4.999934203300867
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182318186951 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03734827]  m/s^2, Time:  9.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.333071774597663
+0.6772244077880131 0.0 4.9999335763779165
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182315805623 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0375042]  m/s^2, Time:  9.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.322775592302683
+0.6875205900847324 0.0 4.999932958767615
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182315242797 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03765531]  m/s^2, Time:  9.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.312479410007697
+0.6978167723814518 0.0 4.999932322607813
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182316372186 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03780164]  m/s^2, Time:  9.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.302183227712785
+0.7081129546781711 0.0 4.999931648018694
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182318818296 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03794319]  m/s^2, Time:  9.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.291887045417994
+0.7184091369748905 0.0 4.999930928567681
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618232185531 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03808]  m/s^2, Time:  9.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.28159086312335
+0.7287053192716099 0.0 4.999930173269713
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182324422536 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03821209]  m/s^2, Time:  9.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.27129468082883
+0.7390015015683292 0.0 4.999929404364294
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182325429731 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03833948]  m/s^2, Time:  9.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.26099849853438
+0.7492976838650486 0.0 4.99992865149831
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618232424442 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03846219]  m/s^2, Time:  10.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.250702316239906
+0.7595938661617679 0.0 4.999927944089474
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.102961823210209 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03858025]  m/s^2, Time:  10.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.240406133945324
+0.7698900484584873 0.0 4.999927304037495
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182316613404 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03869368]  m/s^2, Time:  10.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.23010995165056
+0.7801862307552067 0.0 4.999926740557608
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182312138107 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0388025]  m/s^2, Time:  10.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.219813769355593
+0.790482413051926 0.0 4.9999262481264495
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182308494954 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03890674]  m/s^2, Time:  10.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.20951758706041
+0.8007785953486454 0.0 4.99992580779352
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182306135082 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03900642]  m/s^2, Time:  10.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.199221404765087
+0.8110747776453647 0.0 4.999925391570133
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182305132226 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03910156]  m/s^2, Time:  10.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.188925222469695
+0.8213709599420841 0.0 4.999924969114145
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182305386065 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03919219]  m/s^2, Time:  10.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.178629040174336
+0.8316671422388034 0.0 4.999924515342956
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618230671856 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03927833]  m/s^2, Time:  10.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.168332857879076
+0.8419633245355228 0.0 4.999924017080209
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618230877551 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03936]  m/s^2, Time:  10.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.15803667558397
+0.8522595068322422 0.0 4.999923476775425
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182310895884 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03943723]  m/s^2, Time:  11.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.147740493289003
+0.8625556891289615 0.0 4.999922912030703
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182312207405 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03951003]  m/s^2, Time:  11.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.137444310994137
+0.8728518714256809 0.0 4.999922350983805
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182312005245 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03957844]  m/s^2, Time:  11.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.127148128699268
+0.8831480537224002 0.0 4.999921824954348
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182310156665 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03964247]  m/s^2, Time:  11.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.116851946404303
+0.8934442360191196 0.0 4.999921360522399
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182307193918 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03970215]  m/s^2, Time:  11.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.106555764109146
+0.903740418315839 0.0 4.999920973117283
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182304007577 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0397575]  m/s^2, Time:  11.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.09625958181375
+0.9140366006125583 0.0 4.999920663495306
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618230137471 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03980855]  m/s^2, Time:  11.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.085963399518104
+0.9243327829092777 0.0 4.999920417658036
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182299654179 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03985531]  m/s^2, Time:  11.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.075667217222254
+0.934628965205997 0.0 4.999920210114107
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182298811075 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03989781]  m/s^2, Time:  11.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.065371034926276
+0.9449251475027164 0.0 4.99992000988019
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618229866632 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03993608]  m/s^2, Time:  11.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.05507485263028
+0.9552213297994357 0.0 4.999919788066893
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182299108597 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03997014]  m/s^2, Time:  12.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.044778670334356
+0.9655175120961551 0.0 4.999919525310451
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182300072051 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04]  m/s^2, Time:  12.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.03448248803857
+0.9758136943928745 0.0 4.99991921701097
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182301335025 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0400257]  m/s^2, Time:  12.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.024186305742944
+0.9861098766895938 0.0 4.9999188747131305
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182302409172 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04004725]  m/s^2, Time:  12.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.01389012344744
+0.9964060589863132 0.0 4.999918523083795
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182302723628 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04006469]  m/s^2, Time:  12.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.00359394115197
+1.0067022412830324 0.0 4.999918193379811
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618230199819 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04007802]  m/s^2, Time:  12.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.99329775885643
+1.0169984235797518 0.0 4.999917915383929
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182300472236 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04008729]  m/s^2, Time:  12.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.983001576560724
+1.0272946058764711 0.0 4.9999177100541745
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182298766682 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0400925]  m/s^2, Time:  12.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.972705394264768
+1.0375907881731905 0.0 4.999917584625488
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182297483296 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04009368]  m/s^2, Time:  12.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.962409211968538
+1.0478869704699099 0.0 4.999917531056998
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182296858658 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04009086]  m/s^2, Time:  12.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.952113029672063
+1.0581831527666292 0.0 4.999917527962573
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618229671977 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04008406]  m/s^2, Time:  13.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.941816847375414
+1.0684793350633486 0.0 4.999917545608121
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182296734427 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0400733]  m/s^2, Time:  13.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.931520665078697
+1.078775517360068 0.0 4.999917553046203
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182296721992 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04005861]  m/s^2, Time:  13.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.921224482782012
+1.0890716996567873 0.0 4.999917525875786
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182296755156 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04004]  m/s^2, Time:  13.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.91092830048545
+1.0993678819535067 0.0 4.999917452652804
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182296979674 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0400175]  m/s^2, Time:  13.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.900632118189044
+1.109664064250226 0.0 4.999917338038614
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182297357233 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03999114]  m/s^2, Time:  13.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.890335935892782
+1.1199602465469454 0.0 4.9999172016034334
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618229762326 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03996094]  m/s^2, Time:  13.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.8800397535966
+1.1302564288436647 0.0 4.999917072581541
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182297527695 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03992691]  m/s^2, Time:  13.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.869743571300386
+1.140552611140384 0.0 4.999916982186365
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182297116117 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03988909]  m/s^2, Time:  13.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.859447389004043
+1.1508487934371034 0.0 4.999916955729154
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182296753298 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0398475]  m/s^2, Time:  13.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.849151206707482
+1.1611449757338228 0.0 4.999917006561349
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182296844784 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03980216]  m/s^2, Time:  14.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.838855024410645
+1.1714411580305422 0.0 4.9999171330876635
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182297496725 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03975309]  m/s^2, Time:  14.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.828558842113544
+1.1817373403272615 0.0 4.999917319261913
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182298402495 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03970031]  m/s^2, Time:  14.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.818262659816245
+1.1920335226239809 0.0 4.999917538349433
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182299050236 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03964386]  m/s^2, Time:  14.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.80796647751883
+1.2023297049207002 0.0 4.999917759245978
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182299088888 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03958375]  m/s^2, Time:  14.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.797670295221405
+1.2126258872174196 0.0 4.999917954103395
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182298563165 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03952]  m/s^2, Time:  14.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.787374112924073
+1.222922069514139 0.0 4.9999181054701465
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182297831946 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03945264]  m/s^2, Time:  14.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.77707793062689
+1.2332182518108583 0.0 4.999918210950546
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182297259608 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0393817]  m/s^2, Time:  14.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.766781748329873
+1.2435144341075777 0.0 4.999918283880961
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182296977598 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03930719]  m/s^2, Time:  14.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.756485566032964
+1.253810616404297 0.0 4.999918349712813
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182296929764 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03922914]  m/s^2, Time:  14.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.746189383736077
+1.2641067987010164 0.0 4.99991843920261
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182297108208 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03914757]  m/s^2, Time:  15.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.735893201439115
+1.2744029809977357 0.0 4.99991858047053
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182297688433 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0390625]  m/s^2, Time:  15.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.725597019141972
+1.284699163294455 0.0 4.9999187921063095
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618229889437 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03897396]  m/s^2, Time:  15.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.715300836844584
+1.2949953455911745 0.0 4.999919078896099
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182300713426 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03888198]  m/s^2, Time:  15.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.705004654546943
+1.3052915278878938 0.0 4.999919430884109
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182302735883 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03878656]  m/s^2, Time:  15.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.694708472249083
+1.3155877101846132 0.0 4.999919825769572
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618230429175 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03868775]  m/s^2, Time:  15.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.684412289951084
+1.3258838924813325 0.0 4.999920234134309
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182304817539 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03858555]  m/s^2, Time:  15.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.674116107653045
+1.336180074778052 0.0 4.999920626516158
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182304196033 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03848]  m/s^2, Time:  15.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.663819925355064
+1.3464762570747713 0.0 4.999920980797368
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182302814534 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03837111]  m/s^2, Time:  15.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.65352374305722
+1.3567724393714906 0.0 4.999921287985742
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182301301815 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03825892]  m/s^2, Time:  15.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.643227560759534
+1.36706862166821 0.0 4.999921554627508
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182300171937 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03814344]  m/s^2, Time:  16.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.632931378461983
+1.3773648039649293 0.0 4.999921800996536
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182299666888 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03802469]  m/s^2, Time:  16.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.622635196164502
+1.3876609862616487 0.0 4.99992205557381
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182299866569 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0379027]  m/s^2, Time:  16.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.612339013866997
+1.397957168558368 0.0 4.999922347529464
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182300858613 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0377775]  m/s^2, Time:  16.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.602042831569378
+1.4082533508550874 0.0 4.999922699391713
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182302731585 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0376491]  m/s^2, Time:  16.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.591746649271553
+1.4185495331518068 0.0 4.99992312173449
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182305381421 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03751753]  m/s^2, Time:  16.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.581450466973507
+1.4288457154485261 0.0 4.9999236109056
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182308339553 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03738281]  m/s^2, Time:  16.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.571154284675256
+1.4391418977452455 0.0 4.999924150030335
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182310834028 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03724497]  m/s^2, Time:  16.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.560858102376848
+1.4494380800419648 0.0 4.999924712977169
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618231210895 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03710402]  m/s^2, Time:  16.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.550561920078373
+1.4597342623386842 0.0 4.999925270543232
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.1029618231181616 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03696]  m/s^2, Time:  16.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.54026573777993
+1.4700304446354036 0.0 4.999925797624515
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182310210455 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03681292]  m/s^2, Time:  17.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.529969555481593
+1.480326626932123 0.0 4.9999262796500465
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182308002547 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03666281]  m/s^2, Time:  17.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.519673373183412
+1.4906228092288423 0.0 4.999926716435405
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182305983975 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03650969]  m/s^2, Time:  17.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.509377190885377
+1.5009189915255616 0.0 4.999927122177888
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182304713869 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03635358]  m/s^2, Time:  17.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.499081008587446
+1.511215173822281 0.0 4.999927521512773
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182304463358 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03619451]  m/s^2, Time:  17.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.488784826289542
+1.5215113561190003 0.0 4.999927942863892
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182305340791 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0360325]  m/s^2, Time:  17.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.478488643991575
+1.5318075384157197 0.0 4.999928411114141
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182307366859 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03586757]  m/s^2, Time:  17.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.46819246169347
+1.542103720712439 0.0 4.999928941579701
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618231038426 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03569975]  m/s^2, Time:  17.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.457896279395186
+1.5523999030091584 0.0 4.999929536595201
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182313912253 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03552906]  m/s^2, Time:  17.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.447600097096714
+1.5626960853058778 0.0 4.999930185192946
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182317148189 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03535552]  m/s^2, Time:  17.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.437303914798104
+1.5729922676025971 0.0 4.999930865745254
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182319210723 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03517916]  m/s^2, Time:  18.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.427007732499412
+1.5832884498993165 0.0 4.999931551033707
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182319524859 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.035]  m/s^2, Time:  18.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.416711550200723
+1.5935846321960359 0.0 4.9999322147997995
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182318114878 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03481806]  m/s^2, Time:  18.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.40641536790212
+1.6038808144927552 0.0 4.999932838341081
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182315600272 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03463336]  m/s^2, Time:  18.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.39611918560364
+1.6141769967894746 0.0 4.999933415390644
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182312889678 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03444594]  m/s^2, Time:  18.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.385823003305315
+1.624473179086194 0.0 4.999933953744269
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.04
+Velocity: 0.10296182310793679 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0342558]  m/s^2, Time:  18.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.37552682100711
+1.6347693613829133 0.0 4.999934473022748
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182309813971 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03406298]  m/s^2, Time:  18.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.36523063870897
+1.6450655436796326 0.0 4.999934999249458
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182310166745 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0338675]  m/s^2, Time:  18.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.35493445641082
+1.655361725976352 0.0 4.999935557956972
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182311878035 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03366938]  m/s^2, Time:  18.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.344638274112594
+1.6656579082730714 0.0 4.999936167824897
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182314781287 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03346864]  m/s^2, Time:  18.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.334342091814236
+1.6759540905697907 0.0 4.999936836386243
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182318425132 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03326531]  m/s^2, Time:  19.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.324045909515736
+1.68625027286651 0.0 4.99993755853619
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182322044253 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03305941]  m/s^2, Time:  19.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.31374972721711
+1.6965464551632294 0.0 4.9999383178923145
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618232472103 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03285097]  m/s^2, Time:  19.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.303453544918405
+1.7068426374599488 0.0 4.999939090637339
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182325717183 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03264]  m/s^2, Time:  19.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.293157362619688
+1.7171388197566682 0.0 4.999939851150088
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182324806398 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03242653]  m/s^2, Time:  19.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.282861180321024
+1.7274350020533875 0.0 4.999940578306651
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182322396623 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03221059]  m/s^2, Time:  19.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.272564998022474
+1.7377311843501069 0.0 4.999941260906092
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182319346235 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03199219]  m/s^2, Time:  19.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.262268815724056
+1.7480273666468262 0.0 4.999941900607678
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182316591629 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03177136]  m/s^2, Time:  19.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.25197263342576
+1.7583235489435456 0.0 4.999942511358234
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182314833605 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03154812]  m/s^2, Time:  19.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.241676451127557
+1.768619731240265 0.0 4.999943115429383
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618231443956 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0313225]  m/s^2, Time:  19.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.23138026882938
+1.7789159135369843 0.0 4.999943737346422
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182315502035 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03109452]  m/s^2, Time:  20.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.221084086531178
+1.7892120958337037 0.0 4.999944397584614
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182317888049 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0308642]  m/s^2, Time:  20.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.210787904232895
+1.799508278130423 0.0 4.9999451077135175
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182321208143 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03063156]  m/s^2, Time:  20.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.200491721934515
+1.8098044604271424 0.0 4.999945867957747
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182324786567 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03039664]  m/s^2, Time:  20.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.190195539636036
+1.8201006427238617 0.0 4.999946667404995
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182327755853 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.03015944]  m/s^2, Time:  20.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.179899357337494
+1.830396825020581 0.0 4.999947486627109
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182329310263 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02992]  m/s^2, Time:  20.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.16960317503893
+1.8406930073173005 0.0 4.999948302213848
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182329021654 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02967834]  m/s^2, Time:  20.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.1593069927404
+1.8509891896140198 0.0 4.999949092404303
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618232704127 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02943448]  m/s^2, Time:  20.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.149010810441958
+1.8612853719107392 0.0 4.999949842572647
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618232404752 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02918844]  m/s^2, Time:  20.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.138714628143624
+1.8715815542074585 0.0 4.99995054904855
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182320956843 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02894025]  m/s^2, Time:  20.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.128418445845405
+1.881877736504178 0.0 4.99995122000645
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182318581026 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02868993]  m/s^2, Time:  21.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.118122263547285
+1.8921739188008972 0.0 4.999951873043932
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182317428824 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0284375]  m/s^2, Time:  21.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.10782608124922
+1.9024701010976166 0.0 4.999952530229823
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182317692773 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02818299]  m/s^2, Time:  21.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.097529898951162
+1.912766283394336 0.0 4.999953212234736
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182319306837 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02792642]  m/s^2, Time:  21.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.08723371665307
+1.9230624656910553 0.0 4.999953933256975
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.1029618232196522 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02766781]  m/s^2, Time:  21.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.07693753435493
+1.9333586479877747 0.0 4.999954697906712
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182325112802 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02740719]  m/s^2, Time:  21.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.066641352056713
+1.943654830284494 0.0 4.9999555004611045
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182327997576 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02714458]  m/s^2, Time:  21.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.056345169758448
+1.9539510125812134 0.0 4.999956326369749
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182329844451 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02688]  m/s^2, Time:  21.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.046048987460168
+1.9642471948779328 0.0 4.9999571556418525
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182330114802 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02661348]  m/s^2, Time:  21.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.035752805161906
+1.9745433771746521 0.0 4.999957967549902
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182328730913 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02634503]  m/s^2, Time:  21.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.025456622863715
+1.9848395594713715 0.0 4.999958745739106
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182326127218 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02607469]  m/s^2, Time:  22.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.0151604405656
+1.9951357417680908 0.0 4.999959482453425
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182323076064 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02580247]  m/s^2, Time:  22.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  23.004864258267588
+2.00543192406481 0.0 4.999960180549207
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182320385248 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0255284]  m/s^2, Time:  22.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.994568075969667
+2.0157281063615295 0.0 4.999960852536967
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.03
+Velocity: 0.10296182318648188 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0252525]  m/s^2, Time:  22.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.98427189367181
+2.026024288658249 0.0 4.999961516923893
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.1029618231815492 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0249748]  m/s^2, Time:  22.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.97397571137398
+2.0363204709549683 0.0 4.999962193098258
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182318922281 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02469531]  m/s^2, Time:  22.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.963679529076153
+2.0466166532516876 0.0 4.999962896378442
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182320738063 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02441406]  m/s^2, Time:  22.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.953383346778296
+2.056912835548407 0.0 4.9999636345189105
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182323178207 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02413108]  m/s^2, Time:  22.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.943087164480414
+2.0672090178451263 0.0 4.999964406259181
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182325641824 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02384639]  m/s^2, Time:  22.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.932790982182496
+2.0775052001418457 0.0 4.9999652018992125
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182327460945 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02356]  m/s^2, Time:  22.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.922494799884564
+2.087801382438565 0.0 4.999966005609638
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.1029618232808775 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02327195]  m/s^2, Time:  23.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.912198617586654
+2.0980975647352844 0.0 4.999966799084463
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182327293857 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02298225]  m/s^2, Time:  23.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.901902435288783
+2.1083937470320038 0.0 4.999967565934727
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.1029618232527646 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02269094]  m/s^2, Time:  23.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.89160625299097
+2.118689929328723 0.0 4.999968295850536
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182322591861 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02239802]  m/s^2, Time:  23.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.88131007069324
+2.1289861116254425 0.0 4.999968987310764
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182319937487 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02210354]  m/s^2, Time:  23.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.871013888395584
+2.139282293922162 0.0 4.99996964786214
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182317908137 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0218075]  m/s^2, Time:  23.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.860717706097986
+2.149578476218881 0.0 4.999970291789676
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182316855054 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02150993]  m/s^2, Time:  23.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.85042152380043
+2.1598746585156006 0.0 4.9999709359848845
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182316871798 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02121086]  m/s^2, Time:  23.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.84012534150289
+2.17017084081232 0.0 4.99997159542677
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182317837017 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02091031]  m/s^2, Time:  23.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.829829159205353
+2.1804670231090393 0.0 4.999972279611402
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.1029618231945145 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0206083]  m/s^2, Time:  23.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.819532976907798
+2.1907632054057586 0.0 4.999972990666006
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182321272031 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02030486]  m/s^2, Time:  24.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.809236794610232
+2.201059387702478 0.0 4.999973723233416
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.1029618232278018 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.02]  m/s^2, Time:  24.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.798940612312663
+2.2113555699991974 0.0 4.999974465873213
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.1029618232350175 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.01969375]  m/s^2, Time:  24.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.788644430015104
+2.2216517522959167 0.0 4.999975203675926
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182323153999 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.01938614]  m/s^2, Time:  24.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.77834824771758
+2.231947934592636 0.0 4.999975921730766
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182321757846 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.01907719]  m/s^2, Time:  24.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.768052065420097
+2.2422441168893554 0.0 4.99997660881759
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182319644712 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.01876691]  m/s^2, Time:  24.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.757755883122666
+2.252540299186075 0.0 4.999977260347812
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182317333336 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.01845534]  m/s^2, Time:  24.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.747459700825292
+2.262836481482794 0.0 4.999977879535217
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.1029618231533752 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0181425]  m/s^2, Time:  24.70 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.737163518527964
+2.2731326637795135 0.0 4.9999784762820525
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182314012453 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.01782841]  m/s^2, Time:  24.80 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.72686733623068
+2.283428846076233 0.0 4.999979064145466
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182313501419 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.01751309]  m/s^2, Time:  24.90 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.716571153933412
+2.2937250283729522 0.0 4.999979656496874
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182313758641 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.01719656]  m/s^2, Time:  25.00 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.70627497163616
+2.3040212106696716 0.0 4.999980263155839
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182314591712 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.01687886]  m/s^2, Time:  25.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  22.69597878933891
+2.314317392966391 0.0 4.999980888342565
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.01
+
+
+
+##################################################
+User: giuppo
+Date: 2020-08-20 15:53
+
+
+
+##################################################
+Waypoints:  [[0, 0, 5], [25, 0, 5], [0, 15, 5], [-15, 15, 15]]
+0 0 5
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 0.0 m/s, Vel X:  0.0 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  0.10 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  25.0
+0.0 0.0 5.0
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 0.0 m/s, Vel X:  3.454880401056032e-05 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.00069098]  m/s^2, Time:  0.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  25.0
+3.454880401056032e-06 0.0 4.999999999984791
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 3.4548804010895095e-05 m/s, Vel X:  0.00016376075415084325 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.00137503]  m/s^2, Time:  0.30 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.9999965451196
+1.9830955816140355e-05 0.0 4.999999999758516
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 0.0001637607541664759 m/s, Vel X:  0.00045794223701639547 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.00205219]  m/s^2, Time:  0.40 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.999980169044186
+6.562517951777991e-05 0.0 4.999999998454547
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 0.0004579422372020449 m/s, Vel X:  0.0009796713350142964 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.00272247]  m/s^2, Time:  0.50 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.999934374820484
+0.00016359231301920957 0.0 4.999999993828014
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.00
+Velocity: 0.0009796713361067448 m/s, Vel X:  0.0017678107110249124 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0033859]  m/s^2, Time:  0.60 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.99983640768698
+0.00034037338412170085 0.0 4.999999981810925
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.0017678107151093555 m/s, Vel X:  0.0028274505088246816 m/s
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.0040425]  m/s^2, Time:  0.70 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.999659626615877
+0.000623118435004169 0.0 4.999999956870139
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.0028274505198247466 m/s, Vel X:  0.004128295545694434 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.0046923]  m/s^2, Time:  0.80 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.999376881564995
+0.0010359479895736125 0.0 4.999999913292576
+x:vel 0.00
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.004128295568694289 m/s, Vel X:  0.005611899994481005 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00533531]  m/s^2, Time:  0.90 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.998964052010425
+0.001597137989021713 0.0 4.999999846893431
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.005611900033762233 m/s, Vel X:  0.007205940878020528 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00597156]  m/s^2, Time:  1.00 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.998402862010977
+0.002317732076823766 0.0 4.999999756288017
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.0072059409349828395 m/s, Vel X:  0.008841962002104978 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00660108]  m/s^2, Time:  1.10 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.997682267923178
+0.0032019282770342637 0.0 4.999999643075202
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.008841962074584035 m/s, Vel X:  0.010472152350760974 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00722389]  m/s^2, Time:  1.20 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.99679807172297
+0.004249143512110361 0.0 4.9999995108905235
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.01047215243418599 m/s, Vel X:  0.012080964350904461 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00784]  m/s^2, Time:  1.30 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.995750856487895
+0.005457239947200807 0.0 4.999999363835336
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.012080964440405711 m/s, Vel X:  0.013688667438607902 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00844945]  m/s^2, Time:  1.40 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.99454276005281
+0.006826106691061598 0.0 4.999999204912692
+x:vel 0.01
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.01368866753086088 m/s, Vel X:  0.015345948529344202 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00905225]  m/s^2, Time:  1.50 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.993173893308953
+0.008360701543996018 0.0 4.999999034835984
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.015345948623590858 m/s, Vel X:  0.01712090927100157 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.00964844]  m/s^2, Time:  1.60 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.991639298456022
+0.010072792471096175 0.0 4.999998851274786
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.0171209093694038 m/s, Vel X:  0.01908171076812955 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.01023802]  m/s^2, Time:  1.70 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.989927207528932
+0.01198096354790913 0.0 4.99999864856687
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.019081710875799403 m/s, Vel X:  0.021279204601805015 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.01082104]  m/s^2, Time:  1.80 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.988019036452126
+0.014108884008089632 0.0 4.999998418112744
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.021279204726596106 m/s, Vel X:  0.023733892395421913 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.0113975]  m/s^2, Time:  1.90 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.98589111599196
+0.016482273247631823 0.0 4.999998149745481
+x:vel 0.02
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.023733892547147948 m/s, Vel X:  0.026430474034777083 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.01196743]  m/s^2, Time:  2.00 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.983517726752435
+0.019125320651109532 0.0 4.999997834062639
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.01
+Velocity: 0.02643047422330124 m/s, Vel X:  0.029321347479217958 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.01253086]  m/s^2, Time:  2.10 s
+X_acc: 0.01 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.980874679348982
+0.02205745539903133 0.0 4.999997465119824
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.029321347711333483 m/s, Vel X:  0.0323381852008735 m/s
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.01308781]  m/s^2, Time:  2.20 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.9779425446011
+0.02529127391911868 0.0 4.999997042450298
+x:vel 0.03
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.0323381854770942 m/s, Vel X:  0.03540869314123619 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.0136383]  m/s^2, Time:  2.30 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.974708726081055
+0.028832143233242298 0.0 4.999996571490476
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.03540869345444056 m/s, Vel X:  0.038474362457218754 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01418236]  m/s^2, Time:  2.40 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.971167856766993
+0.032679579478964174 0.0 4.999996062157319
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.038474362794352686 m/s, Vel X:  0.04150477613247582 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01472]  m/s^2, Time:  2.50 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.967320420521347
+0.03683005709221176 0.0 4.999995526120053
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.04150477647862388 m/s, Vel X:  0.04450489380163263 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01525125]  m/s^2, Time:  2.60 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.96316994290819
+0.04128054647237502 0.0 4.999994973737465
+x:vel 0.04
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.044504894144433725 m/s, Vel X:  0.04751349357037447 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01577614]  m/s^2, Time:  2.70 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.95871945352813
+0.04603189582941247 0.0 4.999994411518501
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.04751349390300646 m/s, Vel X:  0.050593160365805384 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01629469]  m/s^2, Time:  2.80 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.953968104171214
+0.05109121186599301 0.0 4.999993840555808
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.05059316068798173 m/s, Vel X:  0.05381432372895188 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01680691]  m/s^2, Time:  2.90 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.948908788134766
+0.0564726442388882 0.0 4.9999932560732265
+x:vel 0.05
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.05381432404635798 m/s, Vel X:  0.05723733561023972 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01731284]  m/s^2, Time:  3.00 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.943527355762022
+0.062196377799912175 0.0 4.999992648178933
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.057237335933049534 m/s, Vel X:  0.06089706872961238 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.0178125]  m/s^2, Time:  3.10 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.937803622201173
+0.06828608467287342 0.0 4.999992003929183
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.060897069070398685 m/s, Vel X:  0.06479388591410734 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01830591]  m/s^2, Time:  3.20 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.93171391532841
+0.07476547326428415 0.0 4.999991310574076
+x:vel 0.06
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.06479388628508471 m/s, Vel X:  0.06889323806920025 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01879309]  m/s^2, Time:  3.30 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.925234526737228
+0.08165479707120417 0.0 4.999990559321833
+x:vel 0.07
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.06889323847880499 m/s, Vel X:  0.07313399127596609 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01927406]  m/s^2, Time:  3.40 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.91834520293058
+0.08896819619880078 0.0 4.9999897484479545
+x:vel 0.07
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.07313399172549472 m/s, Vel X:  0.0774434012335719 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.01974886]  m/s^2, Time:  3.50 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.911031803803308
+0.09671253632215797 0.0 4.999988884543424
+x:vel 0.08
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.0774434017154277 m/s, Vel X:  0.0817549914476321 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.0202175]  m/s^2, Time:  3.60 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.90328746368032
+0.10488803546692117 0.0 4.999987981310886
+x:vel 0.08
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.08175499194657962 m/s, Vel X:  0.08602486563611797 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.02068]  m/s^2, Time:  3.70 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.89511196453598
+0.11349052203053298 0.0 4.999987056276972
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.08602486613346703 m/s, Vel X:  0.09024237625874831 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.02113639]  m/s^2, Time:  3.80 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.886509477972837
+0.1225147596564078 0.0 4.999986126535156
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.09024237673769173 m/s, Vel X:  0.09443248202640542 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.0215867]  m/s^2, Time:  3.90 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.87748524034746
+0.13195800785904835 0.0 4.99998520478957
+x:vel 0.09
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.09443248247625853 m/s, Vel X:  0.09864920499559937 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.02203094]  m/s^2, Time:  4.00 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.86804199214535
+0.1418229283586083 0.0 4.999984296606813
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.09864920541364426 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.02246914]  m/s^2, Time:  4.10 s
+X_acc: 0.02 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.858177071646352
+0.1521191106553276 0.0 4.999983399290418
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
+Velocity: 0.10296182335820046 m/s, Vel X:  0.10296182296719306 m/s
+Acceleration: 0.02  m/s^2, des_x_acc:  [0.02290132]  m/s^2, Time:  4.20 s
+X_acc: 0.00 m/s^2,Y_acc: 0.00 m/s^2
+Time: 60 s, Space: 5.0 m, T_s: 12.0 s, T_s2: 48.0 s
+goal distance:  24.84788088935022
+0.1624152929520469 0.0 4.999982502495978
+x:vel 0.10
+y:vel 0.00
+Acc[0] 0.02
