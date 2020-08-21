@@ -101,7 +101,7 @@ Ixx = 1
 Iyy = 1
 Izz = 1
 #T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
-T = 60                                  #Time (seconds for waypoint - waypoint movement)
+T = 120                                #Time (seconds for waypoint - waypoint movement)
 cruise_speed_ms = cruise_speed_kmh/3.6   #Cruise speed m/s
 T_s = T/5                                #Tempo fino a quando avviene un' accelerazione
 T_s2 = T - T_s                            #Tempo dopo il quale avviene una decellerazione
@@ -119,7 +119,7 @@ Kp_yaw = 25
 # Kd_y = 10
 Kd_z = 1
 
-waypoint1= [200, 0, 5]
+waypoint1= [2000, 0, 5]
 '''INITIAL_X_POS = 0
 INITIAL_Y_POS = 0
 INITIAL_Z_POS = 5
@@ -190,37 +190,11 @@ def quad_sim(x_c, y_c, z_c):
 
             PosizioneAttuale = np.array([x_pos, y_pos, z_pos])
             goal = np.array(waypoint1)
-            dimension3D=np.array([300.0,400.0,500.0])
+            dimension3D=np.array([30000.0,40000.0,50000.0])
             distanceAB = distance(PosizioneAttuale, goal, dimension3D) #Distanza drone goal
             print(x_pos, y_pos, z_pos)
 
-#------------------------------------------------------------------------------------------------------------------#
 
-            if (x_vel > 5 and distanceAB > SALVO_DISTANZA_FATTA):
-                #SALVO_TEMPO = t
-                #SALVO_DISTANZA_FATTA = waypoint1[0] - distanceAB
-                ciao = True
-                if (ciao == True and ok == 0):
-                    SALVO_TEMPO = t - 0.1
-                    SALVO_DISTANZA_FATTA = waypoint1[0] - distanceAB
-                    if (SALVO_TEMPO > 0 and SALVO_DISTANZA_FATTA > 0):
-                        t_dec = T - SALVO_TEMPO
-                        ok = 1
-                t = 0  # non c'è accellerazione
-
-
-            if (distanceAB < SALVO_DISTANZA_FATTA):
-                if (t < 1):
-                    t = t_dec
-
-            '''if (1 < distanceAB < 15):
-                x_acc = 0
-                t=t-0.1'''
-
-
-
-            print("SALVO_TEMPO:", SALVO_TEMPO, "SALVO_DISTANZA_FATTA:", SALVO_DISTANZA_FATTA, "t_dec:", t_dec)
-#------------------------------------------------------------------------------------------------------------------#
 
 
 
@@ -347,8 +321,55 @@ def quad_sim(x_c, y_c, z_c):
                 x_acc = acc[0]
                 y_acc = acc[1]'''
 
-            x_acc = acc[0]
+
+
+            # ------------------------------------------------------------------------------------------------------------------#
+
+            if (x_vel > 10 and distanceAB > SALVO_DISTANZA_FATTA):
+                # SALVO_TEMPO = t
+                # SALVO_DISTANZA_FATTA = waypoint1[0] - distanceAB
+                ciao = True
+                if (ciao == True and ok == 0):
+                    SALVO_TEMPO = t - 0.1
+                    SALVO_DISTANZA_FATTA = waypoint1[0] - distanceAB
+                    if (SALVO_TEMPO > 0 and SALVO_DISTANZA_FATTA > 0):
+                        t_dec = T - SALVO_TEMPO
+                        ok = 1
+                t = -0.1  # non c'è accellerazione
+                x_acc = 0
+            else:
+                x_acc = acc[0]
+
+            if (distanceAB < SALVO_DISTANZA_FATTA):
+                if (t < 1):
+                    t = t_dec
+
+
+            if (1.5 <= distanceAB <= 6):
+                x_acc = 0
+                x_vel = 0.5
+                t= t - 0.1
+            if (distanceAB < 1.5):
+                x_acc = 0
+                x_vel = 0.1
+                t = t - 0.1
+                if (distanceAB < 0.2):
+                    t = T
+
+
             y_acc = acc[1]
+            z_acc = acc[2]
+            print("SALVO_TEMPO:", SALVO_TEMPO, "SALVO_DISTANZA_FATTA:", SALVO_DISTANZA_FATTA, "t_dec:", t_dec)
+            if (distanceAB < 10):
+                print("Goal a:", distanceAB, "Vel_x:", x_vel, "Acc_x:", x_acc, "Time:", t, )
+            # ------------------------------------------------------------------------------------------------------------------#
+
+
+
+
+
+
+
 
             '''if (5 < t <25):
                 x_acc = 0
@@ -367,7 +388,7 @@ def quad_sim(x_c, y_c, z_c):
                 x_acc = 0
                 y_acc = 0'''
 
-            z_acc = acc[2]
+
 
             #a_max = 3.0
             #accc= cruise_speed_ms/a_max
