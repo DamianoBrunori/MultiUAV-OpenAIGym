@@ -52,7 +52,7 @@ info8 = "\nDIMENSION: " + str(Dimension) + " m"
 info.append(info8)
 info9 = "\nMASS: " + str(m) + " Kg"
 info.append(info9)
-info22 = "\nCRUISE SPEED: " + str(cruise_speed_kmh) + " Km/h"
+info22 = "\nCRUISE SPEED: " + str(cruise_speed_ms) + " m/s"
 info.append(info22)
 info10 = "\nVDR: " + str(VRD) + " m/s"
 info.append(info10)
@@ -101,8 +101,8 @@ Ixx = 1
 Iyy = 1
 Izz = 1
 #T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
-T = 120                                #Time (seconds for waypoint - waypoint movement)
-cruise_speed_ms = cruise_speed_kmh/3.6   #Cruise speed m/s
+T = 120                               #Time (seconds for waypoint - waypoint movement)
+cruise_speed_kmh = cruise_speed_ms/3.6   #Cruise speed km/h
 T_s = T/5                                #Tempo fino a quando avviene un' accelerazione
 T_s2 = T - T_s                            #Tempo dopo il quale avviene una decellerazione
 
@@ -119,7 +119,15 @@ Kp_yaw = 25
 # Kd_y = 10
 Kd_z = 1
 
-waypoint1= [2000, 0, 5]
+waypoint1= [2000, 1500, 5]
+
+
+start_x = 0
+start_y = 0
+start_z = 5
+start_pos = np.array([start_x, start_y, start_z])
+
+
 '''INITIAL_X_POS = 0
 INITIAL_Y_POS = 0
 INITIAL_Z_POS = 5
@@ -133,9 +141,10 @@ def quad_sim(x_c, y_c, z_c):
     x_c, y_c, and z_c. ##Spinta e Coppia
     """
 
-    x_pos = 0
-    y_pos = 0
-    z_pos = 5
+    SALVO_PROPORZIONE = [0, 0]
+    x_pos = start_x
+    y_pos = start_y
+    z_pos = start_z
    
     x_vel = 0
     y_vel = 0
@@ -162,6 +171,8 @@ def quad_sim(x_c, y_c, z_c):
     UAV = Quadrotor(id = "uav", x=x_pos, y=y_pos, z=z_pos, roll=roll,
                   pitch=pitch, yaw=yaw, size=1, show_animation=show_animation)
     ciao = False
+    fase_dec_x = False
+    fase_dec_y = False
     i = 0
     n_run = 4 #Numero di Round (quanti waypoints vuoi vedere)
     irun = 0
@@ -191,32 +202,16 @@ def quad_sim(x_c, y_c, z_c):
             PosizioneAttuale = np.array([x_pos, y_pos, z_pos])
             goal = np.array(waypoint1)
             dimension3D=np.array([30000.0,40000.0,50000.0])
-            distanceAB = distance(PosizioneAttuale, goal, dimension3D) #Distanza drone goal
+            distanceAB_3D = distance(PosizioneAttuale, goal, dimension3D) #Distanza drone goal
             print(x_pos, y_pos, z_pos)
 
+            distanceAB_2D = math.sqrt((waypoint1[0] - PosizioneAttuale[0]) ** 2 + (waypoint1[1] - PosizioneAttuale[1]) ** 2) # Distanza drone goal
+
+            dist_percorsa3D = distance(start_pos, PosizioneAttuale, dimension3D) #Distanza percorsa
+
+            dist_percorsa2D = math.sqrt((start_pos[0] - PosizioneAttuale[0]) ** 2 + (start_pos[1] - PosizioneAttuale[1]) ** 2)
 
 
-
-
-            '''if (x_vel>5 and distanceAB > 30):
-                ok = t
-                t_dec = T-ok
-            elif (distanceAB < 30):
-                ciao = True
-                t = t_dec
-            print (ok,"ok")
-            print(t2, "t2")'''
-
-
-
-
-            '''if(t<5 or t >10):
-                des_x_acc = calculate_acceleration(x_c[i], t)
-                des_y_acc = calculate_acceleration(y_c[i], t)
-            else:
-                des_x_acc = 0
-                des_y_acc = 0
-            des_z_acc = calculate_acceleration(z_c[i], t)'''
 
             #print(des_x_acc," des_x_acc")
             #print(des_z_vel, "des_z_vel") sempre 0
@@ -229,10 +224,10 @@ def quad_sim(x_c, y_c, z_c):
             #print("Accelerazione desiderata: ", acc_des_xyz)
             
 
-
-
-            vel_ms = math.sqrt(x_vel**2 + y_vel**2 + z_vel**2)
+            vel_ms = math.sqrt(x_vel**2 + y_vel**2)
             acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2 + z_acc ** 2)
+
+
             
             vel_kmh =  vel_ms * 3.6
             acc_kmh =  acc_ms * 3.6
@@ -266,110 +261,75 @@ def quad_sim(x_c, y_c, z_c):
             #CON LA NUOVA ORIENTAZIONE R E LA TRUST, IN BASE A COME TI SEI ORIENTATO SPINGI(TRUST) E ARRIVI
 
 
-
-            #des_vel_ms = math.sqrt(des_x_vel ** 2 + des_y_vel ** 2 + des_z_vel ** 2)
-            #print("Des_vel_ms: ", des_vel_ms)
-            Accc = t
-            '''if (x_vel > +0.5):
-                x_acc = 0
-            else:'''
-            #x_acc = acc[0]
-            y_acc = acc[1]
             print("x:vel", "{:.2f}".format(x_vel),"(m/s)")
             print("y:vel", "{:.2f}".format(y_vel),"(m/s)")
             print("Acc[0]", "{:.2f}".format(acc[0]),"(m/s^2")
             #print("des_y_acc", "{:.2f}".format(des_y_acc))
-            x_vel1 = x_vel
-            x_acc1 = acc[0]
-
-            dist_dec = waypoint1[2]-5
-            dist_acc = 4
-
-            '''if (dist_acc < distanceAB < 10 ):
-                x_acc = 0
-                y_acc = 0
-            else:
-                x_acc = acc[0]
-                y_acc = acc[1]
-
-            if distanceAB > 4:
-                t = 14
-            else:
-                t = 29'''
-
-            '''V_max= 5.5
-            A_max = 2
-            T_s= V_max/A_max
-            #Time = 15
-            L = 2 / 3 * T * V_max  # 2/3*time total * velocità massima->L = distanza tot
-            Tot= (L*A_max + V_max**2)/(A_max*V_max)
-            T_s2 = Tot - T_s
-            print(T_s, "T_s")   #2.75
-            print(Tot, "Tot")   #12.75
-            print(T_s2, "T_s2") #10
-            print(L, "L")       #55'''
-
-            '''if (x_vel < 0.2):
-                t1 = t1+0.1
-                print(t1, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-
-
-            if (x_vel > 0.2 and distanceAB > 5):
-                x_acc = 0
-                y_acc = 0
-            else:
-                x_acc = acc[0]
-                y_acc = acc[1]'''
-
 
 
             # ------------------------------------------------------------------------------------------------------------------#
 
-            if (x_vel > 10 and distanceAB > SALVO_DISTANZA_FATTA):
+            if (vel_ms > cruise_speed_ms and distanceAB_2D > SALVO_DISTANZA_FATTA):
                 # SALVO_TEMPO = t
                 # SALVO_DISTANZA_FATTA = waypoint1[0] - distanceAB
                 ciao = True
                 if (ciao == True and ok == 0):
                     SALVO_TEMPO = t - 0.1
-                    SALVO_DISTANZA_FATTA = waypoint1[0] - distanceAB
+
+                    #SALVO_DISTANZA_FATTA = waypoint1[0] - distanceAB
+                    SALVO_DISTANZA_FATTA = dist_percorsa2D
                     if (SALVO_TEMPO > 0 and SALVO_DISTANZA_FATTA > 0):
                         t_dec = T - SALVO_TEMPO
+                        SALVO_PROPORZIONE = [x_vel / vel_ms, y_vel / vel_ms]
                         ok = 1
                 t = -0.1  # non c'è accellerazione
                 x_acc = 0
+                y_acc = 0
             else:
                 x_acc = acc[0]
+                y_acc = acc[1]
+                #SALVO_PROPORZIONE = [x_vel / 2, y_vel / 2]
 
-            if (distanceAB < SALVO_DISTANZA_FATTA):
+
+            if (distanceAB_2D < SALVO_DISTANZA_FATTA):
                 if (t < 1):
                     t = t_dec
 
-
-            if (1.5 <= distanceAB <= 6):
-                x_acc = 0
-                x_vel = 0.5
-                t= t - 0.1
-            if (distanceAB < 1.5):
-                x_acc = 0
-                x_vel = 0.1
+            if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] != 0 and SALVO_PROPORZIONE[1] != 0):
+                if (x_vel > 0.2 or fase_dec_x == True):
+                    x_acc = 0
+                    x_vel = SALVO_PROPORZIONE[0]
+                    fase_dec_x = True
+                if (y_vel > 0.2 or fase_dec_y == True):
+                    y_acc = 0
+                    y_vel = SALVO_PROPORZIONE[1]
+                    fase_dec_y = True
                 t = t - 0.1
-                if (distanceAB < 0.2):
-                    t = T
+                if (waypoint1[0] < x_pos and distanceAB_2D < 2.5):
+                    x_vel = 0.1
+                if (waypoint1[1] < y_pos and distanceAB_2D < 2.5):
+                    y_vel = 0.1
+            if (distanceAB_2D < 0.5):
+                t = T
 
 
-            y_acc = acc[1]
+
             z_acc = acc[2]
-            print("SALVO_TEMPO:", SALVO_TEMPO, "SALVO_DISTANZA_FATTA:", SALVO_DISTANZA_FATTA, "t_dec:", t_dec)
-            if (distanceAB < 10):
-                print("Goal a:", distanceAB, "Vel_x:", x_vel, "Acc_x:", x_acc, "Time:", t, )
+            print("SALVO_TEMPO:", SALVO_TEMPO, "SALVO_DISTANZA_FATTA:", SALVO_DISTANZA_FATTA, "t_dec:", t_dec, "dist_percorsa2D:", dist_percorsa2D)
+            if (distanceAB_3D < 10):
+                print("Goal a:", distanceAB_3D, "Dist percorsa3D:", dist_percorsa3D, "Vel_x:", x_vel, "Acc_x:", x_acc, "Time:", t, )
+
+
+
+            print(vel_ms,"vel ms")
+            print("X_vel:", "{:.2f}".format(x_vel), "\nX_acc:", "{:.2f}".format(x_acc))
+            print("Y_vel:", "{:.2f}".format(y_vel), "\nY_acc:", "{:.2f}".format(y_acc))
+            print("Z_vel:", "{:.2f}".format(z_vel), "\nZ_acc:", "{:.2f}".format(z_acc))
+            print("X_dess:", des_x_acc, "\nY_dess:", des_y_acc)
+            print("SALVO_PROPORZIONE", SALVO_PROPORZIONE[0],SALVO_PROPORZIONE[1])
+            print("Distanza2D:", distanceAB_2D)
+            print("dist_percorsa2D:", dist_percorsa2D)
             # ------------------------------------------------------------------------------------------------------------------#
-
-
-
-
-
-
-
 
             '''if (5 < t <25):
                 x_acc = 0
@@ -396,31 +356,7 @@ def quad_sim(x_c, y_c, z_c):
             #print(dec)
             #t_a = x_vel/x_acc #tempo di arresto
 
-            '''if (t > 30):
-                t=t-1
 
-            if (distanceAB <= 0.9 and x_vel > 0.01):
-                t=30
-                x_acc = -0.01
-            elif(distanceAB <= 0.9 and x_vel < 0.1):
-                x_acc = 0
-
-            if (distanceAB < 0.1):
-                t=60    
-            # NOTE: for each t in in [0.1,0] set to 60
-
-            if (x_vel > 0.1 and distanceAB >= 0.9):
-                x_acc = 0
-            else:   # x_vel <= 0.1 or distanceAB < 0.9
-                x_vel += x_acc * dt'''  # Accelerazione * Tempo
-
-
-
-
-            '''if (y_vel > 0.1 and distanceAB >= 0.9):
-                y_acc = 0
-            else:
-                x_vel += x_acc * dt'''  # Accelerazione * Tempo
             x_vel += x_acc * dt
             y_vel += y_acc * dt
             z_vel += z_acc * dt
@@ -441,10 +377,10 @@ def quad_sim(x_c, y_c, z_c):
             #print("Acceleration: ", acc)
             #print("Spinta-thrust: ", thrust)
             #print("roll, pitch, yaw: ", roll, pitch, yaw )
-            print("Velocity:", vel_ms, "m/s, Vel X: ", x_vel, "m/s")
+            #print("Velocity:", vel_ms, "m/s, Vel X: ", x_vel, "m/s")
             #print("Velocity Km/h: ", vel_kmh)
             print("Acceleration:", "{:.2f}".format(acc_ms), " m/s^2, des_x_acc: ", des_x_acc, " m/s^2, Time: ", "{:.2f}".format(t),"s")
-            print("X_acc:", "{:.2f}".format(x_acc), "m/s^2,Y_acc:", "{:.2f}".format(y_acc),"m/s^2")
+            #print("X_acc:", "{:.2f}".format(x_acc), "m/s^2,Y_acc:", "{:.2f}".format(y_acc),"m/s^2")
             #print("Acceleration km/h: ", acc_kmh)
             #print(des_y_vel, "sacsdcsdvsdvds")
             #print("des_vel", des_x_vel, des_y_vel, des_z_vel)
@@ -454,12 +390,12 @@ def quad_sim(x_c, y_c, z_c):
             #print(roll_vel, "roll_vel")
             #print(pitch_vel, "pitch_vel")
             #print(yaw_vel, "yaw_vel")
-            print("Time:", T, "s, Space:", space_m, "m, T_s:", T_s, "s, T_s2:", T_s2,"s")
-            print("goal distance: ", distanceAB)
+            #print("Time:", T, "s, Space:", space_m, "m, T_s:", T_s, "s, T_s2:", T_s2,"s")
+            print("goal distance: ", distanceAB_3D, "Dist percorsa:", dist_percorsa3D)
 
         print("[WAYPOINT TIME LIMIT REACHED]")
-        if(distanceAB != 0 ):
-            print("[GOAL MISSED:","{:.2f}".format(distanceAB), "m missing]")
+        if(distanceAB_2D != 0 ):
+            print("[GOAL MISSED:","{:.2f}".format(distanceAB_2D), "m missing]")
         t = 0
         i = (i + 1) % 4
         irun += 1
@@ -561,7 +497,7 @@ def main():
     #values = space_m
     values = 15
     #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
-    waypoints = [[0, 0, 5], waypoint1, [0, 15, 5], [-values, values, values]]
+    waypoints = [start_pos, waypoint1, [0, 15, 5], [-values, values, values]]
     print("Waypoints: ", waypoints)
 
     for i in range(4):

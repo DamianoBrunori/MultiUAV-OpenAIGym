@@ -40,7 +40,7 @@ m = float(config['UAV']['mass'])                              #massa in kg
 #Payload
 payload = float(config['UAV']['payload_mass'])                #payload in kg
 #Cruise speed
-cruise_speed_kmh = float(config['UAV']['cruise_speed'])       #Velocità di crociera
+cruise_speed_ms = float(config['UAV']['cruise_speed'])       #Velocità di crociera
 #Manoeuvrability
 VRD = float(config['UAV']['VRD'])
 VRC = float(config['UAV']['VRC'])
@@ -55,11 +55,11 @@ TrackingService = config['UAV']['TrackingService']
 TacticalSeparation = config['UAV']['TacticalSeparation']
 #Distance
 space_m = float(config['UAV']['space'])
-T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
+T = space_m/(cruise_speed_ms*3.6)            #Time (seconds for waypoint - waypoint movement)
 #---------------------------------------------------------------------------------------------------
 PLOTRANGE_X_POS = 2000
 PLOTRANGE_X_NEG = -5
-PLOTRANGE_Y_POS = 8
+PLOTRANGE_Y_POS = 2000
 PLOTRANGE_Y_NEG = -5
 PLOTRANGE_Z_POS = 8
 PLOTRANGE_Z_NEG = 0
