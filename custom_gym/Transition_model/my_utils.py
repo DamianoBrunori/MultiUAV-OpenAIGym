@@ -57,9 +57,9 @@ TacticalSeparation = config['UAV']['TacticalSeparation']
 space_m = float(config['UAV']['space'])
 T = space_m/(cruise_speed_ms*3.6)            #Time (seconds for waypoint - waypoint movement)
 #---------------------------------------------------------------------------------------------------
-PLOTRANGE_X_POS = 2000
-PLOTRANGE_X_NEG = -5
-PLOTRANGE_Y_POS = 2000
+PLOTRANGE_X_POS = 5
+PLOTRANGE_X_NEG = -2000
+PLOTRANGE_Y_POS = 500
 PLOTRANGE_Y_NEG = -5
 PLOTRANGE_Z_POS = 8
 PLOTRANGE_Z_NEG = 0

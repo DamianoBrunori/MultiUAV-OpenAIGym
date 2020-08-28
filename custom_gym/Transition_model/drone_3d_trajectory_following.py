@@ -101,10 +101,10 @@ Ixx = 1
 Iyy = 1
 Izz = 1
 #T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
-T = 120                               #Time (seconds for waypoint - waypoint movement)
+T = 120                                  #Time (seconds for waypoint - waypoint movement)
 cruise_speed_kmh = cruise_speed_ms/3.6   #Cruise speed km/h
 T_s = T/5                                #Tempo fino a quando avviene un' accelerazione
-T_s2 = T - T_s                            #Tempo dopo il quale avviene una decellerazione
+T_s2 = T - T_s                           #Tempo dopo il quale avviene una decellerazione
 
 # Proportional coefficients
 Kp_x = 1
@@ -119,7 +119,9 @@ Kp_yaw = 25
 # Kd_y = 10
 Kd_z = 1
 
-waypoint1= [2000, 1500, 5]
+waypoint1= [-200000, 150, 5]
+acc_max = 3
+
 
 
 start_x = 0
@@ -173,14 +175,18 @@ def quad_sim(x_c, y_c, z_c):
     ciao = False
     fase_dec_x = False
     fase_dec_y = False
+    Salvo_prop_acc = True
     i = 0
     n_run = 4 #Numero di Round (quanti waypoints vuoi vedere)
     irun = 0
 
-    ok = 0
+    ok = True
     SALVO_TEMPO = 0
     t_dec = 0
     SALVO_DISTANZA_FATTA = 0
+    salvo_acc_x = 0
+    salvo_acc_y = 0
+    salvo_acc_z = 0
     while True:
         while t <= T:
             #DIVIDO LA TRAIETTORIA IN PEZZETTI si fissano degli obiettivi molto vicini (interpolazione)
@@ -225,7 +231,7 @@ def quad_sim(x_c, y_c, z_c):
             
 
             vel_ms = math.sqrt(x_vel**2 + y_vel**2)
-            acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2 + z_acc ** 2)
+            acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2)
 
 
             
@@ -263,39 +269,36 @@ def quad_sim(x_c, y_c, z_c):
 
             print("x:vel", "{:.2f}".format(x_vel),"(m/s)")
             print("y:vel", "{:.2f}".format(y_vel),"(m/s)")
-            print("Acc[0]", "{:.2f}".format(acc[0]),"(m/s^2")
+            #print("Acc[0]", "{:.2f}".format(acc[0]),"(m/s^2")
             #print("des_y_acc", "{:.2f}".format(des_y_acc))
 
 
             # ------------------------------------------------------------------------------------------------------------------#
 
             if (vel_ms > cruise_speed_ms and distanceAB_2D > SALVO_DISTANZA_FATTA):
-                # SALVO_TEMPO = t
-                # SALVO_DISTANZA_FATTA = waypoint1[0] - distanceAB
-                ciao = True
-                if (ciao == True and ok == 0):
+                if (ok == True):
                     SALVO_TEMPO = t - 0.1
-
-                    #SALVO_DISTANZA_FATTA = waypoint1[0] - distanceAB
-                    SALVO_DISTANZA_FATTA = dist_percorsa2D
+                    SALVO_DISTANZA_FATTA = dist_percorsa2D                   #Salvo distanza percorsa (in quel momento)
                     if (SALVO_TEMPO > 0 and SALVO_DISTANZA_FATTA > 0):
-                        t_dec = T - SALVO_TEMPO
-                        SALVO_PROPORZIONE = [x_vel / vel_ms, y_vel / vel_ms]
-                        ok = 1
+                        t_dec = T - SALVO_TEMPO                              #Salvo t_dec (tempo di decellerazione) T - (Tempo impiegato a raggiungere la velocità di crociera)
+                        SALVO_PROPORZIONE = [x_vel / vel_ms, y_vel / vel_ms] #SALVO_PROPORZIONE (delle velocità sugli assi in quel momento)
+                        ok = False                                           #Non aggiorno più queste variabili
                 t = -0.1  # non c'è accellerazione
                 x_acc = 0
                 y_acc = 0
+
             else:
                 x_acc = acc[0]
                 y_acc = acc[1]
+            z_acc = acc[2]
                 #SALVO_PROPORZIONE = [x_vel / 2, y_vel / 2]
 
 
             if (distanceAB_2D < SALVO_DISTANZA_FATTA):
                 if (t < 1):
-                    t = t_dec
+                    t = t_dec                                                                       #Imposto il tempo uguale a t_dec (inizia la fase di decellerazione)
 
-            if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] != 0 and SALVO_PROPORZIONE[1] != 0):
+            if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] != 0 and SALVO_PROPORZIONE[1] != 0):    #Se la diztanza dal goal e minore di 6 e le proporzioni sono 0 (quindi non si è raggiunta una velocità max)
                 if (x_vel > 0.2 or fase_dec_x == True):
                     x_acc = 0
                     x_vel = SALVO_PROPORZIONE[0]
@@ -305,16 +308,74 @@ def quad_sim(x_c, y_c, z_c):
                     y_vel = SALVO_PROPORZIONE[1]
                     fase_dec_y = True
                 t = t - 0.1
+
+            if (waypoint1[0] < 0):
                 if (waypoint1[0] < x_pos and distanceAB_2D < 2.5):
+                    x_acc = 0
+                    x_vel = -0.1
+                    print("Sono xxxxxx neeeeeeeeeeeeeeeeeeeeeeeggggggggggggggggggggggg")
+                if (waypoint1[0] >= x_pos):
+                    x_acc = 0
+                    x_vel = 0
+            if (waypoint1[0] > 0):
+                if (waypoint1[0] > x_pos and distanceAB_2D < 2.5):
+                    x_acc = 0
                     x_vel = 0.1
+                    print("Sono xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+                if (waypoint1[0] <= x_pos):
+                    x_acc = 0
+                    x_vel = 0
+            if (waypoint1[1] < 0):
                 if (waypoint1[1] < y_pos and distanceAB_2D < 2.5):
+                    y_acc = 0
+                    y_vel = -0.1
+                    print("Sono xxxxxx neeeeeeeeeeeeeeeeeeeeeeeggggggggggggggggggggggg")
+                if (waypoint1[1] >= y_pos):
+                    y_acc = 0
+                    y_vel = 0
+            if (waypoint1[1] > 0):
+                if (waypoint1[1] > y_pos and distanceAB_2D < 2.5):
+                    y_acc = 0
                     y_vel = 0.1
-            if (distanceAB_2D < 0.5):
+                    print("Sono xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+                if (waypoint1[1] <= y_pos):
+                    y_acc = 0
+                    y_vel = 0
+
+            '''if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] == 0 and SALVO_PROPORZIONE[1] == 0 and t< T-0.2):
+                t = t-0.1
+                print("salvoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")'''
+
+
+            if (distanceAB_2D < 0.1):
                 t = T
 
+            if(acc_ms > acc_max and Salvo_prop_acc == True): #Salvo istantanea delle proporzioni x_acc, y_acc quando l'accellerazione è magiore di (acc_max)
+                salvo_acc_x = x_acc
+                salvo_acc_y = y_acc
+                Salvo_prop_acc = False
 
 
-            z_acc = acc[2]
+            if (Salvo_prop_acc == False and vel_ms < cruise_speed_ms):
+                x_acc = salvo_acc_x
+                y_acc = salvo_acc_y
+            if (z_pos < waypoint1[2]): #Mantengo il drone su una z fissa
+                z_vel = 0
+                z_acc = 0.20
+
+
+
+
+
+
+            #print("thrust", thrust)
+            print("acc_ms", acc_ms)
+
+
+
+
+
+
             print("SALVO_TEMPO:", SALVO_TEMPO, "SALVO_DISTANZA_FATTA:", SALVO_DISTANZA_FATTA, "t_dec:", t_dec, "dist_percorsa2D:", dist_percorsa2D)
             if (distanceAB_3D < 10):
                 print("Goal a:", distanceAB_3D, "Dist percorsa3D:", dist_percorsa3D, "Vel_x:", x_vel, "Acc_x:", x_acc, "Time:", t, )
@@ -391,7 +452,7 @@ def quad_sim(x_c, y_c, z_c):
             #print(pitch_vel, "pitch_vel")
             #print(yaw_vel, "yaw_vel")
             #print("Time:", T, "s, Space:", space_m, "m, T_s:", T_s, "s, T_s2:", T_s2,"s")
-            print("goal distance: ", distanceAB_3D, "Dist percorsa:", dist_percorsa3D)
+            #print("goal distance: ", distanceAB_3D, "Dist percorsa:", dist_percorsa3D)
 
         print("[WAYPOINT TIME LIMIT REACHED]")
         if(distanceAB_2D != 0 ):
