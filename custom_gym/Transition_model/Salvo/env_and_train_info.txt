@@ -22,6 +22,5 @@ MONITORING: YES
 TRACKING SERVICE: YES
 TACTICAL SEPARATION: YES
 DISTANCE TO REACH THE GOAL: 5.0 m
-TIME TO REACH THE GOAL: 0.0771604938271605 s
 __________________________________________________________________________________________________________________
 

@@ -76,8 +76,8 @@ info19 = "\nTACTICAL SEPARATION: " + str(TacticalSeparation)
 info.append(info19)
 info20 = "\nDISTANCE TO REACH THE GOAL: " + str(space_m) + " m"
 info.append(info20)
-info21 = "\nTIME TO REACH THE GOAL: " + str(T) + " s"
-info.append(info21)
+#info21 = "\nTIME TO REACH THE GOAL: " + str(T) + " s"
+#info.append(info21)
 info23 = "\n__________________________________________________________________________________________________________________\n\n"
 info.append(info23)
 
@@ -101,7 +101,7 @@ Ixx = 1
 Iyy = 1
 Izz = 1
 #T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
-T = 120                                  #Time (seconds for waypoint - waypoint movement)
+T = 120                     #Time (seconds for waypoint - waypoint movement)
 cruise_speed_kmh = cruise_speed_ms/3.6   #Cruise speed km/h
 T_s = T/5                                #Tempo fino a quando avviene un' accelerazione
 T_s2 = T - T_s                           #Tempo dopo il quale avviene una decellerazione
@@ -119,9 +119,8 @@ Kp_yaw = 25
 # Kd_y = 10
 Kd_z = 1
 
-waypoint1= [-200000, 150, 5]
+waypoint1= [4500, 0, 5]
 acc_max = 3
-
 
 
 start_x = 0
@@ -129,12 +128,89 @@ start_y = 0
 start_z = 5
 start_pos = np.array([start_x, start_y, start_z])
 
+#------------------------------------------------------Gestione-del-Tempo----------------------------------------------------------#
+diff_metri = 0
+incrementoT = 0
 
-'''INITIAL_X_POS = 0
-INITIAL_Y_POS = 0
-INITIAL_Z_POS = 5
-INITIAL_POS = [INITIAL_X_POS,INITIAL_Y_POS,INITIAL_Z_POS]'''
+distance_start_goal = math.sqrt((waypoint1[0] - start_pos[0]) ** 2 + (waypoint1[1] - start_pos[1]) ** 2) # Distanza drone goal
 
+if (km1 < waypoint1[0] < km2):
+    T = 48
+    diff_metri = distance_start_goal - km1
+    incrementoT = diff_metri*(s_km2_1000m/1000)   #su 1000m 9s/1000=0.009s al metro -> aggiungo 0.9s ogni 100 metri
+    T = T+incrementoT
+    print("T:",T, "T_incremento:", incrementoT)
+
+if (km2 < waypoint1[0] < km3):
+    T = 63.2
+    diff_metri = distance_start_goal - km2
+    incrementoT = diff_metri*(s_km3_1000m/1000)   #su 1000m
+    T = T+incrementoT
+    print("T:",T, "T_incremento:", incrementoT)
+
+if (km3 < waypoint1[0] < km4):
+    T = 73.8
+    diff_metri = distance_start_goal - km3
+    incrementoT = diff_metri*(s_km4_1000m/1000)   #su 1000m
+    T = T+incrementoT
+    print("T:",T, "T_incremento:", incrementoT)
+
+if (km4 < waypoint1[0] < km5):
+    T = 82
+    diff_metri = distance_start_goal - km4
+    incrementoT = diff_metri * (s_km5_1000m / 1000)  # su 1000m
+    T = T + incrementoT
+    print("T:", T, "T_incremento:", incrementoT)
+
+if (km5 < waypoint1[0] < km6):
+    T = 89
+    diff_metri = distance_start_goal - km5
+    incrementoT = diff_metri * (s_km5_1000m / 1000)  # su 1000m
+    T = T + incrementoT
+    print("T:", T, "T_incremento:", incrementoT)
+
+if (km6 < waypoint1[0] < km7):
+    T = 95
+    diff_metri = distance_start_goal - km6
+    incrementoT = diff_metri * (s_km6_1000m / 1000)  # su 1000m
+    T = T + incrementoT
+    print("T:", T, "T_incremento:", incrementoT)
+
+if (km7 < waypoint1[0] < km10):
+    T = 101
+    diff_metri = distance_start_goal - km7
+    incrementoT = diff_metri * (s_km789_10_1000m / 4000)  # su 4000m
+    T = T + incrementoT
+    print("T:", T, "T_incremento:", incrementoT)
+
+if (km10 < waypoint1[0] < km20):
+    T = 114.5
+    diff_metri = distance_start_goal - km10
+    incrementoT = diff_metri * (s_km20_1000m / 10000)  # su 10000m
+    T = T + incrementoT
+    print("T:", T, "T_incremento:", incrementoT)
+
+if (km20 < waypoint1[0] < km30):
+    T = 146
+    diff_metri = distance_start_goal - km20
+    incrementoT = diff_metri * (s_km30_1000m / 10000)  # su 10000m
+    T = T + incrementoT
+    print("T:", T, "T_incremento:", incrementoT)
+
+if (km30 < waypoint1[0] < km40):
+    T = 169
+    diff_metri = distance_start_goal - km30
+    incrementoT = diff_metri * (s_km40_1000m / 10000)  # su 10000m
+    T = T + incrementoT
+    print("T:", T, "T_incremento:", incrementoT)
+
+if (km40 < waypoint1[0] < km47):
+    T = 186
+    diff_metri = distance_start_goal - km40
+    incrementoT = diff_metri * (s_km47_1000m / 7000)  # su 7000m
+    T = T + incrementoT
+    print("T:", T, "T_incremento:", incrementoT)
+#----------------------------------------------------------------------------------------------------------------------------------#
 def quad_sim(x_c, y_c, z_c):
     
     """
@@ -270,7 +346,8 @@ def quad_sim(x_c, y_c, z_c):
             print("x:vel", "{:.2f}".format(x_vel),"(m/s)")
             print("y:vel", "{:.2f}".format(y_vel),"(m/s)")
             #print("Acc[0]", "{:.2f}".format(acc[0]),"(m/s^2")
-            #print("des_y_acc", "{:.2f}".format(des_y_acc))
+            #print("des_y_acc", "{:.2f}
+
 
 
             # ------------------------------------------------------------------------------------------------------------------#
@@ -329,7 +406,7 @@ def quad_sim(x_c, y_c, z_c):
                 if (waypoint1[1] < y_pos and distanceAB_2D < 2.5):
                     y_acc = 0
                     y_vel = -0.1
-                    print("Sono xxxxxx neeeeeeeeeeeeeeeeeeeeeeeggggggggggggggggggggggg")
+                    print("Sono yyyyy neeeeeeeeeeeeeeeeeeeeeeeggggggggggggggggggggggg")
                 if (waypoint1[1] >= y_pos):
                     y_acc = 0
                     y_vel = 0
@@ -337,7 +414,7 @@ def quad_sim(x_c, y_c, z_c):
                 if (waypoint1[1] > y_pos and distanceAB_2D < 2.5):
                     y_acc = 0
                     y_vel = 0.1
-                    print("Sono xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+                    print("Sono yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
                 if (waypoint1[1] <= y_pos):
                     y_acc = 0
                     y_vel = 0
@@ -365,14 +442,8 @@ def quad_sim(x_c, y_c, z_c):
 
 
 
-
-
-
             #print("thrust", thrust)
             print("acc_ms", acc_ms)
-
-
-
 
 
 
