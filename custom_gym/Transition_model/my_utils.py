@@ -28,6 +28,7 @@ config.read(file)
 # To access : config[<section>][<element>]
 
 #Configs.ini
+scenario = config['UAV']['scenario']
 id = float(config['UAV']['id'])                               #1
 vol = config['UAV']['vol']                                    #Zu volume the U-Space
 OperationCategory = config['UAV']['OperationCategory']
@@ -90,4 +91,5 @@ km40 = 40000
 s_km40_1000m = 17
 km47 = 47000
 s_km47_1000m = 9
+
 

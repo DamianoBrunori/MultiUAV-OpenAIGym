@@ -13,11 +13,18 @@ from my_utils import *
 import sys
 from os import getenv
 import datetime
+
+LOG_DIRECTORY_NAME = "Logs_of_flights"
+
+LOG_FILENAME = "log_"+str( datetime.datetime.now()).replace(" ","_") +".txt"
+
+LOG_PATH = join(LOG_DIRECTORY_NAME, LOG_FILENAME)
+
 # Class to redirect stdout to file logfile.log
 class Logger(object):
     def __init__(self):
         self.terminal = sys.stdout
-        self.log = open("logfile.log", "a")
+        self.log = open(LOG_PATH, "a")
 
     def write(self, message):
         self.terminal.write(message)
@@ -36,7 +43,9 @@ info = []
 
 info1 = "\n\n_______________________________________ENVIRONMENT AND DRONE INFO: _______________________________________\n"
 info.append(info1)
-info2 = "\nID: " + str(id)
+info24 = "\nWP3 SCENARIO: " + str(scenario)
+info.append(info24)
+info2 = "\nDRONE ID: " + str(id)
 info.append(info2)
 info3 = "\nVOL: " + str(vol)
 info.append(info3)
@@ -78,12 +87,12 @@ info20 = "\nDISTANCE TO REACH THE GOAL: " + str(space_m) + " m"
 info.append(info20)
 #info21 = "\nTIME TO REACH THE GOAL: " + str(T) + " s"
 #info.append(info21)
+
 info23 = "\n__________________________________________________________________________________________________________________\n\n"
 info.append(info23)
 
-cases_directory = "Salvo"
-if not isdir(cases_directory): mkdir(cases_directory)
-file = open(join(cases_directory, "env_and_train_info.txt"), "w")
+if not isdir(LOG_DIRECTORY_NAME): mkdir(LOG_DIRECTORY_NAME)
+file = open(LOG_PATH, "w")
 
 for i in info:
     print(i)
@@ -134,82 +143,59 @@ incrementoT = 0
 
 distance_start_goal = math.sqrt((waypoint1[0] - start_pos[0]) ** 2 + (waypoint1[1] - start_pos[1]) ** 2) # Distanza drone goal
 
-if (km1 < waypoint1[0] < km2):
-    T = 48
-    diff_metri = distance_start_goal - km1
-    incrementoT = diff_metri*(s_km2_1000m/1000)   #su 1000m 9s/1000=0.009s al metro -> aggiungo 0.9s ogni 100 metri
-    T = T+incrementoT
-    print("T:",T, "T_incremento:", incrementoT)
-
-if (km2 < waypoint1[0] < km3):
-    T = 63.2
-    diff_metri = distance_start_goal - km2
-    incrementoT = diff_metri*(s_km3_1000m/1000)   #su 1000m
-    T = T+incrementoT
-    print("T:",T, "T_incremento:", incrementoT)
-
-if (km3 < waypoint1[0] < km4):
-    T = 73.8
-    diff_metri = distance_start_goal - km3
-    incrementoT = diff_metri*(s_km4_1000m/1000)   #su 1000m
-    T = T+incrementoT
-    print("T:",T, "T_incremento:", incrementoT)
-
-if (km4 < waypoint1[0] < km5):
-    T = 82
-    diff_metri = distance_start_goal - km4
-    incrementoT = diff_metri * (s_km5_1000m / 1000)  # su 1000m
+def increment_flight_time(start_point,end_point):
+    if (km1 < end_point < km2):
+        T = 48
+        diff_metri = start_point - km1
+        incrementoT = diff_metri*(s_km2_1000m/1000)   #su 1000m 9s/1000=0.009s al metro -> aggiungo 0.9s ogni 100 metri
+    elif (km2 < end_point < km3):
+        T = 63.2
+        diff_metri = start_point - km2
+        incrementoT = diff_metri*(s_km3_1000m/1000)   #su 1000m
+    elif (km3 < end_point < km4):
+        T = 73.8
+        diff_metri = start_point - km3
+        incrementoT = diff_metri*(s_km4_1000m/1000)   #su 1000m
+    elif (km4 < end_point < km5):
+        T = 82
+        diff_metri = start_point - km4
+        incrementoT = diff_metri * (s_km5_1000m / 1000)  # su 1000m
+    elif (km5 < end_point < km6):
+        T = 89
+        diff_metri = start_point - km5
+        incrementoT = diff_metri * (s_km5_1000m / 1000)  # su 1000m
+    elif (km6 < end_point < km7):
+        T = 95
+        diff_metri = start_point - km6
+        incrementoT = diff_metri * (s_km6_1000m / 1000)  # su 1000m
+    elif (km7 < end_point < km10):
+        T = 101
+        diff_metri = start_point - km7
+        incrementoT = diff_metri * (s_km789_10_1000m / 4000)  # su 4000m
+    elif (km10 < end_point < km20):
+        T = 114.5
+        diff_metri = start_point - km10
+        incrementoT = diff_metri * (s_km20_1000m / 10000)  # su 10000m
+    elif (km20 < end_point < km30):
+        T = 146
+        diff_metri = start_point - km20
+        incrementoT = diff_metri * (s_km30_1000m / 10000)  # su 10000m
+    elif (km30 < end_point < km40):
+        T = 169
+        diff_metri = start_point - km30
+        incrementoT = diff_metri * (s_km40_1000m / 10000)  # su 10000m
+    elif (km40 < end_point < km47):
+        T = 186
+        diff_metri = start_point - km40
+        incrementoT = diff_metri * (s_km47_1000m / 7000)  # su 7000m
     T = T + incrementoT
     print("T:", T, "T_incremento:", incrementoT)
+    return T
 
-if (km5 < waypoint1[0] < km6):
-    T = 89
-    diff_metri = distance_start_goal - km5
-    incrementoT = diff_metri * (s_km5_1000m / 1000)  # su 1000m
-    T = T + incrementoT
-    print("T:", T, "T_incremento:", incrementoT)
 
-if (km6 < waypoint1[0] < km7):
-    T = 95
-    diff_metri = distance_start_goal - km6
-    incrementoT = diff_metri * (s_km6_1000m / 1000)  # su 1000m
-    T = T + incrementoT
-    print("T:", T, "T_incremento:", incrementoT)
+T = increment_flight_time(distance_start_goal,waypoint1[0])
 
-if (km7 < waypoint1[0] < km10):
-    T = 101
-    diff_metri = distance_start_goal - km7
-    incrementoT = diff_metri * (s_km789_10_1000m / 4000)  # su 4000m
-    T = T + incrementoT
-    print("T:", T, "T_incremento:", incrementoT)
 
-if (km10 < waypoint1[0] < km20):
-    T = 114.5
-    diff_metri = distance_start_goal - km10
-    incrementoT = diff_metri * (s_km20_1000m / 10000)  # su 10000m
-    T = T + incrementoT
-    print("T:", T, "T_incremento:", incrementoT)
-
-if (km20 < waypoint1[0] < km30):
-    T = 146
-    diff_metri = distance_start_goal - km20
-    incrementoT = diff_metri * (s_km30_1000m / 10000)  # su 10000m
-    T = T + incrementoT
-    print("T:", T, "T_incremento:", incrementoT)
-
-if (km30 < waypoint1[0] < km40):
-    T = 169
-    diff_metri = distance_start_goal - km30
-    incrementoT = diff_metri * (s_km40_1000m / 10000)  # su 10000m
-    T = T + incrementoT
-    print("T:", T, "T_incremento:", incrementoT)
-
-if (km40 < waypoint1[0] < km47):
-    T = 186
-    diff_metri = distance_start_goal - km40
-    incrementoT = diff_metri * (s_km47_1000m / 7000)  # su 7000m
-    T = T + incrementoT
-    print("T:", T, "T_incremento:", incrementoT)
 #----------------------------------------------------------------------------------------------------------------------------------#
 def quad_sim(x_c, y_c, z_c):
     
@@ -615,7 +601,7 @@ def main():
     print("\n\n\n"+"".join( ["#"]*50) )
     print("User:",format(getenv("USER")))
     print("Date:",format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M")))
-    print("\n\n\n"+ "".join( ["#"]*50))
+    print("".join( ["#"]*50)+"\n\n\n")
     """
     Calculates the x, y, z coefficients for the four segments 
     of the trajectory
@@ -645,3 +631,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
