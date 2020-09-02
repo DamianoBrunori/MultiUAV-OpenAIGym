@@ -24,12 +24,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11023ed5-b641-4a36-af99-f9cca342b20a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/Salvo/env_and_train_info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Salvo/env_and_train_info.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" afterDir="false" />
-    </list>
+    <list default="true" id="11023ed5-b641-4a36-af99-f9cca342b20a" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,12 +55,12 @@
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/custom_gym/Transition_model_v2/Quadrotor.py" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\ASUS\Desktop\Tesi-UAV\UAV_RL_Thesis\custom_gym\Transition_model_v2" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\ASUS\Desktop\Tesi-UAV\UAV_RL_Thesis\custom_gym\Transition_model_2" />
       <recent name="C:\Users\ASUS\Desktop\Tesi-UAV\UAV_RL_Thesis\custom_gym" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\ASUS\Desktop\Tesi-UAV\UAV_RL_Thesis\custom_gym\Transition_model_v2" />
     </key>
   </component>
   <component name="RunManager" selected="Python.my_utils">
