@@ -1,0 +1,127 @@
+
+
+_______________________________________ENVIRONMENT AND DRONE INFO: _______________________________________
+
+WP3 SCENARIO: 6
+DRONE ID: 1.0
+VOL: Zu
+AIR RISK: UC
+GROUND RISK: Intermediate
+OP TYPE: BVLOS
+TYPE OF DRONE: Multirotor
+DIMENSION: 1.7 m
+MASS: 9.0 Kg
+CRUISE SPEED: 18.0 m/s
+VDR: 3.0 m/s
+VRC: 4.0 m/s
+Stationary Max: 15.0 min
+MAX WIND: 8.0 m/s
+PAYLOAD RISK: HighRisk
+T. TYPE: LinealFreeFlight
+FLIGHT MODE: Auto
+MONITORING: YES
+TRACKING SERVICE: YES
+TACTICAL SEPARATION: YES
+DISTANCE TO REACH THE GOAL: 5.0 m
+__________________________________________________________________________________________________________________
+
+
+
+
+##################################################
+OS: win32
+Date: 2020-09-01 12:12:42.210
+##################################################
+
+
+
+Waypoints:  [array([0, 0, 5]), [4500, 0, 5], [0, 15, 5], [-15, 15, 15]]
+0 0 5
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.00 
+Z_acc: 0.00
+X_dess: [0.] 
+Y_dess: [0.]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 4500.0
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  0.10 s
+0.0 0.0 5.0
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.01
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.00 
+Z_acc: -0.00
+X_dess: [0.04304672] 
+Y_dess: [0.]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 4500.0
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.04304672]  m/s^2, Time:  0.20 s
+0.00010761678509291954 0.0 4.9999999409715805
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+acc_ms 0.010761678509291954
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.00010761678509291954
+0.0010761678509291954 vel ms
+X_vel: 0.00 
+X_acc: 0.04
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.00 
+Z_acc: 0.20
+X_dess: [0.08579101] 
+Y_dess: [0.]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 4499.9998923832145
+dist_percorsa2D: 0.00010761678509291954
+Acceleration: 0.01  m/s^2, des_x_acc:  [0.08579101]  m/s^2, Time:  0.30 s
+0.0006180394000303516 0.0 5.00199994097158
+x:vel 0.01 (m/s)
+y:vel 0.00 (m/s)
+acc_ms 0.04028058298445125
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0006180394000303516
+0.005104226149374321 vel ms
+X_vel: 0.01 
+X_acc: 0.09
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.02 
+Z_acc: -0.02
+X_dess: [0.12823357] 
+Y_dess: [0.]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 4499.9993819606
+dist_percorsa2D: 0.0006180394000303516
+Acceleration: 0.04  m/s^2, des_x_acc:  [0.12823357]  m/s^2, Time:  0.40 s
+0.0020442694656682752 0.0 5.003775657123582
+x:vel 0.01 (m/s)
+y:vel 0.00 (m/s)
+acc_ms 0.09158074507004915
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0020442694656682752
+0.014262300656379238 vel ms
+X_vel: 0.01 
+X_acc: 0.16
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.02 
+Z_acc: -0.02
+X_dess: [0.17037511] 
+Y_dess: [0.]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 4499.997955730534
+dist_percorsa2D: 0.0020442694656682752

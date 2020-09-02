@@ -11,8 +11,10 @@ SEED = None
 
 import argparse
 from configparser import ConfigParser
+import re
 import numpy as np
 import math
+import ast
 #-----------------------------------------FILE CONFIGS-----------------------------------------
 def parse_args():
     parser = argparse.ArgumentParser(description="UAVs flight generator")
@@ -59,14 +61,23 @@ TacticalSeparation = config['UAV']['TacticalSeparation']
 #Distance
 space_m = float(config['UAV']['space'])
 #T = space_m/(cruise_speed_ms*3.6)            #Time (seconds for waypoint - waypoint movement)
+
+#Start
+s1 = config['UAV']
+start_xyz = ast.literal_eval(s1.get('start_xyz'))
+#Dest
+dest_xyz = ast.literal_eval(s1.get('dest_xyz'))
+
 #---------------------------------------------------------------------------------------------------
 PLOTRANGE_X_POS = 5
-PLOTRANGE_X_NEG = -2000
-PLOTRANGE_Y_POS = 500
+PLOTRANGE_X_NEG = -20
+PLOTRANGE_Y_POS = 20
 PLOTRANGE_Y_NEG = -5
 PLOTRANGE_Z_POS = 8
 PLOTRANGE_Z_NEG = 0
 
+s_km05 = 25.21
+s_km1 = 12.4
 km1 = 1000
 s_km2_1000m = 15.2
 km2 = 2000
