@@ -151,8 +151,6 @@ Kp_yaw = 25
 # Kd_y = 10
 Kd_z = 1
 
-
-print(start_xyz,"\n", dest_xyz)
 waypoint1= [dest_xyz[0], dest_xyz[1], dest_xyz[2]]               #con file configs
 start_pos = np.array([start_xyz[0], start_xyz[1], start_xyz[2]]) #con file configs
 acc_max = 3
@@ -266,15 +264,14 @@ def quad_sim(x_c, y_c, z_c):
 
     dt = 0.1
     t = 0
-    t2 = 50
-    t1 = 0
+
     UAV = Quadrotor(id = "uav", x=x_pos, y=y_pos, z=z_pos, roll=roll,
                   pitch=pitch, yaw=yaw, size=1, show_animation=show_animation)
-    ciao = False
+
     fase_dec_x = False
     fase_dec_y = False
     Salvo_prop_acc = True
-    Salvo_prop_dec = False
+    #Salvo_prop_dec = False
     i = 0
     n_run = 4 #Numero di Round (quanti waypoints vuoi vedere)
     irun = 0
@@ -649,20 +646,15 @@ def rotation_matrix(roll, pitch, yaw):
 
 
 def main():
-
+    
     sys.stdout = Logger()
     print("\n\n\n"+"".join( ["#"]*50) )
-
-    print("User:",format(getenv("USER")))
-    print("Date:",format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M")))
-
     if sys.platform.startswith('linux'):
         print("User:", format(getenv("USER")))      #For Linux
     if sys.platform.startswith('win32'):
         print("User:",format(getenv("USERNAME")))   #For Windows
     print("OS:", sys.platform)
     print("Date:",format(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]))
-
     print("".join( ["#"]*50)+"\n\n\n")
     """
     Calculates the x, y, z coefficients for the four segments 

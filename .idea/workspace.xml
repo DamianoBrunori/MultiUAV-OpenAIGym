@@ -25,153 +25,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="11023ed5-b641-4a36-af99-f9cca342b20a" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_12_42.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_13_37.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_14_46.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_17_02.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_20_53.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_21_19.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_33_19.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_36_49.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_38_54.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_46_56.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_57_10.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--12_57_30.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--13_07_50.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--13_11_03.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--13_13_28.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--13_14_54.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_10_04.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_11_03.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_11_21.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_13_31.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_18_57.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_19_58.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_20_45.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_21_46.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_22_02.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_23_22.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_24_56.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_28_25.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_29_57.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_34_02.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_34_26.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_57_40.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--15_04_54.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--15_08_23.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--15_16_37.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--15_18_30.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--18_51_21.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--19_29_39.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--19_34_13.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--19_34_21.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--19_35_42.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--19_42_41.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--19_43_31.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_09_45.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_10_17.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_10_47.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_22_11.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_23_10.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_23_29.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_24_27.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_24_53.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_25_29.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_27_15.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_27_34.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_30_47.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_31_18.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_31_35.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_32_11.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_32_33.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_32_47.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_35_18.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_35_33.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_35_48.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_39_37.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_39_54.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_41_06.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_41_17.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_42_06.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_42_19.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_42_52.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_44_09.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_44_34.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_44_47.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_44_58.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_45_39.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_46_00.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_46_11.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_46_24.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_47_03.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_47_19.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_51_47.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_55_26.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--11_55_50.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_07_01.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_07_43.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_08_53.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_11_50.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_12_00.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_12_41.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_13_01.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_15_42.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_17_59.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_26_33.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_31_43.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_33_18.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_33_47.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_36_24.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_46_42.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_48_00.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_48_27.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_48_57.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_50_09.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_51_02.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_51_30.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_51_45.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_52_00.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_52_16.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_52_30.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_52_46.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_52_59.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--12_53_18.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_02_46.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_03_32.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_04_36.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_05_01.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_05_48.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_06_49.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_08_49.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_08_58.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_09_13.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_10_38.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_12_01.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_12_16.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_12_33.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_12_49.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_13_13.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_13_32.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_13_43.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_14_01.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_14_56.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_15_12.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_15_27.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_15_31.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_17_31.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_18_40.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_19_44.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_20_50.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_21_05.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_21_16.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_21_55.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_22_42.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_02--13_25_57.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_10_51.txt" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_01--14_10_51.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/configs.ini" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/configs.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/my_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -437,7 +292,7 @@
       <workItem from="1598652884130" duration="1874000" />
       <workItem from="1598696971406" duration="18657000" />
       <workItem from="1598950826390" duration="26607000" />
-      <workItem from="1599058235325" duration="452000" />
+      <workItem from="1599058235325" duration="821000" />
     </task>
     <servers />
   </component>
