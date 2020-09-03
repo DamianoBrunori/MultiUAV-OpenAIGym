@@ -52,7 +52,7 @@ class Logger(object):
         #this flush method is needed for python 3 compatibility.
         #this handles the flush command by doing nothing.
         #you might want to specify some extra behavior here.
-        pass    
+        pass
 
 
 
@@ -101,10 +101,10 @@ info18 = "\nTRACKING SERVICE: " + str(TrackingService)
 info.append(info18)
 info19 = "\nTACTICAL SEPARATION: " + str(TacticalSeparation)
 info.append(info19)
-info20 = "\nDISTANCE TO REACH THE GOAL: " + str(space_m) + " m"
+info20 = "\nDISTANCE TO REACH THE GOAL: " + str(distance_space_m) + " m"
 info.append(info20)
-#info21 = "\nTIME TO REACH THE GOAL: " + str(T) + " s"
-#info.append(info21)
+info21 = "\nTIME TO REACH THE GOAL: " + str(T) + " s"
+info.append(info21)
 info25 = "\nSTART COORDINATES: " + "X:" + str(start_xyz[0]) + " Y:" + str(start_xyz[1]) + " Z:" + str(start_xyz[2])
 info.append(info25)
 info26 = "\nDESTINATION COORDINATES: " + "X:" + str(dest_xyz[0]) + " Y:" + str(dest_xyz[1]) + " Z:" + str(dest_xyz[2])
@@ -133,7 +133,7 @@ Ixx = 1
 Iyy = 1
 Izz = 1
 #T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
-T = 120                     #Time (seconds for waypoint - waypoint movement)
+#T = 120                     #Time (seconds for waypoint - waypoint movement)
 cruise_speed_kmh = cruise_speed_ms/3.6   #Cruise speed km/h
 T_s = T/5                                #Tempo fino a quando avviene un' accelerazione
 T_s2 = T - T_s                           #Tempo dopo il quale avviene una decellerazione
@@ -227,9 +227,10 @@ def increment_flight_time(start_point,end_point):
     return T
 
 
+if (scenario_Time == False):
+    T = increment_flight_time(distance_start_goal,waypoint1[0])
 
-T = increment_flight_time(distance_start_goal,waypoint1[0])
-
+print(T)
 #----------------------------------------------------------------------------------------------------------------------------------#
 def quad_sim(x_c, y_c, z_c):
     
@@ -264,6 +265,7 @@ def quad_sim(x_c, y_c, z_c):
 
     dt = 0.1
     t = 0
+    d = 0
 
     UAV = Quadrotor(id = "uav", x=x_pos, y=y_pos, z=z_pos, roll=roll,
                   pitch=pitch, yaw=yaw, size=1, show_animation=show_animation)
@@ -272,6 +274,8 @@ def quad_sim(x_c, y_c, z_c):
     fase_dec_y = False
     Salvo_prop_acc = True
     #Salvo_prop_dec = False
+    ciao = False
+
     i = 0
     n_run = 4 #Numero di Round (quanti waypoints vuoi vedere)
     irun = 0
@@ -371,110 +375,142 @@ def quad_sim(x_c, y_c, z_c):
 
 
             # ------------------------------------------------------------------------------------------------------------------#
+            if (scenario_Time == False):
+                if (vel_ms > cruise_speed_ms and distanceAB_2D > SALVO_DISTANZA_FATTA):
+                    if (ok == True):
+                        SALVO_TEMPO = t - 0.1
+                        SALVO_DISTANZA_FATTA = dist_percorsa2D                   #Salvo distanza percorsa (in quel momento)
+                        if (SALVO_TEMPO > 0 and SALVO_DISTANZA_FATTA > 0):
+                            t_dec = T - SALVO_TEMPO                              #Salvo t_dec (tempo di decellerazione) T - (Tempo impiegato a raggiungere la velocità di crociera)
+                            SALVO_PROPORZIONE = [x_vel / vel_ms, y_vel / vel_ms] #SALVO_PROPORZIONE (delle velocità sugli assi in quel momento)
+                            ok = False                                           #Non aggiorno più queste variabili
+                    t = -0.1  # non c'è accellerazione
+                    x_acc = 0
+                    y_acc = 0
 
-            if (vel_ms > cruise_speed_ms and distanceAB_2D > SALVO_DISTANZA_FATTA):
-                if (ok == True):
-                    SALVO_TEMPO = t - 0.1
-                    SALVO_DISTANZA_FATTA = dist_percorsa2D                   #Salvo distanza percorsa (in quel momento)
-                    if (SALVO_TEMPO > 0 and SALVO_DISTANZA_FATTA > 0):
-                        t_dec = T - SALVO_TEMPO                              #Salvo t_dec (tempo di decellerazione) T - (Tempo impiegato a raggiungere la velocità di crociera)
-                        SALVO_PROPORZIONE = [x_vel / vel_ms, y_vel / vel_ms] #SALVO_PROPORZIONE (delle velocità sugli assi in quel momento)
-                        ok = False                                           #Non aggiorno più queste variabili
-                t = -0.1  # non c'è accellerazione
-                x_acc = 0
-                y_acc = 0
+                else:
+                    x_acc = acc[0]
+                    y_acc = acc[1]
+                z_acc = acc[2]
+                    #SALVO_PROPORZIONE = [x_vel / 2, y_vel / 2]
 
-            else:
+
+                if (distanceAB_2D < SALVO_DISTANZA_FATTA):
+                    if (t < 1):
+                        t = t_dec                                                                       #Imposto il tempo uguale a t_dec (inizia la fase di decellerazione)
+
+                if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] != 0 and SALVO_PROPORZIONE[1] != 0):    #Se la diztanza dal goal e minore di 6 e le proporzioni sono 0 (quindi non si è raggiunta una velocità max)
+                    if (x_vel > 0.2 or fase_dec_x == True):
+                        x_acc = 0
+                        x_vel = SALVO_PROPORZIONE[0]
+                        fase_dec_x = True
+                    if (y_vel > 0.2 or fase_dec_y == True):
+                        y_acc = 0
+                        y_vel = SALVO_PROPORZIONE[1]
+                        fase_dec_y = True
+                    t = t - 0.1
+
+                if (waypoint1[0] < 0):
+                    if (waypoint1[0] < x_pos and distanceAB_2D < 2.5):
+                        x_acc = 0
+                        x_vel = -0.1
+                        print("Sono xxxxxx neeeeeeeeeeeeeeeeeeeeeeeggggggggggggggggggggggg")
+                    if (waypoint1[0] >= x_pos):
+                        x_acc = 0
+                        x_vel = 0
+                if (waypoint1[0] > 0):
+                    if (waypoint1[0] > x_pos and distanceAB_2D < 2.5):
+                        x_acc = 0
+                        x_vel = 0.1
+                        print("Sono xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+                    if (waypoint1[0] <= x_pos):
+                        x_acc = 0
+                        x_vel = 0
+                if (waypoint1[1] < 0):
+                    if (waypoint1[1] < y_pos and distanceAB_2D < 2.5):
+                        y_acc = 0
+                        y_vel = -0.1
+                        print("Sono yyyyy neeeeeeeeeeeeeeeeeeeeeeeggggggggggggggggggggggg")
+                    if (waypoint1[1] >= y_pos):
+                        y_acc = 0
+                        y_vel = 0
+                if (waypoint1[1] > 0):
+                    if (waypoint1[1] > y_pos and distanceAB_2D < 2.5):
+                        y_acc = 0
+                        y_vel = 0.1
+                        print("Sono yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
+                    if (waypoint1[1] <= y_pos):
+                        y_acc = 0
+                        y_vel = 0
+                if (waypoint1[0] == 0):
+                    y_acc = 0
+                    y_vel = 0
+                if (waypoint1[1] == 0):
+                    y_acc = 0
+                    y_vel = 0
+
+                if (distanceAB_2D < 2.5):
+                    t = t - 0.1
+
+                '''if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] == 0 and SALVO_PROPORZIONE[1] == 0 and t< T-0.2):
+                    t = t-0.1
+                    print("salvoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")'''
+
+
+
+                if (distanceAB_2D < 0.1):
+                    t = T
+
+                '''if(acc_ms > acc_max and Salvo_prop_acc == True): #Salvo istantanea delle proporzioni x_acc, y_acc quando l'accellerazione è magiore di (acc_max)
+                    salvo_acc_x = x_acc
+                    salvo_acc_y = y_acc
+                    Salvo_prop_acc = False'''
+
+                if (acc_ms > acc_max and Salvo_prop_acc == True): #Mantengo l'acc sotto i 3 m/s facendo una proporzione tra x_acc e y_acc
+                    Kacc = acc_max / (x_acc + y_acc)
+                    salvo_acc_x = x_acc * Kacc
+                    salvo_acc_y = y_acc * Kacc
+                    Salvo_prop_acc = False
+
+
+                if (Salvo_prop_acc == False and vel_ms < cruise_speed_ms and (distanceAB_2D > dist_percorsa2D)):
+                    x_acc = salvo_acc_x
+                    y_acc = salvo_acc_y
+                if (z_pos == waypoint1[2]): #Mantengo il drone su una z fissa
+                    z_vel = 0
+                    z_acc = 0
+
+            if (scenario_Time == True):
                 x_acc = acc[0]
                 y_acc = acc[1]
-            z_acc = acc[2]
-                #SALVO_PROPORZIONE = [x_vel / 2, y_vel / 2]
-
-
-            if (distanceAB_2D < SALVO_DISTANZA_FATTA):
-                if (t < 1):
-                    t = t_dec                                                                       #Imposto il tempo uguale a t_dec (inizia la fase di decellerazione)
-
-            if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] != 0 and SALVO_PROPORZIONE[1] != 0):    #Se la diztanza dal goal e minore di 6 e le proporzioni sono 0 (quindi non si è raggiunta una velocità max)
-                if (x_vel > 0.2 or fase_dec_x == True):
-                    x_acc = 0
-                    x_vel = SALVO_PROPORZIONE[0]
-                    fase_dec_x = True
-                if (y_vel > 0.2 or fase_dec_y == True):
-                    y_acc = 0
-                    y_vel = SALVO_PROPORZIONE[1]
-                    fase_dec_y = True
-                t = t - 0.1
-
-            if (waypoint1[0] < 0):
-                if (waypoint1[0] < x_pos and distanceAB_2D < 2.5):
-                    x_acc = 0
-                    x_vel = -0.1
-                    print("Sono xxxxxx neeeeeeeeeeeeeeeeeeeeeeeggggggggggggggggggggggg")
-                if (waypoint1[0] >= x_pos):
-                    x_acc = 0
-                    x_vel = 0
-            if (waypoint1[0] > 0):
-                if (waypoint1[0] > x_pos and distanceAB_2D < 2.5):
-                    x_acc = 0
-                    x_vel = 0.1
-                    print("Sono xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-                if (waypoint1[0] <= x_pos):
-                    x_acc = 0
-                    x_vel = 0
-            if (waypoint1[1] < 0):
-                if (waypoint1[1] < y_pos and distanceAB_2D < 2.5):
-                    y_acc = 0
-                    y_vel = -0.1
-                    print("Sono yyyyy neeeeeeeeeeeeeeeeeeeeeeeggggggggggggggggggggggg")
-                if (waypoint1[1] >= y_pos):
-                    y_acc = 0
-                    y_vel = 0
-            if (waypoint1[1] > 0):
-                if (waypoint1[1] > y_pos and distanceAB_2D < 2.5):
-                    y_acc = 0
-                    y_vel = 0.1
-                    print("Sono yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
-                if (waypoint1[1] <= y_pos):
-                    y_acc = 0
-                    y_vel = 0
-            if (waypoint1[0] == 0):
-                y_acc = 0
-                y_vel = 0
-            if (waypoint1[1] == 0):
-                y_acc = 0
-                y_vel = 0
-
-            if (distanceAB_2D < 2.5):
-                t = t - 0.1
-
-            '''if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] == 0 and SALVO_PROPORZIONE[1] == 0 and t< T-0.2):
-                t = t-0.1
-                print("salvoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")'''
-
-
-
-            if (distanceAB_2D < 0.1):
-                t = T
-
-            '''if(acc_ms > acc_max and Salvo_prop_acc == True): #Salvo istantanea delle proporzioni x_acc, y_acc quando l'accellerazione è magiore di (acc_max)
-                salvo_acc_x = x_acc
-                salvo_acc_y = y_acc
-                Salvo_prop_acc = False'''
-
-            if (acc_ms > acc_max and Salvo_prop_acc == True): #Mantengo l'acc sotto i 3 m/s facendo una proporzione tra x_acc e y_acc
-                Kacc = acc_max / (x_acc + y_acc)
-                salvo_acc_x = x_acc * Kacc
-                salvo_acc_y = y_acc * Kacc
-                Salvo_prop_acc = False
-
-
-            if (Salvo_prop_acc == False and vel_ms < cruise_speed_ms and (distanceAB_2D > dist_percorsa2D)):
-                x_acc = salvo_acc_x
-                y_acc = salvo_acc_y
-            if (z_pos == waypoint1[2]): #Mantengo il drone su una z fissa
-                z_vel = 0
+                z_acc = acc[2]
                 z_acc = 0
+
+            '''if (distanceAB_2D > 0.1 and t>(T-0.1)):
+                x_acc = -x_acc
+                y_acc = -y_acc
+                if (vel_ms > 1):
+                    x_acc = 0
+                    y_acc = 0
+                    t = t - 0.1'''
+
+            if (0.1 <= distanceAB_2D and vel_ms < 1 and dist_percorsa2D > distanceAB_2D):
+                x_acc = 0
+                y_acc = 0
+                t= t - 0.1
+                d = d + 0.1
+                if distanceAB_2D <= 1: #Faccio una proporzione con una vel_Max = 0.2
+                    vel_max = 0.15
+                    Kvel = vel_max / (x_vel + y_vel)
+                    x_vel = x_vel * Kvel
+                    y_vel = y_vel * Kvel
+                    print(d, "weeeeeeeeeeeeeeeeeee", d+t, "aaaaaaaooooooooooooo")
+            if (distanceAB_2D < 0.1):
+                ciao = True #Per non uscire dal ciclo e andare all'altro waypoint bisogna cambiare qui
+
+
+
+
 
 
 
@@ -564,7 +600,9 @@ def quad_sim(x_c, y_c, z_c):
         print("[WAYPOINT TIME LIMIT REACHED]")
         if(distanceAB_2D != 0 ):
             print("[GOAL MISSED:","{:.2f}".format(distanceAB_2D), "m missing]")
-        t = 0
+        if (ciao == True):
+            t = 0
+            ciao = False
         i = (i + 1) % 4
         irun += 1
         if irun >= n_run:
@@ -646,7 +684,7 @@ def rotation_matrix(roll, pitch, yaw):
 
 
 def main():
-    
+
     sys.stdout = Logger()
     print("\n\n\n"+"".join( ["#"]*50) )
     if sys.platform.startswith('linux'):
@@ -669,7 +707,7 @@ def main():
     #values = space_m
     values = 15
     #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
-    waypoints = [start_pos, waypoint1, [0, 15, 5], [-values, values, values]]
+    waypoints = [start_pos, waypoint1, [50, 80, 5], waypoint1]
     print("Waypoints: ", waypoints)
 
     for i in range(4):
