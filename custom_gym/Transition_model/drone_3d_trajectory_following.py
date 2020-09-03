@@ -218,7 +218,6 @@ def increment_flight_time(start_point,end_point):
         diff_metri = start_point - km30
         incrementoT = diff_metri * (s_km40_1000m / 10000)  # su 10000m
     elif (km40 <= end_point < km47):
-
         T = 186
         diff_metri = start_point - km40
         incrementoT = diff_metri * (s_km47_1000m / 7000)  # su 7000m
@@ -295,7 +294,7 @@ def quad_sim(x_c, y_c, z_c):
             des_z_pos = calculate_position(z_c[i], t)
 
 
-            des_x_vel = calculate_velocity(x_c[i], t)       #destinazione
+            des_x_vel = calculate_velocity(x_c[i], t)       #desiderata
             des_y_vel = calculate_velocity(y_c[i], t)
             des_z_vel = calculate_velocity(z_c[i], t)
 
@@ -309,7 +308,7 @@ def quad_sim(x_c, y_c, z_c):
             goal = np.array(waypoint1)
             dimension3D=np.array([30000.0,40000.0,50000.0])
             distanceAB_3D = distance(PosizioneAttuale, goal, dimension3D) #Distanza drone goal
-            print(x_pos, y_pos, z_pos)
+            print("POSIZIONE:","{:.2f}".format(x_pos), "{:.2f}".format(y_pos), "{:.2f}".format(z_pos))
 
             distanceAB_2D = math.sqrt((waypoint1[0] - PosizioneAttuale[0]) ** 2 + (waypoint1[1] - PosizioneAttuale[1]) ** 2) # Distanza drone goal
 
@@ -394,7 +393,6 @@ def quad_sim(x_c, y_c, z_c):
                 z_acc = acc[2]
                     #SALVO_PROPORZIONE = [x_vel / 2, y_vel / 2]
 
-
                 if (distanceAB_2D < SALVO_DISTANZA_FATTA):
                     if (t < 1):
                         t = t_dec                                                                       #Imposto il tempo uguale a t_dec (inizia la fase di decellerazione)
@@ -448,6 +446,12 @@ def quad_sim(x_c, y_c, z_c):
                 if (waypoint1[1] == 0):
                     y_acc = 0
                     y_vel = 0
+            if (waypoint1[0] == 0):
+                y_acc = 0
+                y_vel = 0
+            if (waypoint1[1] == 0):
+                y_acc = 0
+                y_vel = 0
 
                 if (distanceAB_2D < 2.5):
                     t = t - 0.1
@@ -483,7 +487,7 @@ def quad_sim(x_c, y_c, z_c):
             if (scenario_Time == True):
                 x_acc = acc[0]
                 y_acc = acc[1]
-                z_acc = acc[2]
+                # z_acc = acc[2]
                 z_acc = 0
 
             '''if (distanceAB_2D > 0.1 and t>(T-0.1)):
@@ -611,7 +615,10 @@ def quad_sim(x_c, y_c, z_c):
     print("Done")
 
 
+# def distance_AB_axis(start,end):
+#     return 
 
+# NOTE: NOT USED TILL NOW
 def distance(x0, x1, dimensions):
   delta = np.abs(x0 - x1)
   delta = np.where(delta > 0.5 * dimensions, delta - dimensions, delta)
@@ -684,7 +691,7 @@ def rotation_matrix(roll, pitch, yaw):
 
 
 def main():
-
+    
     sys.stdout = Logger()
     print("\n\n\n"+"".join( ["#"]*50) )
     if sys.platform.startswith('linux'):
