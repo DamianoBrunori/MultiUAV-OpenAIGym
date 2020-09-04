@@ -143,3 +143,7 @@ km47 = 47000
 s_km47_1000m = 9
 
 
+
+
+dests = config["PATH"]["dest_points"]
+print(dests)

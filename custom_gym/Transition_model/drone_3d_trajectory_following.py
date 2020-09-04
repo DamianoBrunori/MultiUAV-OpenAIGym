@@ -154,6 +154,9 @@ Kd_z = 1
 waypoint1= [dest_xyz[0], dest_xyz[1], dest_xyz[2]]               #con file configs
 start_pos = np.array([start_xyz[0], start_xyz[1], start_xyz[2]]) #con file configs
 acc_max = 3
+
+waypoints = [start_pos, waypoint1, [50, 80, 5], waypoint1]
+
 ##################################Senza-file-configs################################
 #waypoint1 = [1100, 0, 5]
 #start_x = 0
@@ -167,6 +170,12 @@ diff_metri = 0
 incrementoT = 0
 
 distance_start_goal = math.sqrt((waypoint1[0] - start_pos[0]) ** 2 + (waypoint1[1] - start_pos[1]) ** 2) # Distanza drone goal
+
+
+
+def distance_AB_2D(start,end):
+    return math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2) # Distanza drone start-end
+
 
 def increment_flight_time(start_point,end_point):
     if (1) <= end_point < km1 / 2:
@@ -287,6 +296,7 @@ def quad_sim(x_c, y_c, z_c):
     salvo_acc_y = 0
     salvo_acc_z = 0
     while True:
+        
         while t <= T:
             #DIVIDO LA TRAIETTORIA IN PEZZETTI si fissano degli obiettivi molto vicini (interpolazione)
             # des_x_pos = calculate_position(x_c[i], t)
@@ -305,35 +315,26 @@ def quad_sim(x_c, y_c, z_c):
 
 
             PosizioneAttuale = np.array([x_pos, y_pos, z_pos])
-            goal = np.array(waypoint1)
+            goal = np.array(waypoints[i+1])
             dimension3D=np.array([30000.0,40000.0,50000.0])
             distanceAB_3D = distance(PosizioneAttuale, goal, dimension3D) #Distanza drone goal
             print("POSIZIONE:","{:.2f}".format(x_pos), "{:.2f}".format(y_pos), "{:.2f}".format(z_pos))
 
-            distanceAB_2D = math.sqrt((waypoint1[0] - PosizioneAttuale[0]) ** 2 + (waypoint1[1] - PosizioneAttuale[1]) ** 2) # Distanza drone goal
+            # distanceAB_2D = math.sqrt((waypoint1[0] - PosizioneAttuale[0]) ** 2 + (waypoint1[1] - PosizioneAttuale[1]) ** 2) # Distanza drone goal
+            start = waypoints[i]
+            next_goal = waypoints[i+1]
 
-            dist_percorsa3D = distance(start_pos, PosizioneAttuale, dimension3D) #Distanza percorsa
-
-            dist_percorsa2D = math.sqrt((start_pos[0] - PosizioneAttuale[0]) ** 2 + (start_pos[1] - PosizioneAttuale[1]) ** 2)
-
-
-
-            #print(des_x_acc," des_x_acc")
-            #print(des_z_vel, "des_z_vel") sempre 0
-            #print("time: ", t, i)
-            # print([v for v in zip((x_c[i]),labels) ],t)
-            # print(x_c[i], t)
-            #print(y_c[i], t)
+            # dist_percorsa2D = math.sqrt((start_pos[0] - PosizioneAttuale[0]) ** 2 + (start_pos[1] - PosizioneAttuale[1]) ** 2)
+            distanceAB_2D = distance_AB_2D(PosizioneAttuale,next_goal)
+            dist_percorsa2D  = distance_AB_2D(start,PosizioneAttuale)
+            dist_percorsa3D = distance(start, PosizioneAttuale, dimension3D) #Distanza percorsa
 
             acc_des_xyz = math.sqrt(des_x_acc ** 2 + des_y_acc ** 2 + des_z_acc ** 2)
             #print("Accelerazione desiderata: ", acc_des_xyz)
             
-
             vel_ms = math.sqrt(x_vel**2 + y_vel**2)
             acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2)
 
-
-            
             vel_kmh =  vel_ms * 3.6
             acc_kmh =  acc_ms * 3.6
 
@@ -350,7 +351,6 @@ def quad_sim(x_c, y_c, z_c):
             #bang- coast- bang ACCELERAZIONE - VELOCITà COSTANTE - DECELLERAZIONE
             #Interpolation using splines per usare i polinomi e spezzetta la traiettoria
 
-
             roll_vel += roll_torque * dt / Ixx
             pitch_vel += pitch_torque * dt / Iyy
             yaw_vel += yaw_torque * dt / Izz
@@ -365,14 +365,10 @@ def quad_sim(x_c, y_c, z_c):
                 [0, 0, thrust.item()]).T) - np.array([0, 0, m * g]).T) / m
             #CON LA NUOVA ORIENTAZIONE R E LA TRUST, IN BASE A COME TI SEI ORIENTATO SPINGI(TRUST) E ARRIVI
 
-
             print("x:vel", "{:.2f}".format(x_vel),"(m/s)")
             print("y:vel", "{:.2f}".format(y_vel),"(m/s)")
             #print("Acc[0]", "{:.2f}".format(acc[0]),"(m/s^2")
             #print("des_y_acc", "{:.2f}
-
-
-
             # ------------------------------------------------------------------------------------------------------------------#
             if (scenario_Time == False):
                 if (vel_ms > cruise_speed_ms and distanceAB_2D > SALVO_DISTANZA_FATTA):
@@ -408,48 +404,48 @@ def quad_sim(x_c, y_c, z_c):
                         fase_dec_y = True
                     t = t - 0.1
 
-                if (waypoint1[0] < 0):
-                    if (waypoint1[0] < x_pos and distanceAB_2D < 2.5):
+                if (next_goal[0] < 0):
+                    if (next_goal[0] < x_pos and distanceAB_2D < 2.5):
                         x_acc = 0
                         x_vel = -0.1
-                        print("Sono xxxxxx neeeeeeeeeeeeeeeeeeeeeeeggggggggggggggggggggggg")
-                    if (waypoint1[0] >= x_pos):
+                        print("------------------------------    x neg    ------------------------")
+                    if (next_goal[0] >= x_pos):
                         x_acc = 0
                         x_vel = 0
-                if (waypoint1[0] > 0):
-                    if (waypoint1[0] > x_pos and distanceAB_2D < 2.5):
+                if (next_goal[0] > 0):
+                    if (next_goal[0] > x_pos and distanceAB_2D < 2.5):
                         x_acc = 0
                         x_vel = 0.1
-                        print("Sono xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-                    if (waypoint1[0] <= x_pos):
+                        print("------------------------------     x (pos)      ------------------------")
+                    if (next_goal[0] <= x_pos):
                         x_acc = 0
                         x_vel = 0
-                if (waypoint1[1] < 0):
-                    if (waypoint1[1] < y_pos and distanceAB_2D < 2.5):
+                if (next_goal[1] < 0):
+                    if (next_goal[1] < y_pos and distanceAB_2D < 2.5):
                         y_acc = 0
                         y_vel = -0.1
-                        print("Sono yyyyy neeeeeeeeeeeeeeeeeeeeeeeggggggggggggggggggggggg")
-                    if (waypoint1[1] >= y_pos):
+                        print("------------------------------    y neg   ------------------------")
+                    if (next_goal[1] >= y_pos):
                         y_acc = 0
                         y_vel = 0
-                if (waypoint1[1] > 0):
-                    if (waypoint1[1] > y_pos and distanceAB_2D < 2.5):
+                if (next_goal[1] > 0):
+                    if (next_goal[1] > y_pos and distanceAB_2D < 2.5):
                         y_acc = 0
                         y_vel = 0.1
-                        print("Sono yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
-                    if (waypoint1[1] <= y_pos):
+                        print("------------------------------    y (pos)   ------------------------")
+                    if (next_goal[1] <= y_pos):
                         y_acc = 0
                         y_vel = 0
-                if (waypoint1[0] == 0):
+                if (next_goal[0] == 0):
                     y_acc = 0
                     y_vel = 0
-                if (waypoint1[1] == 0):
+                if (next_goal[1] == 0):
                     y_acc = 0
                     y_vel = 0
-            if (waypoint1[0] == 0):
+            if (next_goal[0] == 0):
                 y_acc = 0
                 y_vel = 0
-            if (waypoint1[1] == 0):
+            if (next_goal[1] == 0):
                 y_acc = 0
                 y_vel = 0
 
@@ -615,10 +611,8 @@ def quad_sim(x_c, y_c, z_c):
     print("Done")
 
 
-# def distance_AB_axis(start,end):
-#     return 
 
-# NOTE: NOT USED TILL NOW
+
 def distance(x0, x1, dimensions):
   delta = np.abs(x0 - x1)
   delta = np.where(delta > 0.5 * dimensions, delta - dimensions, delta)
@@ -714,7 +708,6 @@ def main():
     #values = space_m
     values = 15
     #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
-    waypoints = [start_pos, waypoint1, [50, 80, 5], waypoint1]
     print("Waypoints: ", waypoints)
 
     for i in range(4):
