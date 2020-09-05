@@ -64,6 +64,8 @@ s1 = config['UAV']
 start_xyz = ast.literal_eval(s1.get('start_xyz'))
 #Destination
 dest_xyz = ast.literal_eval(s1.get('dest_xyz'))
+#waypoint-set
+dest_points = ast.literal_eval(s1.get('dest_points'))
 
 #Distance
 distance_goal = math.sqrt((dest_xyz[0] - start_xyz[0]) ** 2 + (dest_xyz[1] - start_xyz[1]) ** 2) # Distanza drone goal
@@ -141,9 +143,3 @@ km40 = 40000
 s_km40_1000m = 17
 km47 = 47000
 s_km47_1000m = 9
-
-
-
-
-dests = config["PATH"]["dest_points"]
-print(dests)
