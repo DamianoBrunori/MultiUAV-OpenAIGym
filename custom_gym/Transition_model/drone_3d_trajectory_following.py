@@ -174,7 +174,8 @@ incrementoT = 0
 
 distance_start_goal = math.sqrt((waypoint1[0] - start_pos[0]) ** 2 + (waypoint1[1] - start_pos[1]) ** 2) # Distanza drone goal
 
-scalare_waypoints = math.sqrt((waypoint1[0] ) ** 2 + (waypoint1[1]) ** 2)
+
+scalare_waypoints = math.sqrt((waypoints[1][0] ) ** 2 + (waypoints[1][1]) ** 2)
 
 def distance_AB_2D(start,end):
     return math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2) # Distanza drone start-end
@@ -242,7 +243,7 @@ if (scenario_Time == False):
     T = increment_flight_time(distance_start_goal, scalare_waypoints)
 
 
-print(T)
+
 
 #----------------------------------------------------------------------------------------------------------------------------------#
 def quad_sim(x_c, y_c, z_c):
@@ -300,6 +301,7 @@ def quad_sim(x_c, y_c, z_c):
     salvo_acc_x = 0
     salvo_acc_y = 0
     salvo_acc_z = 0
+    distanceAB_2D = 1
     while True:
 
         while t <= T:
@@ -333,6 +335,9 @@ def quad_sim(x_c, y_c, z_c):
             distanceAB_2D = distance_AB_2D(PosizioneAttuale,next_goal)
             dist_percorsa2D  = distance_AB_2D(start,PosizioneAttuale)
             dist_percorsa3D = distance(start, PosizioneAttuale, dimension3D) #Distanza percorsa
+
+            vector_AB = [(next_goal[0] - start[0]), (next_goal[1] - start[1])]
+            scalare_waypoints = math.sqrt((vector_AB[0]) ** 2 + (vector_AB[1]) ** 2)
 
             acc_des_xyz = math.sqrt(des_x_acc ** 2 + des_y_acc ** 2 + des_z_acc ** 2)
             #print("Accelerazione desiderata: ", acc_des_xyz)
@@ -693,13 +698,24 @@ def quad_sim(x_c, y_c, z_c):
 
         print("[WAYPOINT TIME LIMIT REACHED]")
         if(distanceAB_2D != 0 ):
-            print("[GOAL MISSED:","{:.2f}".format(distanceAB_2D), "m missing]")
+            print("[GOAL MISSED:","{:.2f}".format(distanceAB_2D), "m missing]", "Time:", T)
         t = 0
         d = 0
+        distanceAB_2D = 1
         Salvo_prop_acc = True
+        salvo_acc_x = 0
+        salvo_acc_y = 0
         SALVO_DISTANZA_FATTA = 0
         SALVO_TEMPO = 0
         t_dec = 0
+        x_acc = 0
+        y_acc = 0
+        x_vel = 0
+        y_vel = 0
+        vel_ms = 0
+        acc_ms = 0
+        Kacc = 0
+        print(T)
         '''if (ciao == True):
             t = 0
             ciao = False'''
