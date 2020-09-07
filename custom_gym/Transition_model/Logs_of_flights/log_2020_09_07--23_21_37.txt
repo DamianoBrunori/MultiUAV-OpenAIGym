@@ -1,0 +1,234 @@
+
+
+___________________________________________ENVIRONMENT AND DRONE INFO: ___________________________________________
+
+WP3 SCENARIO: 6
+DRONE ID: 1.0
+VOL: Zu
+AIR RISK: UC
+GROUND RISK: Intermediate
+OP TYPE: BVLOS
+TYPE OF DRONE: Multirotor
+DIMENSION: 1.7 m
+MASS: 9.0 Kg
+CRUISE SPEED: 18.0 m/s
+VDR: 3.0 m/s
+VRC: 4.0 m/s
+Stationary Max: 15.0 min
+MAX WIND: 8.0 m/s
+PAYLOAD RISK: HighRisk
+T. TYPE: LinealFreeFlight
+FLIGHT MODE: Auto
+MONITORING: YES
+TRACKING SERVICE: YES
+TACTICAL SEPARATION: YES
+DISTANCE TO REACH THE GOAL: 1.0 m
+TIME TO REACH THE GOAL: 0.05555555555555555 s
+START COORDINATES: X:400 Y:351 Z:5
+DESTINATION COORDINATES(1): X:400 Y:350 Z:20000
+DESTINATION COORDINATES(2): X:-900 Y:150 Z:5
+__________________________________________________________________________________________________________________
+
+
+
+
+##################################################
+User: ASUS
+OS: win32
+Date: 2020-09-07 23:21:37.798
+##################################################
+
+
+
+Waypoints:  [array([400, 351,   5]), [400, 350, 20000], array([400, 351,   5]), [400, 350, 20000]]
+
+POSIZIONE: 400.00 351.00 5.00
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+0.0 1.0 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1.0 Time: 40 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.00 
+Z_acc: 0.00
+X_dess: [0.] 
+Y_dess: [0.]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1.0
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  0.10 s
+
+POSIZIONE: 400.00 351.00 5.00
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+0.0 1.0 weeeeeeeeeeeeeeeeeeeeeeeee
+sono quiiiii
+X Goal - La X non cambia (pos)
+Y Goal - La Y non cambia (pos)
+-----------------------WAYPOINT OK!-----------------------
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1.0 Time: 40 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.00 
+Z_acc: 1477977094.93
+X_dess: [0.] 
+Y_dess: [-72783.36]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1.0
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  40.10 s
+[WAYPOINT TIME LIMIT REACHED]
+[GOAL MISSED: 1.00 m missing] Time: 40
+
+POSIZIONE: 400.00 351.00 14779775.95
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+0.0 0.0 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 1.0
+scalare_waypoints 1.0 Time: 40 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 147797709.49 
+Z_acc: -162557485.44
+X_dess: [0.] 
+Y_dess: [0.]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 0.0
+dist_percorsa2D: 1.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  0.10 s
+
+POSIZIONE: 400.00 351.00 27933972.04
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+0.0 0.0 weeeeeeeeeeeeeeeeeeeeeeeee
+sono quiiiii
+X Goal - La X non cambia (pos)
+Y Goal - La Y non cambia (pos)
+-----------------------WAYPOINT OK!-----------------------
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 1.0
+scalare_waypoints 1.0 Time: 40 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 131541960.95 
+Z_acc: -1637433027.92
+X_dess: [0.] 
+Y_dess: [72783.36]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 0.0
+dist_percorsa2D: 1.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  40.10 s
+[WAYPOINT TIME LIMIT REACHED]
+
+POSIZIONE: 400.00 351.00 24713837.86
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+0.0 1.0 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1.0 Time: 40 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -32201341.84 
+Z_acc: 7487508.98
+X_dess: [0.] 
+Y_dess: [0.]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1.0
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  0.10 s
+
+POSIZIONE: 400.00 351.00 21568578.77
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+0.0 1.0 weeeeeeeeeeeeeeeeeeeeeeeee
+sono quiiiii
+X Goal - La X non cambia (pos)
+Y Goal - La Y non cambia (pos)
+-----------------------WAYPOINT OK!-----------------------
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1.0 Time: 40 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -31452590.95 
+Z_acc: 1487861112.11
+X_dess: [0.] 
+Y_dess: [-72783.36]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1.0
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  40.10 s
+[WAYPOINT TIME LIMIT REACHED]
+[GOAL MISSED: 1.00 m missing] Time: 40
+
+POSIZIONE: 400.00 351.00 33301930.79
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+0.0 0.0 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 1.0
+scalare_waypoints 1.0 Time: 40 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 117333520.27 
+Z_acc: -150615451.06
+X_dess: [0.] 
+Y_dess: [0.]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 0.0
+dist_percorsa2D: 1.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  0.10 s
+
+POSIZIONE: 400.00 351.00 43529128.31
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+0.0 0.0 weeeeeeeeeeeeeeeeeeeeeeeee
+sono quiiiii
+X Goal - La X non cambia (pos)
+Y Goal - La Y non cambia (pos)
+-----------------------WAYPOINT OK!-----------------------
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 1.0
+scalare_waypoints 1.0 Time: 40 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 102271975.16 
+Z_acc: -1623758198.40
+X_dess: [0.] 
+Y_dess: [72783.36]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 0.0
+dist_percorsa2D: 1.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  40.10 s
+[WAYPOINT TIME LIMIT REACHED]
+Done

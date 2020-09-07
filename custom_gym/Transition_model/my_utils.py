@@ -75,7 +75,8 @@ if distance_space_m == 0:  #Se nel file configs.ini non è impostata una distanz
 #Scenario Time or distance
 T = distance_space_m/(cruise_speed_ms)            #Time (seconds for waypoint - waypoint movement)
 # T = 180.55
-scenario_Time = False
+scenario_Time = True
+
 #------------------------------------------PLOT-RANGE-------------------------------------------
 if start_xyz[0] > dest_xyz[0]:
     PLOTRANGE_X_POS = start_xyz[0]
@@ -109,12 +110,12 @@ if start_xyz[2] == dest_xyz[2]:
     PLOTRANGE_Z_POS = start_xyz[2]+4
     PLOTRANGE_Z_NEG = dest_xyz[2]-4
 
-'''PLOTRANGE_X_POS = 20
+'''PLOTRANGE_X_POS = 400
 PLOTRANGE_X_NEG = 0 
-PLOTRANGE_Y_POS = 20
+PLOTRANGE_Y_POS = 400
 PLOTRANGE_Y_NEG = 0
-PLOTRANGE_Z_POS = 5
-PLOTRANGE_Z_NEG = 5'''
+PLOTRANGE_Z_POS = 2000
+PLOTRANGE_Z_NEG = 50'''
 #---------------------------------------------------------------------------------------------------
 ##############################################Time-Acc##############################################
 s_km05 = 25.21

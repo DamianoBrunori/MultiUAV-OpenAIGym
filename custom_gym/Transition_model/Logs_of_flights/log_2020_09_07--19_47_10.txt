@@ -1,0 +1,45 @@
+
+
+___________________________________________ENVIRONMENT AND DRONE INFO: ___________________________________________
+
+WP3 SCENARIO: 6
+DRONE ID: 1.0
+VOL: Zu
+AIR RISK: UC
+GROUND RISK: Intermediate
+OP TYPE: BVLOS
+TYPE OF DRONE: Multirotor
+DIMENSION: 1.7 m
+MASS: 9.0 Kg
+CRUISE SPEED: 18.0 m/s
+VDR: 3.0 m/s
+VRC: 4.0 m/s
+Stationary Max: 15.0 min
+MAX WIND: 8.0 m/s
+PAYLOAD RISK: HighRisk
+T. TYPE: LinealFreeFlight
+FLIGHT MODE: Auto
+MONITORING: YES
+TRACKING SERVICE: YES
+TACTICAL SEPARATION: YES
+DISTANCE TO REACH THE GOAL: 813.9410298049853 m
+TIME TO REACH THE GOAL: 45.21894610027696 s
+START COORDINATES: X:400 Y:350 Z:5
+DESTINATION COORDINATES(1): X:-200 Y:-200 Z:5
+DESTINATION COORDINATES(2): X:-900 Y:150 Z:5
+__________________________________________________________________________________________________________________
+
+
+
+
+##################################################
+User: ASUS
+OS: win32
+Date: 2020-09-07 19:47:10.889
+##################################################
+
+
+
+Waypoints:  [array([400, 350,   5]), [-200, -200, 5], array([400, 350,   5]), [-200, -200, 5]]
+
+POSIZIONE: 400.00 350.00 5.00
