@@ -160,6 +160,7 @@ acc_max = 3
 
 waypoints = [start_pos, waypoint1, start_pos, waypoint1]
 
+
 ##################################Senza-file-configs################################
 #waypoint1 = [1100, 0, 5]
 #start_x = 0
@@ -175,72 +176,73 @@ incrementoT = 0
 distance_start_goal = math.sqrt((waypoint1[0] - start_pos[0]) ** 2 + (waypoint1[1] - start_pos[1]) ** 2) # Distanza drone goal
 
 
-scalare_waypoints = math.sqrt((waypoints[1][0] ) ** 2 + (waypoints[1][1]) ** 2)
+waypoints_distances = [] 
+for i,d in enumerate(waypoints):
+    if(i+1 < len(waypoints)):
+        start =  waypoints[i]
+        next_goal = waypoints[i+1]
+        vector_AB = [(next_goal[0] - start[0]), (next_goal[1] - start[1])]
+        scalare_waypoints = math.sqrt((vector_AB[0]) ** 2 + (vector_AB[1]) ** 2)
+        waypoints_distances.append( scalare_waypoints ) 
+
+# scalare_waypoints = math.sqrt((waypoints[1][0] ) ** 2 + (waypoints[1][1]) ** 2)
 
 def distance_AB_2D(start,end):
     return math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2) # Distanza drone start-end
 
 
-def increment_flight_time(start_point,end_point):
-    if (1) <= end_point < km1 / 2:
-        T = 10.39
-        diff_metri = start_point - 1
-        incrementoT = diff_metri * (s_km05 / 500)  # su 500m
-    elif (km1 / 2) <= end_point < km1:
-        T = 35.6
-        diff_metri = start_point - km1 / 2
-        incrementoT = diff_metri * (s_km1 / 500)  # su 500m
-    elif (km1 <= end_point < km2):
-        T = 48
-        diff_metri = start_point - km1
-        incrementoT = diff_metri*(s_km2_1000m/1000)   #su 1000m 9s/1000=0.009s al metro -> aggiungo 0.9s ogni 100 metri
-    elif (km2 <= end_point < km3):
-        T = 63.2
-        diff_metri = start_point - km2
-        incrementoT = diff_metri*(s_km3_1000m/1000)   #su 1000m
-    elif (km3 <= end_point < km4):
-        T = 73.8
-        diff_metri = start_point - km3
-        incrementoT = diff_metri*(s_km4_1000m/1000)   #su 1000m
-    elif (km4 <= end_point < km5):
-        T = 82
-        diff_metri = start_point - km4
-        incrementoT = diff_metri * (s_km5_1000m / 1000)  # su 1000m
-    elif (km5 <= end_point < km6):
-        T = 89
-        diff_metri = start_point - km5
-        incrementoT = diff_metri * (s_km5_1000m / 1000)  # su 1000m
-    elif (km6 <= end_point < km7):
-        T = 95
-        diff_metri = start_point - km6
-        incrementoT = diff_metri * (s_km6_1000m / 1000)  # su 1000m
-    elif (km7 <= end_point < km10):
-        T = 101
-        diff_metri = start_point - km7
-        incrementoT = diff_metri * (s_km789_10_1000m / 4000)  # su 4000m
-    elif (km10 <= end_point < km20):
-        T = 114.5
-        diff_metri = start_point - km10
-        incrementoT = diff_metri * (s_km20_1000m / 10000)  # su 10000m
-    elif (km20 <= end_point < km30):
-        T = 146
-        diff_metri = start_point - km20
-        incrementoT = diff_metri * (s_km30_1000m / 10000)  # su 10000m
-    elif (km30 <= end_point < km40):
-        T = 169
-        diff_metri = start_point - km30
-        incrementoT = diff_metri * (s_km40_1000m / 10000)  # su 10000m
-    elif (km40 <= end_point < km47):
-        T = 186
-        diff_metri = start_point - km40
-        incrementoT = diff_metri * (s_km47_1000m / 7000)  # su 7000m
-    T = T + incrementoT
+def increment_flight_time(distance_start_goal):
+    if (1) <= distance_start_goal < km1 / 2:
+        diff_metri = distance_start_goal - 1
+        newT =  10.39 + diff_metri * (s_km05 / 500)  # su 500m
+    elif (km1 / 2) <= distance_start_goal < km1:
+        diff_metri = distance_start_goal - km1 / 2
+        newT = 35.6 +  diff_metri * (s_km1 / 500)  # su 500m
+    elif (km1 <= distance_start_goal < km2):
+        diff_metri = distance_start_goal - km1
+        newT = 48 +  diff_metri*(s_km2_1000m/1000)   #su 1000m 9s/1000=0.009s al metro -> aggiungo 0.9s ogni 100 metri
+    elif (km2 <= distance_start_goal < km3):
+        
+        diff_metri = distance_start_goal - km2
+        newT = 63.2 + diff_metri*(s_km3_1000m/1000)   #su 1000m
+    elif (km3 <= distance_start_goal < km4):
+        diff_metri = distance_start_goal - km3
+        newT = 73.8 +  diff_metri*(s_km4_1000m/1000)   #su 1000m
+    elif (km4 <= distance_start_goal < km5):
+        diff_metri = distance_start_goal - km4
+        newT = 82 + diff_metri * (s_km5_1000m / 1000)  # su 1000m
+    elif (km5 <= distance_start_goal < km6):
+        diff_metri = distance_start_goal - km5
+        newT = 89 + diff_metri * (s_km5_1000m / 1000)  # su 1000m
+    elif (km6 <= distance_start_goal < km7):
+        diff_metri = distance_start_goal - km6
+        newT =  95 + diff_metri * (s_km6_1000m / 1000)  # su 1000m
+    elif (km7 <= distance_start_goal < km10):
+        diff_metri = distance_start_goal - km7
+        newT = 101 + diff_metri * (s_km789_10_1000m / 4000)  # su 4000m
+    elif (km10 <= distance_start_goal < km20):
+        diff_metri = distance_start_goal - km10
+        newT = 114.5 + diff_metri * (s_km20_1000m / 10000)  # su 10000m
+    elif (km20 <= distance_start_goal < km30):
+        diff_metri = distance_start_goal - km20
+        newT = 146 + diff_metri * (s_km30_1000m / 10000)  # su 10000m
+    elif (km30 <= distance_start_goal < km40):
+        diff_metri = distance_start_goal - km30
+        newT = 169 + diff_metri * (s_km40_1000m / 10000)  # su 10000m
+    elif (km40 <= distance_start_goal < km47):
+        diff_metri = distance_start_goal - km40
+        newT = 186 + diff_metri * (s_km47_1000m / 7000)  # su 7000m
     print("T:", T, "T_incremento:", incrementoT)
-    return T
+    return newT
+
+def log_increment_flight_time(distance_start_goal):
+    base = np.exp(1)
+    newT = 29.16970408508340780368896281392843750834285661121 * ( np.log(distance_start_goal)/ np.log(base))  -157.3163018936443230455051661594407845425016854624
+    return newT 
 
 
-if (scenario_Time == False):
-    T = increment_flight_time(distance_start_goal, scalare_waypoints)
+# if (scenario_Time == False):
+#     T = increment_flight_time(distance_start_goal, scalare_waypoints)
 
 
 
@@ -301,8 +303,11 @@ def quad_sim(x_c, y_c, z_c):
     salvo_acc_x = 0
     salvo_acc_y = 0
     salvo_acc_z = 0
-    distanceAB_2D = 1
+
     while True:
+        scalare_waypoints = waypoints_distances[i%len(waypoints)]
+        if (scenario_Time == False):
+            T = log_increment_flight_time(scalare_waypoints)
 
         while t <= T:
             #DIVIDO LA TRAIETTORIA IN PEZZETTI si fissano degli obiettivi molto vicini (interpolazione)
@@ -322,22 +327,20 @@ def quad_sim(x_c, y_c, z_c):
 
 
             PosizioneAttuale = np.array([x_pos, y_pos, z_pos])
-            goal = np.array(waypoints[i+1])
+            goal = np.array(waypoints[(i+1)%len(waypoints)])
             dimension3D=np.array([30000.0,40000.0,50000.0])
             distanceAB_3D = distance(PosizioneAttuale, goal, dimension3D) #Distanza drone goal
             print("POSIZIONE:","{:.2f}".format(x_pos), "{:.2f}".format(y_pos), "{:.2f}".format(z_pos))
 
             # distanceAB_2D = math.sqrt((waypoint1[0] - PosizioneAttuale[0]) ** 2 + (waypoint1[1] - PosizioneAttuale[1]) ** 2) # Distanza drone goal
             start = waypoints[i]
-            next_goal = waypoints[i+1]
+            next_goal = waypoints[(i+1)%len(waypoints)]
 
             # dist_percorsa2D = math.sqrt((start_pos[0] - PosizioneAttuale[0]) ** 2 + (start_pos[1] - PosizioneAttuale[1]) ** 2)
             distanceAB_2D = distance_AB_2D(PosizioneAttuale,next_goal)
             dist_percorsa2D  = distance_AB_2D(start,PosizioneAttuale)
             dist_percorsa3D = distance(start, PosizioneAttuale, dimension3D) #Distanza percorsa
 
-            vector_AB = [(next_goal[0] - start[0]), (next_goal[1] - start[1])]
-            scalare_waypoints = math.sqrt((vector_AB[0]) ** 2 + (vector_AB[1]) ** 2)
 
             acc_des_xyz = math.sqrt(des_x_acc ** 2 + des_y_acc ** 2 + des_z_acc ** 2)
             #print("Accelerazione desiderata: ", acc_des_xyz)
@@ -447,15 +450,15 @@ def quad_sim(x_c, y_c, z_c):
                     y_acc = 0'''
                     t = 0
 
-                if (next_goal[0] < 0):
-                    if (next_goal[0] < x_pos and distanceAB_2D < 1):
+                if (next_goal[0] < 0 ):
+                    if (next_goal[0] < x_pos  and distanceAB_2D < 1):
                         x_acc = 0
                         x_vel = -0.1
                         print("------------------------------    x neg    ------------------------------")
                     if (next_goal[0] >= x_pos):
                         x_acc = 0
                         x_vel = 0
-                if (next_goal[0] > 0):
+                if (next_goal[0] > 0 ):
                     if (next_goal[0] > x_pos and distanceAB_2D < 1):
                         x_acc = 0
                         x_vel = 0.1
@@ -463,7 +466,7 @@ def quad_sim(x_c, y_c, z_c):
                     if (next_goal[0] <= x_pos):
                         x_acc = 0
                         x_vel = 0
-                if (next_goal[1] < 0):
+                if (next_goal[1] < 0 ):
                     if (next_goal[1] < y_pos and distanceAB_2D < 1):
                         y_acc = 0
                         y_vel = -0.1
@@ -471,7 +474,7 @@ def quad_sim(x_c, y_c, z_c):
                     if (next_goal[1] >= y_pos):
                         y_acc = 0
                         y_vel = 0
-                if (next_goal[1] > 0):
+                if (next_goal[1] > 0 ):
                     if (next_goal[1] > y_pos and distanceAB_2D < 1):
                         y_acc = 0
                         y_vel = 0.1
@@ -480,14 +483,15 @@ def quad_sim(x_c, y_c, z_c):
                         y_acc = 0
                         y_vel = 0
                 if (next_goal[0] == 0 and distanceAB_2D < 1):
-                    if (next_goal[0] == x_pos and distanceAB_2D < 1):
+                    if (next_goal[0] == x_pos ):
                         x_acc = 0
                         x_vel = 0
                 if (next_goal[1] == 0 and distanceAB_2D < 1):
-                    if (next_goal[1] == y_pos and distanceAB_2D < 1):
+                    if (next_goal[1] == y_pos ):
                         y_acc = 0
                         y_vel = 0
 
+     
 
                 '''if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] == 0 and SALVO_PROPORZIONE[1] == 0 and t< T-0.2):
                     t = t-0.1
@@ -495,6 +499,7 @@ def quad_sim(x_c, y_c, z_c):
 
 
 
+           
                 '''if(acc_ms > acc_max and Salvo_prop_acc == True): #Salvo istantanea delle proporzioni x_acc, y_acc quando l'accellerazione è magiore di (acc_max)
                     salvo_acc_x = x_acc
                     salvo_acc_y = y_acc
@@ -673,7 +678,7 @@ def quad_sim(x_c, y_c, z_c):
             #print(vel2,"oooooooooooooooooooooo")
 
 
-            UAV.update_pose(x_pos, y_pos, z_pos, roll, pitch, yaw)
+            UAV.update_pose(x_pos, y_pos, z_pos, roll, pitch, yaw,t)
 
             t += dt
             #print("Velocità x,y,z: ", x_vel, y_vel, z_vel, )
@@ -719,7 +724,7 @@ def quad_sim(x_c, y_c, z_c):
         '''if (ciao == True):
             t = 0
             ciao = False'''
-        i = (i + 1) % 4
+        i = (i + 1) % len(waypoints)
         irun += 1
         if irun >= n_run:
             break
@@ -756,7 +761,7 @@ def calculate_velocity(c, t):
     Calculates a velocity given a set of quintic coefficients and a time.
 
     Args
-        c: List of coefficients generated by a quintic polynomial
+        c: List of coefficients generated by a quintic polynomial 
             trajectory generator.
         t: Time at which to calculate the velocity
 
@@ -771,7 +776,7 @@ def calculate_acceleration(c, t):
     Calculates an acceleration given a set of quintic coefficients and a time.
 
     Args
-        c: List of coefficients generated by a quintic polynomial
+        c: List of coefficients generated by a quintic polynomial 
             trajectory generator.
         t: Time at which to calculate the acceleration
 
@@ -801,7 +806,7 @@ def rotation_matrix(roll, pitch, yaw):
 
 
 def main():
-
+    
     sys.stdout = Logger()
     print("\n\n\n"+"".join( ["#"]*50) )
     if sys.platform.startswith('linux'):
@@ -826,8 +831,8 @@ def main():
     #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
     print("Waypoints: ", waypoints)
 
-    for i in range(4):
-        traj = TrajectoryGenerator(waypoints[i], waypoints[(i + 1) % 4], T)
+    for i in range(len(waypoints)):
+        traj = TrajectoryGenerator(waypoints[i], waypoints[(i + 1) % len(waypoints)], T)
         traj.solve()
         x_coeffs[i] = traj.x_c
         y_coeffs[i] = traj.y_c
