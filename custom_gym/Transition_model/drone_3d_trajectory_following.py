@@ -156,7 +156,7 @@ Kd_z = 1
 waypoint1= [dest_xyz[0], dest_xyz[1], dest_xyz[2]]               #con file configs
 start_pos = np.array([start_xyz[0], start_xyz[1], start_xyz[2]]) #con file configs
 waypoint2 = [dest_points[0], dest_points[1], dest_points[2]]
-acc_max = 3
+acc_max = 8
 
 waypoints = [start_pos, waypoint1, start_pos, waypoint1]
 
@@ -171,11 +171,21 @@ waypoints = [start_pos, waypoint1, start_pos, waypoint1]
 #------------------------------------------------------Gestione-del-Tempo----------------------------------------------------------#
 diff_metri = 0
 incrementoT = 0
+dist_X = 0
+dist_Y = 0
 
 distance_start_goal = math.sqrt((waypoint1[0] - start_pos[0]) ** 2 + (waypoint1[1] - start_pos[1]) ** 2) # Distanza drone goal
 
 
-scalare_waypoints = math.sqrt((waypoints[1][0] ) ** 2 + (waypoints[1][1]) ** 2)
+waypoints_distances = []
+for i,d in enumerate(waypoints):
+    if(i+1 < len(waypoints)):
+        start =  waypoints[i]
+        next_goal = waypoints[i+1]
+        vector_AB = [(next_goal[0] - start[0]), (next_goal[1] - start[1])]
+        scalare_waypoints = math.sqrt((vector_AB[0]) ** 2 + (vector_AB[1]) ** 2)
+        waypoints_distances.append( scalare_waypoints )
+
 
 def distance_AB_2D(start,end):
     return math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2) # Distanza drone start-end
@@ -240,12 +250,22 @@ def increment_flight_time(start_point,end_point):
 
 
 if (scenario_Time == False):
-    T = increment_flight_time(distance_start_goal, scalare_waypoints)
+    T = increment_flight_time(distance_start_goal, distance_start_goal)
 
 
+def log_increment_flight_time(distance_start_goal):
+    if (1) <= distance_start_goal < km5:
+        base = np.exp(1)
+        newT = 21.65086911983629869001587421144650186297615617317 * ( np.log(distance_start_goal)/ np.log(base))  -98.7986139213391479185918786323963054431615284914
+    if (km5) <= distance_start_goal <= km47:
+        base = np.exp(1)
+        newT = 36.9049981864011388148661610037825717192189464735 * ( np.log(distance_start_goal) / np.log(base)) -225.835957762306149632444146953926939779733883128
+    if (km10 < distance_start_goal <= km47):
+        base = np.exp(1)
+        newT = 52.324187701154014783647141869836634332163540509 * ( np.log(distance_start_goal) / np.log(base)) -369.27638568056304219357324427391247933012841306
+    return newT
 
-
-#----------------------------------------------------------------------------------------------------------------------------------#
+#-----------------------------------------------------------------------------------------------------------------------#
 def quad_sim(x_c, y_c, z_c):
 
     """
@@ -290,6 +310,9 @@ def quad_sim(x_c, y_c, z_c):
     #Salvo_prop_dec = False
     ciao = False
 
+    X_limit = False
+    Y_limit = False
+
     i = 0
     n_run = 4 #Numero di Round (quanti waypoints vuoi vedere)
     irun = 0
@@ -303,8 +326,11 @@ def quad_sim(x_c, y_c, z_c):
     salvo_acc_z = 0
     distanceAB_2D = 1
     while True:
-
+        scalare_waypoints = waypoints_distances[i%len(waypoints)]
+        if (scenario_Time == False):
+            T = log_increment_flight_time(distance_start_goal)
         while t <= T:
+            print()
             #DIVIDO LA TRAIETTORIA IN PEZZETTI si fissano degli obiettivi molto vicini (interpolazione)
             # des_x_pos = calculate_position(x_c[i], t)
             # des_y_pos = calculate_position(y_c[i], t)
@@ -322,22 +348,23 @@ def quad_sim(x_c, y_c, z_c):
 
 
             PosizioneAttuale = np.array([x_pos, y_pos, z_pos])
-            goal = np.array(waypoints[i+1])
+            goal = np.array(waypoints[(i+1)%len(waypoints)])
             dimension3D=np.array([30000.0,40000.0,50000.0])
             distanceAB_3D = distance(PosizioneAttuale, goal, dimension3D) #Distanza drone goal
             print("POSIZIONE:","{:.2f}".format(x_pos), "{:.2f}".format(y_pos), "{:.2f}".format(z_pos))
 
             # distanceAB_2D = math.sqrt((waypoint1[0] - PosizioneAttuale[0]) ** 2 + (waypoint1[1] - PosizioneAttuale[1]) ** 2) # Distanza drone goal
             start = waypoints[i]
-            next_goal = waypoints[i+1]
+            next_goal = waypoints[(i+1)%len(waypoints)]
 
-            # dist_percorsa2D = math.sqrt((start_pos[0] - PosizioneAttuale[0]) ** 2 + (start_pos[1] - PosizioneAttuale[1]) ** 2)
+            dist_X = math.sqrt((next_goal[0] - PosizioneAttuale[0]) ** 2)
+            dist_Y = math.sqrt((next_goal[1] - PosizioneAttuale[1]) ** 2)
             distanceAB_2D = distance_AB_2D(PosizioneAttuale,next_goal)
             dist_percorsa2D  = distance_AB_2D(start,PosizioneAttuale)
             dist_percorsa3D = distance(start, PosizioneAttuale, dimension3D) #Distanza percorsa
 
-            vector_AB = [(next_goal[0] - start[0]), (next_goal[1] - start[1])]
-            scalare_waypoints = math.sqrt((vector_AB[0]) ** 2 + (vector_AB[1]) ** 2)
+            '''vector_AB = [(next_goal[0] - start[0]), (next_goal[1] - start[1])]
+            scalare_waypoints = math.sqrt((vector_AB[0]) ** 2 + (vector_AB[1]) ** 2)'''
 
             acc_des_xyz = math.sqrt(des_x_acc ** 2 + des_y_acc ** 2 + des_z_acc ** 2)
             #print("Accelerazione desiderata: ", acc_des_xyz)
@@ -377,6 +404,7 @@ def quad_sim(x_c, y_c, z_c):
 
             print("x:vel", "{:.2f}".format(x_vel),"(m/s)")
             print("y:vel", "{:.2f}".format(y_vel),"(m/s)")
+            print(dist_X, dist_Y,"weeeeeeeeeeeeeeeeeeeeeeeee")
             #print("Acc[0]", "{:.2f}".format(acc[0]),"(m/s^2")
             #print("des_y_acc", "{:.2f}
             # ------------------------------------------------------------------------------------------------------------------#
@@ -439,60 +467,71 @@ def quad_sim(x_c, y_c, z_c):
                     x_acc = 0
                     y_acc = 0
                     print("auuuuaiassjcdsjcindvdsvsdvdsvdsvdsvdsvdsvdsvdsvdds")
-                    '''vel_max = 1
+                    vel_max = 1
                     Kvel = vel_max / math.sqrt(x_vel**2 + y_vel**2) #Proporzione
                     x_vel = x_vel * Kvel
                     y_vel = y_vel * Kvel
-                    x_acc = 0
-                    y_acc = 0'''
                     t = 0
 
                 if (next_goal[0] < 0):
-                    if (next_goal[0] < x_pos and distanceAB_2D < 1):
+                    if (next_goal[0] < x_pos and dist_X < 1):
                         x_acc = 0
                         x_vel = -0.1
                         print("------------------------------    x neg    ------------------------------")
                     if (next_goal[0] >= x_pos):
                         x_acc = 0
                         x_vel = 0
+                        X_limit = True
+                        print("X Goal - La X non cambia (neg)")
                 if (next_goal[0] > 0):
-                    if (next_goal[0] > x_pos and distanceAB_2D < 1):
+                    if (next_goal[0] > x_pos and dist_X < 1):
                         x_acc = 0
                         x_vel = 0.1
                         print("------------------------------   x (pos)   ------------------------------")
                     if (next_goal[0] <= x_pos):
                         x_acc = 0
                         x_vel = 0
+                        X_limit = True
+                        print("X Goal - La X non cambia (pos)")
                 if (next_goal[1] < 0):
-                    if (next_goal[1] < y_pos and distanceAB_2D < 1):
+                    if (next_goal[1] < y_pos and dist_Y < 1):
                         y_acc = 0
                         y_vel = -0.1
                         print("------------------------------     y neg   ------------------------------")
                     if (next_goal[1] >= y_pos):
                         y_acc = 0
                         y_vel = 0
+                        Y_limit = True
+                        print("Y Goal - La Y non cambia (neg)")
                 if (next_goal[1] > 0):
-                    if (next_goal[1] > y_pos and distanceAB_2D < 1):
+                    if (next_goal[1] > y_pos and dist_Y < 1):
                         y_acc = 0
                         y_vel = 0.1
                         print("------------------------------    y (pos)   ------------------------------")
                     if (next_goal[1] <= y_pos):
                         y_acc = 0
                         y_vel = 0
-                if (next_goal[0] == 0 and distanceAB_2D < 1):
-                    if (next_goal[0] == x_pos and distanceAB_2D < 1):
+                        Y_limit = True
+                        print("Y Goal - La Y non cambia (pos)")
+                if (next_goal[0] == 0 ):
+                    if (next_goal[0] == x_pos and dist_X < 1):
                         x_acc = 0
                         x_vel = 0
-                if (next_goal[1] == 0 and distanceAB_2D < 1):
-                    if (next_goal[1] == y_pos and distanceAB_2D < 1):
+                        X_limit = True
+                        print("X = 0 La X non cambia")
+                if (next_goal[1] == 0 ):
+                    if (next_goal[1] == y_pos and dist_Y < 1):
                         y_acc = 0
                         y_vel = 0
-
+                        Y_limit = True
+                        print("Y = 0 La X non cambia")
+                if (X_limit == True and Y_limit == True):
+                    t = T
+                    print("-----------------------WAYPOINT OK!-----------------------")
 
                 '''if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] == 0 and SALVO_PROPORZIONE[1] == 0 and t< T-0.2):
                     t = t-0.1
                     print("salvoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")'''
-
 
 
                 '''if(acc_ms > acc_max and Salvo_prop_acc == True): #Salvo istantanea delle proporzioni x_acc, y_acc quando l'accellerazione è magiore di (acc_max)
@@ -515,13 +554,7 @@ def quad_sim(x_c, y_c, z_c):
                     z_acc = 0
 
 
-                if (distanceAB_2D < 0.1):
-                    ok = True
-                    x_acc = 0
-                    y_acc = 0
-                    x_vel = 0
-                    y_vel = 0
-                    t = T
+
 
 
             if (scenario_Time == True):
@@ -701,7 +734,7 @@ def quad_sim(x_c, y_c, z_c):
             print("[GOAL MISSED:","{:.2f}".format(distanceAB_2D), "m missing]", "Time:", T)
         t = 0
         d = 0
-        distanceAB_2D = 1
+        ok = False
         Salvo_prop_acc = True
         salvo_acc_x = 0
         salvo_acc_y = 0
@@ -712,14 +745,8 @@ def quad_sim(x_c, y_c, z_c):
         y_acc = 0
         x_vel = 0
         y_vel = 0
-        vel_ms = 0
-        acc_ms = 0
-        Kacc = 0
-        print(T)
-        '''if (ciao == True):
-            t = 0
-            ciao = False'''
-        i = (i + 1) % 4
+
+        i = (i + 1) % len(waypoints)
         irun += 1
         if irun >= n_run:
             break
@@ -826,8 +853,8 @@ def main():
     #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
     print("Waypoints: ", waypoints)
 
-    for i in range(4):
-        traj = TrajectoryGenerator(waypoints[i], waypoints[(i + 1) % 4], T)
+    for i in range(len(waypoints)):
+        traj = TrajectoryGenerator(waypoints[i], waypoints[(i + 1) % len(waypoints)], T)
         traj.solve()
         x_coeffs[i] = traj.x_c
         y_coeffs[i] = traj.y_c
