@@ -2,7 +2,7 @@ from math import cos, sin
 import numpy as np
 import matplotlib.pyplot as plt
 #sys.path.append(os.path.abspath("../custom_gym"))
-from datetime import datetime
+
 from mpl_toolkits.mplot3d import Axes3D
 
 
@@ -12,8 +12,6 @@ from matplotlib._png import read_png
 import os
 from my_utils import *
 #from pylab import *
-
-IMAGE_FOLDER = "Images_of_flight/"
 
 class Quadrotor():
     def __init__(self, id, x=0, y=0, z=0, roll=0, pitch=0, yaw=0, size=0.25, battery_level=100, show_animation=True):
@@ -38,9 +36,9 @@ class Quadrotor():
 
             self.ax = fig.add_subplot(111, projection='3d')
 
-        self.update_pose(x, y, z, roll, pitch, yaw,0)
+        self.update_pose(x, y, z, roll, pitch, yaw)
 
-    def update_pose(self, x, y, z, roll, pitch, yaw,t):
+    def update_pose(self, x, y, z, roll, pitch, yaw):
         self.x = x
         self.y = y
         self.z = z
@@ -54,7 +52,7 @@ class Quadrotor():
         self.z_data.append(z)
 
         if self.show_animation:
-            self.plot(t)
+            self.plot()
 
     # Matrix to move the cartesian axes
     def transformation_matrix(self):
@@ -74,7 +72,7 @@ class Quadrotor():
              [-sin(pitch), cos(pitch) * sin(roll), cos(pitch) * cos(yaw), z]
              ])
 
-    def plot(self,t):  # pragma: no cover
+    def plot(self):  # pragma: no cover
         T = self.transformation_matrix()
 
         p1_t = np.matmul(T, self.p1)
@@ -110,6 +108,3 @@ class Quadrotor():
         self.ax.set_zlim(PLOTRANGE_Z_NEG, PLOTRANGE_Z_POS)
 
         plt.pause(0.001)
-        if(t % 30==0):
-            now = datetime.now()
-            plt.savefig(IMAGE_FOLDER+'flight'+str(now.hour)+"-"+str(now.minute) +str(now.second)+'.png')
