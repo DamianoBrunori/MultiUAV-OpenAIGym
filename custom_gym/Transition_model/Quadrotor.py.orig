@@ -12,7 +12,6 @@ from matplotlib._png import read_png
 import os
 from my_utils import *
 #from pylab import *
-from matplotlib import animation
 
 class Quadrotor():
     def __init__(self, id, x=0, y=0, z=0, roll=0, pitch=0, yaw=0, size=0.25, battery_level=100, show_animation=True):
@@ -109,3 +108,9 @@ class Quadrotor():
         self.ax.set_zlim(PLOTRANGE_Z_NEG, PLOTRANGE_Z_POS)
 
         plt.pause(0.001)
+<<<<<<< Updated upstream
+=======
+        if(t % 30==0):
+            now = datetime.now()
+            plt.savefig(IMAGE_FOLDER+'flight'+str(now.hour)+"-"+str(now.minute) +"-"+str(now.second)+'.png')
+>>>>>>> Stashed changes
