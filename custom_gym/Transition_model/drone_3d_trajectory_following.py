@@ -169,6 +169,7 @@ acc_max = 8
 waypoints = [start_pos, salita, waypoint_dest, discesa]
 
 num_waypoints = len(waypoints)
+
 ##################################Senza-file-configs################################
 #waypoint1 = [1100, 0, 5]
 #start_x = 0
@@ -185,8 +186,6 @@ dist_Y = 0
 dist_Z = 0
 
 
-distance_start_goal = math.sqrt((waypoint_dest[0] - start_pos[0]) ** 2 + (waypoint_dest[1] - start_pos[1]) ** 2) # Distanza drone goal
-
 
 waypoints_distances = []
 for i,d in enumerate(waypoints):
@@ -195,7 +194,7 @@ for i,d in enumerate(waypoints):
 
 
 
-
+'''
 def increment_flight_time(start_point,end_point):
     if (1) <= end_point < km1 / 2:
         T = 10.39
@@ -252,10 +251,7 @@ def increment_flight_time(start_point,end_point):
     T = T + incrementoT
     print("T:", T, "T_incremento:", incrementoT)
     return T
-
-
-'''if (scenario_Time == False and decollo == False):
-    T = increment_flight_time(distance_start_goal, distance_start_goal)'''
+'''
 
 
 def log_increment_flight_time(scalare_waypoints):
@@ -331,21 +327,15 @@ def quad_sim(x_c, y_c, z_c):
     salvo_acc_z = 0
 
     decollo = True
+
+    print("[waypoints_distances]",waypoints_distances)
+        
     while True:
 
         scalare_waypoints = waypoints_distances[i % len(waypoints_distances)]
         
         T = log_increment_flight_time(scalare_waypoints)
         
-        print(scalare_waypoints)
-        print(distance_start_goal)
-        print(waypoints_distances, "waypoints_distances")
-        '''if (scenario_Time == False and decollo == False):
-            #T = increment_flight_time(distance_start_goal, distance_start_goal)
-            
-            print(next_goal, "next goal")'''
-
-
         while t <= T:
             print()
             #DIVIDO LA TRAIETTORIA IN PEZZETTI si fissano degli obiettivi molto vicini (interpolazione)
@@ -368,7 +358,7 @@ def quad_sim(x_c, y_c, z_c):
             goal = np.array(waypoints[(i+1)%num_waypoints])
             dimension3D=np.array([30000.0,40000.0,50000.0])
             distanceAB_3D = distance(PosizioneAttuale, goal, dimension3D) #Distanza drone goal
-            print("POSIZIONE:","{:.2f}".format(x_pos), "{:.2f}".format(y_pos), "{:.2f}".format(z_pos))
+            print("POSITION (x,y,z)(m):","{:.2f}".format(x_pos), "{:.2f}".format(y_pos), "{:.2f}".format(z_pos))
 
             # distanceAB_2D = math.sqrt((waypoint1[0] - PosizioneAttuale[0]) ** 2 + (waypoint1[1] - PosizioneAttuale[1]) ** 2) # Distanza drone goal
             start = waypoints[i]
@@ -381,8 +371,6 @@ def quad_sim(x_c, y_c, z_c):
             dist_percorsa2D  = distance_AB_2D(start,PosizioneAttuale)
             dist_percorsa3D = distance(start, PosizioneAttuale, dimension3D) #Distanza percorsa
 
-            '''vector_AB = [(next_goal[0] - start[0]), (next_goal[1] - start[1])]
-            scalare_waypoints = math.sqrt((vector_AB[0]) ** 2 + (vector_AB[1]) ** 2)'''
 
             acc_des_xyz = math.sqrt(des_x_acc ** 2 + des_y_acc ** 2 + des_z_acc ** 2)
             #print("Accelerazione desiderata: ", acc_des_xyz)
@@ -420,179 +408,123 @@ def quad_sim(x_c, y_c, z_c):
                 [0, 0, thrust.item()]).T) - np.array([0, 0, m * g]).T) / m
             #CON LA NUOVA ORIENTAZIONE R E LA TRUST, IN BASE A COME TI SEI ORIENTATO SPINGI(TRUST) E ARRIVI
 
-            print("Dist (x,y,z):","{:.2f}".format(dist_X), "{:.2f}".format(dist_Y), "{:.2f}".format(dist_Z) )
-            #print("Acc[0]", "{:.2f}".format(acc[0]),"(m/s^2")
-            #print("des_y_acc", "{:.2f}
-            # ------------------------------------------------------------------------------------------------------------------#
-            '''if (scenario_Time == False):
-                if (vel_ms > cruise_speed_ms and distanceAB_2D > SALVO_DISTANZA_FATTA):
-                    if (ok == True):
-                        SALVO_TEMPO = t - 0.1
-                        SALVO_DISTANZA_FATTA = dist_percorsa2D                   #Salvo distanza percorsa (in quel momento)
-                        if (SALVO_TEMPO > 0 and SALVO_DISTANZA_FATTA > 0):
-                            t_dec = T - SALVO_TEMPO                              #Salvo t_dec (tempo di decellerazione) T - (Tempo impiegato a raggiungere la velocità di crociera)
-                            SALVO_PROPORZIONE = [x_vel / vel_ms, y_vel / vel_ms] #SALVO_PROPORZIONE (delle velocità sugli assi in quel momento)
-                            ok = False                                           #Non aggiorno più queste variabili
-                    t = -0.1  # non c'è accellerazione
-                    x_acc = 0
-                    y_acc = 0
 
-                else:
-                    x_acc = acc[0]
-                    y_acc = acc[1]
+
+            
+            if(decollo):
                 z_acc = acc[2]
-                    #SALVO_PROPORZIONE = [x_vel / 2, y_vel / 2]
-
-                if (distanceAB_2D < SALVO_DISTANZA_FATTA):
-                    if (t < 1):
-                        t = t_dec                                                                       #Imposto il tempo uguale a t_dec (inizia la fase di decellerazione)
-
-                if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] != 0 and SALVO_PROPORZIONE[1] != 0):    #Se la diztanza dal goal e minore di 6 e le proporzioni sono 0 (quindi non si è raggiunta una velocità max)
-                    if (x_vel > 0.2 or fase_dec_x == True):
-                        x_acc = 0
-                        x_vel = SALVO_PROPORZIONE[0]
-                        fase_dec_x = True
-                    if (y_vel > 0.2 or fase_dec_y == True):
-                        y_acc = 0
-                        y_vel = SALVO_PROPORZIONE[1]
-                        fase_dec_y = True
-                    t = t - 0.1'''
-
-
-            if (scenario_Time == False and decollo == False):
-                if (vel_ms >= cruise_speed_ms and distanceAB_2D > SALVO_DISTANZA_FATTA ):
-                    if (ok == True):
-                        SALVO_TEMPO = t - 0.1
-                        SALVO_DISTANZA_FATTA = dist_percorsa2D  #Salvo distanza percorsa (in quel momento)
-                        if (SALVO_TEMPO > 0 and SALVO_DISTANZA_FATTA > 0):
-                            t_dec = T - SALVO_TEMPO  # Salvo t_dec (tempo di decellerazione) T - (Tempo impiegato a raggiungere la velocità di crociera)
-                            ok = False
-                    x_acc = 0
-                    y_acc = 0
-                    t = -0.1
-                else:
-                    x_acc = acc[0]
-                    y_acc = acc[1]
-                z_acc = acc[2]
-
-                if (distanceAB_2D < SALVO_DISTANZA_FATTA):
-                    if (t < 1):
-                        t = t_dec
-
-                if (1<= distanceAB_2D <= 4 and t_dec != 0):  # Se la diztanza dal goal e minore di 4 e t_dec diverso da 0 (quindi non si è raggiunta una velocità max se t_dec = 0)
-                    x_acc = 0
-                    y_acc = 0
-                    print("auuuuaiassjcdsjcindvdsvsdvdsvdsvdsvdsvdsvdsvdsvdds")
-                    '''vel_max = 1
-                    Kvel = vel_max / math.sqrt(x_vel**2 + y_vel**2) #Proporzione
-                    x_vel = x_vel * Kvel
-                    y_vel = y_vel * Kvel'''
-                    t = 0
-
-                if (next_goal[0] < 0):
-                    if (next_goal[0] < x_pos and dist_X < 1):
-                        x_acc = 0
-                        x_vel = -0.1
-                        print("------------------------------    x neg    ------------------------------")
-                    if (next_goal[0] >= x_pos):
-                        x_acc = 0
-                        x_vel = 0
-                        X_limit = True
-                        print("X Goal - La X non cambia (neg)")
-                if (next_goal[0] > 0):
-                    if (next_goal[0] > x_pos and dist_X < 1):
-                        x_acc = 0
-                        x_vel = 0.1
-                        print("------------------------------   x (pos)   ------------------------------")
-                    if (next_goal[0] <= x_pos):
-                        x_acc = 0
-                        x_vel = 0
-                        X_limit = True
-                        print("X Goal - La X non cambia (pos)")
-                if (next_goal[1] < 0):
-                    if (next_goal[1] < y_pos and dist_Y < 1):
-                        y_acc = 0
-                        y_vel = -0.1
-                        print("------------------------------     y neg   ------------------------------")
-                    if (next_goal[1] >= y_pos):
-                        y_acc = 0
-                        y_vel = 0
-                        Y_limit = True
-                        print("Y Goal - La Y non cambia (neg)")
-                if (next_goal[1] > 0):
-                    if (next_goal[1] > y_pos and dist_Y < 1):
-                        y_acc = 0
-                        y_vel = 0.1
-                        print("------------------------------    y (pos)   ------------------------------")
-                    if (next_goal[1] <= y_pos):
-                        y_acc = 0
-                        y_vel = 0
-                        Y_limit = True
-                        print("Y Goal - La Y non cambia (pos)")
-                if (next_goal[0] == 0 ):
-                    if (next_goal[0] == x_pos and dist_X < 1):
-                        x_acc = 0
-                        x_vel = 0
-                        X_limit = True
-                        print("X = 0 La X non cambia")
-                if (next_goal[1] == 0 ):
-                    if (next_goal[1] == y_pos and dist_Y < 1):
-                        y_acc = 0
-                        y_vel = 0
-                        Y_limit = True
-                        print("Y = 0 La X non cambia")
-                if (X_limit == True and Y_limit == True):
+                y_acc = 0
+                x_acc = 0
+                if (dist_Z < 1):
+                    decollo = False
                     t = T
-                    print("-----------------------WAYPOINT OK!-----------------------")
-
-                '''if (distanceAB_2D <= 6 and SALVO_PROPORZIONE[0] == 0 and SALVO_PROPORZIONE[1] == 0 and t< T-0.2):
-                    t = t-0.1
-                    print("salvoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo")'''
-
-
-                '''if(acc_ms > acc_max and Salvo_prop_acc == True): #Salvo istantanea delle proporzioni x_acc, y_acc quando l'accellerazione è magiore di (acc_max)
-                    salvo_acc_x = x_acc
-                    salvo_acc_y = y_acc
-                    Salvo_prop_acc = False'''
-
-                if (acc_ms > acc_max and Salvo_prop_acc == True): #Mantengo l'acc sotto i 3 m/s facendo una proporzione tra x_acc e y_acc
-                    Kacc = acc_max / math.sqrt(x_acc ** 2 + y_acc ** 2) #forse math.sqrt(x_acc ** 2 + y_acc ** 2)
-                    salvo_acc_x = x_acc * Kacc #PUO'CREARE PROBLEMI PER FAR RITORNARE IL DRONE AL PUNTO DI PARTENZA
-                    salvo_acc_y = y_acc * Kacc
-                    Salvo_prop_acc = False
-
-
-                if (Salvo_prop_acc == False and vel_ms < cruise_speed_ms and (distanceAB_2D > dist_percorsa2D)):
-                    x_acc = salvo_acc_x
-                    y_acc = salvo_acc_y
-                if (z_pos == altitude): #Mantengo il drone su una z fissa (QUI VA GENERALIZZATO)
-                    z_vel = 0
+            else:
+                if (scenario_Time ):
+                    x_acc = acc[0]
+                    y_acc = acc[1]
+                    #z_acc = acc[2]
                     z_acc = 0
 
 
+                    if (vel_ms < 1 and dist_percorsa2D > distanceAB_2D ):
+                        x_acc = 0
+                        y_acc = 0
+                        t = t - 0.1
+                        d = d + 0.1
+                    if (distanceAB_2D < 20):
+                        print("sono quiiiii")
+                        if (next_goal[0] < 0):
+                            if (next_goal[0] < x_pos and dist_X < 1):
+                                x_acc = 0
+                                x_vel = -0.1
+                                print("------------------------------    x neg    ------------------------------")
+                            if (next_goal[0] >= x_pos):
+                                x_acc = 0
+                                x_vel = 0
+                                X_limit = True
+                                print("X Goal - La X non cambia (neg)")
+                        if (next_goal[0] > 0):
+                            if (next_goal[0] > x_pos and dist_X < 1):
+                                x_acc = 0
+                                x_vel = 0.1
+                                print("------------------------------   x (pos)   ------------------------------")
+                            if (next_goal[0] <= x_pos):
+                                x_acc = 0
+                                x_vel = 0
+                                X_limit = True
+                                print("X Goal - La X non cambia (pos)")
+                        if (next_goal[1] < 0):
+                            if (next_goal[1] < y_pos and dist_Y < 1):
+                                y_acc = 0
+                                y_vel = -0.1
+                                print("------------------------------     y neg   ------------------------------")
+                            if (next_goal[1] >= y_pos):
+                                y_acc = 0
+                                y_vel = 0
+                                Y_limit = True
+                                print("Y Goal - La Y non cambia (neg)")
+                        if (next_goal[1] > 0):
+                            if (next_goal[1] > y_pos and dist_Y < 1):
+                                y_acc = 0
+                                y_vel = 0.1
+                                print("------------------------------    y (pos)   ------------------------------")
+                            if (next_goal[1] <= y_pos):
+                                y_acc = 0
+                                y_vel = 0
+                                Y_limit = True
+                                print("Y Goal - La Y non cambia (pos)")
+                        if (next_goal[0] == 0):
+                            if (next_goal[0] == x_pos and dist_X < 1):
+                                x_acc = 0
+                                x_vel = 0
+                                X_limit = True
+                                print("X = 0 La X non cambia")
+                        if (next_goal[1] == 0):
+                            if (next_goal[1] == y_pos and dist_Y < 1):
+                                y_acc = 0
+                                y_vel = 0
+                                Y_limit = True
+                                print("Y = 0 La X non cambia")
+                        if (X_limit == True and Y_limit == True):
+                            t = T
+                            print("-----------------------WAYPOINT OK!-----------------------")
 
+                        if (distanceAB_2D < 0.1):
+                            t = T
 
+                # 
+                # 
+                # 
+                else:
+                    if (vel_ms >= cruise_speed_ms and distanceAB_2D > SALVO_DISTANZA_FATTA ):
+                        if (ok == True):
+                            SALVO_TEMPO = t - 0.1
+                            SALVO_DISTANZA_FATTA = dist_percorsa2D  #Salvo distanza percorsa (in quel momento)
+                            if (SALVO_TEMPO > 0 and SALVO_DISTANZA_FATTA > 0):
+                                t_dec = T - SALVO_TEMPO  # Salvo t_dec (tempo di decellerazione) T - (Tempo impiegato a raggiungere la velocità di crociera)
+                                ok = False
+                        x_acc = 0
+                        y_acc = 0
+                        t = -0.1
+                    else:
+                        x_acc = acc[0]
+                        y_acc = acc[1]
+                    z_acc = acc[2]
 
-            if (scenario_Time == True and decollo == False):
-                x_acc = acc[0]
-                y_acc = acc[1]
-                #z_acc = acc[2]
-                z_acc = 0
+                    if (distanceAB_2D < SALVO_DISTANZA_FATTA):
+                        if (t < 1):
+                            t = t_dec
 
+                    if (1<= distanceAB_2D <= 4 and t_dec != 0):  # Se la diztanza dal goal e minore di 4 e t_dec diverso da 0 (quindi non si è raggiunta una velocità max se t_dec = 0)
+                        x_acc = 0
+                        y_acc = 0
+                        print("auuuuaiassjcdsjcindvdsvsdvdsvdsvdsvdsvdsvdsvdsvdds")
+                        '''vel_max = 1
+                        Kvel = vel_max / math.sqrt(x_vel**2 + y_vel**2) #Proporzione
+                        x_vel = x_vel * Kvel
+                        y_vel = y_vel * Kvel'''
+                        t = 0
 
-                if (vel_ms < 1 and dist_percorsa2D > distanceAB_2D ):
-                    x_acc = 0
-                    y_acc = 0
-                    t = t - 0.1
-                    d = d + 0.1
-                    '''if distanceAB_2D <= 1:'''  # Faccio una proporzione con una vel_Max = 0.2
-                    '''vel_max = 0.6
-                    Kvel = vel_max / (x_vel + y_vel)
-                    x_vel = x_vel * Kvel
-                    y_vel = y_vel * Kvel
-                    print(d, "weeeeeeeeeeeeeeeeeee", d + t, "aaaaaaaooooooooooooo")'''
-                if (distanceAB_2D < 20):
-                    print("sono quiiiii")
                     if (next_goal[0] < 0):
                         if (next_goal[0] < x_pos and dist_X < 1):
                             x_acc = 0
@@ -633,13 +565,13 @@ def quad_sim(x_c, y_c, z_c):
                             y_vel = 0
                             Y_limit = True
                             print("Y Goal - La Y non cambia (pos)")
-                    if (next_goal[0] == 0):
+                    if (next_goal[0] == 0 ):
                         if (next_goal[0] == x_pos and dist_X < 1):
                             x_acc = 0
                             x_vel = 0
                             X_limit = True
                             print("X = 0 La X non cambia")
-                    if (next_goal[1] == 0):
+                    if (next_goal[1] == 0 ):
                         if (next_goal[1] == y_pos and dist_Y < 1):
                             y_acc = 0
                             y_vel = 0
@@ -649,25 +581,26 @@ def quad_sim(x_c, y_c, z_c):
                         t = T
                         print("-----------------------WAYPOINT OK!-----------------------")
 
-                    if (distanceAB_2D < 0.1):
-                        t = T
 
-            if(decollo == True):
-                z_acc = acc[2]
-                y_acc = 0
-                x_acc = 0
-                if (dist_Z < 1):
-                    decollo = False
-                    t = T
+                    if (acc_ms > acc_max and Salvo_prop_acc == True): #Mantengo l'acc sotto i 3 m/s facendo una proporzione tra x_acc e y_acc
+                        Kacc = acc_max / math.sqrt(x_acc ** 2 + y_acc ** 2) #forse math.sqrt(x_acc ** 2 + y_acc ** 2)
+                        salvo_acc_x = x_acc * Kacc #PUO'CREARE PROBLEMI PER FAR RITORNARE IL DRONE AL PUNTO DI PARTENZA
+                        salvo_acc_y = y_acc * Kacc
+                        Salvo_prop_acc = False
 
 
-
+                    if (Salvo_prop_acc == False and vel_ms < cruise_speed_ms and (distanceAB_2D > dist_percorsa2D)):
+                        x_acc = salvo_acc_x
+                        y_acc = salvo_acc_y
+                    if (z_pos == altitude): #Mantengo il drone su una z fissa (QUI VA GENERALIZZATO)
+                        z_vel = 0
+                        z_acc = 0
 
 
             #print("thrust", thrust)
-            print("acc_ms", acc_ms)
+            # print("acc_ms", acc_ms)
 
-
+            print("Dist (x,y,z):","{:.2f}".format(dist_X), "{:.2f}".format(dist_Y), "{:.2f}".format(dist_Z) )
 
             print("SALVO_TEMPO:", SALVO_TEMPO, "SALVO_DISTANZA_FATTA:", SALVO_DISTANZA_FATTA, "t_dec:", t_dec)
             if (distanceAB_3D < 10):
