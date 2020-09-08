@@ -65,7 +65,9 @@ start_xyz = ast.literal_eval(s1.get('start_xyz'))
 #Destination
 dest_xyz = ast.literal_eval(s1.get('dest_xyz'))
 #waypoint-set
-dest_points = ast.literal_eval(s1.get('dest_points'))
+add_waypoint = ast.literal_eval(s1.get('add_waypoint'))
+#altitudine
+altitudine = ast.literal_eval(s1.get('altitudine'))
 
 #Distance
 distance_goal = math.sqrt((dest_xyz[0] - start_xyz[0]) ** 2 + (dest_xyz[1] - start_xyz[1]) ** 2) # Distanza drone goal

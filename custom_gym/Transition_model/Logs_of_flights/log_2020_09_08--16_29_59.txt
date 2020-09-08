@@ -1,0 +1,721 @@
+
+
+___________________________________________ENVIRONMENT AND DRONE INFO: ___________________________________________
+
+WP3 SCENARIO: 6
+DRONE ID: 1.0
+VOL: Zu
+AIR RISK: UC
+GROUND RISK: Intermediate
+OP TYPE: BVLOS
+TYPE OF DRONE: Multirotor
+DIMENSION: 1.7 m
+MASS: 9.0 Kg
+CRUISE SPEED: 18.0 m/s
+VDR: 3.0 m/s
+VRC: 4.0 m/s
+Stationary Max: 15.0 min
+MAX WIND: 8.0 m/s
+PAYLOAD RISK: HighRisk
+T. TYPE: LinealFreeFlight
+FLIGHT MODE: Auto
+MONITORING: YES
+TRACKING SERVICE: YES
+TACTICAL SEPARATION: YES
+DISTANCE TO REACH THE GOAL: 1805.159826718953 m
+TIME TO REACH THE GOAL: 0 s
+START COORDINATES: X:1 Y:1 Z:5
+DESTINATION COORDINATES(1): X:1800 Y:150 Z:100
+DESTINATION COORDINATES(2): X:100 Y:250 Z:2000
+__________________________________________________________________________________________________________________
+
+
+
+
+##################################################
+User: ASUS
+OS: win32
+Date: 2020-09-08 16:29:59.514
+##################################################
+
+
+
+Waypoints:  [array([1, 1, 5]), [1800, 150, 100], [5, 5, 5], [5, 5, 5]]
+[1 1 5] [5, 5, 5]
+[1800, 150, 100] [1 1 5]
+[5, 5, 5] [1800, 150, 100]
+[5, 5, 5] [5, 5, 5]
+1805.159826718953
+1805.159826718953
+[1805.159826718953, 1800.847022931154, 0.0] waypoints_distances
+
+POSIZIONE: 1.00 1.00 5.00
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.0 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.00 
+Z_acc: 0.00
+X_dess: [0.] 
+Y_dess: [0.]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.]  m/s^2, Time:  0.10 s
+
+POSIZIONE: 1.00 1.00 5.00
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.0 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.00 
+Z_acc: 0.05
+X_dess: [0.87561575] 
+Y_dess: [0.07252182]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [0.87561575]  m/s^2, Time:  0.20 s
+
+POSIZIONE: 1.00 1.00 5.00
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 94.99953815968443 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.00 
+Z_acc: 0.06
+X_dess: [1.7282896] 
+Y_dess: [0.1431435]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [1.7282896]  m/s^2, Time:  0.30 s
+
+POSIZIONE: 1.00 1.00 5.00
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 94.99845801394277 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.01 
+Z_acc: -0.03
+X_dess: [2.55822279] 
+Y_dess: [0.21188171]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [2.55822279]  m/s^2, Time:  0.40 s
+
+POSIZIONE: 1.00 1.00 5.00
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 94.99768397813114 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: 0.01 
+Z_acc: -0.34
+X_dess: [3.36561658] 
+Y_dess: [0.27875312]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [3.36561658]  m/s^2, Time:  0.50 s
+
+POSIZIONE: 1.00 1.00 5.00
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.00029993314863 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -0.03 
+Z_acc: -0.92
+X_dess: [4.15067221] 
+Y_dess: [0.34377441]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [4.15067221]  m/s^2, Time:  0.60 s
+
+POSIZIONE: 1.00 1.00 4.99
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.01213728100369 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -0.12 
+Z_acc: -1.71
+X_dess: [4.91359091] 
+Y_dess: [0.40696223]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [4.91359091]  m/s^2, Time:  0.70 s
+
+POSIZIONE: 1.00 1.00 4.96
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.04111312662504 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -0.29 
+Z_acc: -2.53
+X_dess: [5.65457395] 
+Y_dess: [0.46833325]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [5.65457395]  m/s^2, Time:  0.80 s
+
+POSIZIONE: 1.00 1.00 4.90
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.09534311400365 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -0.54 
+Z_acc: -3.13
+X_dess: [6.37382255] 
+Y_dess: [0.52790415]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [6.37382255]  m/s^2, Time:  0.90 s
+
+POSIZIONE: 1.00 1.00 4.82
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.18084792169175 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -0.86 
+Z_acc: -3.35
+X_dess: [7.07153797] 
+Y_dess: [0.58569158]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [7.07153797]  m/s^2, Time:  1.00 s
+
+POSIZIONE: 1.00 1.00 4.70
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.2998435371367 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -1.19 
+Z_acc: -3.14
+X_dess: [7.74792145] 
+Y_dess: [0.64171223]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [7.74792145]  m/s^2, Time:  1.10 s
+
+POSIZIONE: 1.00 1.00 4.55
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.45028778709577 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -1.50 
+Z_acc: -2.62
+X_dess: [8.40317424] 
+Y_dess: [0.69598275]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [8.40317424]  m/s^2, Time:  1.20 s
+
+POSIZIONE: 1.00 1.00 4.37
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.6268906948718 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -1.77 
+Z_acc: -1.98
+X_dess: [9.03749757] 
+Y_dess: [0.74851981]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [9.03749757]  m/s^2, Time:  1.30 s
+
+POSIZIONE: 1.00 1.00 4.18
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 95.82327042237789 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -1.96 
+Z_acc: -1.49
+X_dess: [9.6510927] 
+Y_dess: [0.79934008]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [9.6510927]  m/s^2, Time:  1.40 s
+
+POSIZIONE: 1.00 1.00 3.97
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 96.03451286566631 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -2.11 
+Z_acc: -1.37
+X_dess: [10.24416087] 
+Y_dess: [0.84846024]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [10.24416087]  m/s^2, Time:  1.50 s
+
+POSIZIONE: 1.00 1.00 3.74
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 96.25941472382766 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -2.25 
+Z_acc: -1.78
+X_dess: [10.81690333] 
+Y_dess: [0.89589694]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [10.81690333]  m/s^2, Time:  1.60 s
+
+POSIZIONE: 1.00 1.00 3.50
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 96.50208023447018 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -2.43 
+Z_acc: -2.80
+X_dess: [11.36952131] 
+Y_dess: [0.94166686]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [11.36952131]  m/s^2, Time:  1.70 s
+
+POSIZIONE: 1.00 1.00 3.23
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 96.772728927415 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -2.71 
+Z_acc: -4.40
+X_dess: [11.90221606] 
+Y_dess: [0.98578666]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [11.90221606]  m/s^2, Time:  1.80 s
+
+POSIZIONE: 1.00 1.00 2.91
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 97.08738131217773 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -3.15 
+Z_acc: -6.40
+X_dess: [12.41518884] 
+Y_dess: [1.02827301]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [12.41518884]  m/s^2, Time:  1.90 s
+
+POSIZIONE: 1.00 1.00 2.53
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 97.46605873577123 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -3.79 
+Z_acc: -8.49
+X_dess: [12.90864087] 
+Y_dess: [1.06914257]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [12.90864087]  m/s^2, Time:  2.00 s
+
+POSIZIONE: 1.00 1.00 2.07
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 97.92962257495722 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -4.64 
+Z_acc: -10.28
+X_dess: [13.38277342] 
+Y_dess: [1.10841203]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [13.38277342]  m/s^2, Time:  2.10 s
+
+POSIZIONE: 1.00 1.00 1.50
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 98.49597077941625 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -5.66 
+Z_acc: -11.42
+X_dess: [13.83778771] 
+Y_dess: [1.14609804]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [13.83778771]  m/s^2, Time:  2.20 s
+
+POSIZIONE: 1.00 1.00 0.82
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 99.17649216294679 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -6.81 
+Z_acc: -11.66
+X_dess: [14.27388501] 
+Y_dess: [1.18221727]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [14.27388501]  m/s^2, Time:  2.30 s
+
+POSIZIONE: 1.00 1.00 0.03
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 99.97361045462488 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -7.97 
+Z_acc: -10.96
+X_dess: [14.69126654] 
+Y_dess: [1.21678639]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [14.69126654]  m/s^2, Time:  2.40 s
+
+POSIZIONE: 1.00 1.00 -0.88
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 100.88035135143122 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -9.07 
+Z_acc: -9.58
+X_dess: [15.09013356] 
+Y_dess: [1.24982207]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [15.09013356]  m/s^2, Time:  2.50 s
+
+POSIZIONE: 1.00 1.00 -1.88
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 101.88287530775658 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -10.03 
+Z_acc: -8.07
+X_dess: [15.47068731] 
+Y_dess: [1.28134097]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [15.47068731]  m/s^2, Time:  2.60 s
+
+POSIZIONE: 1.00 1.00 -2.97
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 102.96607968127232 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -10.83 
+Z_acc: -7.16
+X_dess: [15.83312904] 
+Y_dess: [1.31135977]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [15.83312904]  m/s^2, Time:  2.70 s
+
+POSIZIONE: 1.00 1.00 -4.12
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 104.12086051049839 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -11.55 
+Z_acc: -7.51
+X_dess: [16.17765999] 
+Y_dess: [1.33989513]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [16.17765999]  m/s^2, Time:  2.80 s
+
+POSIZIONE: 1.00 1.00 -5.35
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 105.35076576946476 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -12.30 
+Z_acc: -9.55
+X_dess: [16.50448141] 
+Y_dess: [1.36696372]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [16.50448141]  m/s^2, Time:  2.90 s
+
+POSIZIONE: 1.00 1.00 -6.68
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 106.6761507963624 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -13.25 
+Z_acc: -13.32
+X_dess: [16.81379453] 
+Y_dess: [1.3925822]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [16.81379453]  m/s^2, Time:  3.00 s
+
+POSIZIONE: 1.00 1.00 -8.13
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 108.1347415014685 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -14.59 
+Z_acc: -18.49
+X_dess: [17.10580061] 
+Y_dess: [1.41676725]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0
+Acceleration: 0.00  m/s^2, des_x_acc:  [17.10580061]  m/s^2, Time:  3.10 s
+
+POSIZIONE: 1.00 1.00 -9.78
+x:vel 0.00 (m/s)
+y:vel 0.00 (m/s)
+1799.0 149.0 109.77823422371756 weeeeeeeeeeeeeeeeeeeeeeeee
+acc_ms 0.0
+SALVO_TEMPO: 0 SALVO_DISTANZA_FATTA: 0 t_dec: 0 dist_percorsa2D: 0.0
+scalare_waypoints 1805.159826718953 Time: 23 incremento_T:  0
+0.0 vel ms
+X_vel: 0.00 
+X_acc: 0.00
+Y_vel: 0.00 
+Y_acc: 0.00
+Z_vel: -16.43 
+Z_acc: -24.38
+X_dess: [17.38070089] 
+Y_dess: [1.43953554]
+SALVO_PROPORZIONE 0 0
+Distanza2D: 1805.159826718953
+dist_percorsa2D: 0.0

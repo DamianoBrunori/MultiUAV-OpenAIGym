@@ -109,9 +109,10 @@ info25 = "\nSTART COORDINATES: " + "X:" + str(start_xyz[0]) + " Y:" + str(start_
 info.append(info25)
 info26 = "\nDESTINATION COORDINATES(1): " + "X:" + str(dest_xyz[0]) + " Y:" + str(dest_xyz[1]) + " Z:" + str(dest_xyz[2])
 info.append(info26)
-info27 = "\nDESTINATION COORDINATES(2): " + "X:" + str(dest_points[0]) + " Y:" + str(dest_points[1]) + " Z:" + str(dest_points[2])
+info27 = "\nDESTINATION COORDINATES(2): " + "X:" + str(add_waypoint[0]) + " Y:" + str(add_waypoint[1]) + " Z:" + str(add_waypoint[2])
 info.append(info27)
-
+info28 = "\nAltitudine: " + str(altitudine) + " m"
+info.append(info28)
 
 info23 = "\n__________________________________________________________________________________________________________________\n\n"
 info.append(info23)
@@ -151,14 +152,20 @@ scalare_waypoints = 0
 # Kd_y = 10
 Kd_z = 1
 
-waypoint1 = [dest_xyz[0], dest_xyz[1], dest_xyz[2]]               #con file configs
-start_pos = np.array([start_xyz[0], start_xyz[1], start_xyz[2]]) #con file configs
-waypoint2 = [dest_points[0], dest_points[1], dest_points[2]]
-discesa = [waypoint2[0], waypoint2[1], 5]
+start_pos = np.array([start_xyz[0], start_xyz[1], start_xyz[2]])     #con file configs - Punto di partenza
+waypoint_dest = [dest_xyz[0], dest_xyz[1], altitudine]              #con file configs - Punto di Arrivo
+
+add_waypoint = [add_waypoint[0], add_waypoint[1], add_waypoint[2]]      #Aggiungo un waypoint
+
+
+discesa = [dest_xyz[0], dest_xyz[1]+1, dest_xyz[2]]
+
+salita = [start_xyz[0], start_xyz[1]+1, altitudine]
+
 
 acc_max = 8
 
-waypoints = [start_pos, waypoint1, waypoint2, discesa]
+waypoints = [start_pos, salita, waypoint_dest, discesa] #Se aggiungo add_waypoint prima di waypoint_dest "IndexError: list assignment index out of range" risolvere
 
 ##################################Senza-file-configs################################
 #waypoint1 = [1100, 0, 5]
@@ -176,7 +183,7 @@ dist_Y = 0
 dist_Z = 0
 
 
-distance_start_goal = math.sqrt((waypoint1[0] - start_pos[0]) ** 2 + (waypoint1[1] - start_pos[1]) ** 2) # Distanza drone goal
+distance_start_goal = math.sqrt((waypoint_dest[0] - start_pos[0]) ** 2 + (waypoint_dest[1] - start_pos[1]) ** 2) # Distanza drone goal
 
 
 waypoints_distances = []
@@ -565,7 +572,7 @@ def quad_sim(x_c, y_c, z_c):
                 if (Salvo_prop_acc == False and vel_ms < cruise_speed_ms and (distanceAB_2D > dist_percorsa2D)):
                     x_acc = salvo_acc_x
                     y_acc = salvo_acc_y
-                if (z_pos == waypoint1[2]): #Mantengo il drone su una z fissa (QUI VA GENERALIZZATO)
+                if (z_pos == altitudine): #Mantengo il drone su una z fissa (QUI VA GENERALIZZATO)
                     z_vel = 0
                     z_acc = 0
 
@@ -790,8 +797,11 @@ def quad_sim(x_c, y_c, z_c):
         irun += 1
         if irun >= n_run:
             break
-
+    print(print("\n\n\n"+"".join( ["#"]*50) ))
+    print("MISSION ACCOMPLISHED!")
+    print(print("\n"+"".join(["#"] * 50)))
     print("Done")
+
 
 
 
