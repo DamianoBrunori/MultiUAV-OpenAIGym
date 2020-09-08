@@ -55,7 +55,7 @@ class Logger(object):
         pass
 
 
-
+T = 0
 #----------------------------------------------------------------------------------------------------------------------------------#
 info = []
 
@@ -151,12 +151,14 @@ scalare_waypoints = 0
 # Kd_y = 10
 Kd_z = 1
 
-waypoint1= [dest_xyz[0], dest_xyz[1], dest_xyz[2]]               #con file configs
+waypoint1 = [dest_xyz[0], dest_xyz[1], dest_xyz[2]]               #con file configs
 start_pos = np.array([start_xyz[0], start_xyz[1], start_xyz[2]]) #con file configs
 waypoint2 = [dest_points[0], dest_points[1], dest_points[2]]
+discesa = [waypoint2[0], waypoint2[1], 5]
+
 acc_max = 8
 
-waypoints = [start_pos, waypoint1, [200, 800, 200], start_pos]
+waypoints = [start_pos, waypoint1, waypoint2, discesa]
 
 ##################################Senza-file-configs################################
 #waypoint1 = [1100, 0, 5]
@@ -251,18 +253,18 @@ def increment_flight_time(start_point,end_point):
 
 '''if (scenario_Time == False and decollo == False):
     T = increment_flight_time(distance_start_goal, distance_start_goal)'''
-T = 63
 
-def log_increment_flight_time(distance_start_goal):
-    if (1) <= distance_start_goal < km5:
+
+def log_increment_flight_time(scalare_waypoints):
+    if (1) <= scalare_waypoints < km5:
         base = np.exp(1)
-        newT = 21.65086911983629869001587421144650186297615617317 * ( np.log(distance_start_goal)/ np.log(base))  -98.7986139213391479185918786323963054431615284914
-    if (km5) <= distance_start_goal <= km10:
+        newT = 21.65086911983629869001587421144650186297615617317 * ( np.log(scalare_waypoints)/ np.log(base))  -98.7986139213391479185918786323963054431615284914
+    if (km5) <= scalare_waypoints <= km10:
         base = np.exp(1)
-        newT = 36.9049981864011388148661610037825717192189464735 * ( np.log(distance_start_goal) / np.log(base)) -225.835957762306149632444146953926939779733883128
-    if (km10 < distance_start_goal <= km47):
+        newT = 36.9049981864011388148661610037825717192189464735 * ( np.log(scalare_waypoints) / np.log(base)) -225.835957762306149632444146953926939779733883128
+    if (km10 < scalare_waypoints <= km47):
         base = np.exp(1)
-        newT = 52.324187701154014783647141869836634332163540509 * ( np.log(distance_start_goal) / np.log(base)) -369.27638568056304219357324427391247933012841306
+        newT = 52.324187701154014783647141869836634332163540509 * ( np.log(scalare_waypoints) / np.log(base)) -369.27638568056304219357324427391247933012841306
     return newT
 
 #-----------------------------------------------------------------------------------------------------------------------#
@@ -324,12 +326,24 @@ def quad_sim(x_c, y_c, z_c):
     salvo_acc_x = 0
     salvo_acc_y = 0
     salvo_acc_z = 0
+
     decollo = True
     while True:
 
-        scalare_waypoints = waypoints_distances[i%len(waypoints_distances)]
+        scalare_waypoints = waypoints_distances[i % len(waypoints_distances)]
+        if (i == 0 or i == 2):
+            T = 23
+        else:
+            T = log_increment_flight_time(scalare_waypoints)
+        print(scalare_waypoints)
+        print(distance_start_goal)
+        print(waypoints_distances, "waypoints_distances")
         '''if (scenario_Time == False and decollo == False):
-            T = log_increment_flight_time(distance_start_goal)'''
+            #T = increment_flight_time(distance_start_goal, distance_start_goal)
+            
+            print(next_goal, "next goal")'''
+
+
         while t <= T:
             print()
             #DIVIDO LA TRAIETTORIA IN PEZZETTI si fissano degli obiettivi molto vicini (interpolazione)
@@ -406,7 +420,7 @@ def quad_sim(x_c, y_c, z_c):
 
             print("x:vel", "{:.2f}".format(x_vel),"(m/s)")
             print("y:vel", "{:.2f}".format(y_vel),"(m/s)")
-            print(dist_X, dist_Y,"weeeeeeeeeeeeeeeeeeeeeeeee")
+            print(dist_X, dist_Y, dist_Z, "weeeeeeeeeeeeeeeeeeeeeeeee")
             #print("Acc[0]", "{:.2f}".format(acc[0]),"(m/s^2")
             #print("des_y_acc", "{:.2f}
             # ------------------------------------------------------------------------------------------------------------------#
@@ -445,7 +459,7 @@ def quad_sim(x_c, y_c, z_c):
                     t = t - 0.1'''
 
 
-            if (scenario_Time == False):
+            if (scenario_Time == False and decollo == False):
                 if (vel_ms >= cruise_speed_ms and distanceAB_2D > SALVO_DISTANZA_FATTA ):
                     if (ok == True):
                         SALVO_TEMPO = t - 0.1
@@ -665,6 +679,8 @@ def quad_sim(x_c, y_c, z_c):
                 x_acc = 0
                 if (dist_Z < 1):
                     decollo = False
+                    t = T
+
 
 
 
@@ -679,7 +695,8 @@ def quad_sim(x_c, y_c, z_c):
                 print("Goal a:", distanceAB_3D, "Dist percorsa3D:", dist_percorsa3D, "Vel_x:", x_vel, "Acc_x:", x_acc, "Time:", t, )
 
             print("scalare_waypoints", scalare_waypoints, "Time:", T, "incremento_T: ", incrementoT)
-
+            if (T != 23):
+                print("DIVERSOOOOOOOOOOOOOOOOOOOOOOOOOO!!!")
             print(vel_ms,"vel ms")
             print("X_vel:", "{:.2f}".format(x_vel), "\nX_acc:", "{:.2f}".format(x_acc))
             print("Y_vel:", "{:.2f}".format(y_vel), "\nY_acc:", "{:.2f}".format(y_acc))
@@ -745,16 +762,31 @@ def quad_sim(x_c, y_c, z_c):
         pitch = 0
         yaw = 0
 
+        x_acc = 0
+        y_acc = 0
+        z_acc = 0
+
+        x_vel = 0
+        y_vel = 0
+        z_vel = 0
+
         roll_vel = 0
         pitch_vel = 0
         yaw_vel = 0
 
         des_yaw = 0  # mantenere orientazione 0 quindi rimane fisso il  drone non gira su se stesso
 
+        dist_X = 0
+        dist_Y = 0
+        dist_Z = 0
+
         t = 0
         d = 0
 
         i = (i + 1) % len(waypoints)
+        if (i==2): #((waypoints[i-1][2] != waypoints[i][2])):
+            decollo = True
+
         irun += 1
         if irun >= n_run:
             break
@@ -860,6 +892,12 @@ def main():
     print("Waypoints: ", waypoints)
 
     for i in range(len(waypoints)):
+        print(waypoints[i], waypoints[i - 1])
+        scalare_waypoints = waypoints_distances[i % len(waypoints_distances)]
+        if (i == 0 or i==2): #(waypoints[i-1][2] != waypoints[i][2])):
+            T = 23
+        else:
+            T = log_increment_flight_time(scalare_waypoints)
         traj = TrajectoryGenerator(waypoints[i], waypoints[(i + 1) % len(waypoints)], T)
         traj.solve()
         x_coeffs[i] = traj.x_c
