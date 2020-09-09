@@ -157,9 +157,9 @@ start_pos = np.array([start_xyz[0], start_xyz[1], start_xyz[2]])     #con file c
 waypoint_dest = [dest_xyz[0], dest_xyz[1], altitude]              #con file configs - Punto di Arrivo
 
 
-salita = [start_xyz[0], start_xyz[1]+1, altitude]
+salita = [start_xyz[0], start_xyz[1]+0.001, altitude]
 
-discesa = [dest_xyz[0], dest_xyz[1]+1, altitude]
+discesa = [dest_xyz[0], dest_xyz[1]+0.001, altitude]
 
 
 
@@ -168,6 +168,7 @@ acc_max = 8
 # waypoints = [start_pos, salita,add_waypoint, waypoint_dest, discesa]
 # waypoints = [user_waypoints[0], salita] + \
 #     [x for x in user_waypoints[1:-2] ] +[ discesa ,dest_xyz]
+print(user_waypoints)
 if(user_waypoints):
     waypoints = [start_pos,salita] + user_waypoints + [discesa,dest_xyz]
 else:
@@ -262,13 +263,13 @@ def increment_flight_time(start_point,end_point):
 def log_increment_flight_time(scalare_waypoints):
     if (1) <= scalare_waypoints < km5:
         base = np.exp(1)
-        newT = 21.65086911983629869001587421144650186297615617317 * ( np.log(scalare_waypoints)/ np.log(base))  -98.7986139213391479185918786323963054431615284914
+        newT = 21.6508 * ( np.log(scalare_waypoints)/ np.log(base))  -98.7986
     if (km5) <= scalare_waypoints <= km10:
         base = np.exp(1)
-        newT = 36.9049981864011388148661610037825717192189464735 * ( np.log(scalare_waypoints) / np.log(base)) -225.835957762306149632444146953926939779733883128
+        newT = 36.9049 * ( np.log(scalare_waypoints) / np.log(base)) -225.8359
     if (km10 < scalare_waypoints <= km47):
         base = np.exp(1)
-        newT = 52.324187701154014783647141869836634332163540509 * ( np.log(scalare_waypoints) / np.log(base)) -369.27638568056304219357324427391247933012841306
+        newT = 52.3241 * ( np.log(scalare_waypoints) / np.log(base)) -369.2763
     return newT
 
 #-----------------------------------------------------------------------------------------------------------------------#
