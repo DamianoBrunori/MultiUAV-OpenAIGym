@@ -819,7 +819,6 @@ def main():
     z_coeffs = [[] for i in range(num_waypoints)]
 
     if SEED!=None: seed(SEED)
-    values = 15
     #waypoints = [[-values[0], -values[1], values[2]], [values[0], -values[1], values[2]], [values[0], values[1], values[2]], [-values[0], values[1], values[2]]]
     print("Waypoints: ", waypoints)
 

@@ -72,7 +72,7 @@ else:
 
 
 get = s1.get('user_waypoints')
-user_waypoints =  list( ast.literal_eval() ) if(get) else  []
+#user_waypoints =  list( ast.literal_eval() ) if(get) else  []
 
 #altitudine
 altitude = ast.literal_eval(s1.get('altitude'))
@@ -83,12 +83,13 @@ distance_space_m = float(config['UAV']['distance'])
 if distance_space_m == 0:  #Se nel file configs.ini non è impostata una distanza da percorrere me la calcolo
     distance_space_m = distance_goal
 #Scenario Time or distance
-#T = distance_space_m/(cruise_speed_ms)            #Time (seconds for waypoint - waypoint movement)
+
 # T = 180.55
 scenario_Time = False
-
+if scenario_Time == True:
+    T = distance_space_m / (cruise_speed_ms)  # Time (seconds for waypoint - waypoint movement)
 #------------------------------------------PLOT-RANGE-------------------------------------------
-'''if start_xyz[0] > dest_xyz[0]:
+if start_xyz[0] > dest_xyz[0]:
     PLOTRANGE_X_POS = start_xyz[0]
     PLOTRANGE_X_NEG = dest_xyz[0]
 else:
@@ -109,23 +110,16 @@ if start_xyz[1] == dest_xyz[1]:
     PLOTRANGE_Y_POS = start_xyz[1]+4
     PLOTRANGE_Y_NEG = dest_xyz[1]-4
 
-if start_xyz[2] > dest_xyz[2]:
-    PLOTRANGE_Z_POS = start_xyz[2]
-    PLOTRANGE_Z_NEG = dest_xyz[2]
-else:
-    PLOTRANGE_Z_NEG = start_xyz[2]
-    PLOTRANGE_Z_POS = dest_xyz[2]
+PLOTRANGE_Z_POS = altitude
+PLOTRANGE_Z_NEG = 0
 
-if start_xyz[2] == dest_xyz[2]:
-    PLOTRANGE_Z_POS = start_xyz[2]+4
-    PLOTRANGE_Z_NEG = dest_xyz[2]-4'''
 
-PLOTRANGE_X_POS = 800
+'''PLOTRANGE_X_POS = 800
 PLOTRANGE_X_NEG = 0 
 PLOTRANGE_Y_POS = 400
 PLOTRANGE_Y_NEG = 0
 PLOTRANGE_Z_POS = 2000
-PLOTRANGE_Z_NEG = 0
+PLOTRANGE_Z_NEG = 0'''
 #---------------------------------------------------------------------------------------------------
 ##############################################Time-Acc##############################################
 s_km05 = 25.21
