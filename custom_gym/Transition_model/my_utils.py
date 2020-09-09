@@ -69,6 +69,9 @@ if(s1.get("add_waypoint")):
     add_waypoint = ast.literal_eval(s1.get('add_waypoint'))
 else:
     add_waypoint = None
+
+user_waypoints = list( ast.literal_eval(s1.get('user_waypoints')) )
+
 #altitudine
 altitude = ast.literal_eval(s1.get('altitude'))
 
