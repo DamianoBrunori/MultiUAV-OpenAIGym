@@ -421,7 +421,7 @@ def quad_sim(x_c, y_c, z_c):
                 z_acc = acc[2]
                 y_acc = 0
                 x_acc = 0
-                if (dist_Z < 1):
+                if (dist_Z < 0.5):
                     decollo = False
                     t = T
             else:
@@ -608,19 +608,24 @@ def quad_sim(x_c, y_c, z_c):
 
             print("Dist (x,y,z):","{:.2f}".format(dist_X), "{:.2f}".format(dist_Y), "{:.2f}".format(dist_Z) )
 
-            print("SALVO_TEMPO:", SALVO_TEMPO, "SALVO_DISTANZA_FATTA:", SALVO_DISTANZA_FATTA, "t_dec:", t_dec)
-            if (distanceAB_3D < 10):
-                print("Goal a:", distanceAB_3D, "Dist percorsa3D:", dist_percorsa3D, "Vel_x:", x_vel, "Acc_x:", x_acc, "Time:", t, )
+            print("Da 0 a", cruise_speed_ms,"m/s:", SALVO_TEMPO,"s", "SALVO_DISTANZA_FATTA:", SALVO_DISTANZA_FATTA, "t_dec:", t_dec)
+            '''if (distanceAB_3D < 10):
+                print("Goal a:", distanceAB_2D, "Dist percorsa3D:", dist_percorsa2D, "Vel_x:", x_vel, "Acc_x:", x_acc, "Time:", t, )'''
 
             print("scalare_waypoints", scalare_waypoints, "Time:", T, "incremento_T: ", incrementoT)
-            
+
+            print("Velocity (m/s):", "{:.2f}".format(vel_ms))
             print("X_vel (m/s):", "{:.2f}".format(x_vel), "\tX_acc (m/s^2):", "{:.2f}".format(x_acc))
             print("Y_vel (m/s):", "{:.2f}".format(y_vel), "\tY_acc (m/s^2):", "{:.2f}".format(y_acc))
             print("Z_vel (m/s):", "{:.2f}".format(z_vel), "\tZ_acc (m/s^2):", "{:.2f}".format(z_acc))
             # print("X_dess:", des_x_acc, "\tY_dess:", des_y_acc)
-            print("SALVO_PROPORZIONE", SALVO_PROPORZIONE[0],SALVO_PROPORZIONE[1])
-            print("Distanza2D:", distanceAB_2D)
-            print("dist_percorsa2D:", dist_percorsa2D)
+            #print("SALVO_PROPORZIONE", SALVO_PROPORZIONE[0],SALVO_PROPORZIONE[1])
+            if (decollo == False):
+                print("Distanza2D:", "{:.3f}".format(distanceAB_2D), "m")
+                print("dist_percorsa2D:", "{:.3f}".format(dist_percorsa2D), "m")
+            else:
+                print("Dist_altitudine_desiderata:", "{:.2f}".format(dist_Z), "m")
+                print("Altitudine:", "{:.2f}".format(z_pos), "m")
             # ------------------------------------------------------------------------------------------------------------------#
 
 
@@ -644,7 +649,7 @@ def quad_sim(x_c, y_c, z_c):
             #print("roll, pitch, yaw: ", roll, pitch, yaw )
             #print("Velocity:", vel_ms, "m/s, Vel X: ", x_vel, "m/s")
             #print("Velocity Km/h: ", vel_kmh)
-            print("Acceleration:", "{:.2f}".format(acc_ms), " m/s^2, des_x_acc: ", des_x_acc, " m/s^2, Time: ", "{:.2f}".format(t),"s")
+            print("Acceleration:", "{:.2f}".format(acc_ms), " m/s^2", "Time: ", "{:.2f}".format(t),"s")
             #print("X_acc:", "{:.2f}".format(x_acc), "m/s^2,Y_acc:", "{:.2f}".format(y_acc),"m/s^2")
             #print("Acceleration km/h: ", acc_kmh)
             #print(des_y_vel, "sacsdcsdvsdvds")
@@ -660,7 +665,12 @@ def quad_sim(x_c, y_c, z_c):
 
         print("[WAYPOINT TIME LIMIT REACHED]")
         if(distanceAB_2D != 0 ):
-            print("[GOAL MISSED:","{:.2f}".format(distanceAB_2D), "m missing]", "Time:", T)
+            if (decollo):
+                print("[GOAL MISSED:", "{:.2f}".format(dist_Z), "m missing]", "Time:", T)
+            else:
+                print("[GOAL MISSED:","{:.2f}".format(distanceAB_2D), "m missing]", "Time:", T)
+
+
 
         ok = True
         Salvo_prop_acc = True

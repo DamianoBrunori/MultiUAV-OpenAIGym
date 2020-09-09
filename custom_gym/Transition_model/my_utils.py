@@ -93,7 +93,7 @@ scenario_Time = False
 if scenario_Time == True:
     T = distance_space_m / (cruise_speed_ms)  # Time (seconds for waypoint - waypoint movement)
 #------------------------------------------PLOT-RANGE-------------------------------------------
-if start_xyz[0] > dest_xyz[0]:
+'''if start_xyz[0] > dest_xyz[0]:
     PLOTRANGE_X_POS = start_xyz[0]
     PLOTRANGE_X_NEG = dest_xyz[0]
 else:
@@ -112,11 +112,41 @@ if start_xyz[0] == dest_xyz[0]:
     PLOTRANGE_X_NEG = dest_xyz[0]-4
 if start_xyz[1] == dest_xyz[1]:
     PLOTRANGE_Y_POS = start_xyz[1]+4
-    PLOTRANGE_Y_NEG = dest_xyz[1]-4
+    PLOTRANGE_Y_NEG = dest_xyz[1]-4'''
 
+
+
+X_pos = 0
+X_neg = 0
+Y_pos = 0
+Y_neg = 0
+o=0
+h = 0
+waypoints_plot_XY = []
+for o in range(len(user_waypoints)):
+    waypoints_plot_XY.append(user_waypoints[o])
+    o = o + 1
+waypoints_plot_XY.append(start_xyz)
+waypoints_plot_XY.append(dest_xyz)
+#print(waypoints_plot_XY)
+
+for h in range(len(waypoints_plot_XY)):
+    if waypoints_plot_XY[h][0] >= waypoints_plot_XY[h-1][0] and waypoints_plot_XY[h][0] >= X_pos:
+        X_pos = waypoints_plot_XY[h][0]
+    if waypoints_plot_XY[h][0] < waypoints_plot_XY[h - 1][0] and waypoints_plot_XY[h][0] < X_neg:
+        X_neg = waypoints_plot_XY[h][0]
+    if waypoints_plot_XY[h][1] >= waypoints_plot_XY[h-1][1] and waypoints_plot_XY[h][1] >= Y_pos:
+        Y_pos = waypoints_plot_XY[h][1]
+    if waypoints_plot_XY[h][1] < waypoints_plot_XY[h - 1][1] and waypoints_plot_XY[h][1] < Y_neg:
+        Y_neg = waypoints_plot_XY[h][1]
+    h = h + 1
+#print(X_pos, X_neg, Y_pos, Y_neg )
+PLOTRANGE_X_POS = X_pos
+PLOTRANGE_Y_POS = Y_pos
+PLOTRANGE_X_NEG = X_neg
+PLOTRANGE_Y_NEG = Y_neg
 PLOTRANGE_Z_POS = altitude
 PLOTRANGE_Z_NEG = 0
-
 
 '''PLOTRANGE_X_POS = 800
 PLOTRANGE_X_NEG = 0
