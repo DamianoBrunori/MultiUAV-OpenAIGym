@@ -70,9 +70,13 @@ if(s1.get("add_waypoint")):
 else:
     add_waypoint = None
 
-
 get = s1.get('user_waypoints')
-#user_waypoints =  list( ast.literal_eval() ) if(get) else  []
+if(get):
+    user_waypoints =  list( ast.literal_eval(get) )
+    if(type(user_waypoints[0])!=list):
+        user_waypoints = [user_waypoints]
+else:
+    user_waypoints = []
 
 #altitudine
 altitude = ast.literal_eval(s1.get('altitude'))
@@ -115,7 +119,7 @@ PLOTRANGE_Z_NEG = 0
 
 
 '''PLOTRANGE_X_POS = 800
-PLOTRANGE_X_NEG = 0 
+PLOTRANGE_X_NEG = 0
 PLOTRANGE_Y_POS = 400
 PLOTRANGE_Y_NEG = 0
 PLOTRANGE_Z_POS = 2000
