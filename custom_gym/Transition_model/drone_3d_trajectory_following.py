@@ -157,17 +157,21 @@ start_pos = np.array([start_xyz[0], start_xyz[1], start_xyz[2]])     #con file c
 waypoint_dest = [dest_xyz[0], dest_xyz[1], altitude]              #con file configs - Punto di Arrivo
 
 
+salita = [start_xyz[0], start_xyz[1]+1, altitude]
 
-discesa = [user_waypoints[-1][0], user_waypoints[-1][1]+1, user_waypoints[-1][2]]
+discesa = [dest_xyz[0], dest_xyz[1]+1, altitude]
 
-salita = [user_waypoints[0][0], user_waypoints[0][1]+1, altitude]
 
 
 acc_max = 8
 
 # waypoints = [start_pos, salita,add_waypoint, waypoint_dest, discesa]
-waypoints = [user_waypoints[0], salita] + \
-    [x for x in user_waypoints[1:-1] ] +[ discesa]
+# waypoints = [user_waypoints[0], salita] + \
+#     [x for x in user_waypoints[1:-2] ] +[ discesa ,dest_xyz]
+if(user_waypoints):
+    waypoints = [start_pos,salita] + user_waypoints + [discesa,dest_xyz]
+else:
+    waypoints = [start_pos,salita,discesa,dest_xyz]
 
 num_waypoints = len(waypoints)
 
