@@ -1,10 +1,6 @@
 
-; 
-; /***************************************************************************
-;  *  SPECIFY INFORMATION ABOUT DRONE, FLIGHT AND SCENARIO *
-;  ***************************************************************************/
-; 
 [UAV]
+; uav info about model involved
 scenario = 6
 id = 1
 vol = Zu
@@ -28,10 +24,13 @@ FlightMode = Auto
 Monitoring = YES
 TrackingService = YES
 TacticalSeparation = YES
-; Punto di partenza
 start_xyz = [1, 1, 5]
-; Punto di Arrivo
+<<<<<<< Updated upstream
+dest_xyz = [1800, 150, 5]
+;user_waypoints = [100,500,200], [400,500,200]
+altitude = 200
+=======
 dest_xyz = [1800, 150, 100]
-; Other waypoints between start and dest points
 ; user_waypoints = [1,50,2000], [900,100,2000]   
 altitude = 2000
+>>>>>>> Stashed changes

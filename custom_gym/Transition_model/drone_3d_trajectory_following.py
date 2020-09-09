@@ -7,52 +7,8 @@ import numpy as np
 import math
 from Quadrotor import Quadrotor
 from TrajectoryGenerator import TrajectoryGenerator
-# sys.path.append(os.path.abspath("../custom_gym"))
 from my_utils import *
 
-import sys
-
-from os import getenv
-
-import datetime
-
-LOG_DIRECTORY_NAME = "Logs_of_flights"
-
-LOG_FILENAME = "log_"+str( datetime.datetime.now()).replace(" ","_") +".txt"
-
-from datetime import datetime
-
-
-
-
-LOG_DIRECTORY_NAME = "Logs_of_flights"
-timeformatted = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-semiformatted = timeformatted.replace("-", "_")
-almostformatted = semiformatted.replace(":", "_")
-formatted = almostformatted.replace(".", "")
-withspacegoaway = formatted.replace(" ", "--")
-formattedstripped = withspacegoaway.strip()
-
-LOG_FILENAME = "log_"+formattedstripped+".txt"
-
-
-LOG_PATH = join(LOG_DIRECTORY_NAME, LOG_FILENAME)
-
-# Class to redirect stdout to file logfile.log
-class Logger(object):
-    def __init__(self):
-        self.terminal = sys.stdout
-        self.log = open(LOG_PATH, "a")
-
-    def write(self, message):
-        self.terminal.write(message)
-        self.log.write(message)
-
-    def flush(self):
-        #this flush method is needed for python 3 compatibility.
-        #this handles the flush command by doing nothing.
-        #you might want to specify some extra behavior here.
-        pass
 
 
 T = 0
@@ -105,9 +61,9 @@ info20 = "\nDISTANCE TO REACH THE GOAL: " + str(distance_space_m) + " m"
 info.append(info20)
 info21 = "\nTIME TO REACH THE GOAL: " + str(T) + " s"
 info.append(info21)
-info25 = "\nSTART COORDINATES: " + "X:" + str(start_xyz[0]) + " Y:" + str(start_xyz[1]) + " Z:" + str(start_xyz[2])
+info25 = "\nSTART COORDINATES: " + "X:" + str(start_pos[0]) + " Y:" + str(start_pos[1]) + " Z:" + str(start_pos[2])
 info.append(info25)
-info26 = "\nDESTINATION COORDINATES(1): " + "X:" + str(dest_xyz[0]) + " Y:" + str(dest_xyz[1]) + " Z:" + str(dest_xyz[2])
+info26 = "\nDESTINATION COORDINATES(1): " + "X:" + str(waypoint_dest[0]) + " Y:" + str(waypoint_dest[1]) + " Z:" + str(waypoint_dest[2])
 info.append(info26)
 if(add_waypoint):
     info27 = "\nDESTINATION COORDINATES(2): " + "X:" + str(add_waypoint[0]) + " Y:" + str(add_waypoint[1]) + " Z:" + str(add_waypoint[2])
@@ -131,13 +87,11 @@ show_animation = True
 
 # Simulation parameters
 
-g = 9.81                                #Gravity (m/s^-2)
-#m = 0.2                                #Massa (Kg)
+g = 9.81        #Gravity (m/s^-2)
+# m = 0.2        #Massa (Kg)
 Ixx = 1
 Iyy = 1
 Izz = 1
-#T = space_m/cruise_speed_kmh            #Time (seconds for waypoint - waypoint movement)
-#T = 120                     #Time (seconds for waypoint - waypoint movement)
 cruise_speed_kmh = cruise_speed_ms/3.6   #Cruise speed km/h
 
 # Proportional coefficients
@@ -147,36 +101,29 @@ Kp_z = 1
 Kp_roll = 25
 Kp_pitch = 25
 Kp_yaw = 25
-scalare_waypoints = 0
+
 # Derivative coefficients
 # Kd_x = 10
 # Kd_y = 10
 Kd_z = 1
 
-start_pos = np.array([start_xyz[0], start_xyz[1], start_xyz[2]])     #con file configs - Punto di partenza
-waypoint_dest = [dest_xyz[0], dest_xyz[1], altitude]              #con file configs - Punto di Arrivo
-
-
-salita = [start_xyz[0], start_xyz[1]+0.001, altitude]
-
-discesa = [dest_xyz[0], dest_xyz[1]+0.001, altitude]
-
-
+salita = [start_pos[0], start_pos[1]+0.001, altitude]
+discesa = [waypoint_dest[0], waypoint_dest[1]+0.001, altitude]
 
 acc_max = 8
 
 # waypoints = [start_pos, salita,add_waypoint, waypoint_dest, discesa]
 # waypoints = [user_waypoints[0], salita] + \
-#     [x for x in user_waypoints[1:-2] ] +[ discesa ,dest_xyz]
-print(user_waypoints)
+#     [x for x in user_waypoints[1:-2] ] +[ discesa ,waypoint_dest]
+# print(user_waypoints)
 if(user_waypoints):
-    waypoints = [start_pos,salita] + user_waypoints + [discesa,dest_xyz]
+    waypoints = [start_pos,salita] + user_waypoints + [discesa,waypoint_dest]
 else:
-    waypoints = [start_pos,salita,discesa,dest_xyz]
+    waypoints = [start_pos,salita,discesa,waypoint_dest]
 
 num_waypoints = len(waypoints)
 
-##################################Senza-file-configs################################
+##################################  Senza-file-configs  ################################
 #waypoint1 = [1100, 0, 5]
 #start_x = 0
 #start_y = 0
@@ -197,67 +144,6 @@ waypoints_distances = []
 for i,d in enumerate(waypoints):
     if(i+1 < num_waypoints):
         waypoints_distances.append( distance_AB_3D(waypoints[i],waypoints[i+1]) )
-
-
-
-'''
-def increment_flight_time(start_point,end_point):
-    if (1) <= end_point < km1 / 2:
-        T = 10.39
-        diff_metri = start_point - 1
-        incrementoT = diff_metri * (s_km05 / 500)  # su 500m
-    elif (km1 / 2) <= end_point < km1:
-        T = 35.6
-        diff_metri = start_point - km1 / 2
-        incrementoT = diff_metri * (s_km1 / 500)  # su 500m
-    elif (km1 <= end_point < km2):
-        T = 48
-        diff_metri = start_point - km1
-        incrementoT = diff_metri*(s_km2_1000m/1000)   #su 1000m 9s/1000=0.009s al metro -> aggiungo 0.9s ogni 100 metri
-    elif (km2 <= end_point < km3):
-        T = 63.2
-        diff_metri = start_point - km2
-        incrementoT = diff_metri*(s_km3_1000m/1000)   #su 1000m
-    elif (km3 <= end_point < km4):
-        T = 73.8
-        diff_metri = start_point - km3
-        incrementoT = diff_metri*(s_km4_1000m/1000)   #su 1000m
-    elif (km4 <= end_point < km5):
-        T = 82
-        diff_metri = start_point - km4
-        incrementoT = diff_metri * (s_km5_1000m / 1000)  # su 1000m
-    elif (km5 <= end_point < km6):
-        T = 89
-        diff_metri = start_point - km5
-        incrementoT = diff_metri * (s_km5_1000m / 1000)  # su 1000m
-    elif (km6 <= end_point < km7):
-        T = 95
-        diff_metri = start_point - km6
-        incrementoT = diff_metri * (s_km6_1000m / 1000)  # su 1000m
-    elif (km7 <= end_point < km10):
-        T = 101
-        diff_metri = start_point - km7
-        incrementoT = diff_metri * (s_km789_10_1000m / 4000)  # su 4000m
-    elif (km10 <= end_point < km20):
-        T = 114.5
-        diff_metri = start_point - km10
-        incrementoT = diff_metri * (s_km20_1000m / 10000)  # su 10000m
-    elif (km20 <= end_point < km30):
-        T = 146
-        diff_metri = start_point - km20
-        incrementoT = diff_metri * (s_km30_1000m / 10000)  # su 10000m
-    elif (km30 <= end_point < km40):
-        T = 169
-        diff_metri = start_point - km30
-        incrementoT = diff_metri * (s_km40_1000m / 10000)  # su 10000m
-    elif (km40 <= end_point < km47):
-        T = 186
-        diff_metri = start_point - km40
-        incrementoT = diff_metri * (s_km47_1000m / 7000)  # su 7000m
-    T = T + incrementoT
-    print("T:", T, "T_incremento:", incrementoT)
-    return T
-'''
 
 
 def log_increment_flight_time(scalare_waypoints):
@@ -282,9 +168,9 @@ def quad_sim(x_c, y_c, z_c):
     """
 
     SALVO_PROPORZIONE = [0, 0]
-    x_pos = start_xyz[0]
-    y_pos = start_xyz[1]
-    z_pos = start_xyz[2]
+    x_pos = start_pos[0]
+    y_pos = start_pos[1]
+    z_pos = start_pos[2]
 
     x_vel = 0
     y_vel = 0
@@ -321,7 +207,7 @@ def quad_sim(x_c, y_c, z_c):
     Y_limit = False
 
     i = 0
-    n_run = 4 #Numero di Round (quanti waypoints vuoi vedere)
+    n_run = 3 #Numero di Round (quanti waypoints vuoi vedere)
     irun = 0
 
     ok = True
@@ -424,7 +310,7 @@ def quad_sim(x_c, y_c, z_c):
                 if (dist_Z < 0.5):
                     decollo = False
                     t = T
-            else:
+            else: #(Not in decollo)
                 if (scenario_Time ):
                     x_acc = acc[0]
                     y_acc = acc[1]
@@ -501,7 +387,7 @@ def quad_sim(x_c, y_c, z_c):
                 # 
                 # 
                 # 
-                else:
+                else: #( scenario_time is False)
                     if (vel_ms >= cruise_speed_ms and distanceAB_2D > SALVO_DISTANZA_FATTA ):
                         if (ok == True):
                             SALVO_TEMPO = t - 0.1
@@ -729,6 +615,7 @@ def quad_sim(x_c, y_c, z_c):
         irun += 1
         if irun >= n_run:
             break
+
     print(print("\n\n\n"+"".join( ["#"]*50) ))
     print("MISSION ACCOMPLISHED!")
     print(print("\n"+"".join(["#"] * 50)))

@@ -15,6 +15,15 @@ import re
 import numpy as np
 import math
 import ast
+import sys
+
+from os import getenv
+from os.path import join, isdir
+
+import datetime
+from datetime import datetime
+
+
 #-----------------------------------------FILE CONFIGS-----------------------------------------
 def parse_args():
     parser = argparse.ArgumentParser(description="UAVs flight generator")
@@ -61,9 +70,9 @@ TacticalSeparation = config['UAV']['TacticalSeparation']
 
 #Start
 s1 = config['UAV']
-start_xyz = ast.literal_eval(s1.get('start_xyz'))
+start_pos = ast.literal_eval(s1.get('start_xyz'))
 #Destination
-dest_xyz = ast.literal_eval(s1.get('dest_xyz'))
+waypoint_dest = ast.literal_eval(s1.get('dest_xyz'))
 #waypoint-set
 if(s1.get("add_waypoint")):
     add_waypoint = ast.literal_eval(s1.get('add_waypoint'))
@@ -82,7 +91,7 @@ else:
 altitude = ast.literal_eval(s1.get('altitude'))
 
 #Distance
-distance_goal = math.sqrt((dest_xyz[0] - start_xyz[0]) ** 2 + (dest_xyz[1] - start_xyz[1]) ** 2) # Distanza drone goal
+distance_goal = math.sqrt((waypoint_dest[0] - start_pos[0]) ** 2 + (waypoint_dest[1] - start_pos[1]) ** 2) # Distanza drone goal
 distance_space_m = float(config['UAV']['distance'])
 if distance_space_m == 0:  #Se nel file configs.ini non è impostata una distanza da percorrere me la calcolo
     distance_space_m = distance_goal
@@ -93,26 +102,26 @@ scenario_Time = False
 if scenario_Time == True:
     T = distance_space_m / (cruise_speed_ms)  # Time (seconds for waypoint - waypoint movement)
 #------------------------------------------PLOT-RANGE-------------------------------------------
-'''if start_xyz[0] > dest_xyz[0]:
-    PLOTRANGE_X_POS = start_xyz[0]
-    PLOTRANGE_X_NEG = dest_xyz[0]
+'''if start_pos[0] > waypoint_dest[0]:
+    PLOTRANGE_X_POS = start_pos[0]
+    PLOTRANGE_X_NEG = waypoint_dest[0]
 else:
-    PLOTRANGE_X_NEG = start_xyz[0]
-    PLOTRANGE_X_POS = dest_xyz[0]
+    PLOTRANGE_X_NEG = start_pos[0]
+    PLOTRANGE_X_POS = waypoint_dest[0]
 
-if start_xyz[1] > dest_xyz[1]:
-    PLOTRANGE_Y_POS = start_xyz[1]
-    PLOTRANGE_Y_NEG = dest_xyz[1]
+if start_pos[1] > waypoint_dest[1]:
+    PLOTRANGE_Y_POS = start_pos[1]
+    PLOTRANGE_Y_NEG = waypoint_dest[1]
 else:
-    PLOTRANGE_Y_NEG = start_xyz[1]
-    PLOTRANGE_Y_POS = dest_xyz[1]
+    PLOTRANGE_Y_NEG = start_pos[1]
+    PLOTRANGE_Y_POS = waypoint_dest[1]
 
-if start_xyz[0] == dest_xyz[0]:
-    PLOTRANGE_X_POS = start_xyz[0]+4
-    PLOTRANGE_X_NEG = dest_xyz[0]-4
-if start_xyz[1] == dest_xyz[1]:
-    PLOTRANGE_Y_POS = start_xyz[1]+4
-    PLOTRANGE_Y_NEG = dest_xyz[1]-4'''
+if start_pos[0] == waypoint_dest[0]:
+    PLOTRANGE_X_POS = start_pos[0]+4
+    PLOTRANGE_X_NEG = waypoint_dest[0]-4
+if start_pos[1] == waypoint_dest[1]:
+    PLOTRANGE_Y_POS = start_pos[1]+4
+    PLOTRANGE_Y_NEG = waypoint_dest[1]-4'''
 
 
 
@@ -126,8 +135,8 @@ waypoints_plot_XY = []
 for o in range(len(user_waypoints)):
     waypoints_plot_XY.append(user_waypoints[o])
     o = o + 1
-waypoints_plot_XY.append(start_xyz)
-waypoints_plot_XY.append(dest_xyz)
+waypoints_plot_XY.append(start_pos)
+waypoints_plot_XY.append(waypoint_dest)
 #print(waypoints_plot_XY)
 
 for h in range(len(waypoints_plot_XY)):
@@ -189,3 +198,36 @@ def distance_AB_2D(start,end):
 
 def distance_AB_3D(start,end):
     return math.sqrt((end[0] - start[0]) ** 2 + (end[1] - start[1]) ** 2 + (end[2] - start[2])**2) # Distanza drone start-end
+
+
+LOG_DIRECTORY_NAME = "Logs_of_flights"
+
+LOG_FILENAME = "log_"+str(datetime.now()).replace(" ","_") +".txt"
+
+LOG_DIRECTORY_NAME = "Logs_of_flights"
+timeformatted = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))\
+.replace("-", "_")\
+.replace(":", "_")\
+.replace(".", "")\
+.replace(" ", "--").strip()
+
+LOG_FILENAME = "log_"+timeformatted+".txt"
+LOG_PATH = join(LOG_DIRECTORY_NAME, LOG_FILENAME)
+
+
+
+# Class to redirect stdout to file logfile.log
+class Logger(object):
+    def __init__(self):
+        self.terminal = sys.stdout
+        self.log = open(LOG_PATH, "a")
+
+    def write(self, message):
+        self.terminal.write(message)
+        self.log.write(message)
+
+    def flush(self):
+        #this flush method is needed for python 3 compatibility.
+        #this handles the flush command by doing nothing.
+        #you might want to specify some extra behavior here.
+        pass
