@@ -1,6 +1,10 @@
-import numpy as np
-# sys.path.append(os.path.abspath("../custom_gym"))
+"""
+Generates a quintic polynomial trajectory.
 
+Author: Daniel Ingram (daniel-s-ingram)
+"""
+
+import numpy as np
 
 class TrajectoryGenerator():
     def __init__(self, start_pos, des_pos, T, start_vel=[0,0,0], des_vel=[0,0,0], start_acc=[0,0,0], des_acc=[0,0,0]):
