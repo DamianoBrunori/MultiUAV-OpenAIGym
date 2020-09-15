@@ -188,6 +188,7 @@ class UAVEnv(gym.Env):
         agent_pos_ = agent.move_2D_unlimited_battery(agent_pos, current_action)
 
         current_users_in_footprint = agent.users_in_uav_footprint(users, self.uav_footprint, self.discovered_users)
+        #print("QUANTIIIIII", len(current_users_in_footprint))
         agent._users_in_footprint = current_users_in_footprint
         # Compute the number of users which are served by the current UAV agent:
         n_served_users = agent.n_served_users_in_foot(agent._users_in_footprint) # --> This mainly performs a SIDE-EFFECT on the info 'served or not served' related to the users.
@@ -524,6 +525,21 @@ class UAVEnv(gym.Env):
 
         return reward_for_cost, alpha_s, alpha_c
 
+    def discount_for_user_wait(self):
+
+        n_discovered_users = len(self.discovered_users)
+        all_wait_times = sum([wait_time_for_cur_user._info[3] for wait_time_for_cur_user in self.discovered_users])
+        avg_wait_time_for_disc_users = all_wait_times/n_discovered_users if n_discovered_users!=0 else 0.0
+
+        discount_factor = 0.0
+        if (avg_wait_time_for_disc_users>CRITICAL_WAITING_TIME_FOR_SERVICE):
+            discount_factor = CRITICAL_WAITING_TIME_FOR_SERVICE/NORMALIZATION_FACTOR_WAITING_TIME_FOR_SERVIE if avg_wait_time_for_disc_users<=NORMALIZATION_FACTOR_WAITING_TIME_FOR_SERVIE else 1.0
+        else:
+            discount_factor = 0.0
+
+        return discount_factor
+
+
     # Reward function which takes into account only the percentage of covered users:
     def reward_function_1(self, users_in_footprint):
 
@@ -536,10 +552,16 @@ class UAVEnv(gym.Env):
         #print(n_users_in_footprint, self.n_users/N_UAVS, reward)
         #print("\n")
         #print("N Users:", n_users_in_footprint, "Reward:", reward)
+        discount_for_wait_time = self.discount_for_user_wait()
+        reward -= discount_for_wait_time
+        if (reward<0.0):
+            reward = 0.0
+
+        #print("AOOOOOOOOOOOOOOOOHHHH", reward)
 
         return reward
 
-    def reward_function_2(self, users_in_footprint, battery_level, needed_battery, agent):
+    def reward_function_2(self, users_in_footprint, battery_level, needed_battery):
 
         # There is no need to take into account the case in which the agent is going to CS, because when it is 'coming home'
         # the method 'Agent.users_in_uav_footprint' returns always 0 (the agent is only focused on going to CS withouth serving anyone else).
@@ -591,10 +613,10 @@ class UAVEnv(gym.Env):
         n_ec_served_perc = n_served_ec_users/n_ec_active_users if n_ec_active_users!=0 else 0
         n_dg_served_perc = n_served_dg_users/n_dg_active_users if n_dg_active_users!=0 else 0
 
-        alpha_u = 0.1
-        alpha_tr = 0.3
-        alpha_ec = 0.3
-        alpha_dg = 0.3
+        alpha_u = 0.5
+        alpha_tr = 0.2
+        alpha_ec = 0.2
+        alpha_dg = 0.1
 
         reward_for_services_and_users = alpha_u*reward_for_users + alpha_tr*n_tr_served_perc + alpha_ec*n_ec_served_perc + alpha_dg*n_dg_served_perc
         reward = reward_for_services_and_users
@@ -606,6 +628,11 @@ class UAVEnv(gym.Env):
 
         #print(reward_for_users, n_tr_served_perc, n_ec_served_perc, n_dg_served_perc)
 
+        discount_for_wait_time = self.discount_for_user_wait()
+        reward -= discount_for_wait_time
+        if (reward<0.0):
+            reward = 0.0
+        
         return reward
 
     # _____________________________________________________________________________________________________________________________________________
@@ -676,17 +703,59 @@ class UAVEnv(gym.Env):
             agent._current_pos_in_path_to_CS = -1
             agent._required_battery_to_CS = None
 
-    def noisy_measure_or_not(self, value_to_warp):
+    def noisy_measure_or_not(self, values_to_warp):
+        warped_values = []
+        coord_idx = 1
 
-        noise_prob = np.random.rand()
+        for value in values_to_warp:
+            noise_prob = np.random.rand()
+            if noise_prob < 0.1:
+                #print("----------------------")
+                #print("NOISE ADDED", noise_prob)
+                #print("----------------------")
+                gaussian_noise = np.random.normal(loc=0, scale=1)
+                warped_value = round(value + gaussian_noise)
+                # X coordinate case:
+                if (coord_idx==1):
+                    if (warped_value>=AREA_WIDTH):
+                        warped_value = AREA_WIDTH - 0.5
+                    elif (warped_value<=0):
+                        warped_value = 0.5
+                    else:
+                        warped_value += 0.5
+                # Y coordinates case:
+                elif (coord_idx==2):
+                    if (warped_value>=AREA_HEIGHT):
+                        warped_value = AREA_HEIGHT - 0.5
+                    elif (warped_value<=0):
+                        warped_value = 0.5
+                    else:
+                        warped_value += 0.5
+                # Z coordinate case (no error on this measurement):
+                elif (coord_idx==3):
+                    warped_value = value
+                # Z coordinate has a larger step, thus a gaussian noise could lead to a 'KeyError'
+                '''
+                # Z coordinate case:
+                elif (coord_idx==3):
+                    if (warped_value>MAXIMUM_AREA_HEIGHT):
+                        warped_value = MAXIMUM_AREA_HEIGHT - 0.5
+                    elif (warped_value<MIN_UAV_HEIGHT):
+                        warped_value = MIN_UAV_HEIGHT + 0.5
+                    else:
+                        print("ERRORE QUI")
+                        warped_value += (UAV_Z_STEP + 0.5)
+                        if (warped_value>=MAXIMUM_AREA_HEIGHT):
+                            warped_value = MAXIMUM_AREA_HEIGHT - 0.5
+                '''
+            else:
+                warped_value = value
+
+            coord_idx += 1
+
+            warped_values.append(warped_value)
         
-        if noise_prob > 0.9:
-            gaussian_noise = np.random.normal(loc=0, scale=1)
-            warped_value = round(walue_to_warp + gaussian_noise + 0.5)
-        else:
-            warped_value = value_to_warp
-        
-        return warped_value
+        return tuple(warped_values)
 
     def show_scores(self):
         
@@ -834,8 +903,8 @@ class UAVEnv(gym.Env):
 
     def compute_users_walk_steps(self):
         
-        min_steps = 4
-        max_steps = 8
+        min_steps = 2
+        max_steps = 5
         k_steps = np.random.random_integers(min_steps, max_steps)
         self.k_steps_to_walk = k_steps
         # Users random walk:
