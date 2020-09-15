@@ -445,15 +445,18 @@ class User:
 
                 x_val = np.random.random_integers(go_back, go_ahead)
                 y_val = np.random.random_integers(go_back, go_ahead)
+
                    
                 # Case in which the user is on a floor of a building which is between the first and the top floor (the latter excluded) OR the user is at his/her maximum reachable height: 
                 if ( (current_user_z > 0) and (current_user_z < user_max_in_building) ):
+                    #print("000000000000000000000000000")
                     z_val = np.random.random_integers(go_back, go_ahead)
                     x_val = stop
                     y_val = stop
 
                 # Case in which the user is on the top floor of a building (or at his/her maximum height):
-                elif ( (DIMENSION_2D==False) and (current_user_z == user_max_in_building) ): # --> If there is a 2D env, this condition will be always True due to the fact that users are all at z=0, which is also their maximum reachable height.
+                elif ( (DIMENSION_2D==False) and (current_user_z == user_max_in_building) and (user_max_in_building != 0) ): # --> If there is a 2D env, this condition will be always True due to the fact that users are all at z=0, which is also their maximum reachable height.
+                    #print("1111111111111111111111111111")
                     z_val = np.random.random_integers(go_back, stop)
                     x_val = stop
                     y_val = stop
@@ -461,28 +464,66 @@ class User:
                 # Case in which the user is on the ground (or ground floor):
                 else:
 
-                    if (user_max_in_building > 0):
+                    if ( (user_max_in_building > 0) and (current_user_z == 0) ):
                         
+                        #print("2222222222222222222222222222")
                         x_val = np.random.random_integers(go_back, go_ahead)
                         y_val = np.random.random_integers(go_back, go_ahead)
                         if ( (x_val == stop) and (y_val == stop) ):
                             z_val = np.random.random_integers(stop, go_ahead)
                         else:
-                            z_val = stop 
+                            z_val = stop
                     else:
 
-                        if (current_user_x == 0):
-                            x_val = np.random.random_integers(stop, go_ahead)
-                        if (current_user_y == 0):
-                            y_val = np.random.random_integers(stop, go_ahead)
-                        if (current_user_x == upper_x):
-                            x_val = np.random.random_integers(go_back, stop)
-                        if (current_user_x == upper_y):
-                            y_val = np.random.random_integers(go_back, stop)
+                        #print("333333333333333333333333333")
+                        if (user_max_in_building == 0):
+                            
+                            if (current_user_x == 0):
+                                x_val = np.random.random_integers(stop, go_ahead)
+                            if (current_user_y == 0):
+                                y_val = np.random.random_integers(stop, go_ahead)
+                            if (current_user_x == upper_x):
+                                x_val = np.random.random_integers(go_back, stop)
+                            if (current_user_x == upper_y):
+                                y_val = np.random.random_integers(go_back, stop)
 
-                        z_val = stop
+                            z_val = stop
 
-                current_user_steps.append((current_user_x + x_val, current_user_x + y_val, current_user_z + z_val))
+                new_step_x = current_user_x + x_val
+                new_step_y = current_user_y + y_val
+                new_step_z = current_user_z + z_val
+
+                print((current_user_x, current_user_y, current_user_z), (new_step_x, new_step_y, new_step_z))
+                #print(type(upper_x), type(np.random.random_integers(go_back, stop, go_ahead)))
+
+                if (new_step_x > upper_x):
+                    new_step_x = upper_x + np.random.random_integers(go_back-4, go_back-2)
+                elif (new_step_x < 0):
+                    new_step_x = 0 + np.random.random_integers(go_ahead+2, go_ahead+4)
+
+                if (new_step_y > upper_y):
+                    new_step_y = upper_y + np.random.random_integers(go_back-4, go_back-2)
+                elif (new_step_y < 0):
+                    new_step_y = 0 + np.random.random_integers(go_ahead+2, go_ahead+4)
+
+                if (new_step_z >= user_max_in_building):
+                    new_step_z = user_max_in_building
+                elif (new_step_z < 0):
+                    new_step_z = 0
+
+                '''
+                if  ( (new_step_x < 0) or (new_step_x > upper_x) ):
+                    print("X OUT OF BOUNDS: ", new_step_x)
+                if  ( (new_step_y < 0) or (new_step_y > upper_y) ):
+                    print("Y OUT OF BOUNDS: ", new_step_y)
+                if  ( (new_step_z < 0) or (new_step_z > user_max_in_building) ):
+                    print("Z OUT OF BOUNDS: ", new_step_z)
+                else:
+                    print("REGULAR STEP")
+                '''
+
+                current_user_steps.append((new_step_x, new_step_y, new_step_z))
+                #current_user_steps.append((current_user_x + x_val, current_user_x + y_val, current_user_z + z_val))
 
             users_steps.append(current_user_steps)
 
@@ -591,7 +632,7 @@ class User:
         for cluster_idx in range(num_clusters):
             a = 0
             #u = LA.norm(np.array([decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]]) - np.array([users_clusters[cluster_idx][user_idx][0], users_clusters[cluster_idx][user_idx][0]]))
-            current_centroid_users_distances = [LA.norm(np.array([decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]]) - np.array([users_clusters[cluster_idx][user_idx][0], users_clusters[cluster_idx][user_idx][1]])) for user_idx in range(0, users_per_cluster[cluster_idx])]
+            current_centroid_users_distances = [LA.norm(np.array([decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]]) - np.array([Decimal(users_clusters[cluster_idx][user_idx][0]), Decimal(users_clusters[cluster_idx][user_idx][1])])) for user_idx in range(0, users_per_cluster[cluster_idx])]
             #print(len(current_centroid_users_distances))
             #print("CENTROIDE", (decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]))
             #print("UTENTIIIIIII:")
