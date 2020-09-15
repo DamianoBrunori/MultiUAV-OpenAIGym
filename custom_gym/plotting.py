@@ -28,8 +28,8 @@ env_directory = "Environment_Views"
 if not isdir(env_directory): mkdir(env_directory)
 
 MAX_CLUSTERS_COLORS = 20 # --> It is used to generate 20 different colors for 20 different clusters.
-PLOT_EACH_N_EPOCH = 100
-CONSTANT_FOR_LABELS = 2
+PLOT_EACH_N_EPOCH = 200
+CONSTANT_FOR_LABELS = 10
 LABELS_EACH_N_EPOCH = PLOT_EACH_N_EPOCH*CONSTANT_FOR_LABELS
 RANGE_EPOCHS_TO_PLOT = range(0, EPISODES+1, PLOT_EACH_N_EPOCH)
 RANGE_EPOCHS_TO_VISUALIZE = range(0, EPISODES+1, LABELS_EACH_N_EPOCH)
@@ -520,7 +520,8 @@ class Plot:
                 #[ax2.add_artist(plt.Circle(centroids[cluster_idx], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
                 ax2.bar3d(y_obs_points, x_obs_points, bottom, width, depth, z_obs_points, shade=True, color=(0, 0, 0.6), edgecolor="none")
                 if (UNLIMITED_BATTERY == False):
-                    ax2.bar3d(y_cs_points, x_cs_points, bottom, width, depth, z_cs_points, shade=True, color=(0, 0.4, 0), edgecolor="none")
+                    cs_colors = [(0, 0.4, 0) for cs in range(N_CS)]
+                    ax2.bar3d(y_cs_points, x_cs_points, bottom, width, depth, z_cs_points, shade=True, color=cs_colors, edgecolor="none")
                 if (CREATE_ENODEB == True):
                     ax2.bar3d(y_enb_point, x_enb_point, bottom, width, depth, z_enb_point, shade=True, color=(0.5, 0, 0), edgecolor="none")
                 ax2.set_xlim(xmin=0, xmax=CELLS_COLS)
@@ -597,7 +598,8 @@ class Plot:
                     pass
                 ax4.bar3d(y_obs_cells, x_obs_cells, bottom, width, depth, z_obs_cells, shade=True, color=(0.4, 1, 1), edgecolor="none")
                 if (UNLIMITED_BATTERY == False):
-                    ax4.bar3d(y_cs_cells, x_cs_cells, bottom, width, depth, z_cs_cells, shade=True, color=(0.4, 1, 0.59), edgecolor="none")
+                    cs_cells_colors = [(0.4, 1, 0.59) for cs in range(N_CS)]
+                    ax4.bar3d(y_cs_cells, x_cs_cells, bottom, width, depth, z_cs_cells, shade=True, color=cs_cells_colors, edgecolor="none")
                 if (CREATE_ENODEB == True):
                     ax4.bar3d(y_eNB_cells, x_eNB_cells, bottom, width, depth, z_eNB_cells, shade=True, color=(0.5, 0, 0), edgecolor="none")
                 
@@ -774,7 +776,8 @@ class Plot:
         #print("AEEEEEEEEEEEEEH:", parameter_values)
         #plt.plot(RANGE_EPOCHS_TO_PLOT, parameter_values) #, label='QoE Parameter')
         plt.errorbar(RANGE_EPOCHS_TO_PLOT, parameter_values, yerr=stds)
-        legend_labels.append('Starting Epoch for Users moving')
+        if (STATIC_REQUEST==False):
+            legend_labels.append('Starting Epoch for Users moving')
         for user_epoch_move in range(MOVE_USERS_EACH_N_EPOCHS, epochs+1, MOVE_USERS_EACH_N_EPOCHS):
             if (STATIC_REQUEST==False):
                 plt.axvline(x=user_epoch_move, color='green') #, label='Starting Epoch for Users moving')
@@ -808,10 +811,16 @@ class Plot:
             elif (service_idx==2):
                 service_label = "Data Gathering"
 
-            last_value = services_values[-1][service_idx]
-            values_to_plot = services_values[::PLOT_EACH_N_EPOCH][service_idx]
-            values_to_plot.append(last_value)
+            #last_value = services_values[-1][service_idx]
+            last_values = services_values[-1]
+            all_values = services_values[::PLOT_EACH_N_EPOCH]
+            all_values.append(last_values)
+            values_to_plot = [value[service_idx] for value in all_values]
+            #values_to_plot = services_values[::PLOT_EACH_N_EPOCH][service_idx]
+            #values_to_plot.append(last_value)
 
+            print(RANGE_EPOCHS_TO_PLOT, len(services_values))
+            #plt.plot(range(PLOT_EACH_N_EPOCH, EPISODES, PLOT_EACH_N_EPOCH), values_to_plot)
             plt.plot(RANGE_EPOCHS_TO_PLOT, values_to_plot)
             legend_labels.append(service_label)
 
@@ -975,6 +984,31 @@ class Plot:
 
         #print("AOOOOH", directory_name + f"qtable_graph-ep{episode}.png")
         plt.savefig(directory_name + f"\qtable_graph-ep{episode}.png")
+
+    def users_wait_times(self, n_users, users, directory_name, episode):
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+
+        wait_times = [user._info[3] for user in users]
+        #print(wait_times)
+        # Example data
+        #people = ('Tom', 'Dick', 'Harry', 'Slim', 'Jim')
+        #y_pos = np.arange(len(people))
+        #performance = 3 + 10 * np.random.rand(len(people))
+        #error = np.random.rand(len(people))
+
+        ax.bar(np.arange(n_users), wait_times, align='center')
+        #ax.set_yticks(y_pos)
+        #ax.set_yticklabels(people)
+        #ax.invert_yaxis()  # labels read top-to-bottom
+        ax.set_ylabel('Elapsed time between service request and service')
+        ax.set_xlabel('Users Number')
+        ax.set_title('QoE2 histogram distribution among users')
+
+        plt.savefig(join(directory_name, "UsersWaitingTimes" + str(episode) + ".png"))
+        
+        #plt.show()
 
     def bandwidth_for_each_epoch(self, epochs, directory_name, UAVs_used_bandwidth, users_bandwidth_request_per_UAVfootprint):
 
