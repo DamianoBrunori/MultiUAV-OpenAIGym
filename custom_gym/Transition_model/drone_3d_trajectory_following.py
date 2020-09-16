@@ -9,6 +9,7 @@ import numpy as np
 from Quadrotor import Quadrotor
 from TrajectoryGenerator import TrajectoryGenerator
 from mpl_toolkits.mplot3d import Axes3D
+import math
 
 show_animation = True
 
@@ -18,7 +19,15 @@ m = 0.2
 Ixx = 1
 Iyy = 1
 Izz = 1
-T = 5
+
+
+
+
+T = 5           #<---------------------------------
+
+
+
+
 
 # Proportional coefficients
 Kp_x = 1
@@ -33,6 +42,8 @@ Kd_x = 10
 Kd_y = 10
 Kd_z = 1
 
+waypoints = [[-5, -5, 5], [1000, -5, 5], [5, 5, 5], [-5, 5, 5]]
+num_waypoints = len(waypoints)
 
 def quad_sim(x_c, y_c, z_c):
     """
@@ -68,17 +79,42 @@ def quad_sim(x_c, y_c, z_c):
     n_run = 8
     irun = 0
 
+    acc_max_scalar = 3 #(m/s^2)
+    vel_max_scalar = 18 #(m/s)
+    
     while True:
+
+        L = distance_3D(waypoints[i],waypoints[(i+1)%num_waypoints])
+        T = (L*acc_max_scalar + vel_max_scalar **2 ) /(acc_max_scalar * vel_max_scalar)
+        T_s = vel_max_scalar / acc_max_scalar
+        acc_max_x, acc_max_y, acc_max_z = get_3D_components(waypoints[i],waypoints[(i+1)%num_waypoints],acc_max_scalar)
+        vel_max_x, vel_max_y, vel_max_z = get_3D_components(waypoints[i],waypoints[(i+1)%num_waypoints],vel_max_scalar)
         while t <= T:
-            # des_x_pos = calculate_position(x_c[i], t)
-            # des_y_pos = calculate_position(y_c[i], t)
-            des_z_pos = calculate_position(z_c[i], t)
-            # des_x_vel = calculate_velocity(x_c[i], t)
-            # des_y_vel = calculate_velocity(y_c[i], t)
-            des_z_vel = calculate_velocity(z_c[i], t)
-            des_x_acc = calculate_acceleration(x_c[i], t)
-            des_y_acc = calculate_acceleration(y_c[i], t)
-            des_z_acc = calculate_acceleration(z_c[i], t)
+            # # des_x_pos = calculate_position(x_c[i], t)
+            # # des_y_pos = calculate_position(y_c[i], t)
+            # des_z_pos = calculate_position(z_c[i], t)
+            # # des_x_vel = calculate_velocity(x_c[i], t)
+            # # des_y_vel = calculate_velocity(y_c[i], t)
+            # des_z_vel = calculate_velocity(z_c[i], t)
+            # des_x_acc = calculate_acceleration(x_c[i], t)
+            # des_y_acc = calculate_acceleration(y_c[i], t)
+            # des_z_acc = calculate_acceleration(z_c[i], t)
+
+
+            if( not is_bang_cost_available( L,acc_max_scalar,vel_max_scalar) ):
+                raise Exception("Bang cost bang not feasible")
+
+            des_x_pos, des_y_pos, des_z_pos = bang_position(x_pos,y_pos,z_pos,
+                acc_max_x,acc_max_y,acc_max_z,
+                vel_max_x,vel_max_y,vel_max_z,
+                t,T,T_s)
+
+            des_x_vel, des_y_vel, des_z_vel = bang_velocity(acc_max_x,acc_max_y,acc_max_z,
+                vel_max_x,vel_max_y,vel_max_z,
+                t,T,T_s)
+
+            des_x_acc, des_y_acc, des_z_acc = bang_accelleration(acc_max_x,acc_max_y,acc_max_z,
+                t,T,T_s)
 
             thrust = m * (g + des_z_acc + Kp_z * (des_z_pos -
                                                   z_pos) + Kd_z * (des_z_vel - z_vel))
@@ -99,7 +135,7 @@ def quad_sim(x_c, y_c, z_c):
 
             R = rotation_matrix(roll, pitch, yaw)
             acc = (np.matmul(R, np.array(
-                [0, 0, thrust.item()]).T) - np.array([0, 0, m * g]).T) / m
+                [0, 0, thrust]).T) - np.array([0, 0, m * g]).T) / m
             x_acc = acc[0]
             y_acc = acc[1]
             z_acc = acc[2]
@@ -188,6 +224,97 @@ def rotation_matrix(roll, pitch, yaw):
          ])
 
 
+def is_bang_cost_available(L,acc_max,vel_max):
+    return L > vel_max ** 2 / acc_max
+
+
+def bang_position(x_pos,y_pos,z_pos,
+    acc_max_x,acc_max_y,acc_max_z,
+    vel_max_x,vel_max_y,vel_max_z,
+    t,T,T_s):
+    # acc_max_x, acc_max_y, acc_max_z = get_acc_max()
+    # vel_max_x, vel_max_y, vel_max_z = get_vel_max()
+    
+    if t < T_s:
+        x_des_pos = x_pos + 0.5 * acc_max_x * t**2
+        y_des_pos = y_pos + 0.5 * acc_max_y * t**2
+        z_des_pos = z_pos + 0.5 * acc_max_z * t**2
+    elif t > T_s and t < T -T_s:
+        x_des_pos = x_pos + vel_max_x * t
+        y_des_pos = y_pos + vel_max_y * t
+        z_des_pos = z_pos + vel_max_z * t
+    elif t > T-T_s :
+        x_des_pos = x_pos + 0.5 * (-acc_max_x) * t**2
+        y_des_pos = y_pos + 0.5 * (-acc_max_y) * t**2
+        z_des_pos = z_pos + 0.5 * (-acc_max_z) * t**2
+    
+    return x_des_pos, y_des_pos, z_des_pos
+
+def bang_velocity(acc_max_x,acc_max_y,acc_max_z,
+    vel_max_x,vel_max_y,vel_max_z,
+    t,T,T_s):
+    # acc_max_x, acc_max_y, acc_max_z = get_acc_max()
+    # vel_max_x, vel_max_y, vel_max_z = get_vel_max()
+    
+    if t < T_s:
+        x_des_vel = acc_max_x * t
+        y_des_vel = acc_max_y * t
+        z_des_vel = acc_max_z * t
+    elif t > T_s and t < T -T_s:
+        x_des_vel = vel_max_x 
+        y_des_vel = vel_max_y 
+        z_des_vel = vel_max_z 
+    elif t > T-T_s :
+        x_des_vel = -acc_max_x * t
+        y_des_vel = -acc_max_y * t
+        z_des_vel = -acc_max_z * t
+
+    
+    return x_des_vel, y_des_vel, z_des_vel
+
+def bang_accelleration(acc_max_x,acc_max_y,acc_max_z,
+    t,T,T_s):
+    if t < T_s:
+        x_des_acc = acc_max_x
+        y_des_acc = acc_max_y
+        z_des_acc = acc_max_z
+    elif t > T_s and t < T -T_s:
+        x_des_acc = 0 
+        y_des_acc = 0 
+        z_des_acc = 0 
+    elif t > T-T_s :
+        x_des_acc = -acc_max_x 
+        y_des_acc = -acc_max_y 
+        z_des_acc = -acc_max_z 
+
+    return x_des_acc, y_des_acc, z_des_acc
+
+
+
+def get_3D_components(start3D,end3D,scalar):
+    d_x = end3D[0] - start3D[0] 
+    d_y = end3D[1] - start3D[1] 
+    d_z = end3D[2] - start3D[2] 
+    d = distance_3D(start3D, end3D)
+    
+    alpha = math.acos(d_x/d)
+    beta = math.acos(d_y/d)
+    gamma = math.acos(d_z/d)
+
+    x_component = math.cos(alpha) * scalar
+    y_component = math.cos(beta) * scalar
+    z_component = math.cos(gamma) * scalar
+
+    return x_component, y_component, z_component
+    
+
+def distance_2D(start,end):
+    return math.sqrt( (end[1] - start[1] ) **2 + (end[0] - start[0] )**2 )    
+
+def distance_3D(start,end):
+    return math.sqrt( (end[2] - start[2] )**2 + (end[1] - start[1] ) **2 + (end[0] - start[0] )**2 )    
+
+
 def main():
     """
     Calculates the x, y, z coefficients for the four segments 
@@ -196,8 +323,7 @@ def main():
     x_coeffs = [[], [], [], []]
     y_coeffs = [[], [], [], []]
     z_coeffs = [[], [], [], []]
-    waypoints = [[-5, -5, 5], [5, -5, 5], [5, 5, 5], [-5, 5, 5]]
-
+    
     for i in range(4):
         traj = TrajectoryGenerator(waypoints[i], waypoints[(i + 1) % 4], T)
         traj.solve()
