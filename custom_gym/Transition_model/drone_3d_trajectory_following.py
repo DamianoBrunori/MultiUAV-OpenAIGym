@@ -10,8 +10,13 @@ from Quadrotor import Quadrotor
 from TrajectoryGenerator import TrajectoryGenerator
 from mpl_toolkits.mplot3d import Axes3D
 import math
+from os import mkdir
+from os.path import join, isdir
+from my_utils import *
 
 show_animation = True
+
+
 
 # Simulation parameters
 g = 9.81
@@ -420,6 +425,15 @@ def distance_3D(start,end):
 
 
 def main():
+    sys.stdout = Logger()
+    print("\n\n\n" + "".join(["#"] * 50))
+    if sys.platform.startswith('linux'):
+        print("User:", format(getenv("USER")))  # For Linux
+    if sys.platform.startswith('win32'):
+        print("User:", format(getenv("USERNAME")))  # For Windows
+    print("OS:", sys.platform)
+    print("Date:", format(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]))
+    print("".join(["#"] * 50) + "\n\n\n")
     """
     Calculates the x, y, z coefficients for the four segments 
     of the trajectory
