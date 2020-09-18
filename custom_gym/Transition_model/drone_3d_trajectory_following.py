@@ -28,7 +28,7 @@ Izz = 1
 
 
 
-T = 5           #<---------------------------------
+#T = 5           #<---------------------------------
 
 
 
@@ -49,7 +49,7 @@ Kd_x = 10
 Kd_y = 10
 Kd_z = 1
 
-waypoints = [[10, 10, 10], [310, 1010, 10], [10, 10, 10]]
+waypoints = [[10, 0, 10], [10, 3000, 10], [10, 0, 10]]
 num_waypoints = len(waypoints)
 
 def quad_sim(x_c, y_c, z_c):
@@ -89,6 +89,8 @@ def quad_sim(x_c, y_c, z_c):
     
     while True:
 
+        goal_x = waypoints[(i+1)%num_waypoints][0]
+        goal_y = waypoints[(i + 1) % num_waypoints][1]
         L = distance_3D(waypoints[i],waypoints[(i+1)%num_waypoints])
         T = (L*acc_max_scalar + vel_max_scalar **2 ) /(acc_max_scalar * vel_max_scalar)
         T_s = vel_max_scalar / acc_max_scalar
@@ -99,12 +101,17 @@ def quad_sim(x_c, y_c, z_c):
         acc_max_x, acc_max_y = get_2D_components(waypoints[i],waypoints[(i+1)%num_waypoints],acc_max_scalar)
         vel_max_x, vel_max_y = get_2D_components(waypoints[i],waypoints[(i+1)%num_waypoints],vel_max_scalar)
 
+
+
         while t <= T:
+
+            acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2)
+            vel_ms = math.sqrt(x_vel ** 2 + y_vel ** 2)
             
             if( not is_bang_cost_available( L,acc_max_scalar,vel_max_scalar) ):
                 raise Exception("Bang cost bang not feasible")
 
-            print("running:",t)
+            print("running:","{:.2f}".format(t))
             # 3D TEST
             # des_x_pos, des_y_pos, des_z_pos = bang_position(x_pos,y_pos,z_pos,
             #     acc_max_x,acc_max_y,acc_max_z,
@@ -121,11 +128,9 @@ def quad_sim(x_c, y_c, z_c):
             # 2D TEST
             des_x_pos, des_y_pos = bang_position_2D(x_pos,y_pos,
                 acc_max_x,acc_max_y,
-                vel_max_x,vel_max_y,
-                t,T,T_s)
+                t,T,T_s, goal_x, goal_y)
 
             des_x_vel, des_y_vel = bang_velocity_2D(acc_max_x,acc_max_y,
-                vel_max_x,vel_max_y,
                 t,T,T_s)
 
             des_x_acc, des_y_acc = bang_accelleration_2D(acc_max_x,acc_max_y,
@@ -169,7 +174,7 @@ def quad_sim(x_c, y_c, z_c):
             
             x_acc = acc[0]
             y_acc = acc[1]
-            z_acc = acc[2]
+            z_acc = 0
 
             x_vel += x_acc * dt
             y_vel += y_acc * dt
@@ -179,6 +184,9 @@ def quad_sim(x_c, y_c, z_c):
             y_pos += y_vel * dt
             z_pos += z_vel * dt
 
+            if (T_s < t < T - T_s):
+                y_vel = 18
+                y_acc = 0
 
             q.update_pose(x_pos, y_pos, z_pos, roll, pitch, yaw)
             
@@ -187,7 +195,9 @@ def quad_sim(x_c, y_c, z_c):
             print("X_pos:","{:.2f}".format(x_pos) ,"\tX_vel (m/s):", "{:.2f}".format(x_vel), "\tX_acc (m/s^2):", "{:.2f}".format(x_acc))
             print("Y_pos:","{:.2f}".format(y_pos) ,"\tY_vel (m/s):", "{:.2f}".format(y_vel), "\tY_acc (m/s^2):", "{:.2f}".format(y_acc))
             print("Z_pos:","{:.2f}".format(z_pos) ,"\tZ_vel (m/s):", "{:.2f}".format(z_vel), "\tZ_acc (m/s^2):", "{:.2f}".format(z_acc))
-         
+            print("Acceleration:", "{:.2f}".format(acc_ms))
+            print("Velocity (m/s):", "{:.2f}".format(vel_ms))
+
             # # # # # # # 
             
             t += dt
@@ -284,7 +294,7 @@ def bang_position(x_pos,y_pos,z_pos,
         x_des_pos = x_pos + 0.5 * acc_max_x * t**2
         y_des_pos = y_pos + 0.5 * acc_max_y * t**2
         z_des_pos = z_pos + 0.5 * acc_max_z * t**2
-    elif t > T_s and t < T -T_s:
+    elif T_s < t <= T-T_s:
         x_des_pos = x_pos + vel_max_x * t
         y_des_pos = y_pos + vel_max_y * t
         z_des_pos = z_pos + vel_max_z * t
@@ -305,7 +315,7 @@ def bang_velocity(acc_max_x,acc_max_y,acc_max_z,
         x_des_vel = acc_max_x * t
         y_des_vel = acc_max_y * t
         z_des_vel = acc_max_z * t
-    elif t > T_s and t < T -T_s:
+    elif T_s < t <= T-T_s:
         x_des_vel = vel_max_x 
         y_des_vel = vel_max_y 
         z_des_vel = vel_max_z 
@@ -323,7 +333,7 @@ def bang_accelleration(acc_max_x,acc_max_y,acc_max_z,
         x_des_acc = acc_max_x
         y_des_acc = acc_max_y
         z_des_acc = acc_max_z
-    elif t > T_s and t < T -T_s:
+    elif T_s < t <= T-T_s:
         x_des_acc = 0 
         y_des_acc = 0 
         z_des_acc = 0 
@@ -336,37 +346,33 @@ def bang_accelleration(acc_max_x,acc_max_y,acc_max_z,
 
 
 def bang_position_2D(x_pos,y_pos,
-    acc_max_x,acc_max_y,
-    vel_max_x,vel_max_y,
-    t,T,T_s):
+    acc_max_x,acc_max_y,t,T,T_s, goal_x, goal_y):
     
-    if t < T_s:
+    if t <= T_s:
         x_des_pos = x_pos + 0.5 * acc_max_x * t**2
         y_des_pos = y_pos + 0.5 * acc_max_y * t**2
-    elif t > T_s and t < T -T_s:
-        x_des_pos = x_pos + vel_max_x * t
-        y_des_pos = y_pos + vel_max_y * t
-    elif t > T-T_s :
-        x_des_pos = x_pos + 0.5 * (-acc_max_x) * t**2
-        y_des_pos = y_pos + 0.5 * (-acc_max_y) * t**2
+    elif T_s < t <= T-T_s:
+        x_des_pos = x_pos + 0.5 * acc_max_x * T_s * (t - 0.5 * T_s)
+        y_des_pos = y_pos + 0.5 * acc_max_y * T_s * (t - 0.5 * T_s)
+    elif t > T-T_s:
+        x_des_pos = goal_x + 0.5 * (-acc_max_x) * (T-t)**2
+        y_des_pos = goal_y + 0.5 * (-acc_max_y) * (T-t)**2
     
     return x_des_pos, y_des_pos
 
-def bang_velocity_2D(acc_max_x,acc_max_y,
-    vel_max_x,vel_max_y,
-    t,T,T_s):
+def bang_velocity_2D(acc_max_x,acc_max_y,t,T,T_s):
     # acc_max_x, acc_max_y, acc_max_z = get_acc_max()
     # vel_max_x, vel_max_y, vel_max_z = get_vel_max()
     
     if t < T_s:
         x_des_vel = acc_max_x * t
         y_des_vel = acc_max_y * t
-    elif t > T_s and t < T -T_s:
-        x_des_vel = vel_max_x 
-        y_des_vel = vel_max_y 
-    elif t > T-T_s :
-        x_des_vel = -acc_max_x * t
-        y_des_vel = -acc_max_y * t
+    elif T_s < t <= T-T_s:
+        x_des_vel = T_s * acc_max_x
+        y_des_vel = T_s * acc_max_y
+    elif t > T-T_s:
+        x_des_vel = acc_max_x * (T - t)
+        y_des_vel = acc_max_y * (T - t)
     
     return x_des_vel, y_des_vel
 
@@ -375,7 +381,7 @@ def bang_accelleration_2D(acc_max_x,acc_max_y,
     if t < T_s:
         x_des_acc = acc_max_x
         y_des_acc = acc_max_y
-    elif t > T_s and t < T -T_s:
+    elif T_s < t <= T-T_s:
         x_des_acc = 0 
         y_des_acc = 0 
     elif t > T-T_s :
