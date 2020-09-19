@@ -78,6 +78,7 @@ def quad_sim(x_c, y_c, z_c):
 
     dt = 0.1
     t = 0
+    dist_goal = 0
 
     q = Quadrotor(x=x_pos, y=y_pos, z=z_pos, roll=roll,
                   pitch=pitch, yaw=yaw, size=1, show_animation=show_animation)
@@ -89,9 +90,10 @@ def quad_sim(x_c, y_c, z_c):
     
     while True:
 
+
         goal_x = waypoints[(i+1)%num_waypoints][0]
         goal_y = waypoints[(i + 1) % num_waypoints][1]
-        L = distance_3D(waypoints[i],waypoints[(i+1)%num_waypoints])
+        L = distance_2D(waypoints[i],waypoints[(i+1)%num_waypoints])
         T = (L*acc_max_scalar + vel_max_scalar **2 ) /(acc_max_scalar * vel_max_scalar)
         T_s = vel_max_scalar / acc_max_scalar
  
@@ -103,13 +105,20 @@ def quad_sim(x_c, y_c, z_c):
 
 
 
-        while t <= T:
+        while 0 <= dist_goal:
+            PosizioneAttuale = np.array([x_pos, y_pos, z_pos])
+            next_goal = waypoints[(i + 1) % num_waypoints]
+            start = waypoints[i]
+            dist_goal = distance_AB_2D(PosizioneAttuale, next_goal)
+            dist_percorsa2D = distance_AB_2D(start, PosizioneAttuale)
 
             acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2)
             vel_ms = math.sqrt(x_vel ** 2 + y_vel ** 2)
             
             if( not is_bang_cost_available( L,acc_max_scalar,vel_max_scalar) ):
                 raise Exception("Bang cost bang not feasible")
+
+
 
             print("running:","{:.2f}".format(t))
             # 3D TEST
@@ -184,9 +193,9 @@ def quad_sim(x_c, y_c, z_c):
             y_pos += y_vel * dt
             z_pos += z_vel * dt
 
-            if (T_s < t < T - T_s):
+            '''if (T_s < t < T - T_s):
                 y_vel = 18
-                y_acc = 0
+                y_acc = 0'''
 
             q.update_pose(x_pos, y_pos, z_pos, roll, pitch, yaw)
             
@@ -197,12 +206,14 @@ def quad_sim(x_c, y_c, z_c):
             print("Z_pos:","{:.2f}".format(z_pos) ,"\tZ_vel (m/s):", "{:.2f}".format(z_vel), "\tZ_acc (m/s^2):", "{:.2f}".format(z_acc))
             print("Acceleration:", "{:.2f}".format(acc_ms))
             print("Velocity (m/s):", "{:.2f}".format(vel_ms))
-
+            print("L:", L)
+            print("dist_goal:", dist_goal)
+            print("dist_percorsa2D", dist_percorsa2D)
             # # # # # # # 
             
             t += dt
 
-        print("-"*20,"[Missing",distance_3D([x_pos,y_pos,z_pos],waypoints[(i+1)%num_waypoints]), "m]","-"*20)
+        print("-"*20,"[Missing",distance_2D([x_pos,y_pos,z_pos],waypoints[(i+1)%num_waypoints]), "m]","-"*20)
         
         t = 0
         i = (i + 1) % 4
@@ -449,7 +460,7 @@ def main():
     z_coeffs = [[], [], [], []]
     
     for i in range(num_waypoints):
-        L = distance_3D(waypoints[i],waypoints[(i+1)%num_waypoints])
+        L = distance_2D(waypoints[i],waypoints[(i+1)%num_waypoints])
         T = (L*acc_max_scalar + vel_max_scalar **2 ) /(acc_max_scalar * vel_max_scalar)
         print("L:",L,", T:",T)
 

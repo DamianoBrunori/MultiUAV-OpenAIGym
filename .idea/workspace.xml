@@ -33,7 +33,6 @@
   <component name="ChangeListManager">
     <list default="true" id="11023ed5-b641-4a36-af99-f9cca342b20a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_10--10_20_28.txt" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/Logs_of_flights/log_2020_09_10--10_20_28.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" beforeDir="false" afterPath="$PROJECT_DIR$/custom_gym/Transition_model/drone_3d_trajectory_following.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -312,6 +311,8 @@
       <workItem from="1599553995576" duration="17829000" />
       <workItem from="1599639275230" duration="16118000" />
       <workItem from="1600433705291" duration="11033000" />
+      <workItem from="1600460655270" duration="681000" />
+      <workItem from="1600542462235" duration="1715000" />
     </task>
     <servers />
   </component>
