@@ -13,6 +13,8 @@ import math
 from os import mkdir
 from os.path import join, isdir
 from my_utils import *
+from simple_pid import PID
+
 
 show_animation = True
 
@@ -37,16 +39,17 @@ acc_max_scalar = 3 #(m/s^2)
 vel_max_scalar = 18 #(m/s)
 
 # Proportional coefficients
-Kp_x = 1
-Kp_y = 1
+# Kp_x = 1
+# Kp_y = 1
 Kp_z = 1
+
 Kp_roll = 25
 Kp_pitch = 25
 Kp_yaw = 25
 
 # Derivative coefficients
-Kd_x = 10
-Kd_y = 10
+# Kd_x = 10
+# Kd_y = 10
 Kd_z = 1
 
 waypoints = [[10, 0, 10], [10, 3000, 10], [10, 0, 10]]
@@ -80,19 +83,22 @@ def quad_sim(x_c, y_c, z_c):
     t = 0
     dist_goal = 0
 
-    q = Quadrotor(x=x_pos, y=y_pos, z=z_pos, roll=roll,
+    quadrotor = Quadrotor(x=x_pos, y=y_pos, z=z_pos, roll=roll,
                   pitch=pitch, yaw=yaw, size=1, show_animation=show_animation)
 
     i = 0
-    n_run = 3 # Number of exploration of waypoints
+    n_run = num_waypoints-1 # Number of waypoint-waypoint flights
     irun = 0
 
     
     while True:
+        start = waypoints[i]
+        next_goal = waypoints[(i+1)%num_waypoints]
 
-
-        goal_x = waypoints[(i+1)%num_waypoints][0]
-        goal_y = waypoints[(i + 1) % num_waypoints][1]
+        goal_x = next_goal[0]
+        goal_y = next_goal[1]
+        goal_z = next_goal[2]
+	
         L = distance_2D(waypoints[i],waypoints[(i+1)%num_waypoints])
         T = (L*acc_max_scalar + vel_max_scalar **2 ) /(acc_max_scalar * vel_max_scalar)
         T_s = vel_max_scalar / acc_max_scalar
@@ -103,25 +109,24 @@ def quad_sim(x_c, y_c, z_c):
         acc_max_x, acc_max_y = get_2D_components(waypoints[i],waypoints[(i+1)%num_waypoints],acc_max_scalar)
         vel_max_x, vel_max_y = get_2D_components(waypoints[i],waypoints[(i+1)%num_waypoints],vel_max_scalar)
 
-
-
-        while 0 <= dist_goal:
+        pid_x = PID(1, 0.1, 0.0, setpoint = goal_x)
+        pid_y = PID(1, 0.1, 0.0, setpoint = goal_y)
+        # pid_z = PID(1, 0.1, 0.0, setpoint = goal_z)
+        
+        while t <= T:
+        # while 0 <= dist_goal:
             PosizioneAttuale = np.array([x_pos, y_pos, z_pos])
-            next_goal = waypoints[(i + 1) % num_waypoints]
-            start = waypoints[i]
             dist_goal = distance_AB_2D(PosizioneAttuale, next_goal)
             dist_percorsa2D = distance_AB_2D(start, PosizioneAttuale)
 
-            acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2)
-            vel_ms = math.sqrt(x_vel ** 2 + y_vel ** 2)
             
             if( not is_bang_cost_available( L,acc_max_scalar,vel_max_scalar) ):
                 raise Exception("Bang cost bang not feasible")
 
-
-
             print("running:","{:.2f}".format(t))
+            
             # 3D TEST
+            
             # des_x_pos, des_y_pos, des_z_pos = bang_position(x_pos,y_pos,z_pos,
             #     acc_max_x,acc_max_y,acc_max_z,
             #     vel_max_x,vel_max_y,vel_max_z,
@@ -135,12 +140,16 @@ def quad_sim(x_c, y_c, z_c):
             #     t,T,T_s)
 
             # 2D TEST
-            des_x_pos, des_y_pos = bang_position_2D(x_pos,y_pos,
-                acc_max_x,acc_max_y,
-                t,T,T_s, goal_x, goal_y)
+            
+            # des_x_pos, des_y_pos = bang_position_2D(x_pos,y_pos,
+            #     acc_max_x,acc_max_y,
+            #     t,T,T_s, goal_x, goal_y)
 
-            des_x_vel, des_y_vel = bang_velocity_2D(acc_max_x,acc_max_y,
-                t,T,T_s)
+            # des_x_vel, des_y_vel = bang_velocity_2D(acc_max_x,acc_max_y,
+            #     t,T,T_s)
+
+            
+            
 
             des_x_acc, des_y_acc = bang_accelleration_2D(acc_max_x,acc_max_y,
                 t,T,T_s)
@@ -158,16 +167,21 @@ def quad_sim(x_c, y_c, z_c):
             # des_y_acc = calculate_acceleration(y_c[i], t)
             des_z_acc = calculate_acceleration(z_c[i], t)
 
-
-
             thrust = m * (g + des_z_acc + Kp_z * (des_z_pos -
                                                   z_pos) + Kd_z * (des_z_vel - z_vel))
 
-            roll_torque = Kp_roll * \
-                (((des_x_acc * sin(des_yaw) - des_y_acc * cos(des_yaw)) / g) - roll)
-            pitch_torque = Kp_pitch * \
-                (((des_x_acc * cos(des_yaw) - des_y_acc * sin(des_yaw)) / g) - pitch)
-            yaw_torque = Kp_yaw * (des_yaw - yaw)
+            # roll_torque = Kp_roll * \
+            #     (((des_x_acc * sin(des_yaw) - des_y_acc * cos(des_yaw)) / g) - roll)
+            # pitch_torque = Kp_pitch * \
+            #     (((des_x_acc * cos(des_yaw) - des_y_acc * sin(des_yaw)) / g) - pitch)
+            # yaw_torque = Kp_yaw * (des_yaw - yaw)
+
+            pitch_des  = pid_x(x_pos,dt=dt)
+            roll_des = pid_y(y_pos,dt=dt)
+
+            roll_torque =  Kp_roll * (roll_des - roll )
+            pitch_torque =  Kp_pitch * (pitch_des - pitch)
+            yaw_torque =  Kp_yaw * (des_yaw - yaw)
 
             roll_vel += roll_torque * dt / Ixx
             pitch_vel += pitch_torque * dt / Iyy
@@ -177,13 +191,17 @@ def quad_sim(x_c, y_c, z_c):
             pitch += pitch_vel * dt
             yaw += yaw_vel * dt
 
-            R = rotation_matrix(roll, pitch, yaw)
-            acc = (np.matmul(R, np.array(
-                [0, 0, thrust.item()]).T) - np.array([0, 0, m * g]).T) / m
+            # noise = np.random.normal(0,1,3)
+
+            # R = rotation_matrix(roll + noise[0], pitch + noise[1], yaw + noise[2])
+            R = rotation_matrix(roll , pitch , yaw )
+            acc = (np.matmul(R, np.array( [0, 0, thrust.item()]).T) \
+                - np.array([0, 0, m * g]).T) / m
             
             x_acc = acc[0]
             y_acc = acc[1]
-            z_acc = 0
+            z_acc = acc[2]
+            # z_acc = 0
 
             x_vel += x_acc * dt
             y_vel += y_acc * dt
@@ -193,12 +211,16 @@ def quad_sim(x_c, y_c, z_c):
             y_pos += y_vel * dt
             z_pos += z_vel * dt
 
-            '''if (T_s < t < T - T_s):
-                y_vel = 18
-                y_acc = 0'''
+            # #TODO: test
+            # if (T_s < t < T - T_s):
+            #     y_vel = 18
+            #     y_acc = 0
 
-            q.update_pose(x_pos, y_pos, z_pos, roll, pitch, yaw)
+            quadrotor.update_pose(x_pos, y_pos, z_pos, roll, pitch, yaw)
             
+            acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2)
+            vel_ms = math.sqrt(x_vel ** 2 + y_vel ** 2)
+
             # # # # # # # 
             
             print("X_pos:","{:.2f}".format(x_pos) ,"\tX_vel (m/s):", "{:.2f}".format(x_vel), "\tX_acc (m/s^2):", "{:.2f}".format(x_acc))
@@ -236,6 +258,7 @@ def calculate_position(c, t):
 
     Returns
         Position
+    
     """
     return c[0] * t**5 + c[1] * t**4 + c[2] * t**3 + c[3] * t**2 + c[4] * t + c[5]
 
@@ -440,8 +463,12 @@ def distance_2D(start,end):
 def distance_3D(start,end):
     return math.sqrt( (end[2] - start[2] )**2 + (end[1] - start[1] ) **2 + (end[0] - start[0] )**2 )    
 
+# -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 def main():
+    """
+    Print info header in the log
+    """
     sys.stdout = Logger()
     print("\n\n\n" + "".join(["#"] * 50))
     if sys.platform.startswith('linux'):
