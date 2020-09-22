@@ -14,7 +14,7 @@ from os import mkdir
 from os.path import join, isdir
 from my_utils import *
 from simple_pid import PID
-
+import matplotlib.pyplot as plt
 
 show_animation = True
 
@@ -52,7 +52,7 @@ Kp_yaw = 25
 # Kd_y = 10
 Kd_z = 1
 
-waypoints = [[10, 0, 10], [10, 3000, 10], [10, 0, 10]]
+waypoints = [[10, 0, 10], [500, 0, 10], [10, 0, 10]]
 num_waypoints = len(waypoints)
 
 def quad_sim(x_c, y_c, z_c):
@@ -93,7 +93,7 @@ def quad_sim(x_c, y_c, z_c):
     
     while True:
         start = waypoints[i]
-        next_goal = waypoints[(i+1)%num_waypoints]
+        next_goal = waypoints[(i+1) % num_waypoints]
 
         goal_x = next_goal[0]
         goal_y = next_goal[1]
@@ -109,17 +109,22 @@ def quad_sim(x_c, y_c, z_c):
         acc_max_x, acc_max_y = get_2D_components(waypoints[i],waypoints[(i+1)%num_waypoints],acc_max_scalar)
         vel_max_x, vel_max_y = get_2D_components(waypoints[i],waypoints[(i+1)%num_waypoints],vel_max_scalar)
 
-        pid_x = PID(1, 0.1, 0.0, setpoint = goal_x)
-        pid_y = PID(1, 0.1, 0.0, setpoint = goal_y)
+        pid_x = PID(0.8, 0.0, 0.1, setpoint = goal_x)
+        pid_y = PID(0.8, 0.0, 0.1, setpoint = goal_y)
         # pid_z = PID(1, 0.1, 0.0, setpoint = goal_z)
         
-        while t <= T:
-        # while 0 <= dist_goal:
+        pid_vel_x = PID(1, 0.0, 0.1, setpoint = 0 )
+        pid_vel_y = PID(1, 0.0, 0.1, setpoint = 0 )
+
+        hl, = plt.plot([],[])
+
+        # while t <= T:
+        dist_goal = distance_AB_2D(waypoints[i],waypoints[(i+1)%num_waypoints])
+        while 0.5 <= dist_goal:
             PosizioneAttuale = np.array([x_pos, y_pos, z_pos])
             dist_goal = distance_AB_2D(PosizioneAttuale, next_goal)
             dist_percorsa2D = distance_AB_2D(start, PosizioneAttuale)
 
-            
             if( not is_bang_cost_available( L,acc_max_scalar,vel_max_scalar) ):
                 raise Exception("Bang cost bang not feasible")
 
@@ -148,12 +153,8 @@ def quad_sim(x_c, y_c, z_c):
             # des_x_vel, des_y_vel = bang_velocity_2D(acc_max_x,acc_max_y,
             #     t,T,T_s)
 
-            
-            
-
             des_x_acc, des_y_acc = bang_accelleration_2D(acc_max_x,acc_max_y,
                 t,T,T_s)
-
 
             # ORIGINAL
 
@@ -176,12 +177,21 @@ def quad_sim(x_c, y_c, z_c):
             #     (((des_x_acc * cos(des_yaw) - des_y_acc * sin(des_yaw)) / g) - pitch)
             # yaw_torque = Kp_yaw * (des_yaw - yaw)
 
-            pitch_des  = pid_x(x_pos,dt=dt)
-            roll_des = pid_y(y_pos,dt=dt)
+            x_vel_pid = pid_x(x_pos,dt=dt)
+            y_vel_pid = pid_y(y_pos,dt=dt)
 
-            roll_torque =  Kp_roll * (roll_des - roll )
-            pitch_torque =  Kp_pitch * (pitch_des - pitch)
-            yaw_torque =  Kp_yaw * (des_yaw - yaw)
+            if(y_vel_pid > 18):
+                y_vel_pid = 18
+
+            pid_vel_x.setpoint = x_vel_pid 
+            pid_vel_y.setpoint = y_vel_pid
+            
+            pitch_des = pid_vel_x(x_vel,dt=dt)
+            roll_des = pid_vel_y(y_vel,dt=dt)
+
+            roll_torque = Kp_roll * (roll_des - roll )
+            pitch_torque = Kp_pitch * (pitch_des - pitch)
+            yaw_torque = Kp_yaw * (des_yaw - yaw)
 
             roll_vel += roll_torque * dt / Ixx
             pitch_vel += pitch_torque * dt / Iyy
@@ -192,7 +202,6 @@ def quad_sim(x_c, y_c, z_c):
             yaw += yaw_vel * dt
 
             # noise = np.random.normal(0,1,3)
-
             # R = rotation_matrix(roll + noise[0], pitch + noise[1], yaw + noise[2])
             R = rotation_matrix(roll , pitch , yaw )
             acc = (np.matmul(R, np.array( [0, 0, thrust.item()]).T) \
@@ -231,11 +240,16 @@ def quad_sim(x_c, y_c, z_c):
             print("L:", L)
             print("dist_goal:", dist_goal)
             print("dist_percorsa2D", dist_percorsa2D)
+            
+            hl.set_xdata(np.append(hl.get_xdata(),t))
+            hl.set_ydata(np.append(hl.get_ydata(),goal_y - y_pos))
+            plt.draw()
+            
             # # # # # # # 
             
             t += dt
 
-        print("-"*20,"[Missing",distance_2D([x_pos,y_pos,z_pos],waypoints[(i+1)%num_waypoints]), "m]","-"*20)
+        print("-"*20,"[REACHED, Missing",distance_2D([x_pos,y_pos,z_pos],waypoints[(i+1)%num_waypoints]), "m]","-"*20)
         
         t = 0
         i = (i + 1) % 4
