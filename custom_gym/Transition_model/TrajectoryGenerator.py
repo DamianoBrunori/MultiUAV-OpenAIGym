@@ -16,7 +16,7 @@ class TrajectoryGenerator():
         self.des_y = des_pos[1]
         self.des_z = des_pos[2]
 
-        self.start_x_vel = start_vel[0]
+        self.start_x_vel = 18
         self.start_y_vel = start_vel[1]
         self.start_z_vel = start_vel[2]
 

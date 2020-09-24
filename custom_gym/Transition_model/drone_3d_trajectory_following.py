@@ -9,6 +9,13 @@ import numpy as np
 from Quadrotor import Quadrotor
 from TrajectoryGenerator import TrajectoryGenerator
 from mpl_toolkits.mplot3d import Axes3D
+import math
+from os import mkdir
+from os.path import join, isdir
+from my_utils import *
+import matplotlib
+import matplotlib.pyplot as plt
+
 
 show_animation = True
 
@@ -18,7 +25,7 @@ m = 0.2
 Ixx = 1
 Iyy = 1
 Izz = 1
-T = 5
+T = 120
 
 # Proportional coefficients
 Kp_x = 1
@@ -33,6 +40,11 @@ Kd_x = 10
 Kd_y = 10
 Kd_z = 1
 
+acc_max_scalar = 3 #(m/s^2)
+vel_max_scalar = 18 #(m/s)
+
+waypoints = [[10, 0, 10], [10, 500, 10], [10, 0, 10]]
+num_waypoints = len(waypoints)
 
 def quad_sim(x_c, y_c, z_c):
     """
@@ -40,9 +52,13 @@ def quad_sim(x_c, y_c, z_c):
     follow the trajectory described by the sets of coefficients
     x_c, y_c, and z_c.
     """
-    x_pos = -5
-    y_pos = -5
-    z_pos = 5
+
+
+    x_pos = waypoints[0][0]
+    y_pos = waypoints[0][1]
+    z_pos = waypoints[0][2]
+
+
     x_vel = 0
     y_vel = 0
     z_vel = 0
@@ -56,6 +72,8 @@ def quad_sim(x_c, y_c, z_c):
     pitch_vel = 0
     yaw_vel = 0
 
+    dist_goal = 0
+
     des_yaw = 0
 
     dt = 0.1
@@ -65,11 +83,27 @@ def quad_sim(x_c, y_c, z_c):
                   pitch=pitch, yaw=yaw, size=1, show_animation=show_animation)
 
     i = 0
-    n_run = 8
+    n_run = num_waypoints - 1  # Number of waypoint-waypoint flights
     irun = 0
 
     while True:
+
+        start = waypoints[i]
+        next_goal = waypoints[(i+1) % num_waypoints]
+
+        goal_x = next_goal[0]
+        goal_y = next_goal[1]
+        goal_z = next_goal[2]
+
+        acc_max_x, acc_max_y = get_2D_components(waypoints[i], waypoints[(i + 1) % num_waypoints], acc_max_scalar)
+        vel_max_x, vel_max_y = get_2D_components(waypoints[i], waypoints[(i + 1) % num_waypoints], vel_max_scalar)
+        dist_goal = distance_AB_2D(waypoints[i], waypoints[(i + 1) % num_waypoints])
+
         while t <= T:
+            PosizioneAttuale = np.array([x_pos, y_pos, z_pos])
+            dist_goal = distance_AB_2D(PosizioneAttuale, next_goal)
+            dist_percorsa2D = distance_AB_2D(start, PosizioneAttuale)
+
             # des_x_pos = calculate_position(x_c[i], t)
             # des_y_pos = calculate_position(y_c[i], t)
             des_z_pos = calculate_position(z_c[i], t)
@@ -112,13 +146,31 @@ def quad_sim(x_c, y_c, z_c):
 
             q.update_pose(x_pos, y_pos, z_pos, roll, pitch, yaw)
 
+            acc_ms = math.sqrt(x_acc ** 2 + y_acc ** 2)
+            vel_ms = math.sqrt(x_vel ** 2 + y_vel ** 2)
+
+            # # # # # # #
+            # Log info
+            print("X_pos:","{:.2f}".format(x_pos) ,"\tX_vel (m/s):", "{:.2f}".format(x_vel), "\tX_acc (m/s^2):", "{:.2f}".format(x_acc))
+            print("Y_pos:","{:.2f}".format(y_pos) ,"\tY_vel (m/s):", "{:.2f}".format(y_vel), "\tY_acc (m/s^2):", "{:.2f}".format(y_acc))
+            print("Z_pos:","{:.2f}".format(z_pos) ,"\tZ_vel (m/s):", "{:.2f}".format(z_vel), "\tZ_acc (m/s^2):", "{:.2f}".format(z_acc))
+            print("Acceleration:", "{:.2f}".format(acc_ms))
+            print("Velocity (m/s):", "{:.2f}".format(vel_ms))
+            print("dist_goal:", dist_goal)
+            print("dist_percorsa2D", dist_percorsa2D)
+
             t += dt
+        print("-" * 20, "[REACHED, Missing", distance_2D([x_pos, y_pos, z_pos], waypoints[(i + 1) % num_waypoints]),
+              "m]", "-" * 20)
 
         t = 0
         i = (i + 1) % 4
         irun += 1
         if irun >= n_run:
             break
+        print("-" * 20, "[PASSING TO NEXT WAYPOINT]", "-" * 20)
+
+
 
     print("Done")
 
@@ -188,7 +240,57 @@ def rotation_matrix(roll, pitch, yaw):
          ])
 
 
+def get_3D_components(start3D, end3D, scalar):
+    d_x = end3D[0] - start3D[0]
+    d_y = end3D[1] - start3D[1]
+    d_z = end3D[2] - start3D[2]
+    d = distance_3D(start3D, end3D)
+
+    alpha = math.acos(d_x / d)
+    beta = math.acos(d_y / d)
+    gamma = math.acos(d_z / d)
+
+    x_component = math.cos(alpha) * scalar
+    y_component = math.cos(beta) * scalar
+    z_component = math.cos(gamma) * scalar
+
+    return x_component, y_component, z_component
+
+
+def get_2D_components(start2D, end2D, scalar):
+    d_x = end2D[0] - start2D[0]
+    d_y = end2D[1] - start2D[1]
+    d = distance_2D(start2D, end2D)
+
+    angle = math.acos(d_x / d)
+
+    x_component = math.cos(angle) * scalar
+    y_component = math.sin(angle) * scalar
+
+    return x_component, y_component
+
+
+def distance_2D(start, end):
+    return math.sqrt((end[1] - start[1]) ** 2 + (end[0] - start[0]) ** 2)
+
+
+def distance_3D(start, end):
+    return math.sqrt((end[2] - start[2]) ** 2 + (end[1] - start[1]) ** 2 + (end[0] - start[0]) ** 2)
+
 def main():
+    """
+    Print info header in the log
+    """
+    sys.stdout = Logger()
+    print("\n\n\n" + "".join(["#"] * 50))
+    if sys.platform.startswith('linux'):
+        print("User:", format(getenv("USER")))  # For Linux
+    if sys.platform.startswith('win32'):
+        print("User:", format(getenv("USERNAME")))  # For Windows
+    print("OS:", sys.platform)
+    print("Date:", format(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]))
+    print("".join(["#"] * 50) + "\n\n\n")
+
     """
     Calculates the x, y, z coefficients for the four segments 
     of the trajectory
@@ -196,10 +298,12 @@ def main():
     x_coeffs = [[], [], [], []]
     y_coeffs = [[], [], [], []]
     z_coeffs = [[], [], [], []]
-    waypoints = [[-5, -5, 5], [5, -5, 5], [5, 5, 5], [-5, 5, 5]]
 
-    for i in range(4):
-        traj = TrajectoryGenerator(waypoints[i], waypoints[(i + 1) % 4], T)
+    for i in range(num_waypoints):
+        L = distance_2D(waypoints[i],waypoints[(i+1)%num_waypoints])
+
+
+        traj = TrajectoryGenerator(waypoints[i], waypoints[(i + 1) % num_waypoints], T)
         traj.solve()
         x_coeffs[i] = traj.x_c
         y_coeffs[i] = traj.y_c

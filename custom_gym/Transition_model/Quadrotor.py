@@ -7,6 +7,7 @@ Author: Daniel Ingram (daniel-s-ingram)
 from math import cos, sin
 import numpy as np
 import matplotlib.pyplot as plt
+from my_utils import *
 
 class Quadrotor():
     def __init__(self, x=0, y=0, z=0, roll=0, pitch=0, yaw=0, size=0.25, show_animation=True):
@@ -80,8 +81,9 @@ class Quadrotor():
 
         self.ax.plot(self.x_data, self.y_data, self.z_data, 'b:')
 
-        plt.xlim(-5, 5)
-        plt.ylim(-5, 5)
-        self.ax.set_zlim(0, 10)
+        plt.xlim(PLOTRANGE_X_NEG, PLOTRANGE_X_POS)
+        plt.ylim(PLOTRANGE_Y_NEG, PLOTRANGE_Y_POS)
+
+        self.ax.set_zlim(PLOTRANGE_Z_NEG, PLOTRANGE_Z_POS)
 
         plt.pause(0.001)
