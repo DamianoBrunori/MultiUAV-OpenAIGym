@@ -46,29 +46,17 @@ The aim of this project is to test some RL approaches in a 'new' multi-agent app
 - [pylayers](https://github.com/pylayers/pylayers/blob/master/INSTALL.md) (not for now)
 - . . .
 
-
-
-#### Notes
-
-Before running the code you have to install my custom environment 'UAVEnv-v0', which consistents with OpenAI Gym. In order to do this, you have to navigate through your terminal/prompt to the folder containing 'setup.py', i.e. to 'UAV_RL_Thesis/custom_gym/', and type:
-
-- pip install -e .
-
-#### Run
-
-The files must be ran in the following order:
-
-- scenario_objects.py
-- plotting.py
-- env_wrapper.py
-
 ### Setup
 
-You can setup all you nedd very quicly by using 1. Pip or yo can use 2. Docker.
+Before running the code you have to setup my custom environment 'UAVEnv-v0', which consistents with OpenAI Gym. In order to do this you can install all you nedd very quicly by using 1. Pip or 2. Docker.
 
 #### 1. Pip
 
-From your terminal/prompt simply go to the folder where 'requirements.txt' is located and type 'pip install -r requirements.txt'.
+Navigate through your terminal/prompt to the folder containing 'setup.py', i.e. to 'UAV_RL_Thesis/custom_gym/', and type:
+
+- pip install -e .
+
+Now all needed dependencies are installed.
 
 #### 2. Docker
 Install Docker:
@@ -100,6 +88,13 @@ Now that our image is running...
 
 ---
 
+#### Run
+
+The files must be ran in the following order:
+
+- scenario_objects.py
+- plotting.py
+- env_wrapper.py
 
 ## References
 
