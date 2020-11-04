@@ -62,12 +62,19 @@ The files must be ran in the following order:
 - plotting.py
 - env_wrapper.py
 
+### Setup
 
-### Docker
+You can setup all you nedd very quicly by using pip or yo can use Docker.
+
+### Pip
+
+From your terminal/prompt simply go to the 'ReqSetup' folder and type 'pip install -r requirements.txt'.
+
+#### Docker
 Install Docker:
 https://docs.docker.com/get-docker/
 
-#### Using Jupyter
+##### Using Jupyter
 Build Docker Ubuntu based image named docker-uav-rl from Dockerfile:
 ```console
 $ docker build -t docker-uav-rl:latest .
@@ -82,13 +89,13 @@ Now that our image is running...
 3. Open the notebook file main.ipynb 
 4.  **run all cells**
 
-#### Ubuntu
+##### Ubuntu
 **NO MORE AVAILABLE**
 
 ...
-#### Windows
+##### Windows
 ...
-#### MacOs
+##### MacOs
 ...
 
 ---
