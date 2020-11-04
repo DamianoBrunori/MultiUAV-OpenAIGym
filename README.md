@@ -64,17 +64,17 @@ The files must be ran in the following order:
 
 ### Setup
 
-You can setup all you nedd very quicly by using pip or yo can use Docker.
+You can setup all you nedd very quicly by using 1. Pip or yo can use 2. Docker.
 
-#### Pip
+#### 1. Pip
 
 From your terminal/prompt simply go to the 'ReqSetup' folder and type 'pip install -r requirements.txt'.
 
-#### Docker
+#### 2. Docker
 Install Docker:
 https://docs.docker.com/get-docker/
 
-##### Using Jupyter
+###### Using Jupyter
 Build Docker Ubuntu based image named docker-uav-rl from Dockerfile:
 ```console
 $ docker build -t docker-uav-rl:latest .
@@ -89,13 +89,13 @@ Now that our image is running...
 3. Open the notebook file main.ipynb 
 4.  **run all cells**
 
-##### Ubuntu
+###### Ubuntu
 **NO MORE AVAILABLE**
 
 ...
-##### Windows
+###### Windows
 ...
-##### MacOs
+###### MacOs
 ...
 
 ---
