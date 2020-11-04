@@ -37,12 +37,12 @@ The aim of this project is to test some RL approaches in a 'new' multi-agent app
 
 #### Dependencies 
 
-- gym
-- Numpy
-- decimal
-- sklearn
-- Matplotlib
-- mpl_toolkits
+- gym (0.10.5)
+- Numpy (1.15.2)
+- decimal (1.70)
+- sklearn (0.19.1)
+- Matplotlib (2.1.2)
+- mpl_toolkits (the same as Matplotlib)
 - [pylayers](https://github.com/pylayers/pylayers/blob/master/INSTALL.md) (not for now)
 - . . .
 
