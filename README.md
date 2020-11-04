@@ -68,7 +68,7 @@ You can setup all you nedd very quicly by using 1. Pip or yo can use 2. Docker.
 
 #### 1. Pip
 
-From your terminal/prompt simply go to the 'ReqSetup' folder and type 'pip install -r requirements.txt'.
+From your terminal/prompt simply go to the folder where 'requirements.txt' is located and type 'pip install -r requirements.txt'.
 
 #### 2. Docker
 Install Docker:
