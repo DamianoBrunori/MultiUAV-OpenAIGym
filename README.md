@@ -54,8 +54,6 @@ Before running the code you have to install my custom environment 'UAVEnv-v0', w
 
 - pip install -e .
 
-Every time you modify 'custom_uav_env.py', you have to perform this procedure before running the other files needed to run the simulation.
-
 #### Run
 
 The files must be ran in the following order:
