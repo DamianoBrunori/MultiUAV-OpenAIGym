@@ -66,7 +66,7 @@ The files must be ran in the following order:
 
 You can setup all you nedd very quicly by using pip or yo can use Docker.
 
-### Pip
+#### Pip
 
 From your terminal/prompt simply go to the 'ReqSetup' folder and type 'pip install -r requirements.txt'.
 
