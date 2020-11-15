@@ -33,18 +33,25 @@ The aim of this project is to test some RL approaches in a 'new' multi-agent app
 
 #### Programming Language
 
-- Python (version 3.6)
+- Python (version >= 3.6)
 
 #### Dependencies 
 
 - gym (0.10.5)
 - Numpy (1.15.2)
-- decimal (1.70)
+- scipy
 - sklearn (0.19.1)
 - Matplotlib (2.1.2)
 - mpl_toolkits (the same as Matplotlib)
+- ImageMagick
 - [pylayers](https://github.com/pylayers/pylayers/blob/master/INSTALL.md) (not for now)
-- . . .
+
+To install ImageMagick on UBUNTU, type the following commands from your terminal:
+    
+    - sudo apt update
+    - sudo apt install imagemagick
+
+To install ImageMagick on WINDOWS, simply download and install ImageMagick from [https://imagemagick.org/script/download.php](https://imagemagick.org/script/download.php).
 
 ### Setup
 
