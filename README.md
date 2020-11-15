@@ -103,6 +103,8 @@ The files must be ran in the following order:
 - plotting.py
 - env_wrapper.py
 
+Every time you want to modify the scenario or the training parameters, you can do it by simply changing the desired values in 'my_utils.py'. After doing this, you have to run again 'scenario_object.py' (to generate the new scenario according to the new selected parameters) and 'plotting.py' (to save relevant data and visualize your new scenario). Now you are ready to start the training by running 'env_wrapper.py' (if you want to run multiple times a training for the same scenario, you can just run this last file after launching once the other two files). 
+
 ## References
 
 . . .
