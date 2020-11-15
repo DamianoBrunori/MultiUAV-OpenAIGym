@@ -5,7 +5,7 @@ setup(name='custom_uav_env',
       author='Damiano Brunori',
       author_email='brunori@diag.uniroma1.it',
       install_requires=['gym',
-                        'numpy',
-                        'sklearn',
-                        'matplotlib']
+      					'numpy',
+      					'sklearn',
+      					'matplotlib']
       )

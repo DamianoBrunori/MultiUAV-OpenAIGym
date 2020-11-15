@@ -1,6 +1,5 @@
 # NETWORK MAIN CLASSES AND METHODS DEFINITION RELATED TO IT.
 
-#NOT USED
 class Networking:
 
     def __init__(self):

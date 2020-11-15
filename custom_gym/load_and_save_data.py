@@ -80,6 +80,8 @@ class Loader(object):
             self._initial_clusters_radiuses = pickle.load(f)
         with open(join(INITIAL_USERS_DIR, INITIAL_CLUSTERER), "rb") as f:
             self._initial_clusterer = pickle.load(f)
+        with open(join(INITIAL_USERS_DIR, INITIAL_USERS_CLUSTERS), "rb") as f:
+            self._initial_usr_clusters = pickle.load(f)
 
     # Points:
     @property 
@@ -143,7 +145,11 @@ class Loader(object):
 
     @property
     def initial_clusterer(self):
-        return self._initial_clusterer  
+        return self._initial_clusterer
+
+    @property
+    def initial_usr_clusters(self):
+        return self._initial_usr_clusters
 
 class Saver(object):
     '''
@@ -190,7 +196,7 @@ class Saver(object):
         with open(join(MAP_STATUS_DIR, PERCEIVED_STATUS_MATRIX), 'wb') as f:
             pickle.dump(perceived_status_matrix, f)
 
-    def users_clusters(self, initial_users_positions, initial_centroids, initial_clusters_radiuses, initial_clusterer):
+    def users_clusters(self, initial_users_positions, initial_centroids, initial_clusters_radiuses, initial_clusterer, initial_usr_clusters):
         # Initial users and centroids:
 
         copyreg.pickle(scenario_objects.User, scenario_objects.User.pickle_MyClass)
@@ -203,3 +209,5 @@ class Saver(object):
             pickle.dump(initial_clusters_radiuses, f)
         with open(join(INITIAL_USERS_DIR, INITIAL_CLUSTERER), 'wb') as f:
             pickle.dump(initial_clusterer, f)
+        with open(join(INITIAL_USERS_DIR, INITIAL_USERS_CLUSTERS), 'wb') as f:
+            pickle.dump(initial_usr_clusters, f)

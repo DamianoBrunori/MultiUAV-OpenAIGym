@@ -14,11 +14,13 @@ def hex_to_rgb(hex):
 Q_LEARNING = True
 SARSA = False
 
+UAV_STANDARD_BEHAVIOUR = False
+
 N_TIMESLOTS_PER_HOUR = 60
 N_TIMESLOTS_PER_DAY = N_TIMESLOTS_PER_HOUR*24 
 
 # TRAINING PARAMETERS
-EPISODES = 3000 # epochs
+EPISODES = 7000 # epochs
 ITERATIONS_PER_EPISODE = 30
 MOVE_USERS_EACH_N_EPOCHS = 300
 UPDATE_USERS_REQUESTS_EACH_N_ITERATIONS = 10
@@ -27,19 +29,23 @@ STEPS = N_TIMESLOTS_PER_DAY
 #FULL_BATTERY_LEVEL = 100
 #BATTERY_LEVEL_CONSIDERED_FULL = FULL_BATTERY_LEVEL-1
 
+CONTINUOUS_TIME = True
+
+MIDDLE_CELL_ASSUMPTION = True
+
 N_SERVICES = 3
 
 # OBSERVATION
 N_UC = 2
 N_CS = 1
 N_BATTERY_LEVELS = 10
-PERC_CONSUMPTION_PER_ITERATION = 4 # --> in this way it is possible to have integer battery levels withouth approximation errors which lead to 'Key Error' ininside Q-table dictionary
+PERC_CONSUMPTION_PER_ITERATION = 4 # --> in this way it is possible to have integer battery levels withouth approximation errors which lead to 'Key Error' inside Q-table dictionary
 FULL_BATTERY_LEVEL = ITERATIONS_PER_EPISODE*PERC_CONSUMPTION_PER_ITERATION # = iteration * 4
 PERC_BATTERY_CHARGED_PER_IT = 20
 BATTERY_CHARGED_PER_IT = round((PERC_BATTERY_CHARGED_PER_IT*FULL_BATTERY_LEVEL)/100)
 #PERC_CONSUMPTION_PER_ITERATION = STEP_REDUCTION_TO_GO_TO_CS
 PERC_BATTERY_TO_GO_TO_CS = int(PERC_CONSUMPTION_PER_ITERATION/4) # --> 4/4 = 1
-N_UAVS = 2
+N_UAVS = 1
 PERC_CONSUMPTION_IF_HOVERING = 2
 
 PROPULSION_BATTERY_CONSUMPTION = 3.33
@@ -79,12 +85,12 @@ RADIAL_DISTANCE_X = 4
 RADIAL_DISTANCE_Y = 4
 
 CREATE_ENODEB = False
-DIMENSION_2D = True
-UNLIMITED_BATTERY = True
-INF_REQUEST = True
-STATIC_REQUEST = True
-MULTI_SERVICE = False
-NOISE_ON_POS_MEASURE = False
+DIMENSION_2D = True # --> Enable/Disable 2D environment
+UNLIMITED_BATTERY = True # --> Enable/Disable battery limitation on UAVs
+INF_REQUEST = True # --> Enable/Disable continuous users requests 
+STATIC_REQUEST = True # --> Enable/Disable static (i.e., not moving users) request
+MULTI_SERVICE = False # --> Enable/Disable limitation on UAV bandwidth
+NOISE_ON_POS_MEASURE = False # --> Enable/Disable random error on the position of each UAV used 
 USERS_PRIORITY = False
 
 RAD_BETWEEN_POINTS = 2*pi/N_UAVS
@@ -116,7 +122,7 @@ ACTUAL_UAV_FOOTPRINT = UAV_FOOTPRINT/CELL_RESOLUTION_PER_COL
 HALF_RESOLUTION_X =(AREA_WIDTH//CELLS_COLS)/2
 HALF_RESOLUTION_Y =(AREA_WIDTH//CELLS_ROWS)/2
 HALF_RESOLUTION_Z = 0.5 # --> the resolution along z is fixed
-UAV_XY_STEP = 1
+UAV_XY_STEP = 0.2
 UAV_Z_STEP = 3
 
 # OBSTACLES PARAMETERS:
@@ -207,6 +213,8 @@ else:
 
 DICT_ACTION_SPACE = DICT_ACTION_SPACE_2D if DIMENSION_2D==True else DICT_ACTION_SPACE_3D
 LIMIT_VALUES_FOR_ACTION = [] # --> sarà una lista di tuple (min_val, max_val)
+
+ACTION_SPACE_STANDARD_BEHAVIOUR = [UP, DOWN, LEFT, RIGHT, RISE, GO_TO_CS, CHARGE]
 
 # ENVIRONMENT PARAMETERS:
 BS_POS = np.vstack((ENODEB_X, ENODEB_Y, ENODEB_Z))
@@ -315,8 +323,8 @@ SERVICE_PROBABILITIES = [0.1, 0.5, 0.25, 0.15]
 
 #CENTROIDS_MIN_MAX_COORDS = [[(2,2), (5, 5)], [(7, 7), (7,7)], [(6, 6), (2,2)], [(2, 2), (2,2)]] # --> [(min_x, max_x), (min_y, max_y)]
 #CENTROIDS_MIN_MAX_COORDS = [[(7, 7), (7,7)], [(6, 6), (2,2)], [(2, 2), (2,2)]] # [[(7, 7), (7,7)], [(2, 2), (2,2)]]
-CENTROIDS_MIN_MAX_COORDS = [[(2,2), (5, 5)], [(7, 7), (7,7)]]
-#CENTROIDS_MIN_MAX_COORDS = [[(2,2), (5, 5)]]
+#CENTROIDS_MIN_MAX_COORDS = [[(2,2), (5, 5)], [(7, 7), (7,7)]]
+CENTROIDS_MIN_MAX_COORDS = [[(2,2), (5, 5)]]
 FIXED_CLUSTERS_NUM = len(CENTROIDS_MIN_MAX_COORDS)
 # LIST OF THE NUMBER OF CLUSTERS TO TEST WHEN LOOKING FOR THE OPTIMAL NUMBER OF USERS CLUSTERS:
 CLUSTERS_NUM_TO_TEST = [3, 4, 5, 6, 7, 8, 9, 10]

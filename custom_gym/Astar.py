@@ -5,14 +5,10 @@ from load_and_save_data import Loader
 
 coords_moves = [-1, 0, 1]
 
-'''
-def moves(cell):
-
-    all_moves = list(product(coords_moves, coords_moves, coords_moves))
-    return moves
-'''
-
 def moves2D(cell):
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # Allowed movements in 2D based on Manhattan distance.  #
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     all_moves = list(product(coords_moves, coords_moves))
     manhattan_moves2D = []
@@ -22,6 +18,9 @@ def moves2D(cell):
     return manhattan_moves2D
 
 def moves3D(cell):
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # Allowed movements in 3D based on Manhattan distance.  #
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
     all_moves = list(product(coords_moves, coords_moves, coords_moves))
     manhattan_moves3D = []
@@ -35,6 +34,9 @@ def moves3D(cell):
     return manhattan_moves3D
 
 def allowed_neighbours_2D(moves, node, env_matrix, resolution='min'):
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # Allowed neighbour positions in 2D based on Manhattan distance.  #
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
     if (resolution == 'min'):
         x_upper_bound = AREA_WIDTH
@@ -57,8 +59,8 @@ def allowed_neighbours_2D(moves, node, env_matrix, resolution='min'):
 
         try:
             # if 'move_x' and 'move_y' are out of 'env_matrix', then keep searching for other moves (see continue inside 'except'):
-            y = int(new_node_y-0.5)
-            x = int(new_node_x-0.5)
+            y = int(new_node_y)
+            x = int(new_node_x)
             if ( (x<0) or (y<0) ):
                 continue
             else:
@@ -70,12 +72,13 @@ def allowed_neighbours_2D(moves, node, env_matrix, resolution='min'):
             neighbours_list.append((new_node_x, new_node_y))
         else:
             continue
-        #if (env_matrix[new_node_y][new_node_x]._z_coord < new_node_z):
-        #    neighbours_list.append((new_node_x, new_node_y, new_node_z))
 
     return neighbours_list
 
 def allowed_neighbours_3D(moves, node, env_matrix, resolution='min'):
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # Allowed neighbour positions in 3D based on Manhattan distance.  #
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     
     if (resolution == 'min'):
         x_upper_bound = AREA_WIDTH
@@ -105,8 +108,8 @@ def allowed_neighbours_3D(moves, node, env_matrix, resolution='min'):
 
         try:
             # if 'move_x' and 'move_y' are out of 'env_matrix', then keep searching for other moves (see continue inside 'except'):
-            y = int(new_node_y-0.5)
-            x = int(new_node_x-0.5)
+            y = int(new_node_y)
+            x = int(new_node_x)
             if ( (x<0) or (y<0) ):
                 continue
             else:
@@ -118,13 +121,15 @@ def allowed_neighbours_3D(moves, node, env_matrix, resolution='min'):
             neighbours_list.append((new_node_x, new_node_y, new_node_z))
         else:
             continue
-        #if (env_matrix[new_node_y][new_node_x]._z_coord < new_node_z):
-        #    neighbours_list.append((new_node_x, new_node_y, new_node_z))
 
     return neighbours_list
 
 class Node():
-    """A node class for A* Pathfinding"""
+    '''
+    |---------------------------------|
+    |A node class for A* path planner:|
+    |---------------------------------|
+    '''
 
     def __init__(self, parent=None, position=None):
         self.parent = parent
@@ -139,19 +144,21 @@ class Node():
 
 
 def astar(env_matrix, start, goal):
-    """Returns a list of tuples as a path from the given start to the given goal in the given 'env_matrix'"""
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    # Return a list of tuples as a path from the given start to the given goal in the given 'env_matrix'. #
+    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    # Create start and goal node
+    # Create start and goal node:
     start_node = Node(None, start)
     start_node.g = start_node.h = start_node.f = 0
     goal_node = Node(None, goal)
     goal_node.g = goal_node.h = goal_node.f = 0
 
-    # Initialize both open and closed list
+    # Initialize both open and closed list:
     open_set = []
     closed_set = []
 
-    # Add the start node
+    # Add the start node:
     open_set.append(start_node)
 
     if (DIMENSION_2D == True):
@@ -161,10 +168,10 @@ def astar(env_matrix, start, goal):
         moves = moves3D
         allowed_neighbours = allowed_neighbours_3D
 
-    # Loop until you find the goal
+    # Loop until the goal si found:
     while len(open_set) > 0:
 
-        # Get the current node
+        # Get the current node:
         current_node = open_set[0]
         current_index = 0
         for index, item in enumerate(open_set):
@@ -172,7 +179,7 @@ def astar(env_matrix, start, goal):
                 current_node = item
                 current_index = index
 
-        # Current node removal by 'pop' from open set and addition of the same node to closed set
+        # Current node removal by 'pop' from open set and addition of the same node to closed set:
         open_set.pop(current_index)
         closed_set.append(current_node)
 
@@ -192,9 +199,7 @@ def astar(env_matrix, start, goal):
         children = []
 
         moves_for_current_node = moves(current_node)
-        #print("MOSSEEEEE", len(moves_for_current_node))
         new_allowed_positions = allowed_neighbours(moves_for_current_node, current_node, env_matrix, resolution='min')
-        #print(new_allowed_positions)
 
         for new_position in new_allowed_positions:
 
@@ -216,12 +221,6 @@ def astar(env_matrix, start, goal):
             if child in closed_set:
                 continue
 
-            '''
-            for closed_child in closed_set:
-                if child == closed_child:
-                    continue
-            '''
-
             # Create the f, g, and h values
             child.g = current_node.g + 1
             if (DIMENSION_2D == False):
@@ -230,7 +229,6 @@ def astar(env_matrix, start, goal):
                 child.h = ((child.position[0] - goal_node.position[0]) ** 2) + ((child.position[1] - goal_node.position[1]) ** 2)
             child.f = child.g + child.h
 
-
             # Case in which the child is already inside the open set:
             if (child in open_set):
                 open_node = open_set[open_set.index(child)]
@@ -238,12 +236,6 @@ def astar(env_matrix, start, goal):
                 if (child.g > (open_node.g)):
                     continue
 
-            '''
-            for open_node in open_set:
-                if child == open_node and child.g > open_node.g:
-                    continue
-            '''
-            
             for open_node in open_set:
                 if child == open_node and child.g < open_node.g:
                     open_set.pop(open_set.index(open_node))
@@ -251,11 +243,15 @@ def astar(env_matrix, start, goal):
             # Child addition to the oper set:
             open_set.append(child)
 
-
 def main():
 
-    # IF YOU ARE PERFORMING SOME TESTS WITH DIFFERENT start AND goal, BE SURE TO SET start AND goal
-    # ACCORDING TO THE VALUE ASSIGNED TO 'DIMENSION_2D', OTHERWISE THE PATH FOUND BY A* WILL BE OBVIOSLY EQUAL TO None.
+    '''
+    |------------------------------------------------------------------------------------------------------------------|
+    |IF YOU ARE PERFORMING SOME TESTS WITH DIFFERENT start AND goal, BE SURE TO SET start AND goal                     |
+    |ACCORDING TO THE VALUE ASSIGNED TO 'DIMENSION_2D', OTHERWISE THE PATH FOUND BY A* WILL BE OBVIOSLY EQUAL TO None. |
+    |------------------------------------------------------------------------------------------------------------------|
+    '''
+    
     start = (3.5, 3.5)
     goal = (5.5, 9.5)
 
@@ -263,14 +259,7 @@ def main():
     load.maps_data()
     points_matrix = load._points_matrix
     cells_matrix = load._cells_matrix
-    '''
-    for i in range(AREA_HEIGHT):
-        for j in range(AREA_WIDTH):
-            if points_matrix[i][j]._status == OBS_IN:
-                print("OSTACOLO")
-            elif points_matrix[i][j]._status == CS_IN:
-                print("CHARGING STATION")
-    '''
+    
     path = astar(points_matrix, start, goal)
     print("PATH:", path)
 

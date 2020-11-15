@@ -9,14 +9,14 @@ from decimal import Decimal
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_samples, silhouette_score
 from numpy import linalg as LA
-from pylayers.antprop.loss import *
+#from pylayers.antprop.loss import *
 from load_and_save_data import *
 
 class Cell:
     '''
-    |------------------------------------------------------------------------|
-    |Define the Cell by its state, points included in it and its coordinates:|
-    |------------------------------------------------------------------------|
+    |-------------------------------------------------------------------------------------------------------------------------------------|
+    |Define the Cell by its state, points included in it and its coordinates (you can provide also users, but they are not actually set): |
+    |-------------------------------------------------------------------------------------------------------------------------------------|
     '''
 
     def __init__(self, status, points, x_coord, y_coord, z_coord, users):
@@ -37,10 +37,10 @@ class Cell:
 
 class Point:
     '''
-    |---------------------------------------------------------------------|
-    |Define the Point (i.e. minimum available map resolution) by its      |
-    |states and coordinates:                                              |
-    |---------------------------------------------------------------------|
+    |-------------------------------------------------------------------------------------------------------------------|
+    |Define the Point (i.e., minimum available map resolution: it is actually a cell of minimum resolution) by its      |
+    |states and coordinates:                                                                                            |
+    |-------------------------------------------------------------------------------------------------------------------|
     '''
 
     def __init__(self, status, x_coord, y_coord, z_coord, users):
@@ -84,12 +84,15 @@ class User:
 
     @property
     def _service_completed(self):
-        if ( (self._info[0]!=NO_SERVICE) and (self._info[4]==self._info[2]) ): # --> A check on the user request (NO_SERVICE or SERVICE requet) is needed in order to set a service as completed or not.
+        if ( (self._info[0]!=NO_SERVICE) and (self._info[4]==self._info[2]) ): # --> A check on the user request (NO_SERVICE or SERVICE request) AND on the service_time (w.r.t. the needed service time) is necessary in order to set a service as completed or not.
             return True
         else:
             return False
 
     def user_info_update(self, QoEs_store, current_provided_services, current_iteration):
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # #
+        # SIDE EFFECT on User attribute '_info' in case of DISCRETE and MUTLI-SERVICE request coming from the users  #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # #
 
         # Save the the values at the end of the epoch (when the current iteration step is the last one for the current epoch):
         if (current_iteration==ITERATIONS_PER_EPISODE):
@@ -98,11 +101,13 @@ class User:
 
             return
 
+        # _________________________________________________ Case of NO SERVICE PROVISION when asking a service : _________________________________________________  
+        
         if ( (self._info[1] != NO_SERVICE) and (self._info[0] == False) ):
             
             # Increase the elapsed time between the request and the provision of the service. 
             self._info[3] += 1
-            #user_request_service_elapsed_time = self._info[3]
+
             if (self._service_interrupted):
                 QoEs_store[0].append(self._info[4]/self._info[2])
 
@@ -110,9 +115,14 @@ class User:
                 self._info[2] -= self._info[4]
                 self._info[3] = 0
                 self._info[4] = 0
+
             # Set to zero the time for which the service is provided.            
-            self._info[4] = 0 # --> DA RIVEDERE MEGLIO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            #users_served_time = self._info[4]
+            self._info[4] = 0
+
+        # ________________________________________________________________________________________________________________________________________________________
+
+        
+        # _________________________________________________ Case of SERVICE PROVISION when asking a service ______________________________________________________
 
         elif ( (self._info[1] != NO_SERVICE) and (self._info[0] == True) ):
 
@@ -125,20 +135,23 @@ class User:
 
             # Increase the time for which the service is provided. 
             self._info[4] += 1
-            #users_served_time = self._info[4]
+
             if (self._info[3]!=0):
                 QoEs_store[1].append(self._info[3])
+            
             # Set to zero the elapsed time between the (next) request and the (next) provision of the service.
-            self._info[3] = 0 # --> DA RIVEDERE MEGLIO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            #user_request_service_elapsed_time = self._info[3]
+            self._info[3] = 0
+
+        # ________________________________________________________________________________________________________________________________________________________
+
+        
+        # _________________________________________________ Case of COMPLETED SERVICE ____________________________________________________________________________
 
         if (self._service_completed):
 
-            #users_served_time = self._info[4]
-            #user_request_service_elapsed_time = self._info[3]
             QoEs_store[0].append(1.0)
 
-            # if the requested service time is equal to the provision time of the service, then the user will stop to ask for a service.
+            # if the requested service time is equal to the provision time of the service, then the user will stop to ask for a service:
             self._info[0] = False 
             self._info[1] = NO_SERVICE
             self._info[2] = 0
@@ -146,29 +159,23 @@ class User:
             self._info[4] = 0 
             self._info[5] = 0
 
-        #return users_served_time, user_request_service_elapsed_time
+        # ________________________________________________________________________________________________________________________________________________________
+
 
     def user_info_update_inf_request(self, QoEs_store, current_iteration):
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # #
+        # SIDE EFFECT on User attribute '_info' in case of CONTINUOS (i.e., INFINITE, then there is no need to check if a user is asking or not for a service) and SINGLE_SERVICE request coming from the users   #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # #
+
         # For a negligible time instant could happen that a user is not served because the service provision is switching from a UAV to another one, and in this case
-        # the info related to the considered user is reset. In any case, the 'QoE' method allows you to track the actual info related to each user by negleting these 'switching service time').
-
-        #global USERS_SERVED_TIME
-        #global USERS_REQUEST_SERVICE_ELAPSED_TIME
-
-        #print("ITERATION:", current_iteration)
-        #if (current_iteration == (ITERATIONS_PER_EPISODE-1) ):
-            #print("FROCCHIOOOOOOOOOOOOOOOOOOOOOOO")
-            #USERS_SERVED_TIME += self._info[4]
-            #USERS_REQUEST_SERVICE_ELAPSED_TIME += self._info[3]
-            #users_served_time += self._info[4]
-            #user_request_service_elapsed_time += self._info[3]
-
-            #return users_served_time, user_request_service_elapsed_time
+        # the info related to the considered user is reset. In any case, the 'QoE' method allows you to track the actual info related to each user by negletting these 'switching service time'.
 
         # Save the the values at the end of the epoch (when the current iteration step is the last one for the current epoch):
         if (current_iteration==ITERATIONS_PER_EPISODE):
             QoEs_store[0].append(self._info[4]/self._info[2]) if self._info[2]!=0 else 0
             QoEs_store[1].append(self._info[3])
+
+        # ________________________________________________________ Case of NO SERVICE PROVISION ________________________________________________________________________________
 
         if (self._info[0] == False):
             
@@ -176,16 +183,8 @@ class User:
             self._info[3] += 1
             
             # Case in which the user where served at the previous instant:
-            #if (self._info[4] != 0):
-                #print("PEGOLOOOOOOOOO")
-                #USERS_SERVED_TIME += self._info[4]
-                #users_served_time += self._info[4]
-                #print("ALLLLAAAAAAAAAAAAAAAAAAAAAAaaaa", users_served_time)
-            
-            #print(self._info[0], self._info[4], self._info[2])
             if ( (self._info[4]>0) and (self._info[4]<self._info[2]) ):
-                #print("CI SONOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
-                #print(self._info[4]/self._info[2])
+                
                 QoEs_store[0].append(self._info[4]/self._info[2])
 
                 # Once a request is interrupted, then it will be considered as a new request (to serve according to the remaining needed service time) in the next time_step:
@@ -196,29 +195,31 @@ class User:
             # Set to zero the time for which the service is provided.
             self._info[4] = 0
         
+        # ________________________________________________________________________________________________________________________________________________________________________
+
+
+        # ________________________________________________________ Case of SERVICE PROVISION _____________________________________________________________________________________
+
         elif (self._info[0] == True):
+
             # Increase the time for which the service is provided (without interruptions). 
             self._info[4] += 1
             
             if (self._info[3]!=0):
                 QoEs_store[1].append(self._info[3])
-            # Case in which the user where not served at the previous instant: 
-            #if (self._info[3] != 0):
-                #print("PEGOLO2222222222222")
-                #USERS_REQUEST_SERVICE_ELAPSED_TIME += self._info[3]
-                #user_request_service_elapsed_time += self._info[3]
             
             # Set to zero the elapsed time between the (next) request and the (next) provision of the service.
             self._info[3] = 0
 
-        #print(self._info[0]==False, self._info[4]>0, self._info[4]<self._info[2])
+        # ________________________________________________________________________________________________________________________________________________________________________
 
-        #print(self._info[4], self._info[2])
+        
+        # _________________________________________________ Case of COMPLETED SERVICE ____________________________________________________________________________
+
         if (self._info[4]==self._info[2]):
-            #print(self._info[4], self._info[2])
             QoEs_store[0].append(1.0)
 
-            # if the requested service time is equal to the provision time of the service, then the user will stop to ask for a service. 
+            # if the requested service time is equal to the provision time of the service, then the user will stop to ask for a service:
             self._info[0] = False
             self._info[1] = None
             self._info[2] = ITERATIONS_PER_EPISODE
@@ -226,33 +227,19 @@ class User:
             self._info[4] = 0 
             self._info[5] = 0
 
-        #return users_served_time, user_request_service_elapsed_time
+        # _________________________________________________________________________________________________________________________________________________________________________
 
-    @staticmethod
-    def QoE(users):
-
-        # NOT USED --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        QoE1 = 0
-        QoE2 = 0
-        n_active_users = 0
-        for user in users:
-            if user._info[3] > 0:
-                QoE2 += 1
-            if user._info[4] > 0:
-                QoE1 += 1
-            if (user._info[0]!=NO_SERVICE):
-                n_active_users += 1
-
-        return QoE1, QoE2, n_active_users
 
     @staticmethod
     def avg_QoE(current_epoch, users_served_per_epoch, users_request_service_elapsed_time, covered_users_per_epoch, avg_QoE1_per_epoch_list, avg_QoE2_per_epoch_list, avg_QoE3_per_epoch):
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        # Fullfils the lists which store the average values for the chosen QoEs #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 
         avg_QoE1_per_epoch_list[current_epoch-1] = users_served_per_epoch #/service_request_per_epoch # --> Start from the first epoch, without considering the obviously 0 values for the instant immediately before the first epoch.
         avg_QoE2_per_epoch_list[current_epoch-1] = users_request_service_elapsed_time # --> Start from the first epoch, without considering the obviously 0 values for the instant immediately before the first epoch.
         avg_QoE3_per_epoch[current_epoch-1] = covered_users_per_epoch
 
-        #return avg_QoE1_per_epoch, avg_QoE2_per_epoch
 
     @staticmethod
     def get_truncated_normal(mean, std, lower_bound, upper_bound, n_users):
@@ -261,15 +248,8 @@ class User:
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
         upper_bound -= 1
-        # 'rvs' return random variates of a given type
-        #print("MINNNNNNNNNNN", lower_bound)
-        #print("MAXXXXXXXXXXX", upper_bound)
-        ##print("STDDDDDDDDDDD", std)
-        #print("MEAAAAAAAAAAN", mean)
-        #trunc = truncnorm((lower_bound - mean) / std, (upper_bound - mean) / std, loc=mean, scale=std)
-        #print(trunc.rvs(size=n_users))
-        #print(truncnorm((lower_bound - mean) / std, (upper_bound - mean) / std, loc=mean, scale=std).rvs(size=n_users))
-        return truncnorm((lower_bound - mean) / std, (upper_bound - mean) / std, loc=mean, scale=std).rvs(size=(n_users))
+
+        return truncnorm((lower_bound - mean) / std, (upper_bound - mean) / std, loc=mean, scale=std).rvs(size=(n_users)) # --> 'rvs' return random variates of a given type
 
     @staticmethod
     def centroids_user_cluster_generation(centroids_min_max_coords, clusters_num):
@@ -285,13 +265,7 @@ class User:
             centroid_max_y = centroids_min_max_coords[centroid_idx][1][1]
             centroid = np.random.uniform(low=[centroid_min_x, centroid_min_y], high=[centroid_max_x, centroid_max_y], size=(1, 2))
             centroids.append(list(centroid[0]))
-        '''
-        variance = pow(std, 2)
-        covariance_matrix = [[variance, 0], [0, variance]]
-        mean = [mean, mean]
-
-        centroids = np.random.multivariate_normal(mean, covariance_matrix, clusters_num)
-        '''
+        
         return centroids
 
     @staticmethod
@@ -301,20 +275,20 @@ class User:
         # the normal distribution; in such a way it is possible to avoid to place the users outside of the area of interest.              #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        #variance = pow(std, 2)
-        #covariance_matrix = [[variance, 0], [0, variance]]
         users_clusters = []
         users_xy = []
 
         for centroid in centroids:
 
             mean = centroid
+            
             # Limits for 'x':
             users_for_current_cluster = randint(min_users_per_cluster, max_users_per_cluster)
             x_low_limit = mean[0]-(UAV_FOOTPRINT)
             x_up_limit = mean[0]+(UAV_FOOTPRINT)
             x_lower_bound = x_low_limit if x_low_limit>0 else 0
             x_upper_bound = x_up_limit if x_up_limit<AREA_WIDTH else AREA_WIDTH   
+            
             # Limits for 'y':
             users_for_current_cluster = randint(min_users_per_cluster, max_users_per_cluster)
             y_low_limit = mean[1]-(UAV_FOOTPRINT-1)
@@ -324,27 +298,14 @@ class User:
 
             users_x_coords = User.get_truncated_normal(mean[0], std_x, x_lower_bound, x_upper_bound, users_for_current_cluster)
             users_y_coords = User.get_truncated_normal(mean[1], std_y, y_lower_bound, y_upper_bound, users_for_current_cluster)
+            
             # Round users coordinates to the first decimal digit:
             current_cluster = [(round(Decimal(users_x_coords[idx]), 1), round(Decimal(users_y_coords[idx]), 1)) for idx in range(users_for_current_cluster)]
-            print(current_cluster)
-            for i in current_cluster:
-                print((type(i[0]), type(i[1])))
-            #current_cluster = np.random.multivariate_normal(mean, covariance_matrix, users_for_current_cluster)
+            
             users_clusters.append(current_cluster)
 
             for user in current_cluster:
                 users_xy.append(user)
-        '''
-        for cluster in users_clusters:
-            for user in cluster:
-                users_xy.append(user)
-        '''
-        #print(len(users_xy))
-        #print(users_xy)
-
-        #print("USERS CLUSTER 1", users_clusters[0])
-        #print("USERS CLUSTER 2", users_clusters[1])
-        #print("USERS", users_xy)
 
         return users_clusters, users_xy
 
@@ -352,7 +313,7 @@ class User:
     def users_heights(point_or_cell_matrix, users_xy):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Users 'z' coordinates are computed by the “discrete uniform” distribution in a closed interval; #
-        # if 'point_or_cell' in which the current users is placed has no building inside, then            #
+        # if the 'Point' or 'Cell' in which the current users is placed has no building inside, then      #
         # che closed interval will be (0, 0].                                                             #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -362,18 +323,20 @@ class User:
             current_point_or_cell_matrix = point_or_cell_matrix[floor(user[1])][floor(user[0])]
 
             if (current_point_or_cell_matrix._status == OBS_IN):
-                max_achievable_height_per_user = min(current_point_or_cell_matrix._z_coord, MAX_HEIGHT_PER_USER) # The Maximum height which can be reached by the users is the minimum between the 'MAX_HEIGHT_PER_USER' and the height of the building inside which they could be.
+                max_achievable_height_per_user = min(current_point_or_cell_matrix._z_coord, MAX_HEIGHT_PER_USER) # The Maximum height which can be reached (i.e., it is assumed that users over a certain height are not taken into account by UAVs) by the users is the minimum between the 'MAX_HEIGHT_PER_USER' and the height of the building inside which they could be.
                 us_height = np.random.random_integers(0, max_achievable_height_per_user)
             else:
                 us_height = 0
 
             users_heights.append(us_height)
 
-        #us_heights = np.random.random_integers(0, point_or_cell._z_coord)
         return users_heights
 
     @staticmethod
     def max_reachable_height_per_user(point_or_cell_matrix, user_xy):
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        # You can use this method also in the scope of 'user_heights' method  #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
         point_or_cell = point_or_cell_matrix[floor(user_xy[1])][floor(user_xy[0])]
 
@@ -395,7 +358,7 @@ class User:
             current_user_xy = users_xy[user_idx]
             current_user_z = users_z[user_idx]
             max_height_per_current_user = User.max_reachable_height_per_user(points_matrix, current_user_xy)
-            #print("MAX HEIGHT PER CURRENT USER:", max_height_per_current_user)
+            
             if (INF_REQUEST == True):
                 users_xyz.append( User(current_user_xy[0], current_user_xy[1], current_user_z, max_height_per_current_user, User.generate_user_account(), [False, None, ITERATIONS_PER_EPISODE, 0, 0, 0]) )
             else:
@@ -409,9 +372,7 @@ class User:
                     service_quantity = User.data_gathering()
                 else:
                     service_quantity = 0
-                users_xyz.append( User(current_user_xy[0], current_user_xy[1], current_user_z, max_height_per_current_user, User.generate_user_account(), [False, type_of_service, requested_service_life, 0, 0, service_quantity]) )            
-
-        #users_xyz = [User(users_xy[idx][0], users_xy[idx][1], users_z[idx], users_z[idx], User.generate_user_account(), (None, User.which_service(), np.random.choice(NEEDED_SERVICE_TIMES_PER_USER), None)) for idx in range(n_users)]
+                users_xyz.append( User(current_user_xy[0], current_user_xy[1], current_user_z, max_height_per_current_user, User.generate_user_account(), [False, type_of_service, requested_service_life, 0, 0, service_quantity]) )
 
         return users_xyz
 
@@ -447,26 +408,33 @@ class User:
                 y_val = np.random.random_integers(go_back, go_ahead)
 
                    
-                # Case in which the user is on a floor of a building which is between the first and the top floor (the latter excluded) OR the user is at his/her maximum reachable height: 
+                # ___________________________________________________ Case in which the user is on a floor of a building which is between the first and the top floor (the latter excluded) OR the user is at his/her maximum reachable height for that building: ___________________________________________________ 
+                
                 if ( (current_user_z > 0) and (current_user_z < user_max_in_building) ):
-                    #print("000000000000000000000000000")
                     z_val = np.random.random_integers(go_back, go_ahead)
                     x_val = stop
                     y_val = stop
 
-                # Case in which the user is on the top floor of a building (or at his/her maximum height):
+                # ___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+                
+                
+                # ___________________________________________________ Case in which the user is on the top floor of a building (or at his/her maximum height): ___________________________________________________
+                
                 elif ( (DIMENSION_2D==False) and (current_user_z == user_max_in_building) and (user_max_in_building != 0) ): # --> If there is a 2D env, this condition will be always True due to the fact that users are all at z=0, which is also their maximum reachable height.
-                    #print("1111111111111111111111111111")
                     z_val = np.random.random_integers(go_back, stop)
                     x_val = stop
                     y_val = stop
 
-                # Case in which the user is on the ground (or ground floor):
+                # ___________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________________
+                
+                
+                # ___________________________________________________ Case in which the user is on the ground (or ground floor): ___________________________________________________
+                
                 else:
 
+                    # User is on the ground floor of a building:
                     if ( (user_max_in_building > 0) and (current_user_z == 0) ):
                         
-                        #print("2222222222222222222222222222")
                         x_val = np.random.random_integers(go_back, go_ahead)
                         y_val = np.random.random_integers(go_back, go_ahead)
                         if ( (x_val == stop) and (y_val == stop) ):
@@ -475,7 +443,7 @@ class User:
                             z_val = stop
                     else:
 
-                        #print("333333333333333333333333333")
+                        # User is on the ground (not inside a building): 
                         if (user_max_in_building == 0):
                             
                             if (current_user_x == 0):
@@ -489,13 +457,14 @@ class User:
 
                             z_val = stop
 
+                # ___________________________________________________________________________________________________________________________________________________________________
+
                 new_step_x = current_user_x + x_val
                 new_step_y = current_user_y + y_val
                 new_step_z = current_user_z + z_val
 
-                print((current_user_x, current_user_y, current_user_z), (new_step_x, new_step_y, new_step_z))
-                #print(type(upper_x), type(np.random.random_integers(go_back, stop, go_ahead)))
 
+                # if some user is out of the area of interest, then place him/her inside that area: 
                 if (new_step_x > upper_x):
                     new_step_x = upper_x + np.random.random_integers(go_back-4, go_back-2)
                 elif (new_step_x < 0):
@@ -511,58 +480,11 @@ class User:
                 elif (new_step_z < 0):
                     new_step_z = 0
 
-                '''
-                if  ( (new_step_x < 0) or (new_step_x > upper_x) ):
-                    print("X OUT OF BOUNDS: ", new_step_x)
-                if  ( (new_step_y < 0) or (new_step_y > upper_y) ):
-                    print("Y OUT OF BOUNDS: ", new_step_y)
-                if  ( (new_step_z < 0) or (new_step_z > user_max_in_building) ):
-                    print("Z OUT OF BOUNDS: ", new_step_z)
-                else:
-                    print("REGULAR STEP")
-                '''
-
                 current_user_steps.append((new_step_x, new_step_y, new_step_z))
-                #current_user_steps.append((current_user_x + x_val, current_user_x + y_val, current_user_z + z_val))
 
             users_steps.append(current_user_steps)
 
         return users_steps
-
-    @staticmethod
-    def users_per_cluster_per_timeslot(min_users_per_day, max_users_per_day, num_clusters):
-
-        max_n_peak_users_per_day = np.random.random_integers(min_users_per_day, max_users_per_day)
-
-        daily_users_per_cluster_per_timeslot = [[] for time_slot in range(HOURS_PER_CONSIDERED_TIME)]
-        current_hour = 0
-
-        for macro_time_slot in range(MACRO_TIME_SLOTS):
-            
-            for micro_time_slot in range(MICRO_SLOTS_PER_MACRO_TIMESLOT):
-
-                for cluster in range(num_clusters):
-
-                    daily_users_per_cluster_per_timeslot[current_hour].append( int(round(np.random.uniform(MIN_MAX_USERS_PERCENTAGES[macro_time_slot][0], MIN_MAX_USERS_PERCENTAGES[macro_time_slot][1]) * max_n_peak_users_per_day)) )
-                    current_hour += 1
-        '''
-        n_users_timeslot1 = round(np.random.uniform(MIN_USERS_PERCENTAGE1, MAX_USERS_PERCENTAGE1) * n_users_per_day)
-        n_users_timeslot2 = round(np.random.uniform(MIN_USERS_PERCENTAGE2, MAX_USERS_PERCENTAGE2) * n_users_per_day)
-        n_users_timeslot3 = round(np.random.uniform(MIN_USERS_PERCENTAGE3, MAX_USERS_PERCENTAGE3) * n_users_per_day)
-        n_users_timeslot4 = round(np.random.uniform(MIN_USERS_PERCENTAGE4, MAX_USERS_PERCENTAGE4) * n_users_per_day)
-        n_users_timeslot5 = round(np.random.uniform(MIN_USERS_PERCENTAGE5, MAX_USERS_PERCENTAGE5) * n_users_per_day)
-        n_users_timeslot6 = round(np.random.uniform(MIN_USERS_PERCENTAGE6, MAX_USERS_PERCENTAGE6) * n_users_per_day)
-
-        daily_users_per_timeslot = [n_users_timeslot1, n_users_timeslot2, n_users_timeslot3, n_users_timeslot4, n_users_timeslot5, n_users_timeslot6]
-        '''
-
-        print(daily_users_per_cluster_per_timeslot)
-        return daily_users_per_cluster_per_timeslot
-
-    @staticmethod
-    def user_service_time(user):
-
-        user._info[2] = np.random.choice(NEEDED_SERVICE_TIMES_PER_USER)
 
     @staticmethod
     def compute_clusterer(users, fixed_clusters=True):
@@ -572,14 +494,19 @@ class User:
 
         # Use 'np.array' for User objects:
         users_array = np.array([[user._x_coord, user._y_coord, user._z_coord] for user in users])
-        #print("DIMENSIONEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE:", np.size(users_array[0]))
-        # Case in which we have set a priori the number of cluster that we want to use to group the users:
+        
+        # ___________________________ Case in which we have set a priori the number of cluster that we want to use to group the users: ___________________________
+        
         if fixed_clusters == True:
             clusterer = KMeans(FIXED_CLUSTERS_NUM)
             clusterer.fit(users_array)
             users_clusters = [users_array[np.where(clusterer.labels_ == i)] for i in range(clusterer.n_clusters)]
+
+        # _________________________________________________________________________________________________________________________________________________________
+
         
-        # Case in which we want to find the optimal number of clusters among a list of chosen numbers of clusters:
+        # ___________________________ Case in which we want to find the optimal number of clusters among a list of chosen numbers of clusters: ____________________
+        
         else:
             optimal_clusters_num, optimal_clusterer, current_best_silhoutte_score = None, None, 1.0            
             
@@ -599,6 +526,8 @@ class User:
 
             return optimal_clusterer, users_clusters, optimal_clusters_num, current_best_silhoutte_score
 
+        # _________________________________________________________________________________________________________________________________________________________
+
         return clusterer, users_clusters
 
     @staticmethod
@@ -607,9 +536,6 @@ class User:
         # Compute the centroids clusters once the users have started to walk. #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        #centroids = [[sum(cluster[cluster_idx][0])/users_per_cluster[cluster_idx], sum(cluster[cluster_idx][1])/users_per_cluster[cluster_idx]] for cluster_idx in num_clusters_range]
-        #centroids_users_distances = [LA.norm(np.array([cluster[cluster_idx][0], cluster[cluster_idx][1]]) - np.array(centroids[cluster_idx])) for cluster_idx in num_clusters_range]
-        #clusters_radiuses = [max(centroids_user_dist) for centroids_user_dist in centroids_users_distances]
         centroids = clusterer.cluster_centers_
         return centroids
 
@@ -618,57 +544,28 @@ class User:
 
         users_per_cluster = [len(cluster) for cluster in users_clusters]
         clusters_radiuses = [None for cluster in users_clusters]
-        #centroids_users_distances = []
-        #num_clusters = len(clusters) 
-        #num_clusters_range = range(num_clusters)
-        #print("oooooooooooo")
-        #print(users_clusters[0])
-        #print(users_per_cluster)
-        #print("CENTROIDE PRIMA", centroids)
         decimal_centroids = [[Decimal(centroid[0]), Decimal(centroid[1]), Decimal(centroid[2])] for centroid in centroids]
-        #print("CENTROIDI DOPO", decimal_centroids)
-        #print(centroids[0])
-        #print(np.array([users_clusters[0]]))
-        for cluster_idx in range(num_clusters):
-            a = 0
-            #u = LA.norm(np.array([decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]]) - np.array([users_clusters[cluster_idx][user_idx][0], users_clusters[cluster_idx][user_idx][0]]))
-            current_centroid_users_distances = [LA.norm(np.array([decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]]) - np.array([Decimal(users_clusters[cluster_idx][user_idx][0]), Decimal(users_clusters[cluster_idx][user_idx][1])])) for user_idx in range(0, users_per_cluster[cluster_idx])]
-            #print(len(current_centroid_users_distances))
-            #print("CENTROIDE", (decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]))
-            #print("UTENTIIIIIII:")
-            #print([(users_clusters[cluster_idx][user_idx][0], users_clusters[cluster_idx][user_idx][1]) for user_idx in range(0, users_per_cluster[cluster_idx])])
-            #print("DISTANZE UTENTIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", current_centroid_users_distances)
-            clusters_radiuses[cluster_idx] = round(max(current_centroid_users_distances), 1)
-            #print("USER PIU' LONTANOOOOOOOOOOOOOOOOOOOOOOOOOO", clusters_radiuses[cluster_idx])
-            #centroids_users_distances.append(current_centroid_users_distances)
-            #print(len(centroids_users_distances[cluster_idx]))
-        '''
-        for centroid in decimal_centroids:
-            for users_per_cluster in users_clusters:
-                current_centroid_users_distances = [LA.norm(np.array([centroid[0], centroid[1]]) - np.array([user[0], user[1]])) for user in users_per_cluster]  
-            centroids_users_distances.append(current_centroid_users_distances)
-            #centroids_usr_distances = [[LA.norm( np.array([centroid[0], centroid[1]]) - np.array(cluster[cluster_idx])     
-        '''
-        #centroids_usr_distances = [[LA.norm( np.array([centroid[0], centroid[1]]) - np.array([usr_per_cluster[0], usr_per_cluster[1]])) for usr_per_cluster in users_per_cluster] for centroid in decimal_centroids]
-        #print("DIST")
-        #print(len(centroids_users_distances[0]),len(centroids_users_distances[1]),len(centroids_users_distances[2]))
-        #print("CLUSTERS LENS")
-        #print(users_per_cluster[0], users_per_cluster[1], users_per_cluster[2])
         
-
-        #print("Radiuses")
-        #print(clusters_radiuses)
+        for cluster_idx in range(num_clusters):
+            current_centroid_users_distances = [LA.norm(np.array([decimal_centroids[cluster_idx][0], decimal_centroids[cluster_idx][1]]) - np.array([Decimal(users_clusters[cluster_idx][user_idx][0]), Decimal(users_clusters[cluster_idx][user_idx][1])])) for user_idx in range(0, users_per_cluster[cluster_idx])]
+            clusters_radiuses[cluster_idx] = round(max(current_centroid_users_distances), 1)
 
         return clusters_radiuses
 
     @staticmethod
     def which_service():
+        # # # # # # # # # # # # # # # # #
+        # Pick a random service reques  #
+        # # # # # # # # # # # # # # # # # 
 
         service = np.random.choice(UAVS_SERVICES, p=SERVICE_PROBABILITIES)
         return service
 
     @staticmethod
     def needed_service_life(service_to_provide):
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        # Pick a random service time according to the ones available for each considered service request  #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
         if (service_to_provide == THROUGHPUT_REQUEST):
             requested_service_life = np.random.choice(TR_SERVICE_TIMES)
@@ -679,8 +576,9 @@ class User:
         else:
             requested_service_life = 0
 
-        #requested_service_life = np.random.choice(TR_SERVICE_TIMES)
         return requested_service_life
+
+    # ______________________________________ METHOD NOT YET USED ______________________________________
 
     @staticmethod
     def generate_user_account():
@@ -691,6 +589,8 @@ class User:
 
         user_account = np.random.choice(USERS_ACCOUNTS, p=USERS_ACCOUNTS_DITRIBUTIONS)
         return user_account
+
+    # __________________________________________________________________________________________________
 
     @staticmethod
     def bitrate_request():
@@ -703,15 +603,19 @@ class User:
 
     @staticmethod
     def edge_computing_request():
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        # Generate a random edge-computing request among the 'available' ones in 'EDGE_COMPUTING_REQUESTS'. #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        # TO DO . . .
         ec_request = np.random.choice(EDGE_COMPUTING_REQUESTS)
         return ec_request
 
     @staticmethod
     def data_gathering():
-
-        # TO DO . . .
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        # Generate a random data gathering request among the 'available' ones in 'DATA_GATHERING_REQUESTS'. #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #        
+        
         dg_request = np.random.choice(DATA_GATHERING_REQUESTS)
         return dg_request
 
@@ -719,11 +623,13 @@ class User:
         assert type(obj) is User
         return scenario_objects.User, (obj._x_coord, obj._y_coord, obj._z_coord, obj._max_in_building, obj._user_account, obj._info)
 
+
 class Environment:
     # |-----------------------------------------------------------------------------|
     # |Define the Environment by specifing the width and the height of the selected |
-    # |shape for the area and the desired resolution cell for the width and height  |
-    # |which have been chosen (resolution in this case means the number of cell):   |
+    # |shape for the area of interest. Define also the desired resolution cell for  |
+    # |the width and height which have been chosen (resolution in this case means   |
+    # |the number of cell):                                                         |
     # |-----------------------------------------------------------------------------|
     
     def __init__(self, area_width, area_height, area_z, cell_res_row, cell_res_col):
@@ -738,7 +644,6 @@ class Environment:
         self._cells_num = N_CELLS
         self._cs_height = CS_HEIGHT if DIMENSION_2D==False else 0
         self._cs_num = N_CS
-        #self._cs_distance = RADIAL_DISTANCE
         self._radial_distance_x = RADIAL_DISTANCE_X
         self._radial_distance_y = RADIAL_DISTANCE_Y        
         self._x_eNB = ENODEB_X
@@ -808,19 +713,7 @@ class Environment:
             next_row += 1
             next_col += 1
 
-            return selected_position
-
-    # QUESTO METODO POTREBBE ESSERE ELIMINATO (E' RIDONDANTE) --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    def set_users_on_map(self, points_matrix, users_xyz, users):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # Set 'users' attributes of 'points_matrix' points. #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        for user_xy in users_xy:
-            points_matrix[floor(user_xy[1])][floor(user_xy[0])]._users.append()  
-
-        return None
-
+        return selected_position
 
     def obstacles_generation(self, min_obs_per_area=MIN_OBS_PER_AREA, max_obs_per_area=MAX_OBS_PER_AREA, min_obs_height=MIN_OBS_HEIGHT, max_obs_height=MAX_OBS_HEIGHT):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -850,7 +743,6 @@ class Environment:
         #z_random_matrix = [round(point) for point in z_random]        
 
         xyz_obs_points = [(x_random[idx], y_random[idx], z_random[idx]) for idx in range(N_obs_points)]
-        print(len(xyz_obs_points), len(list(set(xyz_obs_points))))
  
         xyz_obs_points_occurences = [xyz_obs_points.count(xyz_obs) for xyz_obs in xyz_obs_points]
 
@@ -859,29 +751,22 @@ class Environment:
         # by using NEIGHBOR_ELEMS_POS: 
         if (len(set(xyz_obs_points_occurences)) > 1):
 
-            #xyz_obs_duplicates = [point for point in xyz_obs_points if xyz_obs_points.count(point)>1]
-
             xyz_obs_duplicates_temp = [(point if xyz_obs_points.count(point)>1 else None) for point in xyz_obs_points]
             xyz_obs_duplicates = list(filter(lambda a: a != None, xyz_obs_duplicates_temp))
-            print("DUPLICATES IN OBSATCLES POINTS: ", len(xyz_obs_duplicates))
             
             # Obstacles Points duplicates wihtouth repetitions:
             xyz_obs_points_duplicates_no_repetitions = list(set(xyz_obs_duplicates))
             
             # Obstacles Points without duplicates:
             xyz_obs_points_no_duplicates = list(set(xyz_obs_points))
-            print(len(xyz_obs_points))
-            print("OBSTACLES POINTS WITHOUT DUPLICATES: ", len(xyz_obs_points_no_duplicates))
             
             # Removing from 'xyz_obs_duplicates' all the obstacles Points for which there is at least a duplicate: 
             [xyz_obs_duplicates.remove(elem) for elem in xyz_obs_points_duplicates_no_repetitions]
             
             # Computing neighbors points w.r.t the duplicates obstacles Points:
             neighbors_xyz_coords = [self.neighbors_elems_pos(point, self._area_height, self._area_width, xyz_obs_points_duplicates_no_repetitions) for point in xyz_obs_duplicates]
-            print("NEIGHBORS: ", len(neighbors_xyz_coords))
             
             xyz_obs_points = list(np.concatenate((xyz_obs_points_no_duplicates, neighbors_xyz_coords)))
-            print("OBSTACLES POINTS: ", len(xyz_obs_points))
 
             obs_points = [Point(self._obs_in, xyz_obs_points[idx][0], xyz_obs_points[idx][1], xyz_obs_points[idx][2], []) for idx in range(N_obs_points)]
         
@@ -916,39 +801,33 @@ class Environment:
 
         rad_between_points = 2*pi/self._cs_num
         CS_points = []
-        #print(self._cs_distance)
 
         [CS_points.append( Point(self._cs_in, round(self._x_eNB + self._radial_distance_x*sin(CS_idx*rad_between_points)), round(self._y_eNB + self._radial_distance_y*cos(CS_idx*rad_between_points)), self._cs_height, []) ) for CS_idx in range(self._cs_num)]
-        #print( (self._x_eNB, self._y_eNB) )
         
         if (UNLIMITED_BATTERY == False):
             for CS_point in CS_points:
                 x_current_CS = CS_point._x_coord
                 y_current_CS = CS_point._y_coord
 
-                print( (x_current_CS, y_current_CS) )
-
                 current_position_on_map_status = points_matrix[y_current_CS][x_current_CS]._status
 
-                # SIDE-EFFECT on 'points_matrix':
+                # ________________ SIDE-EFFECT on 'points_matrix': ________________
 
                 # If the selected map position is FREE, then that position will be occupied by a CS.
                 if (current_position_on_map_status == FREE):
-                    #print( (current_position_on_map._x_coord, current_position_on_map._y_coord, current_position_on_map._z_coord, current_position_on_map._status) )
                     points_matrix[y_current_CS][x_current_CS] = CS_point
-                    #print( (current_position_on_map._x_coord, current_position_on_map._y_coord, current_position_on_map._z_coord, current_position_on_map._status) )
+                
                 # Otherwise, namely if an obstacle is in here, the CS will be placed on that obstacle with by keeping the height of the obstacle;
                 # In this case the obstacle will be removed from 'obs_points' list.
                 elif (current_position_on_map_status == OBS_IN):
-
                     points_matrix[y_current_CS][x_current_CS]._status = CS_IN
-                    #print("eccolo")
 
                     for obs in obs_points:
+                        
                         if ( (obs._x_coord == x_current_CS) and (obs._y_coord == y_current_CS) ):
                             obs_points.remove(obs) # SIDE-EFFECT on 'obs_points'
                             break
-        
+
         return CS_points
 
     def set_eNB_on_map(self, points_matrix, obs_points):
@@ -961,14 +840,14 @@ class Environment:
 
         if (points_matrix[self._y_eNB][self._x_eNB]._status == FREE):
             z_enb = self._z_eNB
-        # If the desired position for the eNodeB is occupied by an obstacle, then
-        # use the height of the obstacle as eNodeB height:
+        
+        # If the desired position for the eNodeB is occupied by an obstacle, then use the height of the obstacle as eNodeB height:
         elif (points_matrix[self._y_eNB][self._x_eNB]._status == OBS_IN):
             z_enb = points_matrix[self._y_eNB][self._x_eNB]._z_coord
 
         for obs in obs_points:
             if ( (obs._x_coord == self._x_eNB) and (obs._y_coord == self._y_eNB) ):
-                obs_points.remove(obs) # SIDE-EFFECT on 'obs_points'
+                obs_points.remove(obs) # --> SIDE-EFFECT on 'obs_points'
                 break
 
         eNB_point = []
@@ -984,7 +863,7 @@ class Environment:
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Similarly to SET_OBSTACLES_ON_MAP, COMPUTE_CELL_MATRIX returns a matrix made by Cell elements;    #
         # height an width cell resolutions have to be chosen and every cell which contains an obstacle      #
-        # will have on obstacle height (i.e. 'Cell._z_coord') equal to the maximum height of the obstacles  #
+        # will have an obstacle height (i.e. 'Cell._z_coord') equal to the maximum height of the obstacles  #
         # contained in it.                                                                                  #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -1021,7 +900,7 @@ class Environment:
 
                 status_points = [point._status for point in current_points]
                 
-                # It is not needed 'UNLIMITED_BATTERY == True' case in 3D, because in 'set_CS_on_map', this case is already considered and the CS have not been generate in case. 
+                # It is not needed 'UNLIMITED_BATTERY == True' case in 3D, because this case is already considered in 'set_CS_on_map' and the CS have not been generate in case. 
                 if (self._cs_in in status_points):
                     # Set the height of the cell equal to the possible CS contained in the current cell:
                     current_cell_status = self._cs_in
@@ -1030,8 +909,7 @@ class Environment:
                     current_cell_status = self._enb_in
                     z_current_cell = actual_z_enb
                 else:
-                    # Select the maximum height among the ones which are present in the
-                    # points inside the considered cell: 
+                    # Select the maximum height among the ones which are present in the points inside the considered cell: 
                     z_current_cell = max([point._z_coord for point in current_points])
                     if (z_current_cell > 0):
                         current_cell_status = self._obs_in
@@ -1049,8 +927,6 @@ class Environment:
         # this function is used to shape the cell in such a way to be plotted.              #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        #desired_cells = [[cells_matrix[i][j] for j in range(CELLS_COLS) if cells_matrix[i][j]._status == which_cell_type] for i in range(CELLS_ROWS)]
-
         desired_cells = [[(cells_matrix[i][j] if cells_matrix[i][j]._status == which_cell_type else None) for j in range(CELLS_COLS)] for i in range(CELLS_ROWS)]
         desired_cells = list(np.array(desired_cells).flatten())
         desired_cells = list(filter(lambda a: a != None, desired_cells))
@@ -1063,114 +939,71 @@ class Environment:
 
 if __name__ == '__main__':
 
+    print("Sceanario creation . . .")
+
+    # ___________________________________________________ Area of interest creation: ___________________________________________________
+
     env = Environment(AREA_WIDTH, AREA_HEIGHT, MAXIMUM_AREA_HEIGHT, CELL_RESOLUTION_PER_ROW, CELL_RESOLUTION_PER_COL)
     obs_points = env.obstacles_generation()
     points_matrix = env.set_obstacles_on_map(obs_points)
     CS_points = env.set_CS_on_map(points_matrix, obs_points)
     eNB_point = env.set_eNB_on_map(points_matrix, obs_points)  
-    #for point in CS_points:
-    #    print( (point._x_coord, point._y_coord) )
+    
+    # __________________________________________________________________________________________________________________________________
 
-    #print(points_matrix[0][0]._users)
-    #users = [num for num in range(1, 10) if num not in points_matrix[0][0]._users] #points_matrix[0][0]._users.append("prova")
-    # points_matrix[0][0]._users = users
-    # print(print(points_matrix[0][0]._users))
+    # ___________________________________________________ Users creation: ______________________________________________________________
+
     us = User
-    centroids = us.centroids_user_cluster_generation(CENTROIDS_MIN_MAX_COORDS, FIXED_CLUSTERS_NUM) # --> CAMBIA I VALORI DI QUESTI ARGOMENTI PER OTTENERE CLUSTERS SPARSI IN MODO DIVERSO --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    print("CENTROIDIIIII", centroids)
-    users_clusters, users_xy = us.spread_users_around_clusters(centroids, 1, 1, 8, 16) # --> CAMBIA I VALORI DI QUESTI ARGOMENTI PER OTTENERE UTENTI SPARSI IN MODO DIVERSO NEI CLUSTERS --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    centroids = us.centroids_user_cluster_generation(CENTROIDS_MIN_MAX_COORDS, FIXED_CLUSTERS_NUM) # --> You can change these arguments to get clusters spread out in a different way
+    users_clusters, users_xy = us.spread_users_around_clusters(centroids, 1, 1, 8, 16) # --> # --> You can change these arguments to get users spread out in a different way among clusters; you can change also the MIN and MAX users number per cluster
     occurrences = [users_xy.count(user) for user in users_xy]
-    #print(users_xy)
-    #env.set_users_on_map(points_matrix, users_xy)
-    #users_points_heights = []
     users_points_heights = us.users_heights(points_matrix, users_xy)
-    '''
-    for i in range(env._area_height):
-        for j in range(env._area_width):
-            current_point = points_matrix[i][j]
-            if current_point._users != []:
-                users_points_heights.append(env.users_heights(points_matrix[i][j]))
-    '''
     n_users = len(users_xy)
-    print(n_users)
-    #print(len(users_points_heights))
-    #print(len(users_xy))
     users_xyz = us.create_users(points_matrix, users_xy, users_points_heights, n_users)
-    #print("Z USERS COORDS")
-    #[print(user._z_coord) for user in users_xyz]
-    print("XY USERS COORDS")
-    [print((user._x_coord, user._y_coord)) for user in users_xyz]
-    users_steps = us.k_random_walk(users_xyz, 10)
     initial_clusterer, initial_usr_clusters = us.compute_clusterer(users_xyz)
     initial_centroids = us.actual_users_clusters_centroids(initial_clusterer)
-    
+
     # Ensure to have the centroids listed in the correct order (the clusterer may classified the 'initial_centroids' in a different order w.r.t the 'centroids')
     initial_centroids_aux = []
     values_to_check = []
         
     for centroid_idx in range(FIXED_CLUSTERS_NUM):
+        
         for initial_centroid_idx in range(FIXED_CLUSTERS_NUM):
             value_to_check1 = abs(centroids[centroid_idx][0]-initial_centroids[initial_centroid_idx][0])
             value_to_check2 = abs(centroids[centroid_idx][1]-initial_centroids[initial_centroid_idx][1])
-            #print(value_to_check1, value_to_check2)
-            #print(initial_centroids[initial_centroid_idx][0])
-            #print(initial_centroids[initial_centroid_idx][1])
+            
             if ( (value_to_check1 < 2) and (value_to_check2 < 2) ):
                 initial_centroids_aux.append(initial_centroids[initial_centroid_idx])
-                #values_to_check.append(value_to_check)
-    initial_centroids = initial_centroids_aux
-    
-    #values_to_check = ordered_values_to_check
-    '''
-    values_to_check.sort()
-    initial_centroids_copy = initial_centroids
-    for val_idx in range(len(values_to_check)):
-        if (values_to_check[val_idx] >=2)
-            initial_centroids_copy[val_idx] = centroids[val_idx]
-    initial_centroids = initial_centroids_copy
-    '''
-    #print("AUUUUUUUUUUUUUUUUUUX", initial_centroids_aux)
 
-    initial_clusters_radiuses = us.actual_clusters_radiuses(initial_centroids, users_clusters, FIXED_CLUSTERS_NUM) # --> qui ovviamente poi varierai il numero di clusters a seconda che tu li voglia identificare in modo dinamico o meno -> !!!!!!!!!!!!!!!!!!!!!!!!!!
-    print("CENTROIDS")
-    print(initial_centroids)
-    print("STEPS")
-    print(users_steps)
-    #print(users_steps)
-    #print()
-    #print(len(users_steps))
-    #print()
-    #print(len(users_steps[0]))
-    #print(len(users_steps[0][0]))
-    #print()
-    #print(len(users_steps[1]))
-    #print(len(users_steps[1][0]))
-    #users_xyz = [User(users_xy[idx][0], users_xy[idx][1], users_points_heights[idx], 0) for idx in range(n_users)]
-    #print(len(users_xyz))
-    #print(len(users_points_heights))
-    #print(len(users_xy))
+    initial_centroids = initial_centroids_aux
+
+    initial_clusters_radiuses = us.actual_clusters_radiuses(initial_centroids, users_clusters, FIXED_CLUSTERS_NUM) # --> You can change the clusters number if you want to detect them dinamically
 
     if (CREATE_ENODEB == False):
         eNB_point_z_coord = eNB_point
     else:
         eNB_point_z_coord = eNB_point[0]._z_coord
+
     cells_matrix = env.compute_cell_matrix(points_matrix, eNB_point_z_coord, env._area_width, env._area_height, env._cell_res_row, env._cell_res_col)
-    print(len(cells_matrix), len(cells_matrix[0]))
+
+    # __________________________________________________________________________________________________________________________________
+
     
-    '''
-    print("CELLS")
-    for pnts in cells_matrix[4][0]._points:
-        print((pnts._x_coord, pnts._y_coord))
-    '''
+    # ___________________________________________ Extracting coordinates: ___________________________________________
 
     # Extracting cells coordinates which contain obstacles:
     obs_cells = env.extracting_specific_cells_coordinates(cells_matrix, env._obs_in)
     # Extracting cells coordinates which charging stations:
     cs_cells = env.extracting_specific_cells_coordinates(cells_matrix, env._cs_in)
-    #print("AOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOH", cs_cells)
     # Extracting cells coordinates which contain eNodeB:
     eNB_cells = env.extracting_specific_cells_coordinates(cells_matrix, env._enb_in)
 
+    # ______________________________________________________________________________________________________________
+
+    print("Scenario created.")
+    
+    # ___________________________________________ Directory Creation and Saving: ___________________________________________
 
     # Create the directories 'map_data' and 'initial_users' to save data:
     directory = Directories() 
@@ -1181,3 +1014,5 @@ if __name__ == '__main__':
     saver = Saver()
     saver.maps_data(obs_points, points_matrix, cells_matrix, obs_cells, cs_cells, eNB_cells, CS_points, eNB_point)
     saver.users_clusters(users_xyz, initial_centroids, initial_clusters_radiuses, initial_clusterer, initial_usr_clusters)
+
+    # _______________________________________________________________________________________________________________________
