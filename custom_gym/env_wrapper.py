@@ -40,7 +40,7 @@ n_actions = env.nb_actions
 actions_indeces = range(n_actions)
 cs_cells = env.cs_cells
 cs_cells_coords_for_UAVs = [(cell._x_coord, cell._y_coord) for cell in cs_cells] if DIMENSION_2D==True else [(cell._x_coord, cell._y_coord, cell._z_coord) for cell in cs_cells]
-cells_matrix = env.cells_matrix
+#cells_matrix = env.cells_matrix
 action_set_min = env.action_set_min
 if (UNLIMITED_BATTERY==False):
     q_table_action_set = env.q_table_action_set
@@ -276,7 +276,7 @@ def go_to_recharge(action, agent):
     # Compute the path to the closest CS only if needed:
     if (closest_CS == DEFAULT_CLOSEST_CS):
         _ = agent.compute_distances(cs_cells) # --> Update the closest CS just in case the agent need to go the CS (which is obviously the closest one).
-        agent._path_to_the_closest_CS = astar(cells_matrix, get_agent_pos(agent), agent._cs_goal)
+        agent._path_to_the_closest_CS = astar(env.cells_matrix, env.get_agent_pos(agent), agent._cs_goal)
         agent._current_pos_in_path_to_CS = 0 # --> when compute the path, set to 0 the counter indicating the current position (which belongs to the computed path) you have to go. 
 
 def choose_action(uavs_q_tables, which_uav, obs, agent, battery_in_CS_history, cells_matrix):
@@ -285,10 +285,14 @@ def choose_action(uavs_q_tables, which_uav, obs, agent, battery_in_CS_history, c
     # SIDE EFFECT on different agents attributes are performed.                                                                                       #
     # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-    if ( (ANALYZED_CASE == 1) or (ANALYZED_CASE == 2) ):
+    if ( (ANALYZED_CASE == 1) or (ANALYZED_CASE == 3) ): # --> UNLIMITED BATTERY:
         obs = tuple([round(ob, 1) for ob in obs])
+    else: # --> LIMITED BATTERY:
+        coords = tuple([round(ob, 1) for ob in obs[0]])
+        obs = tuple([coords, obs[1]]) 
 
     #obs = tuple([round(Decimal(ob), 1) for ob in obs])
+    #print(obs)
     all_actions_values = [values for values in uavs_q_tables[which_uav][obs]]
     current_actions_set = agent._action_set
     
@@ -301,7 +305,7 @@ def choose_action(uavs_q_tables, which_uav, obs, agent, battery_in_CS_history, c
             
             elif (current_actions_set == come_home_set): # == ACTION_SPACE_3D_COME_HOME
 
-                if ( (agent._coming_home == True) and (get_agent_pos(agent)!=agent._cs_goal) ):
+                if ( (agent._coming_home == True) and (env.get_agent_pos(agent)!=agent._cs_goal) ):
                     action = GO_TO_CS_INDEX
                     
                     if (Q_LEARNING==True):
@@ -355,7 +359,7 @@ def choose_action(uavs_q_tables, which_uav, obs, agent, battery_in_CS_history, c
         
         if (UNLIMITED_BATTERY == False):
             
-            if ( (agent._coming_home == True) and (get_agent_pos(agent) in cs_cells_coords_for_UAVs) ):
+            if ( (agent._coming_home == True) and (env.get_agent_pos(agent) in cs_cells_coords_for_UAVs) ):
                 action = CHARGE
 
             elif ( (agent._charging == True) and (agent._battery_level < FULL_BATTERY_LEVEL) ):
@@ -367,24 +371,24 @@ def choose_action(uavs_q_tables, which_uav, obs, agent, battery_in_CS_history, c
                 go_to_recharge(GO_TO_CS_INDEX, agent)
 
             elif (which_uav==2):
-                action = agent.action_for_standard_h(cells_matrix)
+                action = agent.action_for_standard_h(env.cells_matrix)
                 
             elif (which_uav==1):
-                action = agent.action_for_standard_v(cells_matrix)
+                action = agent.action_for_standard_v(env.cells_matrix)
                 
             elif (which_uav==0):
-                action = agent.action_for_standard_square_clockwise(cells_matrix)
+                action = agent.action_for_standard_square_clockwise(env.cells_matrix)
 
         else:
 
             if (which_uav==2):
-                action = agent.action_for_standard_h(cells_matrix)
+                action = agent.action_for_standard_h(env.cells_matrix)
                 
             elif (which_uav==1):
-                action = agent.action_for_standard_v(cells_matrix)
+                action = agent.action_for_standard_v(env.cells_matrix)
                 
             elif (which_uav==0):
-                action = agent.action_for_standard_square_clockwise(cells_matrix)
+                action = agent.action_for_standard_square_clockwise(env.cells_matrix)
 
         return action
 
@@ -392,20 +396,6 @@ def choose_action(uavs_q_tables, which_uav, obs, agent, battery_in_CS_history, c
         go_to_recharge(action, agent)
 
     return action
-
-def obs_fun(obs1=None, obs2=None, obs3=None):
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-    # Return the observation according to the considered case.  #
-    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-    if (HOW_MANY_OBSERVATIONS == 1):
-        return (obs1)
-    elif (HOW_MANY_OBSERVATIONS == 2):
-        return (obs1, obs2)
-    elif (HOW_MANY_OBSERVATIONS == 3):
-        return (obs1, obs2, obs3)
-    else:
-        return
 
 # ________________________________________ Assign a number_id to each analyzed case in order to initialize the proper Q-table based on te current case: ________________________________________
 
@@ -415,9 +405,6 @@ if ( (USERS_PRIORITY == False) and (CREATE_ENODEB == False) ):
     # 2D case with UNLIMITED UAVs battery autonomy:
     if ( (DIMENSION_2D == True) and (UNLIMITED_BATTERY == True) ):
         ANALYZED_CASE = 1
-        HOW_MANY_OBSERVATIONS = 1
-        get_agent_pos = env.get_2Dagent_pos
-        step = env.step_2D_unlimited_battery
         considered_case_directory = "2D_un_bat"
         dimension_space = "2D"
         battery_type = "Unlimited"
@@ -426,9 +413,6 @@ if ( (USERS_PRIORITY == False) and (CREATE_ENODEB == False) ):
     # 2D case with LIMITED UAVs battery autonomy:
     elif ( (DIMENSION_2D == True) and (UNLIMITED_BATTERY == False) ):
         ANALYZED_CASE = 2
-        HOW_MANY_OBSERVATIONS = 2
-        get_agent_pos = env.get_2Dagent_pos
-        step = env.step_2D_limited_battery
         considered_case_directory = "2D_lim_bat"
         dimension_space = "2D"
         battery_type = "Limited"
@@ -437,9 +421,6 @@ if ( (USERS_PRIORITY == False) and (CREATE_ENODEB == False) ):
     # 3D case with UNLIMITED UAVs battery autonomy:
     elif ( (DIMENSION_2D == False) and (UNLIMITED_BATTERY == True) ):
         ANALYZED_CASE = 3
-        HOW_MANY_OBSERVATIONS = 1
-        get_agent_pos = env.get_3Dagent_pos
-        step = env.step_3D_unlimited_battery
         considered_case_directory = "3D_un_bat"
         dimension_space = "3D"
         battery_type = "Unlimited"
@@ -448,27 +429,23 @@ if ( (USERS_PRIORITY == False) and (CREATE_ENODEB == False) ):
     # 3D case with LIMITED UAVs battery autonomy:
     elif ( (DIMENSION_2D == False) and (UNLIMITED_BATTERY == False) ):
         ANALYZED_CASE = 4
-        HOW_MANY_OBSERVATIONS = 2
-        get_agent_pos = env.get_3Dagent_pos
-        step = env.step_3D_limited_battery
         considered_case_directory = "3D_lim_bat"
         dimension_space = "3D"
         battery_type = "Limited"
         reward_func = "Reward function 2"
 
     if (INF_REQUEST == True):
-        setting_not_served_users = agent.Agent.set_not_served_users_inf_request
+        #setting_not_served_users = agent.Agent.set_not_served_users_inf_request
         service_request_per_epoch = env.n_users*ITERATIONS_PER_EPISODE
         considered_case_directory += "_inf_req"
         users_request = "Continue"
     else:
-        setting_not_served_users = agent.Agent.set_not_served_users
+        #setting_not_served_users = agent.Agent.set_not_served_users
         service_request_per_epoch = 0 # --> TO SET --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         considered_case_directory += "_lim_req"
         users_request = "Discrete"
         if (MULTI_SERVICE==True):
             considered_case_directory += "_multi_service_limited_bandwidth"
-            step = env.step_3D_limited_battery_multi_service_limited_bandwidth
             reward_func = "Reward function 3"
 
 else:
@@ -633,8 +610,10 @@ uav_directory = uav_ID
 # ________________________________________ Variable initialization before training loop: __________________________________________
 
 uavs_episode_rewards = [[] for uav in range(N_UAVS)]
-agents_paths = [[0 for iteration in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)]
 users_in_foots = [[] for uav in range(N_UAVS)]
+best_policy = [0 for uav in range(N_UAVS)]
+best_policy_obs = [[] for uav in range(N_UAVS)]
+obs_recorder = [[() for it in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)]
 
 avg_QoE1_per_epoch = [0 for ep in range(EPISODES)]
 avg_QoE2_per_epoch = [0 for ep in range(EPISODES)]
@@ -645,13 +624,11 @@ q_values = [[] for episode in range(N_UAVS)]
 if (DIMENSION_2D == True):
     GO_TO_CS_INDEX = GO_TO_CS_2D_INDEX 
     CHARGE_INDEX = CHARGE_2D_INDEX
-    set_action_set = env.set_action_set2D
 else:
     CHARGE_INDEX = CHARGE_3D_INDEX
     CHARGE_INDEX_WHILE_CHARGING =  CHARGE_3D_INDEX_WHILE_CHARGING
     GO_TO_CS_INDEX = GO_TO_CS_3D_INDEX
     GO_TO_CS_INDEX_HOME_SPACE = GO_TO_CS_3D_INDEX_HOME_SPACE
-    set_action_set = env.set_action_set3D
 
 #time.sleep(5)
 
@@ -718,8 +695,8 @@ for episode in range(1, EPISODES+1):
         if (MOVE_USERS==True):
             env.move_users(i+1)
 
-        all_users_in_all_foots = [] 
-        for UAV in range(N_UAVS):
+        env.all_users_in_all_foots = [] 
+        for UAV in range(N_UAVS): 
             # Skip analyzing the current UAV features until it starts to work (you can set a delayed start for each uav):
             current_iteration = i+1
             if (episode==1):
@@ -729,19 +706,20 @@ for episode in range(1, EPISODES+1):
                         pass
                         #continue
 
-            agents_paths[UAV][i] = get_agent_pos(agents[UAV])
+            env.agents_paths[UAV][i] = env.get_agent_pos(agents[UAV])
             if (NOISE_ON_POS_MEASURE==True):
-                drone_pos = env.noisy_measure_or_not(get_agent_pos(agents[UAV]))
+                drone_pos = env.noisy_measure_or_not(env.get_agent_pos(agents[UAV]))
             else:
-                drone_pos = agents_paths[UAV][i]
-            
-            obs = obs_fun(drone_pos, agents[UAV]._battery_level) #, agents[UAV]._battery_level) # --> CHANGE THE OBSERVATION WHEN SWITCH FROM 2D TO 3D ENV AND VICEVERSA!!!!!!!!!!!!!!!!!!!!!
+                drone_pos = env.agents_paths[UAV][i]
+
+            obs = (drone_pos) if UNLIMITED_BATTERY==True else (drone_pos, agents[UAV]._battery_level) # --> The observation will be different when switch from 2D to 3D scenario and viceversa.
 
             if (UNLIMITED_BATTERY==False):
-                set_action_set(agents[UAV])
+                env.set_action_set(agents[UAV])
 
-            action = choose_action(uavs_q_tables, UAV, obs, agents[UAV], battery_in_CS_history[UAV], cells_matrix)
-            obs_, reward, done, info = step(agents[UAV], action, all_users_in_all_foots, env.users, setting_not_served_users, crashes_current_episode, cells_matrix)
+            action = choose_action(uavs_q_tables, UAV, obs, agents[UAV], battery_in_CS_history[UAV], env.cells_matrix)
+            obs_, reward, done, info = env.step(agents[UAV], action)
+
             crashes_current_episode[UAV] = agents[UAV]._crashed
             
             print(" - Iteration: {it:1d} - Reward per UAV {uav:1d}: {uav_rew:6f}".format(it=i+1, uav=UAV+1, uav_rew=reward), end="\r", flush=True)
@@ -749,26 +727,45 @@ for episode in range(1, EPISODES+1):
             if (UAV_STANDARD_BEHAVIOUR==True):
                 action = ACTION_SPACE_STANDARD_BEHAVIOUR.index(action)
 
-            '''
-            if CONTINUOUS_TIME==True:
-                obs_aux = obs
-                obs_aux_ = obs_
-                obs = tuple([round(Decimal(ob), 1) for ob in obs])
-                obs_ = tuple([round(Decimal(ob), 1) for ob in obs_])
-            '''
-
-            obs = tuple([round(ob, 1) for ob in obs])
-            obs_ = tuple([round(ob, 1) for ob in obs_])
+            if ( (ANALYZED_CASE == 1) or (ANALYZED_CASE == 3) ): # --> UNLIMITED BATTERY
+                obs = tuple([round(ob, 1) for ob in obs])
+                obs_ = tuple([round(ob, 1) for ob in obs_])
+            else: # --> LIMITED BATTERY
+                coords = tuple([round(ob, 1) for ob in obs[0]])
+                obs = tuple([coords, obs[1]])
+                coords_ = tuple([round(ob, 1) for ob in obs_[0]])
+                obs_ = tuple([coords, obs_[1]])
 
             if not explored_states_q_tables[UAV][obs_][action]:
                 explored_states_q_tables[UAV][obs_][action] = True
 
-            if (info=="IS CHARGING"):
-                continue
+            obs_recorder[UAV][i] = obs
+
+            if (UNLIMITED_BATTERY==False):
+                if (info=="IS CHARGING"):
+                    
+                    if uavs_episode_reward[UAV] > best_policy[UAV]:
+                        best_policy[UAV] = uavs_episode_reward[UAV]
+                        best_policy_obs[UAV] = obs_recorder[UAV]
+                    
+                    obs_recorder[UAV] = [() for i in range(ITERATIONS_PER_EPISODE)]
+                    continue
+                
+                else: # --> i.e., crashed case:
+                    obs_recorder[UAV] = [() for i in range(ITERATIONS_PER_EPISODE)]
+            else:
+                
+                if (current_iteration==ITERATIONS_PER_EPISODE):
+                    #print(uavs_episode_reward[UAV], best_policy[UAV])
+                    if uavs_episode_reward[UAV] > best_policy[UAV]:
+                        best_policy[UAV] = uavs_episode_reward[UAV]
+                        best_policy_obs[UAV] = obs_recorder[UAV]
+                        #print("SALVO LA POLICY !!!!!!!!!!!!!!!!!!!!!!!!!")
+                    obs_recorder[UAV] = [() for i in range(ITERATIONS_PER_EPISODE)]
             
             # Set all the users which could be no more served after the current UAV action (use different arguments according to the considered case!!!!!!!!!!!!!!!!!!):
-            #setting_not_served_users(env.users, all_users_in_all_foots, current_provided_services, UAV+1, QoEs_store, i+1)
-            setting_not_served_users(env.users, all_users_in_all_foots, UAV+1, QoEs_store, i+1) # --> This make a SIDE_EFFECT on users by updating their info.
+            agent.Agent.set_not_served_users(env.users, env.all_users_in_all_foots, UAV+1, QoEs_store, i+1, current_provided_services)
+            #setting_not_served_users(env.users, env.all_users_in_all_foots, UAV+1, QoEs_store, i+1) # --> This make a SIDE_EFFECT on users by updating their info.
 
             if (Q_LEARNING==True):
                 
@@ -779,7 +776,7 @@ for episode in range(1, EPISODES+1):
             else:
                 
                 if (SARSA==True):
-                    action_ = choose_action(uavs_q_tables, UAV, obs_, agents[UAV], battery_in_CS_history[UAV], cells_matrix)
+                    action_ = choose_action(uavs_q_tables, UAV, obs_, agents[UAV], battery_in_CS_history[UAV], env.cells_matrix)
                     future_reward = uavs_q_tables[UAV][obs_][action_]
                     current_q = uavs_q_tables[UAV][obs][action]
                     new_q = (1 - LEARNING_RATE) * current_q + LEARNING_RATE * (reward + DISCOUNT * future_reward)
@@ -794,12 +791,9 @@ for episode in range(1, EPISODES+1):
             current_UAV_bandwidth[UAV] += UAV_BANDWIDTH - agents[UAV]._bandwidth
             current_requested_bandwidth[UAV] += env.current_requested_bandwidth
 
-            #obs = obs_aux
-            #obs_ = obs_aux_
-
             reset_uavs(agents[UAV])
 
-        current_QoE3 += len(all_users_in_all_foots)/len(env.users) if len(env.users)!=0 else 0 # --> Percentage of covered users (including also the users which are not requesting a service but which are considered to have the communication with UAVs on) 
+        current_QoE3 += len(env.all_users_in_all_foots)/len(env.users) if len(env.users)!=0 else 0 # --> Percentage of covered users (including also the users which are not requesting a service but which are considered to have the communication with UAVs on) 
         n_active_users_per_episode[episode-1] = n_active_users
 
     if (INF_REQUEST==False): 
@@ -842,13 +836,18 @@ for episode in range(1, EPISODES+1):
         print(" - Mean reward per UAV{uav:3d}: {uav_rew:6f}".format(uav=UAV+1, uav_rew=current_mean_reward), end=" ")
     print() 
 
+    
+    print("\nRendering animation for episode:", episode)
+    env.render()
+    print("Animation rendered.\n")
+    
     if ((episode%500)==0): #(episode%250)==0 # --> You can change the condition to show (to save actually) or not the scenario of the current episode.
         print("\nSaving animation for episode:", episode)
-        env.render(agents_paths, saving_directory, episode)
+        env.render(saving_directory, episode)
         plot.users_wait_times(env.n_users, env.users, saving_directory, episode)
         print("Animation saved.\n")
         
-        agents_paths = [[0 for iteration in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)] # --> Actually is should be useless because the values are overwritten on the previous ones.
+    env.agents_paths = [[0 for iteration in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)] # --> Actually is should be useless because the values are overwritten on the previous ones.
 
     n_discovered_users = len(env.discovered_users)
     
@@ -883,6 +882,10 @@ for uav_idx in range(N_UAVS):
     file.write(str(actual_uav_id) + ": " + str(value_of_interest))
     print("Exploration percentage of the Q-Table for UAV:\n", actual_uav_id, ":", value_of_interest)
 
+    print("Saving the best policy for each UAV . . .")
+    np.save(uavs_directories[uav_idx] + f"/best_policy.npy", best_policy_obs[uav_idx])
+    print("Best policies saved.")
+
 for qoe_num in range(1,4):
     file.write("\nQoE" + str(qoe_num) + " : ")
     
@@ -896,6 +899,11 @@ for qoe_num in range(1,4):
         file.write(str(np.mean(avg_QoE3_per_epoch)))
 
 file.close()
+
+print("\nBEST POLICY:\n")
+print(len(best_policy_obs))
+print(best_policy_obs)
+print("\n")
 
 print("\nSaving QoE charts, UAVs rewards and Q-values . . .")
 legend_labels = []
