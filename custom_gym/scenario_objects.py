@@ -1,5 +1,6 @@
 # ENVIRONMENT AND USERS MAIN CLASSES AND METHODS DEFINITION RELATED TO IT.
 
+from enum import Enum
 from random import random, randint
 from scipy.stats import truncnorm
 import numpy as np
@@ -12,6 +13,20 @@ from numpy import linalg as LA
 #from pylayers.antprop.loss import *
 from load_and_save_data import *
 
+class Priority:
+
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def hosp_priority(hospitals, matrix_elems, points=True):
+        for hosp in hospitals:
+            if (points==True):
+                hosp._priority =  HOSP_PRIORITIES[np.random.randint(1, PRIORITY_NUM+1)]
+
+            # If 'matrix_elems' are Cells, then just assign the hospitals priority to the current Cell according to the previous assigned 'Points' priority:
+            matrix_elems[hosp._y_coord][hosp._x_coord]._priority = hosp._priority
+
 class Cell:
     '''
     |-------------------------------------------------------------------------------------------------------------------------------------|
@@ -19,13 +34,17 @@ class Cell:
     |-------------------------------------------------------------------------------------------------------------------------------------|
     '''
 
-    def __init__(self, status, points, x_coord, y_coord, z_coord, users):
+    def __init__(self, status, points, x_coord, y_coord, z_coord, users, priority):
         self._status = status
         self._points = points
         self._x_coord = x_coord
         self._y_coord = y_coord
         self._z_coord = z_coord
         self._users = users
+        # Attributes for restraining bolt
+        self._priority = priority
+        self._beep_count = 0
+        # self.config --> ???
         
     @property
     def _vector(self):
@@ -43,12 +62,16 @@ class Point:
     |-------------------------------------------------------------------------------------------------------------------|
     '''
 
-    def __init__(self, status, x_coord, y_coord, z_coord, users):
+    def __init__(self, status, x_coord, y_coord, z_coord, users, priority):
         self._status = status
         self._x_coord = x_coord
         self._y_coord = y_coord
         self._z_coord = z_coord
         self._users = users
+        # Attributes for restraining bolt
+        self._priority = priority
+        self._beep_count = 0
+        # self.config --> ???
     
     @property
     def _vector(self):
@@ -89,7 +112,7 @@ class User:
         else:
             return False
 
-    def user_info_update(self, QoEs_store, current_provided_services, current_iteration):
+    def user_info_update(self, QoEs_store, current_iteration, current_provided_services):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # #
         # SIDE EFFECT on User attribute '_info' in case of DISCRETE and MUTLI-SERVICE request coming from the users  #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # #
@@ -162,7 +185,7 @@ class User:
         # ________________________________________________________________________________________________________________________________________________________
 
 
-    def user_info_update_inf_request(self, QoEs_store, current_iteration):
+    def user_info_update_inf_request(self, QoEs_store, current_iteration, current_provided_services=None):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # #
         # SIDE EFFECT on User attribute '_info' in case of CONTINUOS (i.e., INFINITE, then there is no need to check if a user is asking or not for a service) and SINGLE_SERVICE request coming from the users   #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # # # # # # # # #
@@ -324,7 +347,7 @@ class User:
 
             if (current_point_or_cell_matrix._status == OBS_IN):
                 max_achievable_height_per_user = min(current_point_or_cell_matrix._z_coord, MAX_HEIGHT_PER_USER) # The Maximum height which can be reached (i.e., it is assumed that users over a certain height are not taken into account by UAVs) by the users is the minimum between the 'MAX_HEIGHT_PER_USER' and the height of the building inside which they could be.
-                us_height = np.random.random_integers(0, max_achievable_height_per_user)
+                us_height = np.random.randint(0, max_achievable_height_per_user)
             else:
                 us_height = 0
 
@@ -404,14 +427,14 @@ class User:
                 current_user_z = user._z_coord
                 user_max_in_building = user._max_in_building
 
-                x_val = np.random.random_integers(go_back, go_ahead)
-                y_val = np.random.random_integers(go_back, go_ahead)
+                x_val = np.random.randint(go_back, go_ahead)
+                y_val = np.random.randint(go_back, go_ahead)
 
                    
                 # ___________________________________________________ Case in which the user is on a floor of a building which is between the first and the top floor (the latter excluded) OR the user is at his/her maximum reachable height for that building: ___________________________________________________ 
                 
                 if ( (current_user_z > 0) and (current_user_z < user_max_in_building) ):
-                    z_val = np.random.random_integers(go_back, go_ahead)
+                    z_val = np.random.randint(go_back, go_ahead)
                     x_val = stop
                     y_val = stop
 
@@ -421,7 +444,7 @@ class User:
                 # ___________________________________________________ Case in which the user is on the top floor of a building (or at his/her maximum height): ___________________________________________________
                 
                 elif ( (DIMENSION_2D==False) and (current_user_z == user_max_in_building) and (user_max_in_building != 0) ): # --> If there is a 2D env, this condition will be always True due to the fact that users are all at z=0, which is also their maximum reachable height.
-                    z_val = np.random.random_integers(go_back, stop)
+                    z_val = np.random.randint(go_back, stop)
                     x_val = stop
                     y_val = stop
 
@@ -435,10 +458,10 @@ class User:
                     # User is on the ground floor of a building:
                     if ( (user_max_in_building > 0) and (current_user_z == 0) ):
                         
-                        x_val = np.random.random_integers(go_back, go_ahead)
-                        y_val = np.random.random_integers(go_back, go_ahead)
+                        x_val = np.random.randint(go_back, go_ahead)
+                        y_val = np.random.randint(go_back, go_ahead)
                         if ( (x_val == stop) and (y_val == stop) ):
-                            z_val = np.random.random_integers(stop, go_ahead)
+                            z_val = np.random.randint(stop, go_ahead)
                         else:
                             z_val = stop
                     else:
@@ -447,13 +470,13 @@ class User:
                         if (user_max_in_building == 0):
                             
                             if (current_user_x == 0):
-                                x_val = np.random.random_integers(stop, go_ahead)
+                                x_val = np.random.randint(stop, go_ahead)
                             if (current_user_y == 0):
-                                y_val = np.random.random_integers(stop, go_ahead)
+                                y_val = np.random.randint(stop, go_ahead)
                             if (current_user_x == upper_x):
-                                x_val = np.random.random_integers(go_back, stop)
+                                x_val = np.random.randint(go_back, stop)
                             if (current_user_x == upper_y):
-                                y_val = np.random.random_integers(go_back, stop)
+                                y_val = np.random.randint(go_back, stop)
 
                             z_val = stop
 
@@ -466,14 +489,14 @@ class User:
 
                 # if some user is out of the area of interest, then place him/her inside that area: 
                 if (new_step_x > upper_x):
-                    new_step_x = upper_x + np.random.random_integers(go_back-4, go_back-2)
+                    new_step_x = upper_x + np.random.randint(go_back-4, go_back-2)
                 elif (new_step_x < 0):
-                    new_step_x = 0 + np.random.random_integers(go_ahead+2, go_ahead+4)
+                    new_step_x = 0 + np.random.randint(go_ahead+2, go_ahead+4)
 
                 if (new_step_y > upper_y):
-                    new_step_y = upper_y + np.random.random_integers(go_back-4, go_back-2)
+                    new_step_y = upper_y + np.random.randint(go_back-4, go_back-2)
                 elif (new_step_y < 0):
-                    new_step_y = 0 + np.random.random_integers(go_ahead+2, go_ahead+4)
+                    new_step_y = 0 + np.random.randint(go_ahead+2, go_ahead+4)
 
                 if (new_step_z >= user_max_in_building):
                     new_step_z = user_max_in_building
@@ -654,6 +677,7 @@ class Environment:
         self._cs_in = CS_IN
         self._uav_in = UAV_IN
         self._enb_in = ENB_IN
+        self._hosp_in = HOSP_IN
    
     def neighbors_elems_pos(self, elem, matrix_row_upper_bound, matrix_col_upper_bound, obs_points):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -733,13 +757,13 @@ class Environment:
         reachable_height_idx = self._area_height - 1
 
         x_random_matrix = []
-        x_random = np.random.random_integers(0, reachable_width_idx, size=N_obs_points)
+        x_random = np.random.randint(0, reachable_width_idx, size=N_obs_points)
         #x_random_matrix = [round(point) for point in x_random]
         
-        y_random = np.random.random_integers(0, reachable_height_idx, size=N_obs_points)
+        y_random = np.random.randint(0, reachable_height_idx, size=N_obs_points)
         #y_random_matrix = [round(point) for point in y_random]
 
-        z_random = np.random.random_integers(min_obs_height, max_obs_height, size=N_obs_points)
+        z_random = np.random.randint(min_obs_height, max_obs_height, size=N_obs_points)
         #z_random_matrix = [round(point) for point in z_random]        
 
         xyz_obs_points = [(x_random[idx], y_random[idx], z_random[idx]) for idx in range(N_obs_points)]
@@ -768,13 +792,40 @@ class Environment:
             
             xyz_obs_points = list(np.concatenate((xyz_obs_points_no_duplicates, neighbors_xyz_coords)))
 
-            obs_points = [Point(self._obs_in, xyz_obs_points[idx][0], xyz_obs_points[idx][1], xyz_obs_points[idx][2], []) for idx in range(N_obs_points)]
+            obs_points = [Point(self._obs_in, xyz_obs_points[idx][0], xyz_obs_points[idx][1], xyz_obs_points[idx][2], [], None) for idx in range(N_obs_points)]
         
         else:
 
-            obs_points = [Point(self._obs_in, x_random[idx], y_random[idx], z_random[idx], []) for idx in range(N_obs_points)]
+            obs_points = [Point(self._obs_in, x_random[idx], y_random[idx], z_random[idx], [], None) for idx in range(N_obs_points)]
 
         return obs_points
+
+    def set_hospitals_on_map(self, n_hosp, points_matrix, obs_points):
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #   
+        # Randomly convert 'n_hosp' obstacles among 'obs' into hospitals. #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+        hosp_assigned = 0
+        hosp_points = [None for hosp in range(n_hosp)]
+
+        while(hosp_assigned!=n_hosp):
+
+            for ob in obs_points:
+                
+                if (hosp_assigned==n_hosp):
+                    break
+                
+                else:
+                    
+                    hosp_prob = random()
+                    if (hosp_prob > 0.5):
+                        points_matrix[ob._y_coord][ob._x_coord] = ob
+                        points_matrix[ob._y_coord][ob._x_coord]._status = self._hosp_in # --> SIDE-EFFECT on 'points_matrix' --> 'points_matrix' will contain obstacles and hospitals (that are obviously obstacles as well).
+                        hosp_points[hosp_assigned] = ob
+                        obs_points.remove(ob)
+                        hosp_assigned += 1
+
+        return hosp_points
 
     def set_obstacles_on_map(self, obs_points):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -784,7 +835,7 @@ class Environment:
         # SET_OBSTACLES_ON_MAP return a matrix made by Point elements.                          #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        points_matrix = [[Point(0, j, i, 0, []) for j in range(self._area_width)] for i in range(self._area_height)]
+        points_matrix = [[Point(0, j, i, 0, [], None) for j in range(self._area_width)] for i in range(self._area_height)]
         
         if (DIMENSION_2D == False):
             for obs_point in obs_points:
@@ -802,7 +853,7 @@ class Environment:
         rad_between_points = 2*pi/self._cs_num
         CS_points = []
 
-        [CS_points.append( Point(self._cs_in, round(self._x_eNB + self._radial_distance_x*sin(CS_idx*rad_between_points)), round(self._y_eNB + self._radial_distance_y*cos(CS_idx*rad_between_points)), self._cs_height, []) ) for CS_idx in range(self._cs_num)]
+        [CS_points.append( Point(self._cs_in, round(self._x_eNB + self._radial_distance_x*sin(CS_idx*rad_between_points)), round(self._y_eNB + self._radial_distance_y*cos(CS_idx*rad_between_points)), self._cs_height, [], None) ) for CS_idx in range(self._cs_num)]
         
         if (UNLIMITED_BATTERY == False):
             for CS_point in CS_points:
@@ -817,9 +868,9 @@ class Environment:
                 if (current_position_on_map_status == FREE):
                     points_matrix[y_current_CS][x_current_CS] = CS_point
                 
-                # Otherwise, namely if an obstacle is in here, the CS will be placed on that obstacle with by keeping the height of the obstacle;
-                # In this case the obstacle will be removed from 'obs_points' list.
-                elif (current_position_on_map_status == OBS_IN):
+                # Otherwise, namely if an obstacle or an hospital is in here, the CS will be placed on that obstacle by keeping the height of the obstacle;
+                # In this case the obstacle will be removed from 'obs_points' list (just for a plotting matter).
+                elif ( (current_position_on_map_status == OBS_IN) ):
                     points_matrix[y_current_CS][x_current_CS]._status = CS_IN
 
                     for obs in obs_points:
@@ -838,12 +889,14 @@ class Environment:
         if (CREATE_ENODEB == False):
             return []
 
-        if (points_matrix[self._y_eNB][self._x_eNB]._status == FREE):
+        current_position_on_map_status = points_matrix[self._y_eNB][self._x_eNB]._status
+        if (current_position_on_map_status == FREE):
             z_enb = self._z_eNB
         
-        # If the desired position for the eNodeB is occupied by an obstacle, then use the height of the obstacle as eNodeB height:
-        elif (points_matrix[self._y_eNB][self._x_eNB]._status == OBS_IN):
+        # If the desired position for the eNodeB is occupied by an obstacle (or hospital), then use the height of the obstacle (or hospital) as eNodeB height:
+        elif ( (current_position_on_map_status == OBS_IN) or (current_position_on_map_status == HOSP_IN) ):
             z_enb = points_matrix[self._y_eNB][self._x_eNB]._z_coord
+            points_matrix[self._y_eNB][self._x_eNB]._status = HOSP_AND_ENB_IN
 
         for obs in obs_points:
             if ( (obs._x_coord == self._x_eNB) and (obs._y_coord == self._y_eNB) ):
@@ -851,7 +904,7 @@ class Environment:
                 break
 
         eNB_point = []
-        eNB_point.append(Point(self._enb_in, self._x_eNB, self._y_eNB, z_enb, []) )
+        eNB_point.append(Point(self._enb_in, self._x_eNB, self._y_eNB, z_enb, [], None) )
 
         if (CREATE_ENODEB == True):
             points_matrix[self._y_eNB][self._x_eNB] = eNB_point[0]
@@ -884,17 +937,32 @@ class Environment:
             for j in range(self._cells_cols):
                 current_points = cells[cell_idx]
                 
+                status_points = [point._status for point in current_points]
+                priority_points = [point._priority for point in current_points]
+                priority_type = list(filter(lambda a: a != None, priority_points))
+                priority_type = None if priority_type==[] else priority_type[0]
                 if (DIMENSION_2D == True):
                     if (UNLIMITED_BATTERY == True):
-                        cells_matrix[i][j] = Cell(self._free, current_points, j, i, 0, [])
-                    else:
-                        status_points = [point._status for point in current_points]
-                        if (self._cs_in in status_points):
-                            current_cell_status = self._cs_in
-                            z_current_cell = self._cs_height
-                            cells_matrix[i][j] = Cell(current_cell_status, current_points, j, i, z_current_cell, [])
+                        if (HOSP_SCENARIO==False):
+                            cells_matrix[i][j] = Cell(self._free, current_points, j, i, 0, [], priority_type)
                         else:
-                            cells_matrix[i][j] = Cell(self._free, current_points, j, i, 0, [])
+                            if (self._hosp_in in status_points):
+                                cells_matrix[i][j] = Cell(self._hosp_in, current_points, j, i, 0, [], priority_type)
+                            else:
+                                cells_matrix[i][j] = Cell(self._free, current_points, j, i, 0, [], priority_type)
+                    else:
+                        if (self._cs_in in status_points):
+                                current_cell_status = self._cs_in
+                                z_current_cell = self._cs_height
+                                cells_matrix[i][j] = Cell(current_cell_status, current_points, j, i, z_current_cell, [], priority_type)
+                        else:
+                            if (HOSP_SCENARIO==False):
+                                cells_matrix[i][j] = Cell(self._free, current_points, j, i, 0, [], priority_type)
+                            else:
+                                if (self._hosp_in in status_points):
+                                    cells_matrix[i][j] = Cell(self._hosp_in, current_points, j, i, 0, [], priority_type)
+                                else:
+                                    cells_matrix[i][j] = Cell(self._free, current_points, j, i, 0, [], priority_type)
                     cell_idx += 1
                     continue
 
@@ -912,11 +980,14 @@ class Environment:
                     # Select the maximum height among the ones which are present in the points inside the considered cell: 
                     z_current_cell = max([point._z_coord for point in current_points])
                     if (z_current_cell > 0):
-                        current_cell_status = self._obs_in
+                        if (self._hosp_in in status_points):
+                            current_cell_status = self._hosp_in
+                        else:
+                            current_cell_status = self._obs_in
                     else:
                         current_cell_status = self._free
 
-                cells_matrix[i][j] = Cell(current_cell_status, current_points, j, i, z_current_cell, [])
+                cells_matrix[i][j] = Cell(current_cell_status, current_points, j, i, z_current_cell, [], priority_type)
                 cell_idx += 1
 
         return cells_matrix
@@ -939,7 +1010,7 @@ class Environment:
 
 if __name__ == '__main__':
 
-    print("Sceanario creation . . .")
+    print("Scenario creation . . .")
 
     # ___________________________________________________ Area of interest creation: ___________________________________________________
 
@@ -947,8 +1018,10 @@ if __name__ == '__main__':
     obs_points = env.obstacles_generation()
     points_matrix = env.set_obstacles_on_map(obs_points)
     CS_points = env.set_CS_on_map(points_matrix, obs_points)
-    eNB_point = env.set_eNB_on_map(points_matrix, obs_points)  
-    
+    eNB_point = env.set_eNB_on_map(points_matrix, obs_points)
+    hosp_points = env.set_hospitals_on_map(N_HOSP, points_matrix, obs_points) if HOSP_SCENARIO==True else None
+    Priority.hosp_priority(hosp_points, points_matrix) if HOSP_SCENARIO == True else None
+
     # __________________________________________________________________________________________________________________________________
 
     # ___________________________________________________ Users creation: ______________________________________________________________
@@ -998,10 +1071,13 @@ if __name__ == '__main__':
     cs_cells = env.extracting_specific_cells_coordinates(cells_matrix, env._cs_in)
     # Extracting cells coordinates which contain eNodeB:
     eNB_cells = env.extracting_specific_cells_coordinates(cells_matrix, env._enb_in)
-
+    # Extracting cells coordinates which contain eNodeB:
+    hosp_cells = env.extracting_specific_cells_coordinates(cells_matrix, env._hosp_in) if HOSP_SCENARIO==True else None
+    Priority.hosp_priority(hosp_cells, cells_matrix, points=False) if HOSP_SCENARIO == True else None
     # ______________________________________________________________________________________________________________
 
     print("Scenario created.")
+    print("ABBIAMO ", len(obs_points), "OSTACOLI")
     
     # ___________________________________________ Directory Creation and Saving: ___________________________________________
 
@@ -1012,7 +1088,7 @@ if __name__ == '__main__':
 
     # Saving:
     saver = Saver()
-    saver.maps_data(obs_points, points_matrix, cells_matrix, obs_cells, cs_cells, eNB_cells, CS_points, eNB_point)
+    saver.maps_data(obs_points, points_matrix, cells_matrix, obs_cells, cs_cells, eNB_cells, CS_points, eNB_point, hosp_points, hosp_cells)
     saver.users_clusters(users_xyz, initial_centroids, initial_clusters_radiuses, initial_clusterer, initial_usr_clusters)
 
     # _______________________________________________________________________________________________________________________
