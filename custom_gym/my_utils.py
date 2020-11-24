@@ -14,13 +14,23 @@ def hex_to_rgb(hex):
 Q_LEARNING = True
 SARSA = False
 
+HOSP_SCENARIO = False
+
+PURPLE = "#cf03fc"
+ORANGE = "#fc8c03"
+BROWN = "#8b4513"
+GOLD = '#FFD700'
+
+HOSP_PRIORITIES = {1: GOLD, 2: PURPLE, 3:ORANGE, 4:BROWN}
+PRIORITY_NUM = len(HOSP_PRIORITIES)
+
 UAV_STANDARD_BEHAVIOUR = False
 
 N_TIMESLOTS_PER_HOUR = 60
 N_TIMESLOTS_PER_DAY = N_TIMESLOTS_PER_HOUR*24 
 
 # TRAINING PARAMETERS
-EPISODES = 7000 # epochs
+EPISODES = 2000 # epochs
 ITERATIONS_PER_EPISODE = 30
 MOVE_USERS_EACH_N_EPOCHS = 300
 UPDATE_USERS_REQUESTS_EACH_N_ITERATIONS = 10
@@ -38,6 +48,7 @@ N_SERVICES = 3
 # OBSERVATION
 N_UC = 2
 N_CS = 1
+N_HOSP = 5
 N_BATTERY_LEVELS = 10
 PERC_CONSUMPTION_PER_ITERATION = 4 # --> in this way it is possible to have integer battery levels withouth approximation errors which lead to 'Key Error' inside Q-table dictionary
 FULL_BATTERY_LEVEL = ITERATIONS_PER_EPISODE*PERC_CONSUMPTION_PER_ITERATION # = iteration * 4
@@ -86,7 +97,7 @@ RADIAL_DISTANCE_Y = 4
 
 CREATE_ENODEB = False
 DIMENSION_2D = True # --> Enable/Disable 2D environment
-UNLIMITED_BATTERY = True # --> Enable/Disable battery limitation on UAVs
+UNLIMITED_BATTERY = False # --> Enable/Disable battery limitation on UAVs
 INF_REQUEST = True # --> Enable/Disable continuous users requests 
 STATIC_REQUEST = True # --> Enable/Disable static (i.e., not moving users) request
 MULTI_SERVICE = False # --> Enable/Disable limitation on UAV bandwidth
@@ -122,7 +133,7 @@ ACTUAL_UAV_FOOTPRINT = UAV_FOOTPRINT/CELL_RESOLUTION_PER_COL
 HALF_RESOLUTION_X =(AREA_WIDTH//CELLS_COLS)/2
 HALF_RESOLUTION_Y =(AREA_WIDTH//CELLS_ROWS)/2
 HALF_RESOLUTION_Z = 0.5 # --> the resolution along z is fixed
-UAV_XY_STEP = 0.2
+UAV_XY_STEP = 1
 UAV_Z_STEP = 3
 
 # OBSTACLES PARAMETERS:
@@ -137,7 +148,7 @@ CS_HEIGHT = MIN_UAV_HEIGHT
 # ENODEB POSITION:
 ENODEB_X = ceil(AREA_WIDTH/2) 
 ENODEB_Y = ceil(AREA_HEIGHT/2)
-ENODEB_Z = 6
+ENODEB_Z = 6 if DIMENSION_2D==True else 0
 
 # CELLS STATES:
 FREE = 0
@@ -145,6 +156,9 @@ OBS_IN = 1
 CS_IN = 2
 ENB_IN = 3
 UAV_IN = 4
+HOSP_IN = 5
+HOSP_AND_CS_IN = 6
+HOSP_AND_ENB_IN = 7
 
 NEEDED_SERVICE_TIMES_PER_USER = [1, 2, 3, 4] 
 
@@ -180,6 +194,9 @@ GO_TO_CS = 1
 CHARGE = 2
 PROCESS_DATA = 3
 NOT_ALLOWED_MOTION = -1
+
+
+AGENTS_PATHS = [[] for uav in range(N_UAVS)]
 
 
 ACTION_SPACE_3D_MIN = [UP, DOWN, LEFT, RIGHT, RISE, DROP, HOVERING] # TO DEFINE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -370,11 +387,13 @@ OBS_POINTS_LIST = "obs_points.npy"
 POINTS_MATRIX = "points_matrix.npy"
 CS_POINTS = "cs_points.npy"
 ENODEB_POINT = "eNB_point.npy"
+HOSP_POINTS = "hosp_points.npy"
 
 CELLS_MATRIX = "cells_matrix.npy"
 OBS_CELLS = "obs_cells.npy"
 CS_CELLS = "cs_cells.npy"
 ENB_CELLS = "enb_cells.npy"
+HOSP_CELLS = "hosp_cells.npy"
 
 POINTS_STATUS_MATRIX = "points_status_matrix.npy"
 CELLS_STATUS_MATRIX = "cells_status_matrix.npy"
