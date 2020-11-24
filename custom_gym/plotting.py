@@ -39,6 +39,9 @@ if MIDDLE_CELL_ASSUMPTION==True:
 else:
     incr_assumed_coord = 0.0
 
+
+# ENODE case is not still considered combined with the hospitals --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+
 class Plot:
     '''
     |-------------------------------------------------------------|
@@ -154,8 +157,8 @@ class Plot:
 
         return colors, num_color_range
 
-    def plt_map_views(self, obs_points=None, cs_points=None, enb_point=None,
-                      obs_cells=None, cs_cells=None, enb_cells=None, points_status_matrix=None,
+    def plt_map_views(self, obs_points=None, cs_points=None, enb_point=None, hosp_points=None,
+                      obs_cells=None, cs_cells=None, enb_cells=None, hosp_cells=None, points_status_matrix=None,
                       cells_status_matrix=None, perceived_status_matrix=None, users=None, centroids=None,
                       clusters_radiuses=None, area_height=None, area_width=None, N_cells_row=None,
                       N_cells_col=None, agents_paths=None, path_animation=False, where_to_save=None, episode=None):
@@ -185,8 +188,8 @@ class Plot:
         UAVS_COLORS = [VIOLET, ORANGE, GREY, BROWN]
 
         # Define colored canvas for the legend:
-        DARK_RED_square = mlines.Line2D([], [], color=DARK_RED, marker='s', markersize=15, label="'Point' eNodeB")
-        LIGHT_RED_square = mlines.Line2D([], [], color=LIGHT_RED, marker='s', markersize=15, label="'Cell' eNodeB")
+        DARK_RED_square = mlines.Line2D([], [], color=DARK_RED, marker='s', markersize=15, label="'Point' Hospital")
+        LIGHT_RED_square = mlines.Line2D([], [], color=LIGHT_RED, marker='s', markersize=15, label="'Cell' Hospital")
         DARK_BLUE_square = mlines.Line2D([], [], color=DARK_BLUE, marker='s', markersize=15, label="'Point' Obstacles")
         LIGHT_BLUE_square = mlines.Line2D([], [], color=LIGHT_BLUE, marker='s', markersize=15, label="'Cell' Obstacles")
         DARK_GREEN_square = mlines.Line2D([], [], color=DARK_GREEN, marker='s', markersize=15, label="'Point' Charging Stations")
@@ -196,6 +199,8 @@ class Plot:
         # The following 'magic' number represent the RGBA values for charging stations and obstacles: 
         cs_cells_colors = [(0.4, 1, 0.59, 0.3) for i in range(N_CS)]
         obs_cells_colors = [(0.4, 1, 1, 0.3) for i in range(len(obs_cells))]
+        if (HOSP_SCENARIO==True):
+            hosp_cells_colors = [(1, 0, 0, 0.3) for i in range(len(hosp_cells))]
 
         bottom = 0
         width = 1
@@ -232,26 +237,32 @@ class Plot:
                     cells_status_matrix_2D = [[FREE if cells_status_matrix[r][c]==OBS_IN else cells_status_matrix[r][c] for c in range(N_cells_col)] for r in range(N_cells_row)]
                     cells_status_matrix = cells_status_matrix_2D
 
-            users_x, users_y, users_z = self.extract_coord_from_xyz(users)
-            users_x_for_2DplotCells, users_y_for_2DplotCells = [float(x)-0.5 for x in users_x], [float(y)-0.5 for y in users_y]
-            users_x_for_3DplotCells, users_y_for_3DplotCells, users_z_for_3DplotCells = [x for x in users_x], [y for y in users_y], users_z
-            num_clusters = len(centroids)
+            if (HOSP_SCENARIO==False):
+                users_x, users_y, users_z = self.extract_coord_from_xyz(users)
+                users_x_for_2DplotCells, users_y_for_2DplotCells = [float(x)-0.5 for x in users_x], [float(y)-0.5 for y in users_y]
+                users_x_for_3DplotCells, users_y_for_3DplotCells, users_z_for_3DplotCells = [x for x in users_x], [y for y in users_y], users_z
+                #num_clusters = len(centroids)
             
             x_obs_cells, y_obs_cells, z_obs_cells = self.extract_coord_from_xyz(obs_cells)
             x_cs_cells, y_cs_cells, z_cs_cells = self.extract_coord_from_xyz(cs_cells)
+            if (HOSP_SCENARIO==True):
+                x_hosp_cells, y_hosp_cells, z_hosp_cells = self.extract_coord_from_xyz(hosp_cells)
 
             if (CREATE_ENODEB == True):
                 x_eNB_cells, y_eNB_cells, z_eNB_cells = self.extract_coord_from_xyz(enb_cells)
 
             if (DIMENSION_2D == False):
-                ax.scatter(users_y_for_3DplotCells, users_x_for_3DplotCells, users_z_for_3DplotCells, s=10, c=GOLD)
-                for cluster_idx in self.num_color_range:
-                    patch = plt.Circle([centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL+0.25, centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW+0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)
-                    ax.add_patch(patch)
-                    art3d.pathpatch_2d_to_3d(patch)
-                    pass
+                if (HOSP_SCENARIO==False):
+                    ax.scatter(users_y_for_3DplotCells, users_x_for_3DplotCells, users_z_for_3DplotCells, s=10, c=GOLD)
+                    for cluster_idx in self.num_color_range:
+                        patch = plt.Circle([centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL+0.25, centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW+0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)
+                        ax.add_patch(patch)
+                        art3d.pathpatch_2d_to_3d(patch)
+                        pass
 
                 ax.bar3d(y_obs_cells, x_obs_cells, bottom, width, depth, z_obs_cells, shade=True, color=obs_cells_colors, edgecolor="none")
+                if HOSP_SCENARIO==True:
+                    ax.bar3d(y_hosp_cells, x_hosp_cells, bottom, width, depth, z_hosp_cells, shade=True, color=hosp_cells_colors, edgecolor="none")
                 if (UNLIMITED_BATTERY == False):
                     ax.bar3d(y_cs_cells, x_cs_cells, bottom, width, depth, z_cs_cells, shade=True, color=cs_cells_colors, edgecolor="none")
                 if (CREATE_ENODEB == True):
@@ -273,11 +284,13 @@ class Plot:
                 ax.set_yticklabels(np.arange(0, area_height+1, 1))
 
                 ax.grid(which='major')
-                ax.scatter(users_x_for_2DplotCells, users_y_for_2DplotCells, s=10, c=GOLD)
+                if (HOSP_SCENARIO==False):
+                    ax.scatter(users_x_for_2DplotCells, users_y_for_2DplotCells, s=10, c=GOLD)
                 
                 # A Graphical approximation is needed in order to get a cluster in 'cells view' which is as closest as possible to the one in 'points view' (The approximation is only graphical):
-                for cluster_idx in self.num_color_range:
-                    [ax.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW-0.25, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL-0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
+                if (HOSP_SCENARIO==False):
+                    for cluster_idx in self.num_color_range:
+                        [ax.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW-0.25, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL-0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
 
                 ax.set_xlim(xmin=0-0.5, xmax=CELLS_COLS+0.5)
                 ax.set_ylim(ymin=CELLS_ROWS+0.5, ymax=0-0.5)
@@ -291,14 +304,14 @@ class Plot:
                     ax.set_xlim(xmin=0, xmax=CELLS_COLS)
                     ax.set_ylim(ymin=0, ymax=CELLS_ROWS)
                     if (UNLIMITED_BATTERY == True):
-                        fig.legend(handles=[LIGHT_BLUE_square, GOLD_circle])
+                        fig.legend(handles=[LIGHT_BLUE_square, GOLD_circle]) if HOSP_SCENARIO==False else fig.legend(handles=[LIGHT_BLUE_square, LIGHT_RED_square])
                     else:
-                        fig.legend(handles=[LIGHT_BLUE_square, LIGHT_GREEN_square, GOLD_circle])
+                        fig.legend(handles=[LIGHT_BLUE_square, LIGHT_GREEN_square, GOLD_circle]) if HOSP_SCENARIO==False else fig.legend(handles=[LIGHT_BLUE_square, LIGHT_GREEN_square, LIGHT_RED_square])
                 else:
                     if (UNLIMITED_BATTERY == True):
-                        fig.legend(handles=[GOLD_circle])    
+                        fig.legend(handles=[GOLD_circle]) if (HOSP_SCENARIO==False) else fig.legend(handles=[LIGHT_RED_square])    
                     else:
-                        fig.legend(handles=[LIGHT_GREEN_square, GOLD_circle])
+                        fig.legend(handles=[LIGHT_GREEN_square, GOLD_circle]) if HOSP_SCENARIO==False else fig.legend(handles=[LIGHT_GREEN_square, LIGHT_RED_square])
 
             data_path = []
             
@@ -340,38 +353,48 @@ class Plot:
 
             if (DIMENSION_2D==False):
                 ax.set_zlim(zmin=0)
-            ani.save(join(where_to_save, "animation_ep" + str(episode) + ".gif"), writer='imagemagick')
-
-            plt.close(fig)
+            
+            if ( (where_to_save!=None) and (episode!=None) ):
+                #print("SONO DI QUAAAAAAAAAAAAAAAA")
+                ani.save(join(where_to_save, "animation_ep" + str(episode) + ".gif"), writer='imagemagick')
+                plt.close(fig)
+            else:
+                plt.show()
 
         # ______________________________________________________________ FIGURES FOR STATIC ENVIRNONMENT VISUALIZATION (WITHOUT UAVS): ______________________________________________________________ 
 
         else:
 
-            num_clusters = len(centroids)
+            #num_clusters = len(centroids)
 
             x_obs_points, y_obs_points, z_obs_points = self.extract_coord_from_xyz(obs_points)
             x_cs_points, y_cs_points, z_cs_points = self.extract_coord_from_xyz(cs_points)
+            if HOSP_SCENARIO==True:
+                x_hosp_points, y_hosp_points, z_hosp_points = self.extract_coord_from_xyz(hosp_points)
 
             if (CREATE_ENODEB == True):
                 x_enb_point, y_enb_point, z_enb_point = self.extract_coord_from_xyz(enb_point)
             x_obs_cells, y_obs_cells, z_obs_cells = self.extract_coord_from_xyz(obs_cells)
+            x_hosp_cells, y_hosp_cells, z_hosp_cells = self.extract_coord_from_xyz(hosp_cells)
             
             x_cs_cells, y_cs_cells, z_cs_cells = self.extract_coord_from_xyz(cs_cells)
             if (CREATE_ENODEB == True):
                 x_eNB_cells, y_eNB_cells, z_eNB_cells = self.extract_coord_from_xyz(enb_cells)
 
-            users_x, users_y, users_z = self.extract_coord_from_xyz(users)
-            users_x_for_2Dplot, users_y_for_2Dplot = [float(x)-0.5 for x in users_x], [float(y)-0.5 for y in users_y]
-            users_x_for_3Dplot, users_y_for_3Dplot, users_z_for_3Dplot = users_x, users_y, users_z
-            users_x_for_2DplotCells, users_y_for_2DplotCells = [float(x)/CELL_RESOLUTION_PER_ROW-0.5 for x in users_x], [float(y)/CELL_RESOLUTION_PER_COL-0.5 for y in users_y]
-            users_x_for_3DplotCells, users_y_for_3DplotCells, users_z_for_3DplotCells = [float(x)/CELL_RESOLUTION_PER_ROW for x in users_x], [float(y)/CELL_RESOLUTION_PER_COL for y in users_y], users_z
+            if (HOSP_SCENARIO==False):
+                users_x, users_y, users_z = self.extract_coord_from_xyz(users)
+                users_x_for_2Dplot, users_y_for_2Dplot = [float(x)-0.5 for x in users_x], [float(y)-0.5 for y in users_y]
+                users_x_for_3Dplot, users_y_for_3Dplot, users_z_for_3Dplot = users_x, users_y, users_z
+                users_x_for_2DplotCells, users_y_for_2DplotCells = [float(x)/CELL_RESOLUTION_PER_ROW-0.5 for x in users_x], [float(y)/CELL_RESOLUTION_PER_COL-0.5 for y in users_y]
+                users_x_for_3DplotCells, users_y_for_3DplotCells, users_z_for_3DplotCells = [float(x)/CELL_RESOLUTION_PER_ROW for x in users_x], [float(y)/CELL_RESOLUTION_PER_COL for y in users_y], users_z
 
             # Redefine cells in such a way to have the right plot visualization:
             x_obs_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_COL for elem in x_obs_cells]
             y_obs_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_ROW for elem in y_obs_cells]
             x_cs_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_COL for elem in x_cs_cells]
             y_cs_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_ROW for elem in y_cs_cells]
+            x_hosp_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_COL for elem in x_hosp_cells]
+            y_hosp_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_ROW for elem in y_hosp_cells]
             if (CREATE_ENODEB == True):
                 x_eNB_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_COL for elem in x_eNB_cells]
                 y_eNB_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_ROW for elem in y_eNB_cells]
@@ -411,14 +434,14 @@ class Plot:
             else:
                 if (DIMENSION_2D == False):
                     if (UNLIMITED_BATTERY == True):
-                        colors1 = [WHITE, DARK_BLUE]
+                        colors1 = [WHITE, DARK_BLUE] if HOSP_SCENARIO==False else [WHITE, DARK_RED]
                     else:
-                        colors1 = [WHITE, DARK_BLUE, DARK_GREEN]
+                        colors1 = [WHITE, DARK_BLUE, DARK_GREEN] if HOSP_SCENARIO==False else [WHITE, DARK_GREEN, DARK_RED] 
                 else:
                     if (UNLIMITED_BATTERY == True):
-                        colors1 = [WHITE]
+                        colors1 = [WHITE] if HOSP_SCENARIO==False else [WHITE, DARK_RED]
                     else:
-                        colors1 = [WHITE, DARK_GREEN]
+                        colors1 = [WHITE, DARK_GREEN] if HOSP_SCENARIO==False else [WHITE, DARK_GREEN, DARK_RED] 
             cmap1 = ListedColormap(colors1)
 
             ax1.imshow(points_status_matrix, cmap=cmap1) # Here the transpose is used because the first argument of 'imshow' take (M,N) where 'M' are the rows and 'N' are the columns (while we store them in the form (x,y) where 'x' are the columns and 'y' are the rows)
@@ -427,21 +450,26 @@ class Plot:
             ax1.set_xticklabels(np.arange(0, area_width+1, 1))
             ax1.set_yticklabels(np.arange(0, area_height+1, 1))
             ax1.grid(which='both')
-            ax1.scatter(users_x_for_2Dplot, users_y_for_2Dplot, s=10, c=GOLD)
+            if (HOSP_SCENARIO==False):
+                ax1.scatter(users_x_for_2Dplot, users_y_for_2Dplot, s=10, c=GOLD)
             
-            for cluster_idx in self.num_color_range:
-                [ax1.add_artist(plt.Circle([centroids[cluster_idx][0], centroids[cluster_idx][1]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
+            if (HOSP_SCENARIO==False):
+                for cluster_idx in self.num_color_range:
+                    [ax1.add_artist(plt.Circle([centroids[cluster_idx][0], centroids[cluster_idx][1]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
             ax1.set_title('2D Points-Map')
 
             if (DIMENSION_2D == False):
-                ax2.scatter(users_y_for_3Dplot, users_x_for_3Dplot, users_z_for_3Dplot, s=10, c=GOLD)
-                
-                for cluster_idx in self.num_color_range:
-                    patch = plt.Circle([centroids[cluster_idx][1]+incr_assumed_coord, centroids[cluster_idx][0]+incr_assumed_coord, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)
-                    ax2.add_patch(patch)
-                    art3d.pathpatch_2d_to_3d(patch)        
+                if (HOSP_SCENARIO==False):
+                    ax2.scatter(users_y_for_3Dplot, users_x_for_3Dplot, users_z_for_3Dplot, s=10, c=GOLD)
+                    
+                    for cluster_idx in self.num_color_range:
+                        patch = plt.Circle([centroids[cluster_idx][1]+incr_assumed_coord, centroids[cluster_idx][0]+incr_assumed_coord, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)
+                        ax2.add_patch(patch)
+                        art3d.pathpatch_2d_to_3d(patch)        
                 
                 ax2.bar3d(y_obs_points, x_obs_points, bottom, width, depth, z_obs_points, shade=True, color=(0, 0, 0.6), edgecolor="none")
+                if HOSP_SCENARIO==True:
+                    ax2.bar3d(y_hosp_points, x_hosp_points, bottom, width, depth, z_hosp_points, shade=True, color=(0.7, 0, 0), edgecolor="none")
                 
                 if (UNLIMITED_BATTERY == False):
                     cs_colors = [(0, 0.4, 0) for cs in range(N_CS)]
@@ -459,14 +487,14 @@ class Plot:
             else:
                 if (DIMENSION_2D == False):
                     if (UNLIMITED_BATTERY == True):
-                        fig1.legend(handles=[DARK_BLUE_square, GOLD_circle])
+                        fig1.legend(handles=[DARK_BLUE_square, GOLD_circle]) if HOSP_SCENARIO==False else fig1.legend(handles=[DARK_BLUE_square, DARK_RED_square])
                     else:
-                        fig1.legend(handles=[DARK_BLUE_square, DARK_GREEN_square, GOLD_circle])
+                        fig1.legend(handles=[DARK_BLUE_square, DARK_GREEN_square, GOLD_circle]) if HOSP_SCENARIO==False else fig1.legend(handles=[DARK_BLUE_square, DARK_GREEN_square, DARK_RED_square])
                 else:
                     if (UNLIMITED_BATTERY == True):
-                        fig1.legend(handles=[GOLD_circle])                        
+                        fig1.legend(handles=[GOLD_circle]) if (HOSP_SCENARIO==False) else fig1.legend(handles=[DARK_RED_square])                        
                     else:
-                        fig1.legend(handles=[DARK_GREEN_square, GOLD_circle])
+                        fig1.legend(handles=[DARK_GREEN_square, GOLD_circle]) if HOSP_SCENARIO==False else fig1.legend(handles=[DARK_GREEN_square, DARK_RED_square])
 
             plt.savefig(join(env_directory, "Minimum_Resolution.png"))
 
@@ -484,14 +512,14 @@ class Plot:
             else:
                 if (DIMENSION_2D == False):
                     if (UNLIMITED_BATTERY == True):
-                        colors2 = [WHITE, LIGHT_BLUE]
+                        colors2 = [WHITE, LIGHT_BLUE] if HOSP_SCENARIO==False else [WHITE, LIGHT_RED]
                     else:    
-                        colors2 = [WHITE, LIGHT_BLUE, LIGHT_GREEN]
+                        colors2 = [WHITE, LIGHT_BLUE, LIGHT_GREEN] if HOSP_SCENARIO==False else [WHITE, LIGHT_GREEN, LIGHT_RED]
                 else:
                     if (UNLIMITED_BATTERY == True):
-                        colors2 = [WHITE, LIGHT_BLUE]
+                        colors2 = [WHITE, LIGHT_BLUE] if HOSP_SCENARIO==False else [WHITE, LIGHT_RED]
                     else:
-                        colors2 = [WHITE, LIGHT_BLUE, LIGHT_GREEN]
+                        colors2 = [WHITE, LIGHT_BLUE, LIGHT_GREEN] if HOSP_SCENARIO==False else [WHITE, LIGHT_GREEN, LIGHT_RED]
             cmap2 = ListedColormap(colors2)
 
             ax3.imshow(cells_status_matrix, cmap=cmap2)
@@ -500,22 +528,27 @@ class Plot:
             ax3.set_xticklabels(np.arange(0, area_width+1, 1))
             ax3.set_yticklabels(np.arange(0, area_height+1, 1))
             ax3.grid(which='major')
-            ax3.scatter(users_x_for_2DplotCells, users_y_for_2DplotCells, s=10, c=GOLD)
+            if (HOSP_SCENARIO==False):
+                ax3.scatter(users_x_for_2DplotCells, users_y_for_2DplotCells, s=10, c=GOLD)
             
             # A Graphical approximation is needed in order to get a cluster in 'cells view' which is as closest as possible to the one in 'points view' (The approximation is only graphical):
-            for cluster_idx in self.num_color_range:
-                [ax3.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW-0.25, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL-0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
+            if (HOSP_SCENARIO==False):
+                for cluster_idx in self.num_color_range:
+                    [ax3.add_artist(plt.Circle([centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW-0.25, centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL-0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
             ax3.set_title('2D Cells-Map')
 
             if (DIMENSION_2D == False):
-                ax4.scatter(users_y_for_3DplotCells, users_x_for_3DplotCells, users_z_for_3DplotCells, s=10, c=GOLD)
-                for cluster_idx in self.num_color_range:
-                    patch = plt.Circle([centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL+0.25, centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW+0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)
-                    ax4.add_patch(patch)
-                    art3d.pathpatch_2d_to_3d(patch)
-                    pass
+                if (HOSP_SCENARIO==False):
+                    ax4.scatter(users_y_for_3DplotCells, users_x_for_3DplotCells, users_z_for_3DplotCells, s=10, c=GOLD)
+                    for cluster_idx in self.num_color_range:
+                        patch = plt.Circle([centroids[cluster_idx][1]/CELL_RESOLUTION_PER_COL+0.25, centroids[cluster_idx][0]/CELL_RESOLUTION_PER_ROW+0.25, centroids[cluster_idx][2]], (float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_ROW)) + float(clusters_radiuses[cluster_idx]/(CELL_RESOLUTION_PER_COL)))/2, color=self.clusters_colors[cluster_idx], fill=False)
+                        ax4.add_patch(patch)
+                        art3d.pathpatch_2d_to_3d(patch)
+                        pass
                 
                 ax4.bar3d(y_obs_cells, x_obs_cells, bottom, width, depth, z_obs_cells, shade=True, color=(0.4, 1, 1), edgecolor="none")
+                if HOSP_SCENARIO==True:
+                    ax4.bar3d(y_hosp_cells, x_hosp_cells, bottom, width, depth, z_hosp_cells, shade=True, color=(1, 0, 0), edgecolor="none")
                 
                 if (UNLIMITED_BATTERY == False):
                     cs_cells_colors = [(0.4, 1, 0.59) for cs in range(N_CS)]
@@ -533,14 +566,14 @@ class Plot:
             else:
                 if (DIMENSION_2D == False):
                     if (UNLIMITED_BATTERY == True):
-                        fig2.legend(handles=[LIGHT_BLUE_square, GOLD_circle])
+                        fig2.legend(handles=[LIGHT_BLUE_square, GOLD_circle]) if HOSP_SCENARIO==False else fig2.legend(handles=[LIGHT_BLUE_square, LIGHT_RED_square])
                     else:
-                        fig2.legend(handles=[LIGHT_BLUE_square, LIGHT_GREEN_square, GOLD_circle])
+                        fig2.legend(handles=[LIGHT_BLUE_square, LIGHT_GREEN_square, GOLD_circle]) if HOSP_SCENARIO==False else fig2.legend(handles=[LIGHT_BLUE_square, LIGHT_GREEN_square, LIGHT_RED_square])
                 else:
                     if (UNLIMITED_BATTERY == True):
-                        fig2.legend(handles=[GOLD_circle])
+                        fig2.legend(handles=[GOLD_circle]) if (HOSP_SCENARIO==False) else fig2.legend(handles=[LIGHT_RED_square]) 
                     else:
-                        fig2.legend(handles=[LIGHT_GREEN_square, GOLD_circle])
+                        fig2.legend(handles=[LIGHT_GREEN_square, GOLD_circle]) if HOSP_SCENARIO==False else fig2.legend(handles=[LIGHT_GREEN_square, LIGHT_RED_square])
 
             plt.savefig(join(env_directory, "Desired_Resolution.png"))
 
@@ -565,24 +598,32 @@ class Plot:
                 ax5.set_yticklabels(np.arange(0, area_width+1, CELL_RESOLUTION_PER_ROW))
                 ax5.grid(which='minor', alpha=0.2)
                 ax5.grid(which='major', alpha=0.5)
-                ax5.scatter(users_x_for_2Dplot, users_y_for_2Dplot, s=10, c=GOLD)
+                if (HOSP_SCENARIO==False):
+                    ax5.scatter(users_x_for_2Dplot, users_y_for_2Dplot, s=10, c=GOLD)
                 
-                for cluster_idx in self.num_color_range:
-                    [ax5.add_artist(plt.Circle([centroids[cluster_idx][0], centroids[cluster_idx][1]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
+                if (HOSP_SCENARIO==False):
+                    for cluster_idx in self.num_color_range:
+                        [ax5.add_artist(plt.Circle([centroids[cluster_idx][0], centroids[cluster_idx][1]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)) for cluster_idx in self.num_color_range]
                 ax5.set_title('2D Points/Cells-Map')
 
                 if (DIMENSION_2D == False):
-                    ax6.scatter(users_y_for_3Dplot, users_x_for_3Dplot, users_z_for_3Dplot, s=10, c=GOLD)
-                    for cluster_idx in self.num_color_range:
-                        patch = plt.Circle([centroids[cluster_idx][1]+incr_assumed_coord, centroids[cluster_idx][0]+incr_assumed_coord, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)
-                        ax6.add_patch(patch)
-                        art3d.pathpatch_2d_to_3d(patch)
+                    if (HOSP_SCENARIO==False):
+                        ax6.scatter(users_y_for_3Dplot, users_x_for_3Dplot, users_z_for_3Dplot, s=10, c=GOLD)
+                        for cluster_idx in self.num_color_range:
+                            patch = plt.Circle([centroids[cluster_idx][1]+incr_assumed_coord, centroids[cluster_idx][0]+incr_assumed_coord, centroids[cluster_idx][2]], float(clusters_radiuses[cluster_idx]), color=self.clusters_colors[cluster_idx], fill=False)
+                            ax6.add_patch(patch)
+                            art3d.pathpatch_2d_to_3d(patch)
                     ax6.bar3d(y_obs_points, x_obs_points, bottom, width, depth, z_obs_points, shade=True, color=(0, 0, 0.6), edgecolor="none")
+                    if HOSP_SCENARIO==True:
+                        ax6.bar3d(y_hosp_points, x_hosp_points, bottom, width, depth, z_hosp_points, shade=True, color=(0.7, 0, 0), edgecolor="none")
+                    
                     if (UNLIMITED_BATTERY == False):
                         ax6.bar3d(y_cs_points, x_cs_points, bottom, width, depth, z_cs_points, shade=True, color=(0, 0.4, 0), edgecolor="none")
                     if (CREATE_ENODEB == True):
                         ax6.bar3d(y_enb_point, x_enb_point, bottom, width, depth, z_enb_point, shade=True, color=(1, 0, 0), edgecolor="none")
                     ax6.bar3d(y_obs_cells_for_2Dplot, x_obs_cells_for_2Dplot, bottom, CELL_RESOLUTION_PER_COL, CELL_RESOLUTION_PER_ROW, z_obs_cells, shade=True, color=obs_cells_colors, edgecolor="none")
+                    if HOSP_SCENARIO==True:
+                        ax6.bar3d(y_hosp_cells_for_2Dplot, x_hosp_cells_for_2Dplot, bottom, CELL_RESOLUTION_PER_COL, CELL_RESOLUTION_PER_ROW, z_hosp_cells, shade=True, color=hosp_cells_colors, edgecolor="none")
                     if (UNLIMITED_BATTERY == False):
                         ax6.bar3d(y_cs_cells_for_2Dplot, x_cs_cells_for_2Dplot, bottom, CELL_RESOLUTION_PER_COL, CELL_RESOLUTION_PER_ROW, z_cs_cells, shade=True, color=cs_cells_colors, edgecolor="none")
                     if (CREATE_ENODEB == True):
@@ -597,14 +638,14 @@ class Plot:
                 else:
                     if (DIMENSION_2D == False):
                         if (UNLIMITED_BATTERY == True):
-                            fig3.legend(handles=[DARK_BLUE_square, LIGHT_BLUE_square, GOLD_circle])
+                            fig3.legend(handles=[DARK_BLUE_square, LIGHT_BLUE_square, GOLD_circle]) if HOSP_SCENARIO==False else fig3.legend(handles=[DARK_BLUE_square, LIGHT_BLUE_square, DARK_RED_square, LIGHT_RED_square])
                         else:
-                            fig3.legend(handles=[DARK_BLUE_square, LIGHT_BLUE_square, DARK_GREEN_square, LIGHT_GREEN_square, GOLD_circle])
+                            fig3.legend(handles=[DARK_BLUE_square, LIGHT_BLUE_square, DARK_GREEN_square, LIGHT_GREEN_square, GOLD_circle]) if HOSP_SCENARIO==False else fig3.legend(handles=[DARK_BLUE_square, LIGHT_BLUE_square, DARK_GREEN_square, LIGHT_GREEN_square, DARK_RED_square, LIGHT_RED_square])
                     else:
                         if (UNLIMITED_BATTERY == True):
-                            fig3.legend(handles=[GOLD_circle])
+                            fig3.legend(handles=[GOLD_circle]) if (HOSP_SCENARIO==False) else fig3.legend(handles=[DARK_RED_square, LIGHT_RED_square])
                         else:
-                            fig3.legend(handles=[DARK_GREEN_square, LIGHT_GREEN_square, GOLD_circle])
+                            fig3.legend(handles=[DARK_GREEN_square, LIGHT_GREEN_square, GOLD_circle]) if HOSP_SCENARIO==False else fig3.legend(handles=[DARK_GREEN_square, LIGHT_GREEN_square, DARK_RED_square, LIGHT_RED_square])
 
             if ( (area_height!=N_cells_row) and (area_width!=N_cells_col) ):
                 plt.savefig(join(env_directory, "Mixed_Resolution.png"))
@@ -821,7 +862,7 @@ class Plot:
         ax.set_xticks(RANGE_X_TICKS)
         ax.set_xticklabels(RANGE_EPOCHS_TO_VISUALIZE)
         plt.legend(legend_labels)
-        plt.savefig(join(directory_name, "UAVsBandiwidth_per_epoch.png"))
+        plt.savefig(join(directory_name, "UAVsBandwidth_per_epoch.png"))
 
     def battery_when_start_to_charge(self, battery_history, directory_name):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #  
@@ -910,11 +951,13 @@ if __name__ == '__main__':
     points_matrix = load._points_matrix
     cs_points = load.cs_points
     eNB_point = load.enb_point
+    hosp_points = load.hosp_points
 
     cells_matrix = load.cells_matrix
     obs_cells = load.obs_cells
     cs_cells = load.cs_cells
     eNB_cells = load.enb_cells
+    hosp_cells = load.hosp_cells
 
     initial_users = load.initial_users
     initial_centroids = load.initial_centroids
@@ -945,6 +988,9 @@ if __name__ == '__main__':
     # ___________________________________________ Plotting (with no animation): ___________________________________________
 
     agents_paths = [[(0,0,1), (1,0,1), (1,1,2), (1,1,3), (2,1,2)], [(0,0,1), (0,1,1), (1,1,0), (1,1,2), (1,2,3)]]
-    plot.plt_map_views(obs_points, cs_points, eNB_point, obs_cells, cs_cells, eNB_cells, points_status_matrix, cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids, initial_clusters_radiuses, AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=None, path_animation=False)
+    plot.plt_map_views(obs_points, cs_points, eNB_point, hosp_points,
+                       obs_cells, cs_cells, eNB_cells, hosp_cells, points_status_matrix,
+                       cells_status_matrix, perceived_status_matrix, initial_users, initial_centroids,
+                       initial_clusters_radiuses, AREA_HEIGHT, AREA_WIDTH, CELLS_ROWS, CELLS_COLS, agents_paths=None, path_animation=False)
 
     # _____________________________________________________________________________________________________________________
