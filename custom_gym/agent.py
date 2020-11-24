@@ -62,128 +62,28 @@ class Agent:
     def _n_step_to_the_closest_cs(self):
         return len(self._path_to_the_closest_CS)
 
-    def move_2D_limited_battery(self, old_agent_pos, move_action):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-        # 2D motion;                                                            #
-        # LIMITED UAV battery;                                                  #
-        # constant battery consumption for both UAV motion and services;        #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        next_cell_x = self._x_coord
-        next_cell_y = self._y_coord
-
-        if (move_action == CHARGE):
-            self._charging = True
-            self.charging_battery1()
-            new_agent_pos = (next_cell_x, next_cell_y)
-
-            return new_agent_pos
-
-        elif (move_action == GO_TO_CS):
-            self._coming_home = True
-            self.residual_battery_when_come_home()
-            new_agent_pos = self._path_to_the_closest_CS[self._current_pos_in_path_to_CS]
-            new_agent_pos = (new_agent_pos[0], new_agent_pos[1]) 
-            self._x_coord = new_agent_pos[0]
-            self._y_coord = new_agent_pos[1]
-
-            return new_agent_pos
-
-        else:
-            
-            if (move_action == HOVERING):
-                self.residual_battery1(move_action)
-                return (next_cell_x, next_cell_y)
-
-            elif (move_action == LEFT):
-                next_cell_x -= UAV_XY_STEP
-
-            elif (move_action == RIGHT):
-                next_cell_x += UAV_XY_STEP
-
-            elif (move_action == UP):
-                next_cell_y += UAV_XY_STEP
-
-            elif (move_action == DOWN):
-                next_cell_y -= UAV_XY_STEP
-
-            self._charging = False
-            self._coming_home = False
-            self._cs_goal = (None, None)
-
-
-        new_agent_pos = (next_cell_x, next_cell_y)
-
-        if (self.off_map_move_2D(new_agent_pos)):
-            new_agent_pos = old_agent_pos 
-
-        # Constant reduction battery level due to UAV motion and the provided service:
-        self.residual_battery1(move_action)
-
-        self._x_coord = new_agent_pos[0]
-        self._y_coord = new_agent_pos[1]
-
-        return new_agent_pos
-
-    def move_2D_unlimited_battery(self, old_agent_pos, move_action):
-        # # # # # # # # # # # # # # 
-        # 2D motion;              #
-        # UNLIMITED UAV battery;  #                          
-        # # # # # # # # # # # # # #
-
-        next_cell_x = self._x_coord
-        next_cell_y = self._y_coord
-
-        if (move_action == HOVERING):
-            return (next_cell_x, next_cell_y)
-
-        elif (move_action == LEFT):
-            next_cell_x -= UAV_XY_STEP
-
-        elif (move_action == RIGHT):
-            next_cell_x += UAV_XY_STEP
-
-        elif (move_action == UP):
-            next_cell_y += UAV_XY_STEP
-
-        elif (move_action == DOWN):
-            next_cell_y -= UAV_XY_STEP
-
-        new_agent_pos = (next_cell_x, next_cell_y)
-
-        if (self.off_map_move_2D(new_agent_pos)):
-            new_agent_pos = old_agent_pos
-
-        self._x_coord = new_agent_pos[0]
-        self._y_coord = new_agent_pos[1]
-
-        return new_agent_pos
-
-    def move_3D_limited_battery(self, old_agent_pos, move_action, cells_matrix): 
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-        # 3D motion;                                                            #
-        # LIMITED UAV battery                                                   #
-        # constant battery consumption for both UAV motion and services;        #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    def move(self, move_action, cells_matrix=None):
 
         next_cell_x = self._x_coord
         next_cell_y = self._y_coord
         next_cell_z = self._z_coord
+        old_agent_pos = (next_cell_x, next_cell_y) if DIMENSION_2D==True else (next_cell_x, next_cell_y, next_cell_z)
 
         if (move_action == CHARGE):
             self._charging = True
             self.charging_battery1()
-            new_agent_pos = (next_cell_x, next_cell_y, next_cell_z)
 
-            return new_agent_pos
-        
+            return old_agent_pos
+
         elif (move_action == GO_TO_CS):
             self._coming_home = True
             self.residual_battery_when_come_home()
             new_agent_pos = self._path_to_the_closest_CS[self._current_pos_in_path_to_CS]
+            new_agent_pos = (new_agent_pos[0], new_agent_pos[1]) if (DIMENSION_2D==True) else (new_agent_pos[0], new_agent_pos[1], new_agent_pos[2]) 
             self._x_coord = new_agent_pos[0]
             self._y_coord = new_agent_pos[1]
-            self._z_coord = new_agent_pos[2]
+            if (DIMENSION_2D==False):
+                self._z_coord = new_agent_pos[2]
 
             return new_agent_pos
 
@@ -191,7 +91,7 @@ class Agent:
             
             if (move_action == HOVERING):
                 self.residual_battery1(move_action)
-                return (next_cell_x, next_cell_y, next_cell_z)
+                return old_agent_pos
 
             elif (move_action == LEFT):
                 next_cell_x -= UAV_XY_STEP
@@ -213,70 +113,26 @@ class Agent:
 
             self._charging = False
             self._coming_home = False
-            self._cs_goal = (None, None, None)
+            self._cs_goal = (None, None) if DIMENSION_2D==True else (None, None, None)
 
-        new_agent_pos = (next_cell_x, next_cell_y, next_cell_z)
+            agent_is_off_map = self.off_map_move_2D((next_cell_x, next_cell_y)) if DIMENSION_2D==True else self.off_map_move_3D((next_cell_x, next_cell_y, next_cell_z), cells_matrix)
+            
+            if (agent_is_off_map):
+                new_agent_pos = old_agent_pos
+            
+            else:
+                new_agent_pos = (next_cell_x, next_cell_y) if DIMENSION_2D==True else (next_cell_x, next_cell_y, next_cell_z)
 
-        if (self.off_map_move_3D(new_agent_pos, cells_matrix)):
-            new_agent_pos = old_agent_pos
-        
-        # Constant reduction battery level due to UAV motion and the provided service:
-        self.residual_battery1(move_action)
+            if (UNLIMITED_BATTERY==False):
+                # Constant reduction battery level due to UAV motion and the provided service:
+                self.residual_battery1(move_action)
 
-        '''
-        if (MULTI_SERVICE==True):
-            # Reduction battery level due to service provided by the agent:
-            #self.residual_battery_after_service()
-            pass
-        '''
+            self._x_coord = new_agent_pos[0]
+            self._y_coord = new_agent_pos[1]
+            if (DIMENSION_2D==False):
+                self._z_coord = new_agent_pos[2]
 
-        self._x_coord = new_agent_pos[0]
-        self._y_coord = new_agent_pos[1]
-        self._z_coord = new_agent_pos[2]
-
-        return new_agent_pos
-
-    def move_3D_unlimited_battery(self, old_agent_pos, move_action, cells_matrix): 
-        # # # # # # # # # # # # # # 
-        # 3D motion;              #
-        # UNLIMITED UAV battery;  #
-        # # # # # # # # # # # # # #
-
-        next_cell_x = self._x_coord
-        next_cell_y = self._y_coord
-        next_cell_z = self._z_coord
-
-        if (move_action == HOVERING):
-            return (next_cell_x, next_cell_y, next_cell_z)
-
-        elif (move_action == LEFT):
-            next_cell_x -= UAV_XY_STEP
-
-        elif (move_action == RIGHT):
-            next_cell_x += UAV_XY_STEP
-
-        elif (move_action == UP):
-            next_cell_y += UAV_XY_STEP
-
-        elif (move_action == DOWN):
-            next_cell_y -= UAV_XY_STEP
-
-        elif (move_action == DROP):
-            next_cell_z -= UAV_Z_STEP
-
-        elif (move_action == RISE):
-            next_cell_z += UAV_Z_STEP
-
-        new_agent_pos = (next_cell_x, next_cell_y, next_cell_z)
-
-        if (self.off_map_move_3D(new_agent_pos, cells_matrix)):
-            new_agent_pos = old_agent_pos
-
-        self._x_coord = new_agent_pos[0]
-        self._y_coord = new_agent_pos[1]
-        self._z_coord = new_agent_pos[2]
-
-        return new_agent_pos
+            return new_agent_pos
 
     def move_standard_behaviour(self, move_action):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -501,7 +357,7 @@ class Agent:
 
         cell_x = int(agent_x)
         cell_y = int(agent_y)
-        
+
         if \
         ( (agent_x < LOWER_BOUNDS) or \
         (agent_y < LOWER_BOUNDS) or \
@@ -509,6 +365,8 @@ class Agent:
         (agent_x >= CELLS_COLS) or \
         (agent_y >= CELLS_ROWS) or \
         (agent_z >= MAX_UAV_HEIGHT) or \
+        (cells_matrix[cell_y][cell_x]==HOSP_IN) or \
+        (cells_matrix[cell_y][cell_x]==HOSP_AND_CS_IN) or \
         (cells_matrix[cell_y][cell_x]==OBS_IN) ):
             
             return True
@@ -582,7 +440,9 @@ class Agent:
 
         # 'x' and 'y' are derived from the integer part division used with the derired resolution cell (because we only know where the drone is according to the selected resolution): 
         agents = [Agent((pos[0], pos[1], pos[2]), 1, 0, 1, UAV_BANDWIDTH, FULL_BATTERY_LEVEL, ACTUAL_UAV_FOOTPRINT, max_uav_height, action_set, False, False, False, 2) for pos in agents_pos]
-        
+        for id_num in range(N_UAVS):
+            agents[id_num]._uav_ID = id_num
+
         return agents
 
     @staticmethod
@@ -617,59 +477,52 @@ class Agent:
         uav_y = self._y_coord
 
         users_in_footprint = []
+        if (MULTI_SERVICE==True):
+            self._bandwidth = UAV_BANDWIDTH
+            bandwidth_request_in_current_footprint = 0
         for user in users:
             user_x = user._x_coord
             user_y = user._y_coord
+            
+            if (MULTI_SERVICE==True):
+                self._throughput_request = False
+                self._edge_computing = False
+                self._data_gathering = False
 
-            if ( LA.norm(np.array([uav_x, uav_y]) - np.array([float(user_x), float(user_y)])) < self._footprint ): #, user_z
+            if ( LA.norm(np.array([uav_x, uav_y]) - np.array([float(user_x), float(user_y)])) < self._footprint ): #, user_zusers_in_uav_footprint_lim_band
                 
                 if (user not in discovered_users):
                     discovered_users.append(user) # --> SIDE-EFFECT on 'discovered_users'
                 # Check if the current user inside the UAV footprint is not served OR if it is served yet (in both cases the current agent will serve this user):
-                if ( (user._info[0]) and (user in self._users_in_footprint)):
-                    users_in_footprint.append(user)
-                elif ( (not user._info[0]) ):
-                    users_in_footprint.append(user)
+                if ( (user._info[0]) and (user in self._users_in_footprint) ):
 
-        return users_in_footprint
-
-    def users_in_uav_footprint_lim_band(self, users, uav_footprint, discovered_users):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # Compute the users inside the UAVs footprints (case with limitation on bandwidth). #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        uav_x = self._x_coord
-        uav_y = self._y_coord
-
-        users_in_footprint = []
-        self._bandwidth = UAV_BANDWIDTH
-        bandwidth_request_in_current_footprint = 0
-        for user in users:
-            user_x = user._x_coord
-            user_y = user._y_coord
-            self._throughput_request = False
-            self._edge_computing = False
-            self._data_gathering = False
-            
-            if ( LA.norm(np.array([uav_x, uav_y]) - np.array([float(user_x), float(user_y)])) < self._footprint ): #, user_z
-                
-                if (user not in discovered_users):
-                    discovered_users.append(user) # --> SIDE-EFFECT on 'discovered_users'
-                # Check if the current user inside the UAV footprint is not served OR if it is served yet; in both cases the current agent will serve this user.
-                if ( ((user._info[0]) and (user in self._users_in_footprint) and (self._bandwidth>=user._info[5])) or ((not user._info[0]) and (self._bandwidth>=user._info[5])) ): 
-                    # The users inside the current UAV footprint are also the ones which are not requesting for a service:
-                    users_in_footprint.append(user)
-                    self._bandwidth -= user._info[5]
-                    bandwidth_request_in_current_footprint += user._info[5]
+                    if (MULTI_SERVICE==False):
+                        users_in_footprint.append(user)
                     
-                    if (user._info[1]==THROUGHPUT_REQUEST):
-                        self._throughput_request = True
-                    elif (user._info[1]==EDGE_COMPUTING):
-                        self._edge_computing = True
-                    elif (user._info[1]==DATA_GATHERING):
-                        self._data_gathering = True
+                    elif (MULTI_SERVICE==True):
 
-        return users_in_footprint, bandwidth_request_in_current_footprint
+                        # Check if the current user inside the UAV footprint is not served OR if it is served yet; in both cases the current agent will serve this user
+                        if ( (self._bandwidth>=user._info[5]) or ((not user._info[0]) and (self._bandwidth>=user._info[5])) ):
+                            # The users inside the current UAV footprint are also the ones which are not requesting for a service:
+                            users_in_footprint.append(user)
+                            self._bandwidth -= user._info[5]
+                            bandwidth_request_in_current_footprint += user._info[5]
+
+                            if (user._info[1]==THROUGHPUT_REQUEST):
+                                self._throughput_request = True
+                            elif (user._info[1]==EDGE_COMPUTING):
+                                self._edge_computing = True
+                            elif (user._info[1]==DATA_GATHERING):
+                                self._data_gathering = True
+
+                elif (not user._info[0]):
+                    if (MULTI_SERVICE==False):
+                        users_in_footprint.append(user)
+
+        if MULTI_SERVICE==False:
+            return users_in_footprint, None
+        else:
+            return users_in_footprint, bandwidth_request_in_current_footprint
 
     def check_if_on_CS(self):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -692,15 +545,33 @@ class Agent:
 
     @staticmethod
     def n_served_users_in_foot(users_in_foot):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # In this method it is assumed that all the users inside the UAV footprint are served;              #
-        # every user has the same priority and ask for the same service by using an infinite UAV bandwidth. #
-        # In this case only a single-service is available.                                                  #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        # In this method it is assumed that all the users inside the UAV footprint are served;                      #
+        # every user has the same priority and ask for a single or multi-service (according to the selected case).  #
+        # A possible limitaton on the bandwidth is taken into account in 'users_in_uav_footprint' method.           #
+        # It simply returns the number of the users inside the current UAv footprint.                         #                                     
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+        # This method could be redundant if no heuristic function is provided
+        if (MULTI_SERVICE==True):
+            TS_service = 0
+            EC_service = 0
+            DG_service = 0
 
         # Set the provided services and served users:
         for user in users_in_foot:
-            user._info[0] = True
+            
+            # You could also set a heuristic function to select the user to serve according to the requested service.            
+            if (True): # --> assume that every user inside the UAV footprint is served and that every available service is provided.
+                user._info[0] = True
+
+                if (MULTI_SERVICE==True):
+                    if (user._info[1] == THROUGHPUT_REQUEST): TS_service += 1
+                    elif (user._info[1] == EDGE_COMPUTING): CS_service += 1
+                    elif (user._info[1] == DATA_GATHERING): DG_service += 1
+            
+            else:
+                user._info[0] = False
 
         # UAV serves all the users inside its footprint:
         served_users = len(users_in_foot)
@@ -708,40 +579,12 @@ class Agent:
         return served_users
 
     @staticmethod
-    def n_served_users_in_foot_and_type_of_service(users_in_foot):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # The same as 'n_served_users_in_foot' except for the fact that in this case a multi-service is available.  #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        TS_service = 0
-        EC_service = 0
-        DG_service = 0
-
-        # Set the provided services and served users:
-        for user in users_in_foot:
-            if (True):
-                user._info[0] = True # --> You could also set a heuristic function to select the user to serve according to the requested service.
-                
-                if (user._info[1] == THROUGHPUT_REQUEST): TS_service += 1
-                elif (user._info[1] == EDGE_COMPUTING): CS_service += 1
-                elif (user._info[1] == DATA_GATHERING): DG_service += 1
-
-            else:
-                user._info[0] = False
-
-        # Assume that every user inside the UAV footprint is served and that every available service is provided:
-        served_users = len(users_in_foot)
-        #self._throughput_request = True
-        #self._edge_computing = True
-        #self._data_gathering = True
-
-        return served_users
-
-    @staticmethod
-    def set_not_served_users(users, all_users_in_all_foots, current_provided_services, serving_uav_id, QoEs_store, current_iteration):
+    def set_not_served_users(users, all_users_in_all_foots, serving_uav_id, QoEs_store, current_iteration, current_provided_services):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-        # Set the users which are not served in case of discrete and variable service request.                #
-        # all_users_in_all_foots' is a list containing all the users inside all the footprints of each UAVs.  #
+        # Set the users which are not served in case of:                                                      #
+        #   - continuous and infinite service request;                                                        #
+        #   - discrete and variable service request;                                                          #
+        # 'all_users_in_all_foots' is a list containing all the users inside all the footprints of each UAVs. #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
         # Set the users not served (during a single iteration of each UAV):
@@ -752,24 +595,10 @@ class Agent:
 
             # Update the info related to the current user (only when all the UAVs have performed their actions):
             if (serving_uav_id==N_UAVS):
-                user.user_info_update(QoEs_store, current_provided_services, current_iteration)
-
-    @staticmethod
-    def set_not_served_users_inf_request(users, all_users_in_all_foots, serving_uav_id, QoEs_store, current_iteration):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-        # Set the users which are not served in case of continuous and infinite service request.              #
-        # all_users_in_all_foots' is a list containing all the users inside all the footprints of each UAVs.  #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        # Set the users not served:
-        for user in users:
-            
-            if (not user in all_users_in_all_foots):
-                user._info[0] = False
-
-            # Update the info related to the current user
-            if (serving_uav_id==N_UAVS):
-                user.user_info_update_inf_request(QoEs_store, current_iteration)
+                if (MULTI_SERVICE==False):
+                    user.user_info_update_inf_request(QoEs_store, current_iteration) # --> Obviously 'current_provided_services' is not used in this case
+                else:
+                    user.user_info_update(QoEs_store, current_iteration, current_provided_services)
 
 # ______________________________________________________________________________________________________________________________________________________________
 # I) BATTERY CONSUMPTION: only if propulsion and UAVs services are considered together in the same and unique (average) consumption.
