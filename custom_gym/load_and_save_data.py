@@ -50,6 +50,8 @@ class Loader(object):
             self._points_matrix = pickle.load(f)
         with open(join(MAP_DATA_DIR, ENODEB_POINT), "rb") as f:
             self._eNB_point = pickle.load(f)
+        with open(join(MAP_DATA_DIR, HOSP_POINTS), "rb") as f:
+            self._hosp_points = pickle.load(f)
         
         with open(join(MAP_DATA_DIR, CELLS_MATRIX), "rb") as f:
             self._cells_matrix = pickle.load(f)
@@ -59,6 +61,8 @@ class Loader(object):
             self._cs_cells = pickle.load(f)
         with open(join(MAP_DATA_DIR, ENB_CELLS), "rb") as f:
             self._enb_cells = pickle.load(f)
+        with open(join(MAP_DATA_DIR, HOSP_CELLS), "rb") as f:
+            self._hosp_cells = pickle.load(f)
 
     def maps_status(self):
         # Data map made by Points and Cells states (used for plotting):  
@@ -100,6 +104,10 @@ class Loader(object):
     def enb_point(self):
         return self._eNB_point
 
+    @property
+    def hosp_points(self):
+        return self._hosp_points
+
     # Cells:
     @property
     def cells_matrix(self):
@@ -116,6 +124,10 @@ class Loader(object):
     @property
     def enb_cells(self):
         return self._enb_cells
+
+    @property
+    def hosp_cells(self):
+        return self._hosp_cells    
 
     # Status:
     @property
@@ -161,7 +173,7 @@ class Saver(object):
     def __init__(self):
         pass
 
-    def maps_data(self, obs_points, points_matrix, cells_matrix, obs_cells, cs_cells, enb_cells, cs_points, eNB_point):
+    def maps_data(self, obs_points, points_matrix, cells_matrix, obs_cells, cs_cells, enb_cells, cs_points, eNB_point, hosp_points=None, hosp_cells=None):
         # Data map made by Points and Cells:
 
         copyreg.pickle(scenario_objects.Point, scenario_objects.Point.pickle_MyClass)
@@ -174,6 +186,9 @@ class Saver(object):
             pickle.dump(points_matrix, f)
         with open(join(MAP_DATA_DIR, ENODEB_POINT), 'wb') as f:
             pickle.dump(eNB_point, f)
+        if (hosp_points!=None):
+            with open(join(MAP_DATA_DIR, HOSP_POINTS), 'wb') as f:
+                pickle.dump(hosp_points, f)
         
         copyreg.pickle(scenario_objects.Cell, scenario_objects.Cell.pickle_MyClass)
 
@@ -185,6 +200,9 @@ class Saver(object):
             pickle.dump(cs_cells, f)
         with open(join(MAP_DATA_DIR, ENB_CELLS), 'wb') as f:
             pickle.dump(enb_cells, f)
+        if (hosp_cells!=None):
+            with open(join(MAP_DATA_DIR, HOSP_CELLS), 'wb') as f:
+                pickle.dump(hosp_cells, f)
 
     def maps_status(self, points_status_matrix, cells_status_matrix, perceived_status_matrix):
         # Data map made by Points and Cells states (used for plotting):
