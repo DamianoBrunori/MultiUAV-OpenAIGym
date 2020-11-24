@@ -39,7 +39,7 @@ class UAVEnv(gym.Env):
                 self.come_home_set = ACTION_SPACE_3D_COME_HOME
         self.action_space = spaces.Discrete(len(self.q_table_action_set))
         self.nb_actions = self.action_space.n
-        self.observation_space = spaces.Box(lower_limits, upper_limits, dtype=np.float32)
+        self.observation_space = spaces.Box(low=0, high=max(CELLS_ROWS, CELLS_COLS, FULL_BATTERY_LEVEL), shape=(CELLS_ROWS, CELLS_COLS, ITERATIONS_PER_EPISODE), dtype=np.float32) if DIMENSION_2D==False else spaces.Box(low=0, high=max(CELLS_ROWS, CELLS_COLS), shape=(CELLS_ROWS, CELLS_COLS), dtype=np.float32)
         self.state = None
         self.obs_points = load.obs_points
         self.points_matrix = load._points_matrix
@@ -71,269 +71,80 @@ class UAVEnv(gym.Env):
         self.n_users = len(self.users)
         self.discovered_users = []
         self.current_requested_bandwidth = 0 # --> bandwidth requested from all the users belonging to the current (considered) UAV footprint.
+        self.all_users_in_all_foots = []
+        self.n_active_users = 0
+        self.n_tr_active = 0
+        self.n_ec_active = 0
+        self.n_dg_active = 0
+        self.agents_paths = [[0 for iteration in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)]
 
-    def step_2D_limited_battery(self, agent, action, all_users_inside_foots, users, setting_not_served_users, crashes_current_episode, cells_matrix=None):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-        # - 2D case;                                                                                        #
-        # - LIMITED battery;                                                                                #
+    def step(self, agent, action):
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+        # - 2D/3D cases;                                                                                    #
+        # - UNLIMITED/LIMITED battery;                                                                      #
         # - Constat battery consumption wich includes both services and motions of the UAVs;                #
-        # - All the users have the same priority (each of the is served) and and ask for the same service;  #
-        # - Infinite UAV bandwidth;                                                                         #
+        # - All the users have the same priority (each of the is served) and and ask for the same service;  # 
+        # - It is possible to set multi-service UAVs only with the following settings:                      #
+        #       * 3D scenario;                                                                              #
+        #       * Limited UAV bandwidth;                                                                    #
+        #       * discrete and discontinuos users service request (i.e. INF_REQUEST=False).                 #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        #assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
-
-        agent_pos = self.get_2Dagent_pos(agent)
         info = ""
+
+        #self.agents_paths[agent._uav_ID].append(self.get_agent_pos(agent))
 
         if (UAV_STANDARD_BEHAVIOUR==False):
             current_action = self.q_table_action_set[action]
-            agent_pos_ = agent.move_2D_limited_battery(agent_pos, current_action)
+            agent_pos_ = agent.move(current_action, self.cells_matrix) # --> move_2D_unlimited_battery
         else:
             current_action = ACTION_SPACE_STANDARD_BEHAVIOUR.index(action)
             agent_pos_ = agent.move_standard_behaviour(action)
 
-        if ( (action==CHARGE_2D_INDEX) or (action==CHARGE) ):
+        if ( ((action==CHARGE_2D_INDEX) or (action==CHARGE)) or ((action==GO_TO_CS_3D_INDEX) or (action==CHARGE)) ):
             agent._users_in_footprint = []
             current_users_in_footprint = []
         else:
-            current_users_in_footprint = agent.users_in_uav_footprint(users, self.uav_footprint, self.discovered_users)
-            agent._users_in_footprint = current_users_in_footprint
-        
-        # Compute the number of users which are served by the current UAV agent:
-        n_served_users = agent.n_served_users_in_foot(agent._users_in_footprint) # --> This mainly performs a SIDE-EFFECT on the info 'served or not served' related to the users.
-        # For the current iteration, add the users inside the footprint of the current UAV agent:  
-        for user_per_agent_foot in current_users_in_footprint:
-            all_users_inside_foots.append(user_per_agent_foot) # --> SIDE-EFFECT on 'all_users_inside_foots'
-
-        agent._x_coord = agent_pos_[0]
-        agent._y_coord = agent_pos_[1]
-
-        reward = self.reward_function_2(agent._users_in_footprint, agent._battery_level, agent._required_battery_to_CS)
-
-        done, info = self.is_terminal_state(agent, crashes_current_episode)
-
-        s_ = (agent_pos_, agent._battery_level)
-
-        if (done):
-
-            if (info=="IS CRASHED"):
-                reward = 0.0
-            else:
-                reward = 0.0
-
-        return s_, reward, done, info
-
-    def step_2D_unlimited_battery(self, agent, action, all_users_inside_foots, users, setting_not_served_users, crashes_current_episode=None, cells_matrix=None):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # - 2D case;                                                                                        #
-        # - UNLIMITED battery;                                                                              #
-        # - Constat battery consumption wich includes both services and motions of the UAVs;                #
-        # - All the users have the same priority (each of the is served) and and ask for the same service;  #
-        # - Infinite UAV bandwidth;
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        #assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
-
-        agent_pos = self.get_2Dagent_pos(agent)
-        info = ""
-        
-        if (UAV_STANDARD_BEHAVIOUR==False):
-            current_action = self.q_table_action_set[action]
-            agent_pos_ = agent.move_2D_unlimited_battery(agent_pos, current_action)
-        else:
-            current_action = ACTION_SPACE_STANDARD_BEHAVIOUR.index(action)
-            agent_pos_ = agent.move_standard_behaviour(action)
-
-        current_users_in_footprint = agent.users_in_uav_footprint(users, self.uav_footprint, self.discovered_users)
-        agent._users_in_footprint = current_users_in_footprint
-        n_served_users = agent.n_served_users_in_foot(agent._users_in_footprint) # --> This mainly performs a SIDE-EFFECT on the info 'served or not served' related to the users.
-
-        # For the current iteration, add the users inside the footprint of the current UAV agent:  
-        for user_per_agent_foot in current_users_in_footprint:
-            all_users_inside_foots.append(user_per_agent_foot) # --> SIDE-EFFECT on 'all_users_inside_foots'
-
-        agent._x_coord = agent_pos_[0]
-        agent._y_coord = agent_pos_[1]
-
-        reward = self.reward_function_1(agent._users_in_footprint)
-
-        s_ = (agent_pos_)
-
-        done, info = self.is_terminal_state(agent, crashes_current_episode)
-
-        if (done):
-            
-            if (info=="IS CRASHED"):
-                reward = 0.0
-            else:
-                reward = 0.0 
-
-        return s_, reward, done, info
-
-    def step_3D_limited_battery(self, agent, action, all_users_inside_foots, users, setting_not_served_users, crashes_current_episode, cells_matrix):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # - 3D case;                                                                                        #
-        # - LIMITED battery;                                                                                #
-        # - Constat battery consumption wich includes both services and motions of the UAVs;                #
-        # - All the users have the same priority (each of the is served) and and ask for the same service;  #
-        # - Infinite UAV bandwidth;                                                                         #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        #assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
-        
-        agent_pos = self.get_3Dagent_pos(agent)
-        info = "" 
-
-        if (UAV_STANDARD_BEHAVIOUR==False):
-            current_action = self.q_table_action_set[action]
-            agent_pos_ = agent.move_3D_limited_battery(agent_pos, current_action, cells_matrix)
-        else:
-            current_action = ACTION_SPACE_STANDARD_BEHAVIOUR.index(action)
-            agent_pos_ = agent.move_standard_behaviour(action)
-
-        if ( (action==GO_TO_CS_3D_INDEX) or (action==CHARGE) ):
-            agent._users_in_footprint = []
-            current_users_in_footprint = []
-        else:
-            current_users_in_footprint = agent.users_in_uav_footprint(users, self.uav_footprint, self.discovered_users)
-            agent._users_in_footprint = current_users_in_footprint
-        # Compute the number of users which are served by the current UAV agent:
-        n_served_users = agent.n_served_users_in_foot(agent._users_in_footprint) # --> This mainly performs a SIDE-EFFECT on the info 'served or not served' related to the users.
-        
-        # For the current iteration, add the users inside the footprint of the current UAV agent:  
-        for user_per_agent_foot in current_users_in_footprint:
-            all_users_inside_foots.append(user_per_agent_foot) # --> SIDE-EFFECT on 'all_users_inside_foots'
-
-        agent._x_coord = agent_pos_[0]
-        agent._y_coord = agent_pos_[1]
-        agent._z_coord = agent_pos_[2]
-        
-        reward = self.reward_function_2(agent._users_in_footprint, agent._battery_level, agent._required_battery_to_CS)
-
-        done, info = self.is_terminal_state(agent, crashes_current_episode)
-
-        s_ = (agent_pos_, agent._battery_level)
-
-        if (done):
-            
-            if (info=="IS CRASHED"):
-                reward = 0.0
-            else:
-                reward = 0.0
-
-        return s_, reward, done, info
-
-    def step_3D_unlimited_battery(self, agent, action, all_users_inside_foots, users, setting_not_served_users, crashes_current_episode, cells_matrix):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # - 3D case;                                                                                        #
-        # - UNLIMITED battery;                                                                              #
-        # - Constat battery consumption wich includes both services and motions of the UAVs;                #
-        # - All the users have the same priority (each of the is served) and and ask for the same service;  #
-        # - Infinite UAV bandwidth;                                                                         #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        #assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
-        
-        agent_pos = self.get_3Dagent_pos(agent)
-        info = ""
-
-        if (UAV_STANDARD_BEHAVIOUR==False):
-            current_action = self.q_table_action_set[action]
-            agent_pos_ = agent.move_3D_unlimited_battery(agent_pos, current_action, cells_matrix) # --> 'move_3D_unlimited_battery' method includes also 'off_map_move_3D' check.
-        else:
-            current_action = ACTION_SPACE_STANDARD_BEHAVIOUR.index(action)
-            agent_pos_ = agent.move_standard_behaviour(action)
-
-        current_users_in_footprint = agent.users_in_uav_footprint(users, self.uav_footprint, self.discovered_users)
-        agent._users_in_footprint = current_users_in_footprint
-        # Compute the number of users which are served by the current UAV agent:
-        n_served_users = agent.n_served_users_in_foot(agent._users_in_footprint) # --> This mainly performs a SIDE-EFFECT on the info 'served or not served' related to the users.
-
-        # For the current iteration, add the users inside the footprint of the current UAV agent:  
-        for user_per_agent_foot in current_users_in_footprint:
-            all_users_inside_foots.append(user_per_agent_foot) # --> SIDE-EFFECT on 'all_users_inside_foots'
-        
-        reward = self.reward_function_1(agent._users_in_footprint)
-
-        s_ = (agent_pos_)
-
-        done, info = self.is_terminal_state(agent, crashes_current_episode)
-
-        if (done):
-            
-            if (info=="IS CRASHED"):
-                reward = 0.0
-            else:
-                reward = 0.0 
-
-        return s_, reward, done, info
-
-    def step_3D_limited_battery_multi_service_limited_bandwidth(self, agent, action, all_users_inside_foots, users,
-                                                                setting_not_served_users, crashes_current_episode, cells_matrix, n_tr_active,
-                                                                n_ec_active, n_dg_active):
-            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-            # - 3D case;                                                                                        #
-            # - LIMITED battery;                                                                                #
-            # - Constat battery consumption wich includes both services and motions of the UAVs;                #
-            # - All the users have the same priority (each of the is served) and and ask for the same service;  #
-            # - Infinite UAV bandwidth;                                                                         #
-            # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-            #assert self.action_space.contains(action), "%r (%s) invalid"%(action, type(action))
-            
-            if (DIMENSION_2D==False):
-                agent_pos = self.get_3Dagent_pos(agent)
-            else:
-                agent_pos = self.get_2Dagent_pos(agent)
-
-            info = ""
-
-            if (UAV_STANDARD_BEHAVIOUR==False):
-                current_action = self.q_table_action_set[action]
-                if (DIMENSION_2D==False):
-                    agent_pos_ = agent.move_3D_limited_battery(agent_pos, current_action, cells_matrix) # --> 'move_3D_unlimited_battery' method includes also 'off_map_move_3D' check.
-                else:
-                    agent_pos_ = agent.move_2D_limited_battery(agent_pos, current_action)
-            else:
-                current_action = ACTION_SPACE_STANDARD_BEHAVIOUR.index(action)
-                agent_pos_ = agent.move_standard_behaviour(action)
-
-            if ( (action==GO_TO_CS_3D_INDEX) or (action==CHARGE_3D_INDEX) or (action==GO_TO_CS) or (action==CHARGE) ):
-                agent._users_in_footprint = []
-                current_users_in_footprint = []
-            else:
-                self.current_requested_bandwidth = 0
-                current_users_in_footprint, bandwidth_request_in_current_footprint = agent.users_in_uav_footprint_lim_band(users, self.uav_footprint, self.discovered_users)
-                self.current_requested_bandwidth = bandwidth_request_in_current_footprint
-                bandwidth_request_in_current_footprint
+            self.current_requested_bandwidth = 0
+            current_users_in_footprint, bandwidth_request_in_current_footprint = agent.users_in_uav_footprint(self.users, self.uav_footprint, self.discovered_users)
+            if (MULTI_SERVICE==False):
                 agent._users_in_footprint = current_users_in_footprint
+            else:
+                self.current_requested_bandwidth = bandwidth_request_in_current_footprint
 
-            # Compute the number of users which are served by the current UAV agent:
-            n_served_users = agent.n_served_users_in_foot(agent._users_in_footprint) # --> This mainly performs a SIDE-EFFECT on the info 'served or not served' related to the users.
-            
-            # For the current iteration, add the users inside the footprint of the current UAV agent:  
-            for user_per_agent_foot in current_users_in_footprint:
-                all_users_inside_foots.append(user_per_agent_foot) # --> SIDE-EFFECT on 'all_users_inside_foots'
+        # Compute the number of users which are served by the current UAV agent (useless at the moment, since it is not return by this method):
+        n_served_users = agent.n_served_users_in_foot(agent._users_in_footprint) # --> This mainly performs a SIDE-EFFECT on the info 'served or not served' related to the users.
 
-            agent._x_coord = agent_pos_[0]
-            agent._y_coord = agent_pos_[1]
-            if DIMENSION_2D==False: agent._z_coord = agent_pos_[2]
-            
-            reward = self.reward_function_3(agent._users_in_footprint, agent._battery_level, agent._required_battery_to_CS, n_tr_active, n_ec_active, n_dg_active)
+        # For the current iteration, add the users inside the footprint of the current UAV agent:  
+        for user_per_agent_foot in current_users_in_footprint:
+            self.all_users_in_all_foots.append(user_per_agent_foot) # --> SIDE-EFFECT on 'self.all_users_in_all_foots'
 
-            done, info = self.is_terminal_state(agent, crashes_current_episode)
+        agent._x_coord = agent_pos_[0]
+        agent._y_coord = agent_pos_[1]
+        if (DIMENSION_2D==False):
+            agent._z_coord = agent_pos_[2]
 
+        if (UNLIMITED_BATTERY==True):
+            reward = self.reward_function_1(agent._users_in_footprint)
+            s_ = (agent_pos_)
+        else:
+            if (MULTI_SERVICE==False):
+                reward = self.reward_function_2(agent._users_in_footprint, agent._battery_level, agent._required_battery_to_CS)
+            else:
+                if ( (MULTI_SERVICE==True) and (INF_REQUEST==False) ):
+                    reward = self.reward_function_3(agent._users_in_footprint, agent._battery_level, agent._required_battery_to_CS, self.n_tr_active, self.n_ec_active, self.n_dg_active)
             s_ = (agent_pos_, agent._battery_level)
 
-            if (done):
-                
-                if (info=="IS CRASHED"):
-                    reward = 0.0
-                else:
-                    reward = 0.0 
+        done, info = self.is_terminal_state(agent)
 
-            return s_, reward, done, info
+        if (done):
+            
+            if (info=="IS CRASHED"):
+                reward = 0.0
+            else:
+                reward = 0.0 
+
+        return s_, reward, done, info
 
     def cost_reward(self, battery_level, needed_battery):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -470,7 +281,7 @@ class UAVEnv(gym.Env):
         
         return reward
 
-    def get_active_users(self):
+    def get_active_users(self): # --> It could perform just a simple SIDE-EFFECT with no return values (in this way will be avoided the redundancy) --> !!!!!!!!!!!!!!!!
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Retturn the number of active users (i.e., asking for a service) per each service. #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -502,35 +313,25 @@ class UAVEnv(gym.Env):
                     n_dg_served += 1
 
         n_active_users = tr_users + ec_users + dg_users
+        
+        self.n_active_users = n_active_users
+        self.n_tr_active = tr_users
+        self.n_ec_active = ec_users
+        self.n_dg_active = dg_users
 
         return n_active_users, tr_users, ec_users, dg_users, n_tr_served, n_ec_served, n_dg_served
 
-    def set_action_set2D(self, agent):
+    def set_action_set(self, agent):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Set the action space equal to one involving action for 2D case with or without limitation on battery. #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
         if ( (agent._battery_level <= CRITICAL_BATTERY_LEVEL) and (agent._charging == False) ):
-            agent._action_set = ACTION_SPACE_2D_COME_HOME
+            agent._action_set = ACTION_SPACE_2D_COME_HOME if DIMENSION_2D==True else ACTION_SPACE_3D_COME_HOME 
         elif (agent._charging == True):
-            agent._action_set = ACTION_SPACE_2D_WHILE_CHARGING
-        else:
-            agent._action_set = ACTION_SPACE_2D_MIN
-            agent._path_to_the_closest_CS = []
-            agent._current_pos_in_path_to_CS = -1
-            agent._required_battery_to_CS = None
-
-    def set_action_set3D(self, agent):
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-        # Set the action space equal to one involving action for 3D case with or without limitation on battery. #
-        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-        if ( (agent._battery_level <= CRITICAL_BATTERY_LEVEL) and (agent._charging == False) ):
-            agent._action_set = ACTION_SPACE_3D_COME_HOME
-        elif (agent._charging == True):
-            agent._action_set = ACTION_SPACE_3D_WHILE_CHARGING
+            agent._action_set = ACTION_SPACE_2D_WHILE_CHARGING if DIMENSION_2D==True else ACTION_SPACE_3D_WHILE_CHARGING
         elif ( (agent._coming_home == False) and (agent._charging == False) and (agent._battery_level > CRITICAL_BATTERY_LEVEL) ):
-            agent._action_set = ACTION_SPACE_3D_MIN
+            agent._action_set = ACTION_SPACE_2D_MIN if DIMENSION_2D==True else ACTION_SPACE_3D_MIN
             agent._path_to_the_closest_CS = []
             agent._current_pos_in_path_to_CS = -1
             agent._required_battery_to_CS = None
@@ -593,50 +394,42 @@ class UAVEnv(gym.Env):
         
         return tuple(warped_values)
 
-    def is_terminal_state(self, agent, crashes_current_episode):
+    def is_terminal_state(self, agent):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
         # Return (terminal_state, info): a state is terminal for a UAV only if it is either crashed or charging.  #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        if ( (agent._battery_level <= 0) and (not agent.check_if_on_CS()) ):
-            agent._battery_level = 0
-            crashes_current_episode = True
-            agent._crashed = True
+        if (UNLIMITED_BATTERY==False):
+            if ( (agent._battery_level <= 0) and (not agent.check_if_on_CS()) ):
+                agent._battery_level = 0
+                agent._crashed = True
 
-            return True, "IS CRASHED"
+                return True, "IS CRASHED"
 
-        elif (agent._charging==True):
-            agent._crashed = False
+            elif (agent._charging==True):
+                agent._crashed = False
 
-            return True, "IS CHARGING"
+                return True, "IS CHARGING"
 
+            else:
+                agent._crashed = False
+                
+                return False, "IS WORKING"
         else:
-            agent._crashed = False
-            
-            return False, "IS WORKING"
-         
-    def get_2Dagent_pos(self, agent):
-        # # # # # # # # # # # # # # # # # # # # # # #
-        # Return (x, y) coordinate of the 'agent'.  #
-        # # # # # # # # # # # # # # # # # # # # # # #
+            return False, "IS WORKING" # --> TO DEFINE BETTER --> !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        x = agent._x_coord
-        y = agent._y_coord
-
-        return (x, y)
-
-    def get_3Dagent_pos(self, agent):
-        # # # # # # # # # # # # # # # # # # # # # # # #
-        # Return (x, y, z) coordinate of the 'agent'. #
-        # # # # # # # # # # # # # # # # # # # # # # # #
+    def get_agent_pos(self, agent):
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        # Return the coordinates ( (x,y) or (x,y,z) according to 2D or 3D case) of the 'agent'. #
+        # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
         x = agent._x_coord
         y = agent._y_coord
         z = agent._z_coord
 
-        return (x, y, z)
+        return (x, y) if DIMENSION_2D==True else (x, y, z)
 
-    def render(self, agents_paths, where_to_save, episode):
+    def render(self, where_to_save=None, episode=None):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Used to save a .gif related to the environment animation for the current episode. #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -644,7 +437,7 @@ class UAVEnv(gym.Env):
         plot.plt_map_views(obs_cells=self.obs_cells, cs_cells=self.cs_cells, enb_cells=self.eNB_cells,
                            points_status_matrix=self.points_status_matrix, cells_status_matrix=self.cells_status_matrix, users=self.users,
                            centroids=self.cluster_centroids, clusters_radiuses=self.clusters_radiuses, area_height=AREA_HEIGHT,
-                           area_width=AREA_WIDTH, N_cells_row=CELLS_ROWS, N_cells_col=CELLS_COLS, agents_paths=agents_paths,
+                           area_width=AREA_WIDTH, N_cells_row=CELLS_ROWS, N_cells_col=CELLS_COLS, agents_paths=self.agents_paths,
                            path_animation=True, where_to_save=where_to_save, episode=episode)
 
     def reset_uavs(self, agent,):
@@ -656,9 +449,9 @@ class UAVEnv(gym.Env):
             agent._battery_level = FULL_BATTERY_LEVEL
             arise_pos_idx = np.random.choice(range(N_UAVS))
             arise_pos = self.initial_uavs_pos[arise_pos_idx]
-            agent._x_coord = arise_pos[0]
-            agent._y_coord = arise_pos[1]
-            agent._z_coord = arise_pos[2]
+            agent._x_coord = arise_pos[0]#+0.5
+            agent._y_coord = arise_pos[1]#+0.5
+            agent._z_coord = arise_pos[2]#+0.5
 
             agent._charging = False
             agent._coming_home = False
