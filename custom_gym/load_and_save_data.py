@@ -50,8 +50,9 @@ class Loader(object):
             self._points_matrix = pickle.load(f)
         with open(join(MAP_DATA_DIR, ENODEB_POINT), "rb") as f:
             self._eNB_point = pickle.load(f)
-        with open(join(MAP_DATA_DIR, HOSP_POINTS), "rb") as f:
-            self._hosp_points = pickle.load(f)
+        if (HOSP_SCENARIO==True):
+            with open(join(MAP_DATA_DIR, HOSP_POINTS), "rb") as f:
+                self._hosp_points = pickle.load(f)
         
         with open(join(MAP_DATA_DIR, CELLS_MATRIX), "rb") as f:
             self._cells_matrix = pickle.load(f)
@@ -61,8 +62,9 @@ class Loader(object):
             self._cs_cells = pickle.load(f)
         with open(join(MAP_DATA_DIR, ENB_CELLS), "rb") as f:
             self._enb_cells = pickle.load(f)
-        with open(join(MAP_DATA_DIR, HOSP_CELLS), "rb") as f:
-            self._hosp_cells = pickle.load(f)
+        if (HOSP_SCENARIO==True):
+            with open(join(MAP_DATA_DIR, HOSP_CELLS), "rb") as f:
+                self._hosp_cells = pickle.load(f)
 
     def maps_status(self):
         # Data map made by Points and Cells states (used for plotting):  
@@ -106,7 +108,8 @@ class Loader(object):
 
     @property
     def hosp_points(self):
-        return self._hosp_points
+        if (HOSP_SCENARIO==True):
+            return self._hosp_points
 
     # Cells:
     @property
@@ -127,7 +130,8 @@ class Loader(object):
 
     @property
     def hosp_cells(self):
-        return self._hosp_cells    
+        if (HOSP_SCENARIO==True):
+            return self._hosp_cells   
 
     # Status:
     @property
