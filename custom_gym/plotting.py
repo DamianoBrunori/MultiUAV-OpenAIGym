@@ -375,7 +375,8 @@ class Plot:
             if (CREATE_ENODEB == True):
                 x_enb_point, y_enb_point, z_enb_point = self.extract_coord_from_xyz(enb_point)
             x_obs_cells, y_obs_cells, z_obs_cells = self.extract_coord_from_xyz(obs_cells)
-            x_hosp_cells, y_hosp_cells, z_hosp_cells = self.extract_coord_from_xyz(hosp_cells)
+            if (HOSP_SCENARIO==True):
+                x_hosp_cells, y_hosp_cells, z_hosp_cells = self.extract_coord_from_xyz(hosp_cells)
             
             x_cs_cells, y_cs_cells, z_cs_cells = self.extract_coord_from_xyz(cs_cells)
             if (CREATE_ENODEB == True):
@@ -393,8 +394,9 @@ class Plot:
             y_obs_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_ROW for elem in y_obs_cells]
             x_cs_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_COL for elem in x_cs_cells]
             y_cs_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_ROW for elem in y_cs_cells]
-            x_hosp_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_COL for elem in x_hosp_cells]
-            y_hosp_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_ROW for elem in y_hosp_cells]
+            if (HOSP_SCENARIO==True):
+                x_hosp_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_COL for elem in x_hosp_cells]
+                y_hosp_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_ROW for elem in y_hosp_cells]
             if (CREATE_ENODEB == True):
                 x_eNB_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_COL for elem in x_eNB_cells]
                 y_eNB_cells_for_2Dplot = [elem*CELL_RESOLUTION_PER_ROW for elem in y_eNB_cells]
