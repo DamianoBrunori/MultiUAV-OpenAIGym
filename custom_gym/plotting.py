@@ -161,7 +161,7 @@ class Plot:
                       obs_cells=None, cs_cells=None, enb_cells=None, hosp_cells=None, points_status_matrix=None,
                       cells_status_matrix=None, perceived_status_matrix=None, users=None, centroids=None,
                       clusters_radiuses=None, area_height=None, area_width=None, N_cells_row=None,
-                      N_cells_col=None, agents_paths=None, path_animation=False, where_to_save=None, episode=None):
+                      N_cells_col=None, agents_paths=None, path_animation=False, where_to_save=None, episode=None, last_render=None):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
         # Create 3 figures which contains respectively:             #
         #   -   2D and 3D Points-Map;                               #
@@ -345,11 +345,21 @@ class Plot:
                 for patch in circles:
                     ax.add_patch(patch)
 
+            n_agents_paths = len(agents_paths[0])
+            if (n_agents_paths==last_render):
+                animation_frames = last_render
+            else:
+                animation_frames = n_agents_paths - last_render
+            
+            #print("UEEEEEEEEEEEEEE: ", n_agents_paths, last_render)
+            #print("FRAMEEEEEEEEEEEEEEEEEEEEEEE: ", animation_frames)
+            #print("LINESSSSSSSSSSSSSSSSSSSSSSS: ", lines)
+
             if (DIMENSION_2D == False):
                 n_circles_range = range(len(circles))
-                ani = animation.FuncAnimation(fig, self.update_animation_3D, frames=ITERATIONS_PER_EPISODE-1, fargs=(data_path, lines, circles, n_circles_range, ax), interval=100, blit=True, repeat=True) # fargs=(data_path, lines, circles)
+                ani = animation.FuncAnimation(fig, self.update_animation_3D, frames=animation_frames, fargs=(data_path, lines, circles, n_circles_range, ax), interval=100, blit=True, repeat=True) # fargs=(data_path, lines, circles)
             else:
-                ani = animation.FuncAnimation(fig, self.update_animation_2D, frames=ITERATIONS_PER_EPISODE-1, fargs=(data_path, lines, circles), interval=100, blit=True, repeat=True)
+                ani = animation.FuncAnimation(fig, self.update_animation_2D, frames=animation_frames, fargs=(data_path, lines, circles), interval=100, blit=True, repeat=True)
 
             if (DIMENSION_2D==False):
                 ax.set_zlim(zmin=0)
