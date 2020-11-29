@@ -697,6 +697,7 @@ for episode in range(1, EPISODES+1):
 
         env.all_users_in_all_foots = [] 
         for UAV in range(N_UAVS): 
+            #print("ID AGENTE: ", agents[UAV]._uav_ID)
             # Skip analyzing the current UAV features until it starts to work (you can set a delayed start for each uav):
             current_iteration = i+1
             if (episode==1):
@@ -706,11 +707,11 @@ for episode in range(1, EPISODES+1):
                         pass
                         #continue
 
-            env.agents_paths[UAV][i] = env.get_agent_pos(agents[UAV])
+            #env.agents_paths[UAV][i] = env.get_agent_pos(agents[UAV])
             if (NOISE_ON_POS_MEASURE==True):
                 drone_pos = env.noisy_measure_or_not(env.get_agent_pos(agents[UAV]))
             else:
-                drone_pos = env.agents_paths[UAV][i]
+                drone_pos = env.get_agent_pos(agents[UAV]) #env.agents_paths[UAV][i]
 
             obs = (drone_pos) if UNLIMITED_BATTERY==True else (drone_pos, agents[UAV]._battery_level) # --> The observation will be different when switch from 2D to 3D scenario and viceversa.
 
@@ -718,7 +719,7 @@ for episode in range(1, EPISODES+1):
                 env.set_action_set(agents[UAV])
 
             action = choose_action(uavs_q_tables, UAV, obs, agents[UAV], battery_in_CS_history[UAV], env.cells_matrix)
-            obs_, reward, done, info = env.step(agents[UAV], action)
+            obs_, reward, done, info = env.step_agent(agents[UAV], action)
 
             crashes_current_episode[UAV] = agents[UAV]._crashed
             
@@ -841,13 +842,12 @@ for episode in range(1, EPISODES+1):
     env.render()
     print("Animation rendered.\n")
     
-    if ((episode%500)==0): #(episode%250)==0 # --> You can change the condition to show (to save actually) or not the scenario of the current episode.
-        print("\nSaving animation for episode:", episode)
-        env.render(saving_directory, episode)
+    #if ((episode%500)==0): #(episode%250)==0 # --> You can change the condition to show (to save actually) or not the scenario of the current episode.
+    env.render(saving_directory, episode, 500)
+    if ((episode%500)==0):
         plot.users_wait_times(env.n_users, env.users, saving_directory, episode)
-        print("Animation saved.\n")
         
-    env.agents_paths = [[0 for iteration in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)] # --> Actually is should be useless because the values are overwritten on the previous ones.
+    #env.agents_paths = [[0 for iteration in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)] # --> Actually is should be useless because the values are overwritten on the previous ones.
 
     n_discovered_users = len(env.discovered_users)
     
