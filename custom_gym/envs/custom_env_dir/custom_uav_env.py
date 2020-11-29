@@ -76,9 +76,12 @@ class UAVEnv(gym.Env):
         self.n_tr_active = 0
         self.n_ec_active = 0
         self.n_dg_active = 0
-        self.agents_paths = [[0 for iteration in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)]
+        self.agents_paths = [[self.get_agent_pos(self.agents[uav])] for uav in range(N_UAVS)]
+        #self.agents_paths = [[0 for iteration in range(ITERATIONS_PER_EPISODE)] for uav in range(N_UAVS)]
+        self.last_render = 0
+        self.instant_to_render = 0
 
-    def step(self, agent, action):
+    def step_agent(self, agent, action):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # - 2D/3D cases;                                                                                    #
         # - UNLIMITED/LIMITED battery;                                                                      #
@@ -92,6 +95,8 @@ class UAVEnv(gym.Env):
 
         info = ""
 
+
+        self.agents_paths[agent._uav_ID].append(self.get_agent_pos(agent))
         #self.agents_paths[agent._uav_ID].append(self.get_agent_pos(agent))
 
         if (UAV_STANDARD_BEHAVIOUR==False):
@@ -142,9 +147,33 @@ class UAVEnv(gym.Env):
             if (info=="IS CRASHED"):
                 reward = 0.0
             else:
-                reward = 0.0 
+                reward = 0.0
+
+        # Every time the action is undertaken by the 'first' UAV, then increse 'self.last_render':
+        if (agent._uav_ID==0):
+            self.last_render += 1
 
         return s_, reward, done, info
+
+    def step(self, actions):
+
+        obs = [0 for uav in range(N_UAVS)]
+        rewards = [0 for uav in range(N_UAVS)]
+        dones = [0 for uav in range(N_UAVS)]
+        infos = [0 for uav in range(N_UAVS)]
+
+        for uav in range(N_UAVS):
+            #self.agents_paths[uav].append(self.get_agent_pos(self.agents[uav]))
+
+            ob, r, d, i = self.step_agent(self.agents[uav], actions[uav])
+            obs[uav] = ob
+            rewards[uav] = r
+            dones[uav] = d
+            infos[uav] = i
+
+        #self.last_render += 1
+
+        return obs, rewards, dones, infos
 
     def cost_reward(self, battery_level, needed_battery):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # #
@@ -336,6 +365,8 @@ class UAVEnv(gym.Env):
             agent._current_pos_in_path_to_CS = -1
             agent._required_battery_to_CS = None
 
+        self.action_space = spaces.Discrete(len(agent._action_set))
+
     def noisy_measure_or_not(self, values_to_warp):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Return the position values of a UAV which could be warped or not according to a 'noise probability'.  #
@@ -429,16 +460,28 @@ class UAVEnv(gym.Env):
 
         return (x, y) if DIMENSION_2D==True else (x, y, z)
 
-    def render(self, where_to_save=None, episode=None):
+    def render(self, where_to_save=None, episode=None, how_often_render=None):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         # Used to save a .gif related to the environment animation for the current episode. #
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-        plot.plt_map_views(obs_cells=self.obs_cells, cs_cells=self.cs_cells, enb_cells=self.eNB_cells,
-                           points_status_matrix=self.points_status_matrix, cells_status_matrix=self.cells_status_matrix, users=self.users,
-                           centroids=self.cluster_centroids, clusters_radiuses=self.clusters_radiuses, area_height=AREA_HEIGHT,
-                           area_width=AREA_WIDTH, N_cells_row=CELLS_ROWS, N_cells_col=CELLS_COLS, agents_paths=self.agents_paths,
-                           path_animation=True, where_to_save=where_to_save, episode=episode)
+        self.instant_to_render += 1
+
+        if ( (self.instant_to_render==how_often_render) or (how_often_render==None) ):
+            
+            if (where_to_save!=None):
+                print("\nSaving animation for episode:", episode)
+
+            plot.plt_map_views(obs_cells=self.obs_cells, cs_cells=self.cs_cells, enb_cells=self.eNB_cells,
+                               points_status_matrix=self.points_status_matrix, cells_status_matrix=self.cells_status_matrix, users=self.users,
+                               centroids=self.cluster_centroids, clusters_radiuses=self.clusters_radiuses, area_height=AREA_HEIGHT,
+                               area_width=AREA_WIDTH, N_cells_row=CELLS_ROWS, N_cells_col=CELLS_COLS, agents_paths=self.agents_paths,
+                               path_animation=True, where_to_save=where_to_save, episode=episode, last_render=self.last_render)
+
+            self.instant_to_render = 0
+
+        self.last_render = 0
+        self.agents_paths = [[] for uav in range(N_UAVS)]
 
     def reset_uavs(self, agent,):
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
