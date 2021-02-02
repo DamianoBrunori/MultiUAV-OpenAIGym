@@ -1,4 +1,4 @@
-# UAV RL Thesis
+# MultiUAV-OpenAIGym
 
 ### Table of Contents
 You're sections headers will be used to reference location of destination.
