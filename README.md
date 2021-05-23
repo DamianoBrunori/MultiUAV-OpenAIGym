@@ -122,7 +122,7 @@ This project is intended for private use only. All rights are reserved and it is
 - Surname: Brunori
 - University: Sapienza University of Rome
 - Master: [Artificial Intelligence and Robotics](https://corsidilaurea.uniroma1.it/it/corso/2019/30431/home)
-- private e-mail: damiano.brunori@libero.it
-- university e-mail: brunori.1583073@studenti.uniroma1.it 
+- university e-mail: brunori@diag.uniroma1.it
+- private e-mail damiano.brunori@libero.it 
 
 [Back To The Top](#read-me-template)
