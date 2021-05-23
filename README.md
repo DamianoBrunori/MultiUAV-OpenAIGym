@@ -1,7 +1,6 @@
 # MultiUAV-OpenAIGym
 
 ### Table of Contents
-You're sections headers will be used to reference location of destination.
 
 - [Description](#description)
 - [How To Use](#how-to-use)
@@ -107,7 +106,7 @@ Every time you want to modify the scenario or the training parameters, you can d
 
 ## References
 
-. . .
+D. Brunori, S. Colonnese; F. Cuomo, L. Iocchi “A Reinforcement Learning Environment for Multi-Service UAV-enabled Wireless Systems”, PerVehicle 2021 3rd International Workshop on Pervasive Computing for Vehicular Systems colocated with PERCOM 2021, March 2021.
 
 ---
 
