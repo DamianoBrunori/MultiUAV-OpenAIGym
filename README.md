@@ -141,6 +141,6 @@ OR OTHER DEALINGS IN THE SOFTWARE
 - University: Sapienza University of Rome
 - Master: [Artificial Intelligence and Robotics](https://corsidilaurea.uniroma1.it/it/corso/2019/30431/home)
 - university e-mail: brunori@diag.uniroma1.it
-- private e-mail damiano.brunori@libero.it 
+- private e-mail damiano.brunori2@gmail.com 
 
 [Back To The Top](#read-me-template)
