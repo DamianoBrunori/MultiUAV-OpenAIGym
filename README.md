@@ -112,7 +112,7 @@ D. Brunori, S. Colonnese; F. Cuomo, L. Iocchi “A Reinforcement Learning Enviro
 
 ## MIT License
 
-Copyright (c) {{ 2020 }} {{ DamianoBrunori }}
+Copyright (c) 2020 Damiano Brunori
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
