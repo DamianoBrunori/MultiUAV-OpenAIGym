@@ -106,7 +106,7 @@ Every time you want to modify the scenario or the training parameters, you can d
 
 ## References
 
-D. Brunori, S. Colonnese; F. Cuomo, L. Iocchi “A Reinforcement Learning Environment for Multi-Service UAV-enabled Wireless Systems”, PerVehicle 2021 3rd International Workshop on Pervasive Computing for Vehicular Systems colocated with PERCOM 2021, March 2021.
+[D. Brunori, S. Colonnese; F. Cuomo, L. Iocchi “A Reinforcement Learning Environment for Multi-Service UAV-enabled Wireless Systems”, PerVehicle 2021 3rd International Workshop on Pervasive Computing for Vehicular Systems colocated with PERCOM 2021, March 2021.](https://ieeexplore.ieee.org/document/9431048)
 
 ---
 
